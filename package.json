@@ -1,0 +1,23 @@
+{
+  "name": "recipebook",
+  "version": "1.0.0",
+  "description": "Recipe manager",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Phan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "bootstrap": "^4.1.0",
+    "consolidate": "*",
+    "dust": "*",
+    "dustjs-helpers": "*",
+    "dustjs-linkedin": "*",
+    "express": "*",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.6"
+  }
+}
