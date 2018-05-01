@@ -1,0 +1,27 @@
+<!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5;padding-top:50px" id="mySidebar">
+    <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">Dashboard</a>
+    <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">Search</a>
+    <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">Profile</a>
+    <a class="w3-bar-item w3-button" style="text-decoration:none" data-toggle="collapse" data-target="#demo">Recipes</a>
+    <div id="demo" class="collapse">
+        <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">My Recipes</a>
+        <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">Bookmarked Recipes</a>
+    </div>
+    <a href="#" class="w3-bar-item w3-button" style="text-decoration:none">Meal Planner</a>
+</div>
+
+<!-- Page Content -->
+<div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer;z-index:1" id="myOverlay"></div>
+
+<!--Navbar-->
+<nav class="navbar navbar-default" style="background-color:white">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li><button class="navbar-btn btn-link w3-large" style="text-decoration:none" onclick="w3_open()">&#9776;</button></li>
+                <li><a href="#" style="color:LimeGreen"><span class="glyphicon glyphicon-grain"></span> Fresh Fridge</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

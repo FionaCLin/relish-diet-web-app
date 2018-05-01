@@ -1,127 +1,65 @@
-<!DOCTYPE>
-<head>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3.CSS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="misc.js"></script>
+    </head>
+    <body>
+        <div w3-include-html="navigation.html"></div>
+        <div class="container">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search from hundreds of recipes!">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+            <br>
+            <div class="dash_img_wrapper" style="float:left">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">Fucking</div>
+                </a>
+            </div>
+            <div class="dash_img_wrapper">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">good</div>
+                </a>
+            </div>
+            <div class="dash_img_wrapper" style="float:left">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">ghibli</div>
+                </a>
+            </div>
+            <div class="dash_img_wrapper">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">food</div>
+                </a>
+            </div>
+            <div class="dash_img_wrapper" style="float:left">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">gif</div>
+                </a>
+            </div>
+            <div class="dash_img_wrapper">
+                <img src="BG.gif" alt="Avatar" class="dash_img">
+                <a href="#" class="overlay">
+                    <div class="img_text">Hello World</div>
+                </a>
+            </div>
+        </div>
 
-    <title>Add Recipe</title>
-
-    <style>
-
-    hr.style14 {
-      border: 0;
-      height: 1px;
-      background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-      background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-      background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-      background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-    }
-
-
-    </style>
-
-   <script src="https://unpkg.com/vue/dist/vue.js"></script>
-   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-   <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-   <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
-
-</head>
-
-<div id="app">
-  <v-app id="inspire" dark>
-    <!-- sidebar -->
-    <v-navigation-drawer
-      clipped
-      fixed
-      v-model="drawer"
-      app
-    >
-      <v-list dense>
-        <v-list-tile v-for="item in items" :key="item.title" :href="item.href">
-
-            <v-list-tile-action>
-              <v-icon>[[item.icon]]</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>[[item.title]]</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-
-    <!-- top toolbar -->
-
-    <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Add Recipe</v-toolbar-title>
-    </v-toolbar>
-
-    <!-- body content edit this guys -->
-    <v-content>
-
-    </v-content>
-
-    <!-- footer -->
-    <v-footer app fixed>
-      <span>&copy; 2017</span>
-    </v-footer>
-  </v-app>
-</div>
-
-
-<script>
-
-   var drawer = new Vue({
-
-   el: '#app',
-   delimiters: ["[[", "]]"],
-   data() {
-
-      return{
-
-        user_ID: sessionStorage.user,
-
-        role: sessionStorage.role,
-
-        drawer:false,
-
-        //icons to be displaced in drawer
-        items: [
-
-          { title: 'Dashboard', icon: 'dashboard', href:'/wireframe' },
-          { title: 'My Posted Recipes', icon: 'book', href:'/admin/surveys' },
-          { title: 'Search', icon: 'assignment', href:'/admin/questions' },
-          { title: 'My Planner', icon: 'assignment', href:'/admin/metric' },
-          { title: 'Add Recipe', icon: 'assignment', href:'/wireframe/add_recipe'},
-
-
-         ],
-        options: [
-         { id: 'View surveys', name: 'View all avaliable surveys created.', href: '/admin/surveys'},
-         { id: 'Question Pool', name: 'Add, edit or delete questions.', href: '/admin/questions'},
-         { id: 'Metric', name: 'View results to current surveys', href: '/admin/metric'}
-         ],
-
-        right: null,
-
-        status:'Admin Login',
-
-        url:'static/staff_profile.jpg'
-
-      }
-
-   },
-   methods: {
-      funcLogout: function (event) {
-         sessionStorage.removeItem('token');
-         sessionStorage.removeItem('user');
-         axios.get(
-            '/logout',
-         )
-         .then((response) => {
-            window.location.href = response.data;
-         })
-      }
-   }
-
-   })
-</script>
+        <script>
+            w3IncludeHTML();
+        </script>   
+    </body>
+</html>
