@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3.CSS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="misc.js"></script>
+    </head>
+    <body>
+        <div w3-include-html="navigation.html"></div>
+        <div class="container">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search from hundreds of recipes!">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading btn btn-default" style="width:100%;height:25px;padding-top:2px;text-align:left" data-toggle="collapse" href="#collapse1">+ Advanced Search</div>
+    <div id="collapse1" class="panel-collapse collapse">
+      <div class="panel-footer">Panel Body</div>
+    </div>
+  </div>
+</div>
+
+
+        </div>
+
+
+        <script>
+            includeHTML();
+        </script>   
+    </body>
+</html>
