@@ -142,8 +142,8 @@
                 </div>
                 <br>
                 <div style="float:right">
-                    <button class="btn btn-secondary" style="width:110px">Cancel</button>
-                    <button class="btn btn-success" style="width:115px">Edit</button>
+                    <button onclick="location.href='my_planners.html';" class="btn btn-secondary" style="width:110px">Cancel</button>
+                    <button onclick="location.href='my_planners.html';" class="btn btn-success" style="width:115px">Create</button>
                 </div>
             </div>
         <!--container end-->

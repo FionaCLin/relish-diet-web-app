@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3.CSS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="misc.js"></script>
+    </head>
+    <body>
+        <!--Navbar-->
+        <nav class="navbar navbar-default" style="background-color:white;margin-bottom:0">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="dashboard.html" style="color:LimeGreen"><span class="glyphicon glyphicon-grain"></span> Fresh Fridge</a>
+            </div>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+
+            <div id="background-carousel">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:100%;height:100%;z-index:0;overflow:hidden">
+                  <div class="carousel-inner" style="width:100%;height:100%;z-index:0;overflow:hidden">
+                    <div class="item active" style="background-image:url(BG.gif);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
+                    <div class="item" style="background-image:url(BG.gif);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
+                    <div class="item" style="background-image:url(BG.gif);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
+                  </div>
+                </div>
+            </div>
+             
+             
+            <div id="content-wrapper">
+            <!-- PAGE CONTENT -->
+                <div class="container">
+                    <div class="well login">
+                        <h4>Login</h4>
+                        <input type="text" class="form-control" id="emailInput" placeholder="Username" style="margin:10px 0">
+                        <input type="password" class="form-control" id="emailInput" placeholder="Password" style="margin:10px 0">
+                        <div style="float:right;margin-top:10px">
+                            <a href="dashboard.html" class="btn btn-success" role="button">Login</a>
+                        </div>
+                    </div><!-- End Well -->
+                </div><!-- End Container -->
+            <!-- PAGE CONTENT -->
+            </div>
+
+        <script>
+            includeHTML();
+        </script>
+    </body>
+</html>

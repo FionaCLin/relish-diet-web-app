@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3.CSS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="misc.js"></script>
+    </head>
+    <body>
+        <div w3-include-html="navigation.html"></div>
+        <div class="body_container">
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Remove Recipe</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Delete this recipe from bookmarked recipes?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Remove</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <h3>Bookmarked Recipes</h3>
+            <br>
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action recipe_btn" style="cursor:pointer">
+                    <button type="button" class="btn btn-danger btn-circle" style="float:right;margin-top:5px" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img onclick="location.href='recipe.html';" src="BG.gif" alt="Avatar" class="dash_img" style="margin-left:5px;width:150px;height:150px;float:left">
+                    <div class="recipe_btn_content" style="margin-top:-15px">
+                        <h4 onclick="location.href='recipe.html';" style="display:inline">Recipe </h4>
+                        <div style="display:inline;font-size:14px">by User</div>
+                        </span>
+                        <div onclick="location.href='recipe.html';" class="panel panel-default" style="margin-top:10px">
+                            <table class="table table-bordered table-striped" style="text-align:center">
+                                <tr>
+                                    <td>Kilojoules (kJ)</td>
+                                    <td>Carbohydrates (g)</td>
+                                    <td>Protein (g)</td>
+                                    <td>Fats (g)</td>
+                                    <td>Sodium (g)</td>
+                                </tr>
+                                <tr>
+                                    <td class="macro_col">1200</td>
+                                    <td class="macro_col">30</td>
+                                    <td class="macro_col">20</td>
+                                    <td class="macro_col">8</td>
+                                    <td class="macro_col">0.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action recipe_btn" style="cursor:pointer">
+                    <button type="button" class="btn btn-danger btn-circle" style="float:right;margin-top:5px" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img onclick="location.href='recipe.html';" src="BG.gif" alt="Avatar" class="dash_img" style="margin-left:5px;width:150px;height:150px;float:left">
+                    <div class="recipe_btn_content" style="margin-top:-15px">
+                        <h4 onclick="location.href='recipe.html';" style="display:inline">Recipe </h4>
+                        <div style="display:inline;font-size:14px">by User</div>
+                        </span>
+                        <div onclick="location.href='recipe.html';" class="panel panel-default" style="margin-top:10px">
+                            <table class="table table-bordered table-striped" style="text-align:center">
+                                <tr>
+                                    <td>Kilojoules (kJ)</td>
+                                    <td>Carbohydrates (g)</td>
+                                    <td>Protein (g)</td>
+                                    <td>Fats (g)</td>
+                                    <td>Sodium (g)</td>
+                                </tr>
+                                <tr>
+                                    <td class="macro_col">1200</td>
+                                    <td class="macro_col">30</td>
+                                    <td class="macro_col">20</td>
+                                    <td class="macro_col">8</td>
+                                    <td class="macro_col">0.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action recipe_btn" style="cursor:pointer">
+                    <button type="button" class="btn btn-danger btn-circle" style="float:right;margin-top:5px" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img onclick="location.href='recipe.html';" src="BG.gif" alt="Avatar" class="dash_img" style="margin-left:5px;width:150px;height:150px;float:left">
+                    <div class="recipe_btn_content" style="margin-top:-15px">
+                        <h4 onclick="location.href='recipe.html';" style="display:inline">Recipe </h4>
+                        <div style="display:inline;font-size:14px">by User</div>
+                        </span>
+                        <div onclick="location.href='recipe.html';" class="panel panel-default" style="margin-top:10px">
+                            <table class="table table-bordered table-striped" style="text-align:center">
+                                <tr>
+                                    <td>Kilojoules (kJ)</td>
+                                    <td>Carbohydrates (g)</td>
+                                    <td>Protein (g)</td>
+                                    <td>Fats (g)</td>
+                                    <td>Sodium (g)</td>
+                                </tr>
+                                <tr>
+                                    <td class="macro_col">1200</td>
+                                    <td class="macro_col">30</td>
+                                    <td class="macro_col">20</td>
+                                    <td class="macro_col">8</td>
+                                    <td class="macro_col">0.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action recipe_btn" style="cursor:pointer">
+                    <button type="button" class="btn btn-danger btn-circle" style="float:right;margin-top:5px" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img onclick="location.href='recipe.html';" src="BG.gif" alt="Avatar" class="dash_img" style="margin-left:5px;width:150px;height:150px;float:left">
+                    <div class="recipe_btn_content" style="margin-top:-15px">
+                        <h4 onclick="location.href='recipe.html';" style="display:inline">Recipe </h4>
+                        <div style="display:inline;font-size:14px">by User</div>
+                        </span>
+                        <div onclick="location.href='recipe.html';" class="panel panel-default" style="margin-top:10px">
+                            <table class="table table-bordered table-striped" style="text-align:center">
+                                <tr>
+                                    <td>Kilojoules (kJ)</td>
+                                    <td>Carbohydrates (g)</td>
+                                    <td>Protein (g)</td>
+                                    <td>Fats (g)</td>
+                                    <td>Sodium (g)</td>
+                                </tr>
+                                <tr>
+                                    <td class="macro_col">1200</td>
+                                    <td class="macro_col">30</td>
+                                    <td class="macro_col">20</td>
+                                    <td class="macro_col">8</td>
+                                    <td class="macro_col">0.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action recipe_btn" style="cursor:pointer">
+                    <button type="button" class="btn btn-danger btn-circle" style="float:right;margin-top:5px" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img onclick="location.href='recipe.html';" src="BG.gif" alt="Avatar" class="dash_img" style="margin-left:5px;width:150px;height:150px;float:left">
+                    <div class="recipe_btn_content" style="margin-top:-15px">
+                        <h4 onclick="location.href='recipe.html';" style="display:inline">Recipe </h4>
+                        <div style="display:inline;font-size:14px">by User</div>
+                        </span>
+                        <div onclick="location.href='recipe.html';" class="panel panel-default" style="margin-top:10px">
+                            <table class="table table-bordered table-striped" style="text-align:center">
+                                <tr>
+                                    <td>Kilojoules (kJ)</td>
+                                    <td>Carbohydrates (g)</td>
+                                    <td>Protein (g)</td>
+                                    <td>Fats (g)</td>
+                                    <td>Sodium (g)</td>
+                                </tr>
+                                <tr>
+                                    <td class="macro_col">1200</td>
+                                    <td class="macro_col">30</td>
+                                    <td class="macro_col">20</td>
+                                    <td class="macro_col">8</td>
+                                    <td class="macro_col">0.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <script>
+            includeHTML();
+        </script>   
+    </body>
+</html>

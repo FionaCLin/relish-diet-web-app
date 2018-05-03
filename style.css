@@ -1,3 +1,21 @@
+#background-carousel{
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:-1;
+    margin:0 0;
+}
+
+.login {
+    border-radius:20px;
+    background-color:white;
+    width:250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
 .pic_bottom {
     position: absolute;
     background-color:black;
@@ -51,6 +69,18 @@ label {
   background-position:center center
 }
 
+.tile_img {
+  float:left;
+  display: block;
+  max-width:74px;
+  height:74px;
+  width: 74px;
+  height: 74px;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center center
+}
+
 .overlay {
   position: absolute;
   top:0;
@@ -64,6 +94,16 @@ label {
 
 .dash_img_wrapper:hover .overlay {
   opacity: 1;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
 }
 
 .img_text {

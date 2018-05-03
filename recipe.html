@@ -14,9 +14,21 @@
     <body>
         <div w3-include-html="navigation.html"></div>
         <div class="body_container">
-        <div style="margin-bottom:10px">
+        <div style="margin-bottom:10px;float:left;width:100%">
+            <div style="float:left">
             <h4 style="display:inline">Recipe</h4>
             <h6 style="display:inline">by User</h6>
+            </div>
+            <div id="bookmark" style="display:block">
+                <button type="button" onClick="javascript:SwapDivsWithClick('bookmark','bookmarked')" class="btn btn-default" style="float:right;font-size:small;width:150px">
+                  <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Bookmark
+                </button>
+            </div>
+            <div id="bookmarked" style="display:none">
+                <button type="button" onClick="javascript:SwapDivsWithClick('bookmark','bookmarked')" class="btn btn-success" style="float:right;font-size:small;width:150px">
+                  <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Bookmarked
+                </button>
+            </div>
         </div>
         <div style="float:left;width:100%">
             <div style="float:left;width:70%;padding-right:20px">
@@ -76,7 +88,7 @@
                     </table>
                 </div>
             <!--Carousel-->
-            <div style="float:left;width:30%">
+            <div style="float:right">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:400px;height:400px">
                   <!-- Indicators -->
                   <ol class="carousel-indicators">
