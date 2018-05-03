@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3.CSS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="misc.js"></script>
+    </head>
+    <body>
+        <div w3-include-html="navigation.html"></div>
+        <div class="body_container">
+        <div class="form-group" style="width:100%;float:left">
+            <input type="text" class="form-control" id="email" style="width:500px;float:left;margin-bottom:10px" placeholder="Title">
+        </div>
+        <p></p>
+        <!--Drop area-->
+        <div style="float:left">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" style="width:10px">&nbsp;&nbsp;&nbsp;</th>
+              <th scope="col" style="text-align:center">MON</th>
+              <th scope="col" style="text-align:center">TUE</th>
+              <th scope="col" style="text-align:center">WED</th>
+              <th scope="col" style="text-align:center">THU</th>
+              <th scope="col" style="text-align:center">FRI</th>
+              <th scope="col" style="text-align:center">SAT</th>
+              <th scope="col" style="text-align:center">SUN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><div class="vertical">BREKKIE</div></th>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="vertical">&nbsp;LUNCH</div></th>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="vertical">DINNER</div></th>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+              <td class="planner_img"></td>
+            </tr>
+            <tr>
+              <th scope="row" rowspan="5"><div class="vertical" style="margin-top: -1px">MACROS</div></th>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+              <td class="macro_img"><div style="float:left">Intake</div><div style="float:right">1000 kJ</div></td>
+            </tr>
+            <tr>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Carbs</div><div style="float:right">10 g</div></td>
+            </tr>
+            <tr>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+              <td class="macro_img"><div style="float:left">Protein</div><div style="float:right">40 g</div></td>
+            </tr>
+            <tr>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+              <td class="macro_img"><div style="float:left">Fats</div><div style="float:right">30 g</div></td>
+            </tr>
+            <tr>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+              <td class="macro_img"><div style="float:left">Sodium</div><div style="float:right">10 g</div></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <!--Drag area-->
+            <div style="width:230px;float:right">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Recipes</div>
+                    <div class="panel-body pre-scrollable" style="height:575px">
+                        <div class="list-group">
+                            <div class="list-group-item list-group-item-action planner_img_wrapper">
+                                <div style="background-image:url(BG.gif)" class="planner_img"></div>
+                                <div class="overlay">
+                                    <div class="planner_img_text">Ramen with seaweed topping and sandwich tree</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item list-group-item-action planner_img_wrapper">
+                                <div style="background-image:url(BG.gif)" class="planner_img"></div>
+                                <div class="overlay">
+                                    <div class="planner_img_text">Ramen with seaweed topping and sandwich tree</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item list-group-item-action planner_img_wrapper">
+                                <div style="background-image:url(BG.gif)" class="planner_img"></div>
+                                <div class="overlay">
+                                    <div class="planner_img_text">Ramen with seaweed topping and sandwich tree</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div style="float:right">
+                    <button class="btn btn-secondary" style="width:110px">Cancel</button>
+                    <button class="btn btn-success" style="width:115px">Edit</button>
+                </div>
+            </div>
+        <!--container end-->
+        </div>
+
+        <script>
+            includeHTML();
+        </script>   
+    </body>
+</html>
