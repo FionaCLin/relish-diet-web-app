@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>W3.CSS</title>
+        <title>Fresh Fridge</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -19,25 +19,27 @@
           <div class="form-group row">
             <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
             <div class="col-sm-10">
-              <input type="title" class="form-control" id="inputTitle" placeholder="Recipe title" value="Recipe">
+              <input type="title" class="form-control" id="inputTitle" placeholder="Recipe title" value="Popeye toast with eggs">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputIngredients" class="col-sm-2 col-form-label">Ingredients</label>
             <div class="col-sm-10">
-              <textarea type="comment" class="form-control" id="inputIngredients" rows="5" placeholder="Add ingredients...">- 700ml chicken stock
-- 3 garlic cloves, halved
-- 1 tsp Worcestershire sauce
+              <textarea type="comment" class="form-control" id="inputIngredients" rows="5" placeholder="Add ingredients...">- 160g cherry tomatoes
+- 4 slices of wholemeal bread
+- 3 large eggs
+- 80g baby spinach
               </textarea>
             </div>
           </div>
           <div class="form-group row">
             <label for="inputMethod" class="col-sm-2 col-form-label">Method</label>
             <div class="col-sm-10">
-              <textarea type="comment" class="form-control" id="inputMethod" rows="5" placeholder="Add method...">1. Mix the chicken stock, garlic, soy sauce, Worcestershire sauce, ginger, five spice, chilli powder and 300ml water in a stockpot or large saucepan, bring to the boil, then reduce the heat and simmer for 5 mins. Taste the stock, add sugar or soy sauce to make it sweeter or saltier to your liking.
-2. Cook the ramen noodles following pack instructions, then drain and set aside. Slice the pork or chicken, fry in the sesame oil until just starting to brown, then set aside.
-3. Divide the noodles between four bowls. Top each with a quarter of the meat and spinach, 1 tbsp sweetcorn and two egg halves.
-4. Strain the stock into a clean pan, then bring to the boil once again. Divide the stock between the bowls, then sprinkle over the nori, spring onion or shallots and sesame seeds. Allow the spinach to wilt slightly before serving.
+              <textarea type="comment" class="form-control" id="inputMethod" rows="5" placeholder="Add method...">1. Preheat the grill to high.
+2. Lay the tomato vines in a large baking tray, prick each tomato with the tip of a sharp knife and grill for 4 minutes, then add the bread to the tray to toast on both sides.
+3. Meanwhile, crack 1 egg into a blender, add the ham, spinach, a good pinch of black pepper and the milk and blitz until smooth.
+4. Take the tray from under the grill and divide the green eggy mixture between the four pieces of toast, spreading it right out to the edges.
+5. Dry fry the remaining 2 eggs in a non-stick frying pan on a medium heat, covering the pan with a lid to steam and coddle the eggs on the top – cook to your liking.
               </textarea>
             </div>
           </div>
@@ -51,21 +53,33 @@
                 <input type="file" class="form-control-file" id="inputImage1">
               </div>
               <div style="float:right">
-                <div style="background-image:url(BG.gif)" class="planner_img_v"></div>
+                <div style="background-image:url(images/recipe.jpg)" class="planner_img_v"></div>
                 <div class="pic_bottom">Current Image</div>
               </div>
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputImage2" class="col-sm-2 col-form-label">Image 2</label>
+            <label for="inputImage1" class="col-sm-2 col-form-label">Image 2</label>
             <div class="col-sm-10">
-              <input type="file" class="form-control-file" id="inputImage2">
+              <div style="float:left">
+                <input type="file" class="form-control-file" id="inputImage1">
+              </div>
+              <div style="float:right">
+                <div style="background-image:url(images/recipe2.png)" class="planner_img_v"></div>
+                <div class="pic_bottom">Current Image</div>
+              </div>
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputImage2" class="col-sm-2 col-form-label">Image 3</label>
+            <label for="inputImage1" class="col-sm-2 col-form-label">Image 3</label>
             <div class="col-sm-10">
-              <input type="file" class="form-control-file" id="inputImage3">
+              <div style="float:left">
+                <input type="file" class="form-control-file" id="inputImage1">
+              </div>
+              <div style="float:right">
+                <div style="background-image:url(images/recipe3.jpg)" class="planner_img_v"></div>
+                <div class="pic_bottom">Current Image</div>
+              </div>
             </div>
           </div>
         </form>
