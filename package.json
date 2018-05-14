@@ -4,11 +4,15 @@
   "description": "Recipe manager",
   "main": "app.js",
   "scripts": {
+    "start": "node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "David Phan",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.0",
+    "authenticator": "^1.1.4",
+    "bcrypt": "^2.0.1",
     "body-parser": "*",
     "bootstrap": "^4.1.0",
     "consolidate": "*",
@@ -16,8 +20,9 @@
     "dustjs-helpers": "*",
     "dustjs-linkedin": "*",
     "express": "*",
-    "pg": "^7.4.1",
+    "nodemon": "^1.17.4",
+    "pg": "^6.1.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.37.6"
+    "sprintf": "^0.1.5"
   }
 }
