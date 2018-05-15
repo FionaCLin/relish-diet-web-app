@@ -26,7 +26,6 @@ module.exports = (opts) => {
     api.log = () => {};
   }
 
-
   api.users = require('./users')({
     api: api,
     lib: lib
