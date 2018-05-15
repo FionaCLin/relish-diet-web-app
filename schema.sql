@@ -14,42 +14,42 @@ BEGIN TRANSACTION;
   CREATE DOMAIN EMailType AS VARCHAR(50) CHECK (value SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+');
 
   CREATE TABLE Members (
-    memberNo      INTEGER,                      -- new surrogate key to allow changeable email
+    id            SERIAL,                      -- new surrogate key to allow changeable email
     email         EMailType    NOT NULL UNIQUE, -- original key from E-R diagram
     username      VARCHAR(10)  NOT NULL UNIQUE, -- we require a nickname from everyone, good to be used for login
-    password      VARCHAR(20)  NOT NULL,        -- better store just a hash value of the password
+    password      TEXT,        -- better store just a hash value of the password
     pw_salt       VARCHAR(10),                  -- newly added for better security (not needed when bcrypt used)
     nameGiven     VARCHAR(100),
     nameFamily    VARCHAR(100),
     birthday      DATE,
     goal          TEXT,                         -- not sure if it should have its own table
     gender        VARCHAR(1),
-    CONSTRAINT Member_PK            PRIMARY KEY (memberNo),
+    CONSTRAINT Member_PK            PRIMARY KEY (id),
     CONSTRAINT Gender_CHK CHECK (gender IN ('F','G'))
   );
 
   CREATE TABLE Recipes (
-    id           INTEGER,
+    id           SERIAL,
     memberNo     INTEGER      NOT NULL,
     name         VARCHAR(100) NOT NULL,
     methord      TEXT         NOT NULL,
     duration     INTEGER      NOT NULL,
-    calories     INTEGER      NOT NULL,
-    protein      INTEGER      NOT NULL,
-    cabs         INTEGER      NOT NULL,
-    fat          INTEGER      NOT NULL,
-    rate         INTEGER      NOT NULL,
+    calories     INTEGER,
+    protein      INTEGER,
+    cabs         INTEGER,
+    fat          INTEGER,
+    rate         INTEGER,
     CONSTRAINT Recipe_PK            PRIMARY KEY (id),
-    CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(memberNo) on DELETE CASCADE);
+    CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
   CREATE TABLE Ingredients (
     id           INTEGER,
     recipe_id    INTEGER,
     name         VARCHAR(100) NOT NULL,
-    calories     INTEGER      NOT NULL,
-    protein      INTEGER      NOT NULL,
-    cabs         INTEGER      NOT NULL,
-    fat          INTEGER      NOT NULL,
+    calories     INTEGER,
+    protein      INTEGER,
+    cabs         INTEGER,
+    fat          INTEGER,
     CONSTRAINT Ingredient_PK            PRIMARY KEY (id),
     CONSTRAINT Ingredient_Recipe_FK     FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE);
 
@@ -60,7 +60,7 @@ BEGIN TRANSACTION;
     content        TEXT        NOT NULL,
     Likes          INTEGER     NOT NULL,
     CONSTRAINT Review_id           PRIMARY KEY (id),
-    CONSTRAINT Reviem_Member_FK    FOREIGN KEY (memberNo) REFERENCES Members(memberNo) on DELETE CASCADE,
+    CONSTRAINT Reviem_Member_FK    FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE,
     CONSTRAINT Review_Recipe_FK    FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE);
 
   CREATE TABLE Meal_Plans (
@@ -68,7 +68,7 @@ BEGIN TRANSACTION;
     title         VARCHAR(100) NOT NULL,
     memberNo     INTEGER       NOT NULL,
     CONSTRAINT Meal_Plan_PK         PRIMARY KEY (id),
-    CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(memberNo) on DELETE CASCADE);
+    CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
   CREATE TABLE Time_Slots (
     id           INTEGER,
