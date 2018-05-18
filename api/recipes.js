@@ -9,10 +9,6 @@ module.exports = (opts) => {
   api.recipes = {};
 
   var dir = __dirname + '/recipes';
-  // console.log("here");
-  console.log(dir);
-  // console.log("here");
-
 
   fs.readdirSync(dir).forEach((file) => {
      if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
@@ -23,10 +19,6 @@ module.exports = (opts) => {
        lib: lib
      });
    });
-  // require(dir + '/' + 'add.js') ({
-  //   api: api,
-  //   lib: lib
-  // });
 
   // export the api methods
   return api.recipes;

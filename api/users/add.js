@@ -11,7 +11,7 @@ module.exports = (opts) => {
 
   // if username not provided, uses email add username
 
-  api.users.create = (attrs, done) => {
+  api.users.add = (attrs, done) => {
     var user;
 
     // whitelist attrs
@@ -27,7 +27,8 @@ module.exports = (opts) => {
     ];
 
     attrs = _.pick(attrs, keys);
-
+    console.log(attrs);
+    console.log(keys);
     if (!attrs.hasOwnProperty('username') || !attrs.username) {
       return done(new Error('No username or email address prvoided'));
     }

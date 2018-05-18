@@ -1,14 +1,17 @@
 'use strict';
 
+const Path = require('path');
+
 module.exports = function (env) {
 
-  var nickname = 'dev';
+  let nickname = 'dev';
+  let mode = 'dev'; 
 
   if (!env) {
     env = 'development';
   }
 
-  var servers = {
+  let servers = {
     user: {
       url: 'https://fresh-fridge-api.com',
       host: '0.0.0.0',
@@ -21,7 +24,7 @@ module.exports = function (env) {
     }
   };
 
-  var services = {
+  let services = {
     remoteFoodIngredient: {
       host: 'http://xxxx.xyz.com',
       token: null
@@ -29,8 +32,24 @@ module.exports = function (env) {
 
   };
 
+  let storage = {
+    method: 'fs',
+    fs: {
+      root: Path.join(__dirname, '/..', '/storage/', mode)
+    },
+    s3: {
+      user: '',
+      key: '',
+      secret: '',
+      region: '',
+      bucket: '',
+      prefix: mode
+    }
+  };
+
+
   // postgres
-  var db = {
+  let db = {
     host: '127.0.0.1',
     port: 5432,
     user: nickname,
