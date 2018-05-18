@@ -6,20 +6,28 @@ module.exports = (opts) => {
   var lib = opts.lib;
   var api = opts.api;
 
-  api.users = {};
+  api.recipes = {};
 
   var dir = __dirname + '/recipes';
+  // console.log("here");
+  console.log(dir);
+  // console.log("here");
+
 
   fs.readdirSync(dir).forEach((file) => {
-    if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
-      return;
-    }
-    require(dir + '/' + file)({
-      api: api,
-      lib: lib
-    });
-  });
+     if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
+       return;
+     }
+     require(dir + '/' + file)({
+       api: api,
+       lib: lib
+     });
+   });
+  // require(dir + '/' + 'add.js') ({
+  //   api: api,
+  //   lib: lib
+  // });
 
   // export the api methods
-  return api.users;
+  return api.recipes;
 };

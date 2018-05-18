@@ -11,19 +11,22 @@ module.exports = (opts) => {
 
   // if username not provided, uses email add username
 
-  api.recipes.create = (attrs, done) => {
-    var user;
+  api.recipes.add = (attrs, done) => {
+    var recipe;
 
     // whitelist attrs
     var keys = [
-      'username',
-      'password',
-      'email',
-      'nameGiven',
-      'nameFamily',
-      'birthday',
-      'goal',
-      'gender'
+      'name',
+      'images'
+      'ingredients', //[{[name, calories, fat, protein, carbs, recipeID]},{},{},{}]
+      'method',
+      'duration',
+      // 'calories',
+      // 'protein',
+      // 'carbs',
+      // 'fat',
+      'rate',
+      'creatorID',
     ];
 
     attrs = _.pick(attrs, keys);
@@ -32,40 +35,6 @@ module.exports = (opts) => {
     //   return done(new Error('No username or email address prvoided'));
     // }
 
-    var confirmEmailUnique = (next) => {
-      if (!attrs.email) {
-        return next();
-      }
-      lib.recipes.get(
-        attrs.id,
-        (err, user) => {
-          if (err) {
-            return next(err);
-          }
-          if (user) {
-            return next(new Error('email address in use'));
-          }
-          next();
-        });
-    };
-
-    var confirmUsernameUnique = (next) => {
-      if (!attrs.username) {
-        return next();
-      }
-      lib.recipes.getByUsername(
-        attrs.username,
-        (err, user) => {
-          if (err) {
-            return next(err);
-          }
-          if (user) {
-            return next(new Error('username in use'));
-          }
-          next();
-        });
-    };
-
     var create = (next) => {
       lib.recipes.add(
         attrs,
@@ -73,39 +42,15 @@ module.exports = (opts) => {
           if (err) {
             return next(err);
           }
-          user = res;
+          recipe = res;
           next();
         });
     };
 
-    var setPassword = (next) => {
-      if (!attrs.hasOwnProperty('password')) {
-        return next();
-      }
-      lib.recipes.setPassword(
-        user.id,
-        attrs.password,
-        next);
-    };
-
-    var get = (next) => {
-      lib.recipes.get(
-        user.id,
-        (err, res) => {
-          if (err) {
-            return next(err);
-          }
-          user = res;
-          next();
-        });
-    };
+    //get user id? for to validate
 
     async.series([
-      confirmEmailUnique,
-      confirmUsernameUnique,
-      create,
-      setPassword,
-      get
+      create
     ], (err) => {
       done(err, user);
     });

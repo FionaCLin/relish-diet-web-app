@@ -7,64 +7,45 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.users.set = (user_id, attrs, done) => {
-    let user;
+  api.recipes.set = (recipe_id, attrs, done) => {
+    let recipe;
     // whitelist attrs
     let keys = [
-      'email',
-      'username',
-      'birthday',
-      'goal',
-      'gender',
-      'nameGiven',
-      'nameFamily',
-      'memberno'
+      'memberno',
+      'name',
+      'method',
+      'duration',
+      // 'calories',
+      // 'protein',
+      // 'carbs',
+      // 'fat',
+      'rate'
     ];
 
     attrs = _.pick(attrs, keys);
 
-    let getUser = (next) => {
-      lib.users.get(
-        user_id,
+    let getRecipe = (next) => {
+      lib.recipes.get(
+        recipe_id,
         (err, res) => {
           if (!res) {
-            next(new Error('unknown user'));
+            next(new Error('unknown recipe'));
           }
-          user = res;
+          recipe = res;
           next(err);
         });
     };
 
-    let ensureEmailUnique = (next) => {
-      if (!attrs.email) {
-        return next();
-      }
-      // check new email address is not used
-      lib.users.getByEmail(
-        attrs.email, (err, res) => {
-          if (err) {
-            return next(err);
-          }
-
-          if (res && res.id !== user_id) {
-            return next(new Error('that email address is in use'));
-          }
-
-          next();
-        });
-    };
-
     let set = (next) => {
-      lib.users.set(
-        user_id,
+      lib.recipes.set(
+        recipe_id,
         attrs, (err) => {
           next(err);
         });
     };
 
     async.series([
-      getUser,
-      ensureEmailUnique,
+      getRecipe,
       set
     ], (err) => {
       done(err);
