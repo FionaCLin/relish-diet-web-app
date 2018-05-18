@@ -12,7 +12,7 @@ module.exports = (app, api) => {
   });
 
   /* 
-      curl - vX POST  http://localhost:3002/api/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"username\":\"hahai\",\"password\":\"123\",\"nameGiven\":\"fiona\", \"nameFamily\":\"lin\", \"birthday\":\"01-01-2000\",\"gender\":\"F\",\"goal\":\"lose weight\"}"
+      curl -vX POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"username\":\"hahai\",\"password\":\"123\",\"nameGiven\":\"fiona\", \"nameFamily\":\"lin\", \"birthday\":\"01-01-2000\",\"gender\":\"F\",\"goal\":\"lose weight\"}"
   */
 
   // get the payload with req.body
@@ -28,7 +28,8 @@ module.exports = (app, api) => {
       });
   });
 
-  /*   curl - vX PUT http://localhost:3002/api/users/1 -H "Content-Type: application/json" -d "{\"email\":\"fiona@freshfridge.com\"}"
+  /*
+     curl -vX PUT http://localhost:3002/api/users/1 -H "Content-Type: application/json" -d "{\"email\":\"fiona@freshfridge.com\"}"
    */
   app.put('/api/users/:id', function (req, res) {
     api.users.set(
