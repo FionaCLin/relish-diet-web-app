@@ -7,7 +7,6 @@ module.exports = (opts) => {
   api.users.auth = (email, password, ip, done) => {
     if (typeof ip === 'function') {
       done = ip;
-      ip = null;
     }
 
     lib.users.auth(

@@ -31,6 +31,11 @@ module.exports = (opts) => {
     lib: lib
   });
 
+  api.recipes = require('./recipes')({
+    api: api,
+    lib: lib
+  });
+
   // api.products = require('./recipes')({
   //   api: api,
   //   lib: lib
