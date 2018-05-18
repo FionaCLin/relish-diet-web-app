@@ -11,13 +11,15 @@ module.exports = (app, api) => {
       });
   });
 
-  /* 
+  /*
       curl -vX POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"username\":\"hahai\",\"password\":\"123\",\"nameGiven\":\"fiona\", \"nameFamily\":\"lin\", \"birthday\":\"01-01-2000\",\"gender\":\"F\",\"goal\":\"lose weight\"}"
+      curl -vX POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"test@freshfridge.com\",\"username\":\"toby\",\"password\":\"123\",\"nameGiven\":\"david\", \"nameFamily\":\"phan\", \"birthday\":\"01-01-2000\",\"gender\":\"M\",\"goal\":\"lose weight\"}"
   */
+
 
   // get the payload with req.body
   app.post('/api/signup', function (req, res) {
-    api.users.create(
+    api.users.add(
       req.body,
       (err, user) => {
         console.log(err);
@@ -43,7 +45,7 @@ module.exports = (app, api) => {
       });
   });
 
-/*  
+/*
  curl - vX POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"password\":\"123\"}"
  */
 
@@ -60,4 +62,3 @@ module.exports = (app, api) => {
   });
 
 };
-

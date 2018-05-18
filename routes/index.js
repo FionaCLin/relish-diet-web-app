@@ -3,17 +3,18 @@ const express = require('express');
 
 module.exports = (config, opts) => {
   config = config || {};
-  
+
   opts = opts || {
     nickname: 'user'
   };
-  
+
   let app = opts;
   let api = require('../api')(config);
   let lib = api.lib;
-  
+
   require('./users')(app, api);
-  
+  require('./recipes')(app, api);
+
 
 
   // app.post('/api/todos', todosController.create);
