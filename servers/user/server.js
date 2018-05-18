@@ -1,10 +1,10 @@
-let express = require('express');
-let path = require('path');
-let bodyParser = require('body-parser');
-let cons = require('consolidate');
-let dust = require('dustjs-helpers');
-let async = require('async');
-let pg = require('pg');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cons = require('consolidate');
+const dust = require('dustjs-helpers');
+const async = require('async');
+const pg = require('pg');
 
 module.exports = (config, opts) => {
   config = config || {};
@@ -43,19 +43,19 @@ module.exports = (config, opts) => {
   });
 
   // server lifecycle manmagement
-  var start = (done) => {
+  let start = (done) => {
     // Server
-    server.listen(config.servers.user.port, function () {
+    server = server.listen(config.servers.user.port, function () {
       console.log('Server started on port', config.servers.user.port);
       done();
     });
 
   };
 
-  var stop = (done) => {
+  let stop = (done) => {
     async.series([
       (next) => {
-        server.end({
+        server.close({
           timeout: 1000
         }, (err, res) => {
           next(err);
