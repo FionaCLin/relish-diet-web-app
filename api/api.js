@@ -31,7 +31,32 @@ module.exports = (opts) => {
     lib: lib
   });
 
+  api.products = require('./bookmarks')({
+    api: api,
+    lib: lib
+  });
+
+  // api.products = require('./ingredients')({
+  //   api: api,
+  //   lib: lib
+  // });
+
+  // api.products = require('./mealplans')({
+  //   api: api,
+  //   lib: lib
+  // });
+
   // api.products = require('./recipes')({
+  //   api: api,
+  //   lib: lib
+  // });
+
+  // api.products = require('./reviews')({
+  //   api: api,
+  //   lib: lib
+  // });
+
+  // api.products = require('./timeslots')({
   //   api: api,
   //   lib: lib
   // });

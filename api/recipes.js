@@ -6,7 +6,7 @@ module.exports = (opts) => {
   var lib = opts.lib;
   var api = opts.api;
 
-  api.users = {};
+  api.recipes = {};
 
   var dir = __dirname + '/recipes';
 
@@ -14,6 +14,7 @@ module.exports = (opts) => {
     if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
       return;
     }
+    console.log(dir + '/' + file)
     require(dir + '/' + file)({
       api: api,
       lib: lib
@@ -21,5 +22,5 @@ module.exports = (opts) => {
   });
 
   // export the api methods
-  return api.users;
+  return api.recipes;
 };
