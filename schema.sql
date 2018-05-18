@@ -42,16 +42,26 @@ BEGIN TRANSACTION;
     CONSTRAINT Recipe_PK            PRIMARY KEY (id),
     CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
+
+CREATE TABLE Recipe_Ingredients
+(
+  id        SERIAL,
+  recipe_id INTEGER,
+  ingred_id INTEGER,
+  amount    FLOAT,
+  CONSTRAINT RecipeIngredient_Recipe_FK       FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE,
+  CONSTRAINT RecipeIngredient_Ingredient_FK       FOREIGN KEY (ingred_id) REFERENCES Ingredient(id),
+);
   CREATE TABLE Ingredients (
     id           INTEGER,
-    recipe_id    INTEGER,
     name         VARCHAR(100) NOT NULL,
+    UOM          VARCHAR(100) NOT NULL, 
     calories     INTEGER,
     protein      INTEGER,
     cabs         INTEGER,
     fat          INTEGER,
     CONSTRAINT Ingredient_PK            PRIMARY KEY (id),
-    CONSTRAINT Ingredient_Recipe_FK     FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE);
+ );
 
   CREATE TABLE Reviews (
     id             INTEGER,
@@ -65,7 +75,7 @@ BEGIN TRANSACTION;
 
   CREATE TABLE Meal_Plans (
     id           INTEGER,
-    title         VARCHAR(100) NOT NULL,
+    title        VARCHAR(100) NOT NULL,
     memberNo     INTEGER       NOT NULL,
     CONSTRAINT Meal_Plan_PK         PRIMARY KEY (id),
     CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
