@@ -6,9 +6,9 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.users = {};
+  api.mealplans = {};
 
-  let dir = __dirname + '/users';
+  let dir = __dirname + '/mealplans';
 
   fs.readdirSync(dir).forEach((file) => {
     if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
@@ -21,5 +21,5 @@ module.exports = (opts) => {
   });
 
   // export the api methods
-  return api.users;
+  return api.mealplans;
 };

@@ -1,11 +1,11 @@
 'use strict';
 
-var async = require('async');
+const async = require('async');
 
 module.exports = (opts) => {
-  var lib = require('../lib')(opts);
+  let lib = require('../lib')(opts);
 
-  var api = {};
+  let api = {};
 
   api.lib = lib;
 

@@ -8,24 +8,24 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.recipes.get = (recipe_id, done) => {
+  api.users.get = (user_id, done) => {
 
-    let recipe;
+    let user;
 
-    let getRecipe = (next) => {
-      lib.recipes.get(
-        recipe_id,
+    let getUser = (next) => {
+      lib.users.get(
+        user_id,
         (err, res) => {
           if (!res) {
-            return next(new Error('unknown recipe'));
+            return next(new Error('unknown user'));
           }
-          recipe = res;
+          user = res;
           next(err);
         });
     };
 
     async.series([
-      getRecipe
+      getUser
     ], (err) => {
       done(err, user);
     });

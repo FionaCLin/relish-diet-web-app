@@ -1,14 +1,14 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
 module.exports = (opts) => {
-  var lib = opts.lib;
-  var api = opts.api;
+  let lib = opts.lib;
+  let api = opts.api;
 
   api.recipes = {};
 
-  var dir = __dirname + '/recipes';
+  let dir = __dirname + '/recipes';
 
   fs.readdirSync(dir).forEach((file) => {
      if (['.', '#'].indexOf(file.substr(0, 1)) > -1) {
