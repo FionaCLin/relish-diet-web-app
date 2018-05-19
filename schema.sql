@@ -28,9 +28,10 @@ CREATE TABLE Members
   goal TEXT,
   -- not sure if it should have its own table
   gender VARCHAR(1),
-  avatar TEXT CONSTRAINT Member_PK            PRIMARY KEY (id),
-  CONSTRAINT Gender_CHK CHECK (gender IN ('F','G'))
-);
+  avatar TEXT,
+  CONSTRAINT Member_PK            PRIMARY KEY (id),
+  CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')));
+
 CREATE TABLE Recipes
 (
   id SERIAL,
@@ -45,8 +46,8 @@ CREATE TABLE Recipes
   rate INTEGER,
   images TEXT,
   CONSTRAINT Recipe_PK            PRIMARY KEY (id),
-  CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE
-);
+  CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
+
 CREATE TABLE BookMarks
 (
   id SERIAL,
@@ -54,19 +55,7 @@ CREATE TABLE BookMarks
   memberNo INTEGER,
   CONSTRAINT BookMarks_PK                  PRIMARY KEY (id),
   CONSTRAINT BookMarks_Recipe__FK          FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE,
-  CONSTRAINT BookMarks_Member_FK           FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE
-);
-
-CREATE TABLE Recipe_Ingredients
-(
-  id SERIAL,
-  recipe_id INTEGER,
-  ingred_id INTEGER,
-  amount NUMERIC,
-  CONSTRAINT RecipeIngredient_PK                  PRIMARY KEY (id),
-  CONSTRAINT RecipeIngredient_Recipe_FK           FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE,
-  CONSTRAINT RecipeIngredient_Ingredient_FK       FOREIGN KEY (ingred_id) REFERENCES Ingredient(id)
-);
+  CONSTRAINT BookMarks_Member_FK           FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
 CREATE TABLE Ingredients
 (
@@ -78,7 +67,17 @@ CREATE TABLE Ingredients
   cabs INTEGER,
   fat INTEGER,
   ingred_type INTEGER,
-  CONSTRAINT Ingredient_PK            PRIMARY KEY (id)
+  CONSTRAINT Ingredient_PK            PRIMARY KEY (id));
+
+CREATE TABLE Recipe_Ingredients
+(
+  id SERIAL,
+  recipe_id INTEGER,
+  ingred_id INTEGER,
+  amount NUMERIC,
+  CONSTRAINT RecipeIngredient_PK                  PRIMARY KEY (id),
+  CONSTRAINT RecipeIngredient_Recipe_FK           FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE,
+  CONSTRAINT RecipeIngredient_Ingredient_FK       FOREIGN KEY (ingred_id) REFERENCES Ingredients(id)
 );
 
 CREATE TABLE Reviews
@@ -93,8 +92,7 @@ CREATE TABLE Reviews
   CONSTRAINT Review_id           PRIMARY KEY (id),
   CONSTRAINT Reviem_Member_FK    FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE,
   CONSTRAINT Review_Recipe_FK    FOREIGN KEY (recipe_id) REFERENCES Recipes(id) on DELETE CASCADE,
-  CONSTRAINT Review_Review_FK    FOREIGN KEY (parent) REFERENCES Reviews(id) on DELETE CASCADE
-);
+  CONSTRAINT Review_Review_FK    FOREIGN KEY (parent) REFERENCES Reviews(id) on DELETE CASCADE);
 
 CREATE TABLE Meal_Plans
 (
@@ -102,8 +100,7 @@ CREATE TABLE Meal_Plans
   title VARCHAR(100) NOT NULL,
   memberNo INTEGER NOT NULL,
   CONSTRAINT Meal_Plan_PK         PRIMARY KEY (id),
-  CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE
-);
+  CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
 CREATE TABLE Time_Slots
 (
@@ -115,5 +112,4 @@ CREATE TABLE Time_Slots
   CONSTRAINT Time_Slot_PK            PRIMARY KEY (id),
   CONSTRAINT Time_Slot_Recipe_FK     FOREIGN KEY (recipe_id) REFERENCES Recipes(id),
   CONSTRAINT Time_Slot_Plan_FK       FOREIGN KEY (recipe_id) REFERENCES Meal_Plans(id),
-  CONSTRAINT Day_CHECK check(day IN ('MON','TUE', 'WED', 'THU','FRI','SAT','SUN'))
-);
+  CONSTRAINT Day_CHECK check(day IN ('MON','TUE', 'WED', 'THU','FRI','SAT','SUN')));
