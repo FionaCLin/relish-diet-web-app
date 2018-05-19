@@ -59,7 +59,7 @@ CREATE TABLE BookMarks
 
 CREATE TABLE Ingredients
 (
-  id SERIAL,
+  id INTEGER,
   name VARCHAR(100) NOT NULL,
   UOM VARCHAR(100) NOT NULL,
   calories INTEGER,
