@@ -13,6 +13,7 @@ module.exports = (opts) => {
 
   api.recipes.add = (attrs, done) => {
     var recipe;
+    var user;
 
     // whitelist attrs
     var keys = [
@@ -22,14 +23,25 @@ module.exports = (opts) => {
       'method',
       'duration',
       'rate',
-      'creator_id'
+      'creatorID'
     ];
 
     attrs = _.pick(attrs, keys);
 
-    // if (!attrs.hasOwnProperty('username') || !attrs.username) {
-    //   return done(new Error('No username or email address prvoided'));
-    // }
+    var ingKeys = [
+      'id',
+      'name',
+      'amount'
+      'uom',
+      'calories',
+      'carbs',
+      'protein',
+      'fat',
+    ]
+
+    var ingredients[];
+    ingredients = attrs.ingredients;
+    ingredints = _.pick(ingredients, ingKeys);
 
     //check to see if user id is valid in database
     // use lib.users.getbyid
@@ -68,22 +80,56 @@ module.exports = (opts) => {
       Regardless, append the id of the ingredients to an array, because need to update the
       ingredients table for all the amounts.
     **/
+    var ingredientsList[];
+    var amounts[];
 
-    // var checkIngredients = (next) => {
-    //   lib.ingredients.getByName(
-    //
-    //   )
-    // }
+    var checkIngredients = (next) => {
+      attrs.ingredients.forEach(
+        (key) => {
+          lib.ingredients.get(
+            key,
+            (err, res) => {
+              if (err) {
+                //add ingredient to ingredient table if it does not exist.
+                lib.ingredients.add()
+              }
+              ingredientList.push(res.id);
+            }
+            amounts.push(key.amount)
+        });
+      )
+    }
+    //now i have array for all id of all ingredients. and amounts.
 
     /**
       For each ingredient_id in the array, make a new ingredients table row
       incs ingredientID, recipe, and amount.
     **/
 
+    var length = ingredientsList.length();
+
+    var linkIngredients = (next) => {
+      for (var i = 0; i < length; i++) {
+        lib.recipes.addIngredient(
+          recipe, ingredientsList[i], amounts[i],
+          (err, res) => {
+            if (err) {
+              return next(err);
+            }
+          }
+        );
+      }
+      next();
+    }
+
+
+
 
     async.series([
-      checkUser
-      create
+      checkUser,
+      create,
+      checkIngerdients,
+      linkIngredients,
     ], (err) => {
       done(err, user);
     });
