@@ -13,7 +13,7 @@ module.exports = (opts) => {
     //should send id of deleted recipe to delete from recipe table.
     var deleteRecipe = (next) => {
       lib.recipes.del(
-        user_id,
+        recipe_id,
         (err, res) => {
           if (!res) {
             return next(new Error('unknown recipe'));
@@ -26,7 +26,7 @@ module.exports = (opts) => {
     async.series([
       deleteRecipe
     ], (err) => {
-      done(err, user);
+      done(err);
     });
   }
 }

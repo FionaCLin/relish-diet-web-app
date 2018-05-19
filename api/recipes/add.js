@@ -12,7 +12,7 @@ module.exports = (opts) => {
   // if username not provided, uses email add username
 
   api.recipes.add = (attrs, done) => {
-    var recipe;
+    var recipeID;
     var user;
 
     // whitelist attrs
@@ -68,7 +68,7 @@ module.exports = (opts) => {
           if (err) {
             return next(err);
           }
-          recipe = res;
+          recipeID = res;
           next();
         });
     };
@@ -91,7 +91,7 @@ module.exports = (opts) => {
             (err, res) => {
               if (err) {
                 //add ingredient to ingredient table if it does not exist.
-                lib.ingredients.add()
+                lib.ingredients.add(key);
               }
               ingredientList.push(res.id);
             }
@@ -111,7 +111,7 @@ module.exports = (opts) => {
     var linkIngredients = (next) => {
       for (var i = 0; i < length; i++) {
         lib.recipes.addIngredient(
-          recipe, ingredientsList[i], amounts[i],
+          recipeID, ingredientsList[i], amounts[i],
           (err, res) => {
             if (err) {
               return next(err);

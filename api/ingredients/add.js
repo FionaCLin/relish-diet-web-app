@@ -11,7 +11,7 @@ module.exports = (opts) => {
 
   // if username not provided, uses email add username
 
-  api.recipes.add = (attrs, done) => {
+  api.ingredients.add = (attrs, done) => {
     let recipe;
 
     // whitelist attrs
