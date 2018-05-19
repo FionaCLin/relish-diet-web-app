@@ -12,22 +12,23 @@ module.exports = (opts) => {
 
     let recipe;
 
-    let getRecipe = (next) => {
-      lib.recipes.get(
-        recipe_id,
+    let getRecipes = (next) => {
+      lib.recipes.getAll(
         (err, res) => {
           if (!res) {
-            return next(new Error('unknown recipe'));
+            return next(new Error('action not permitted'));
           }
-          recipe = res;
+          recipes = res;
           next(err);
         });
     };
 
+    // filter the recipes for the given goal
+
     async.series([
       getRecipe
     ], (err) => {
-      done(err, user);
+      done(err, );
     });
   };
 };
