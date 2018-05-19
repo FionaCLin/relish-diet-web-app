@@ -31,10 +31,10 @@ module.exports = (opts) => {
     lib: lib
   });
 
-  api.products = require('./bookmarks')({
-    api: api,
-    lib: lib
-  });
+  // api.products = require('./bookmarks')({
+  //   api: api,
+  //   lib: lib
+  // });
 
   // api.products = require('./ingredients')({
   //   api: api,
