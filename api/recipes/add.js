@@ -12,7 +12,8 @@ module.exports = (opts) => {
   // if username not provided, uses email add username
 
   api.recipes.add = (attrs, done) => {
-    var recipe;
+    var recipeID;
+    var user;
 
     // whitelist attrs
     var keys = [
@@ -22,21 +23,33 @@ module.exports = (opts) => {
       'method',
       'duration',
       'rate',
-      'creator_id'
+      'creatorID'
     ];
 
     attrs = _.pick(attrs, keys);
 
-    // if (!attrs.hasOwnProperty('username') || !attrs.username) {
-    //   return done(new Error('No username or email address prvoided'));
-    // }
+    let ingKeys = [
+      'id',
+      'name',
+      'amount',
+      'uom',
+      'calories',
+      'carbs',
+      'protein',
+      'fat',
+    ]
+
+    let ingredients = [];
+    attrs.ingredients.forEach((ingredient) => {
+      ingredients.push(_.pick(ingredient, ingKeys));
+    });
 
     //check to see if user id is valid in database
     // use lib.users.getbyid
     // if not exisiting, return user not found
     // if existing - create.
 
-    var checkUser = (next) => {
+    let checkUser = (next) => {
       lib.users.get(
         user_id,
         (err, res) => {
@@ -49,18 +62,6 @@ module.exports = (opts) => {
       );
     };
 
-    var create = (next) => {
-      lib.recipes.add(
-        attrs,
-        (err, res) => {
-          if (err) {
-            return next(err);
-          }
-          recipe = res;
-          next();
-        });
-    };
-
     //for the ingredients list
     /**
       Check whether the ingredients exist in the ingredients table
@@ -68,12 +69,32 @@ module.exports = (opts) => {
       Regardless, append the id of the ingredients to an array, because need to update the
       ingredients table for all the amounts.
     **/
+    // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
+    var ingredientsList[];
+    var amounts[];
 
-    // var checkIngredients = (next) => {
-    //   lib.ingredients.getByName(
-    //
-    //   )
-    // }
+    var checkIngredients = (next) => {
+      attrs.ingredients.forEach(
+        (key) => {
+          lib.ingredients.get(
+            key,
+            (err, ingredient) => {
+              if (err) {
+                //add ingredient to ingredient table if it does not exist.
+                lib.ingredients.add(
+                  key,
+                  (err, res) => {
+                    ingredient = res;
+                  });
+              }
+              ingredientsList.push({
+                id: res.id,
+                amount: key.amount,
+              });
+            });
+        });
+    };
+    //now i have array for all id of all ingredients. and amounts.
 
     /**
       For each ingredient_id in the array, make a new ingredients table row
@@ -81,11 +102,53 @@ module.exports = (opts) => {
     **/
 
 
-    async.series([
-      checkUser
-      create
-    ], (err) => {
-      done(err, user);
-    });
-  };
+    var createRecipe = (next) => {
+      attrs.at = Date.now();
+      lib.recipes.add(
+        attrs,
+        (err, res) => {
+          if (err) {
+            return next(err);
+          }
+          recipeID = res;
+          next();
+        });
+    };
+    // var length = ingredientsList.length();
+
+    let linkIngredients = (next) => {
+      // for (var i = 0; i < length; i++) {
+      //   lib.recipes.addIngredient(
+      //     recipeID, ingredientsList[i], amounts[i],
+      //     (err, res) => {
+      //       if (err) {
+      //         return next(err);
+      //       }
+      //     }
+      //   );
+      ingredientsList.forEach((ingredient) => {
+        lib.recipes.addIngredient(
+          recipeID,
+          ingredient.id,
+          ingredient.amount,
+          (err, res) => {
+            if (err) {
+              return next(err);
+            }
+          });
+      });
+    }
+    next();
+  }
+
+  async.series([
+    checkUser,
+    checkIngerdients,
+    createRecipe,
+    linkIngredients,
+  ], (err) => {
+    lib.recipes.getDetail(recipeID)
+    done(err, );
+  });
+};
 };
