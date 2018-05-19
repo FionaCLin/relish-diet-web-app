@@ -13,8 +13,8 @@
 </head>
 
 <body>
-  <!-- Navbar
-  <nav class="navbar navbar-default" style="background-color:white;margin-bottom:0">
+  <!--Navbar-->
+  <nav class="navbar navbar-default" style="background-color:white">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -25,34 +25,64 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="login.html" style="color:LimeGreen">
+        <a class="navbar-brand" href="dashboard.html" style="color:LimeGreen">
           <span class="glyphicon glyphicon-grain"></span> Fresh Fridge</a>
       </div>
-    </div>
-    <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="search.html" title="Search">
+              <span class="glyphicon glyphicon-search"></span>
+            </a>
+          </li>
+          <li class="dropdown">
+            <a href="#" title="Recipes" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cutlery"></span>
+            </a>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="my_recipes.html">My Recipes</a>
+              </li>
+              <li>
+                <a href="bookmarked_recipes.html">Bookmarked Recipes</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="my_planners.html" title="Meal Plans">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </a>
+          </li>
+          <li class="dropdown">
+            <a href="#" title="User" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-user"></span>
+            </a>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <div style="margin-left:20px;margin-right:20px">Welcome, Loreen!</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a href="edit_profile.html">Profile</a>
+              </li>
+              <li>
+                <a href="login.html">Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
   </nav>
 
-  <div id="background-carousel">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:100%;height:100%;z-index:0;overflow:hidden">
-      <div class="carousel-inner" style="width:100%;height:100%;z-index:0;overflow:hidden">
-        <div class="item active" style="background-image:url(images/bg1.jpg);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
-        <div class="item" style="background-image:url(images/bg2.jpg);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
-        <div class="item" style="background-image:url(images/bg3.jpg);width:100%;height:100%;background-position:center center;background-size:cover;z-index:0"></div>
-      </div>
-    </div>
-  </div>
+  <div id="root"></div>
 
-
-  <div id="content-wrapper">
-    <div id="root">
-  </div>
- </div>
-
-  <script>
-    includeHTML();
-  </script>
 </body>
 
 </html>
