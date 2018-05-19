@@ -78,7 +78,7 @@ CREATE TABLE Ingredients
   cabs INTEGER,
   fat INTEGER,
   ingred_type INTEGER,
-  CONSTRAINT Ingredient_PK            PRIMARY KEY (id),
+  CONSTRAINT Ingredient_PK            PRIMARY KEY (id)
 );
 
 CREATE TABLE Reviews
