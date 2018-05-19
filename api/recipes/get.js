@@ -12,8 +12,9 @@ module.exports = (opts) => {
 
     let recipe;
 
+
     let getRecipe = (next) => {
-      lib.recipes.get(
+      lib.recipes.getDetail(
         recipe_id,
         (err, res) => {
           if (!res) {
@@ -24,10 +25,23 @@ module.exports = (opts) => {
         });
     };
 
+
+    let getReviews = (next) => {
+      lib.review.getByRecipe(
+        recipe_id,
+        (err, res) => {
+          if (!res) {
+          }
+          recipe.reviews = res;
+          next(err);
+        });
+    };
+
     async.series([
-      getRecipe
+      getRecipe,
+      getReviews
     ], (err) => {
-      done(err, user);
+      done(err, recipe);
     });
   };
 };

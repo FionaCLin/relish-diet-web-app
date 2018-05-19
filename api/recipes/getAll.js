@@ -8,13 +8,15 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.recipes.get = (recipe_id, done) => {
+// to get all recipes.
+// used for dashboard? possibly
+
+  api.recipes.getAll = (recipe_id, done) => {
 
     let recipe;
 
-
     let getRecipe = (next) => {
-      lib.recipes.getDetail(
+      lib.recipes.getAll(
         recipe_id,
         (err, res) => {
           if (!res) {
@@ -25,23 +27,10 @@ module.exports = (opts) => {
         });
     };
 
-
-    let getReviews = (next) => {
-      lib.review.getByRecipe(
-        recipe_id,
-        (err, res) => {
-          if (!res) {
-          }
-          recipe.reviews = res;
-          next(err);
-        });
-    };
-
     async.series([
-      getRecipe,
-      getReviews
+      getRecipe
     ], (err) => {
-      done(err, user);
+      done(err, recipe);
     });
   };
 };

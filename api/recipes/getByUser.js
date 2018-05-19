@@ -8,22 +8,23 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
+// to get My Posted Recipes
+// returns a list of recipes.
+
   api.recipes.getByUser = (user_id, done) => {
 
-    let user, recipe;
-//get the user's goal
+    let recipes;
 
+// based on the user id to get recipes that they have made.
 
-
-// based on the goal to fetch recipes
     let getRecipe = (next) => {
-      lib.recipes.get(
-        recipe_id,
+      lib.recipes.getUser(
+        user_id,
         (err, res) => {
           if (!res) {
-            return next(new Error('unknown recipe'));
+            return next(new Error('unknown user/no recipes'));
           }
-          recipe = res;
+          recipes = res;
           next(err);
         });
     };
@@ -31,7 +32,7 @@ module.exports = (opts) => {
     async.series([
       getRecipe
     ], (err) => {
-      done(err, user);
+      done(err, recipes);
     });
   };
 };
