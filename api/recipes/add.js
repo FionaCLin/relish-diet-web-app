@@ -18,7 +18,7 @@ module.exports = (opts) => {
     // whitelist attrs
     var keys = [
       'name',
-      'images'
+      'images',
       'ingredients',
       'method',
       'duration',
@@ -70,10 +70,9 @@ module.exports = (opts) => {
       ingredients table for all the amounts.
     **/
     // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
-    var ingredientsList[];
-    var amounts[];
+    let ingredientsList = [];
 
-    var checkIngredients = (next) => {
+    let checkIngredients = (next) => {
       attrs.ingredients.forEach(
         (key) => {
           lib.ingredients.get(
@@ -88,8 +87,8 @@ module.exports = (opts) => {
                   });
               }
               ingredientsList.push({
-                id: res.id,
-                amount: key.amount,
+                id: ingredient.id,
+                amount: key.amount
               });
             });
         });
@@ -100,8 +99,6 @@ module.exports = (opts) => {
       For each ingredient_id in the array, make a new ingredients table row
       incs ingredientID, recipe, and amount.
     **/
-
-
     var createRecipe = (next) => {
       attrs.at = Date.now();
       lib.recipes.add(
@@ -117,15 +114,6 @@ module.exports = (opts) => {
     // var length = ingredientsList.length();
 
     let linkIngredients = (next) => {
-      // for (var i = 0; i < length; i++) {
-      //   lib.recipes.addIngredient(
-      //     recipeID, ingredientsList[i], amounts[i],
-      //     (err, res) => {
-      //       if (err) {
-      //         return next(err);
-      //       }
-      //     }
-      //   );
       ingredientsList.forEach((ingredient) => {
         lib.recipes.addIngredient(
           recipeID,
@@ -137,18 +125,20 @@ module.exports = (opts) => {
             }
           });
       });
-    }
-    next();
-  }
+      next();
+    };
 
-  async.series([
-    checkUser,
-    checkIngerdients,
-    createRecipe,
-    linkIngredients,
-  ], (err) => {
-    lib.recipes.getDetail(recipeID)
-    done(err, );
-  });
-};
+    async.series([
+      checkUser,
+      checkIngredients,
+      createRecipe,
+      linkIngredients
+    ], (err) => {
+      lib.recipes.getDetail(
+        recipeID,
+        (err, res) => {
+          done(err, res);
+        });
+    });
+  };
 };
