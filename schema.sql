@@ -1,48 +1,54 @@
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS Members;
-DROP TABLE IF EXISTS Ingredients;
-DROP TABLE IF EXISTS Reviews;
-DROP TABLE IF EXISTS Recipes;
---  DROP TABLE IF EXISTS MealPlan;
---  DROP TABLE IF EXISTS PlanItem;
+DROP TABLE IF EXISTS Members CASCADE;
+DROP TABLE IF EXISTS Ingredients CASCADE;
+DROP TABLE IF EXISTS Reviews CASCADE;
+DROP TABLE IF EXISTS Recipes CASCADE;
+DROP TABLE IF EXISTS Recipe_Ingredients CASCADE;
+DROP TABLE IF EXISTS Time_Slots CASCADE;
+DROP TABLE IF EXISTS Meal_Plans CASCADE;
+DROP TABLE IF EXISTS BookMarks CASCADE;
 COMMIT;
 /*schema starts here*/
 SET search_Path
 = Fresh_Fridge, '$user', public;
-CREATE DOMAIN EMailType AS VARCHAR(50) CHECK (value SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+');
+-- CREATE DOMAIN EMailType AS VARCHAR(50) CHECK (value SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+');
 CREATE TABLE Members
 (
   id SERIAL,
   -- new surrogate key to allow changeable email
-  email EMailType NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
   -- original key from E-R diagram
-  username VARCHAR(10) NOT NULL UNIQUE,
+  username VARCHAR(255) NOT NULL UNIQUE,
   -- we require a nickname from everyone, good to be used for login
   password TEXT,
   -- better store just a hash value of the password
-  pw_salt VARCHAR(10),
+  pw_salt TEXT,
   -- newly added for better security (not needed when bcrypt used)
-  nameGiven VARCHAR(100),
-  nameFamily VARCHAR(100),
+  nameGiven VARCHAR(255),
+  nameFamily VARCHAR(255),
   birthday DATE,
-  goal TEXT,
+  goal TEXT DEFAULT '',
+  calories_goal INTEGER DEFAULT 0,
   -- not sure if it should have its own table
   gender VARCHAR(1),
   avatar TEXT,
   CONSTRAINT Member_PK            PRIMARY KEY (id),
-  CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')));
+  CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')),
+  CONSTRAINT Email_CHK CHECK
+(email SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+')
+  );
 
 CREATE TABLE Recipes
 (
   id SERIAL,
   memberNo INTEGER NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  methord TEXT,
+  name TEXT NOT NULL,
+  method TEXT,
   duration INTEGER,
-  calories INTEGER,
-  protein INTEGER,
-  cabs INTEGER,
-  fat INTEGER,
+  calories NUMERIC,
+  protein NUMERIC,
+  cabs NUMERIC,
+  fat NUMERIC,
   rate INTEGER,
   images TEXT,
   at BIGINT,
@@ -62,11 +68,11 @@ CREATE TABLE Ingredients
 (
   id INTEGER,
   name VARCHAR(100) NOT NULL,
-  UOM VARCHAR(100) NOT NULL,
-  calories INTEGER,
-  protein INTEGER,
-  cabs INTEGER,
-  fat INTEGER,
+  UOM VARCHAR(100) DEFAULT NULL,
+  calories NUMERIC,
+  protein NUMERIC,
+  cabs NUMERIC,
+  fat NUMERIC,
   ingred_type INTEGER,
   CONSTRAINT Ingredient_PK            PRIMARY KEY (id));
 

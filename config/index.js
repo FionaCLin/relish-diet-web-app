@@ -5,19 +5,18 @@ const Path = require('path');
 module.exports = function (env) {
 
   let nickname = 'dev';
-  let mode = 'dev'; 
+  let mode = 'dev';
 
   if (!env) {
-    env = 'development';
+    env = 'test';
   }
 
   switch (env) {
     case 'test':
       mode = 'test';
       break;
-    case 'production':
-      mode = 'live';
-      break;
+    default:
+      mode = 'dev';
   }
 
   let servers = {
@@ -63,10 +62,10 @@ module.exports = function (env) {
     port: 5432,
     user: nickname,
     password: nickname,
-    database: "fresh_fridge_"+mode,
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
+    database: "fresh_fridge_" + mode,
+    max: 5,
+    idleTimeoutMillis: 300000,
+    connectionTimeoutMillis: 200000
   };
   servers.user.port = (env == 'production') ? 3001 : 3002;
 
