@@ -18,13 +18,12 @@ module.exports = (opts) => {
 
     var get = (next) => {
       lib.bookmarks.get(
-        user_id
+        user_id,
         (err, res) => {
           if (err) {
             next(err);
           }
           recipes = res;
-          next();
         }
       )
     }
