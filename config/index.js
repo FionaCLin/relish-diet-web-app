@@ -11,6 +11,15 @@ module.exports = function (env) {
     env = 'development';
   }
 
+  switch (env) {
+    case 'test':
+      mode = 'test';
+      break;
+    case 'production':
+      mode = 'live';
+      break;
+  }
+
   let servers = {
     user: {
       url: 'https://fresh-fridge-api.com',
@@ -54,7 +63,7 @@ module.exports = function (env) {
     port: 5432,
     user: nickname,
     password: nickname,
-    database: "fresh_fridge",
+    database: "fresh_fridge_"+mode,
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000

@@ -18,7 +18,7 @@ module.exports = (opts) => {
       'gender',
       'nameGiven',
       'nameFamily',
-      'memberno'
+      'calories_goal'
     ];
 
     attrs = _.pick(attrs, keys);
@@ -60,14 +60,15 @@ module.exports = (opts) => {
         attrs, (err) => {
           next(err);
         });
+      };
+      
+      async.series([
+        getUser,
+        ensureEmailUnique,
+        set
+      ], (err) => {
+        done(err);
+      });
     };
-
-    async.series([
-      getUser,
-      ensureEmailUnique,
-      set
-    ], (err) => {
-      done(err);
-    });
   };
-};
+  
