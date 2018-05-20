@@ -18,7 +18,7 @@ module.exports = (opts) => {
         recipe_id,
         (err, res) => {
           if (!res) {
-            return next(new Error('unknown recipe'));
+            return next(new Error('action not permitted'));
           }
           recipe = res;
           next(err);

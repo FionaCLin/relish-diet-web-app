@@ -4,11 +4,7 @@ module.exports = (opts) => {
   var lib = opts.lib;
   var api = opts.api;
 
-  api.users.auth = (email, password, ip, done) => {
-    if (typeof ip === 'function') {
-      done = ip;
-      ip = null;
-    }
+  api.users.auth = (email, password, done) => {
 
     lib.users.auth(
       email,

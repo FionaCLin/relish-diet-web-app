@@ -23,6 +23,7 @@ module.exports = (opts) => {
     attrs = _.pick(attrs, keys);
 
     var ingKeys = [
+      'at',
       'id',
       'name',
       'amount'
@@ -30,7 +31,7 @@ module.exports = (opts) => {
       'calories',
       'carbs',
       'protein',
-      'fat',
+      'fat'
     ]
 
     let getRecipe = (next) => {
@@ -73,33 +74,23 @@ module.exports = (opts) => {
             amounts.push(key.amount)
         });
       )
-    }
+  }
 
-    //now need to add into recipe_ingredients table or edit existing entries.
-    //fuck it just set the whole thing to whatever the new recipe has.
+  //now need to add into recipe_ingredients table or edit existing entries.
+  //fuck it just set the whole thing to whatever the new recipe has.
 
-    var length = ingredientList.length();
+  var length = ingredientList.length();
 
-    let addIngredients = (next) => {
-      for (var i = 0; i < length; i++) {
-        //look for the ingredient in the recipe_ingredient table.
-        lib.recipes.getIngredient(
-          recipe_id, ingredientList[i],
-          (err, res) => {
-            if (err) {
-              //adds the the ingredient to the recipe_ingredients table.
-              lib.recipes.addIngredient(
-                recipe_id, ingredientsList[i], amount[i],
-                (err, res) => {
-                  if (err) {
-                    next(err);
-                  }
-                }
-              )
-            }
-            //ingredient is found, so just the amount is updated.
-            lib.recipes.setIngredient(
-              res.recipe_id, res.ingredient_id, amount[i],
+  let addIngredients = (next) => {
+    for (var i = 0; i < length; i++) {
+      //look for the ingredient in the recipe_ingredient table.
+      lib.recipes.getIngredient(
+        recipe_id, ingredientList[i],
+        (err, res) => {
+          if (err) {
+            //adds the the ingredient to the recipe_ingredients table.
+            lib.recipes.addIngredient(
+              recipe_id, ingredientsList[i], amount[i],
               (err, res) => {
                 if (err) {
                   next(err);
@@ -107,16 +98,26 @@ module.exports = (opts) => {
               }
             )
           }
-        )
-      }
+          //ingredient is found, so just the amount is updated.
+          lib.recipes.setIngredient(
+            res.recipe_id, res.ingredient_id, amount[i],
+            (err, res) => {
+              if (err) {
+                next(err);
+              }
+            }
+          )
+        }
+      )
     }
+  }
 
-    async.series([
-      getRecipe,
-      setRecipe,
-      checkIngredients,
-    ], (err) => {
-      done(err);
-    });
-  };
+  async.series([
+    getRecipe,
+    setRecipe,
+    checkIngredients,
+  ], (err) => {
+    done(err);
+  });
+};
 };

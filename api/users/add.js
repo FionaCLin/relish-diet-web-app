@@ -23,12 +23,11 @@ module.exports = (opts) => {
       'nameFamily',
       'birthday',
       'goal',
+      'calories_goal',
       'gender'
     ];
 
     attrs = _.pick(attrs, keys);
-    console.log(attrs);
-    console.log(keys);
     if (!attrs.hasOwnProperty('username') || !attrs.username) {
       return done(new Error('No username or email address prvoided'));
     }

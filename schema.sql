@@ -45,6 +45,7 @@ CREATE TABLE Recipes
   fat INTEGER,
   rate INTEGER,
   images TEXT,
+  at BIGINT,
   CONSTRAINT Recipe_PK            PRIMARY KEY (id),
   CONSTRAINT Recipe_Member_FK     FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 
