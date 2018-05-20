@@ -10,8 +10,7 @@ exports.lib_recipes = {
 
   'boot': (test) => {
     var config = require('../config')(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV, config);
-    api = require('../api')(config);
+    api = require('../api' )(config);
     lib = api.lib;
     test.equal(lib.users.hasOwnProperty('get'), true);
     test.done();
@@ -118,7 +117,11 @@ exports.lib_recipes = {
         });
     }, test.done);
   },
+  'add recipe\'s reveiws': (test) => {
+    lib.bookmarks.add(
 
+    );
+  },
   'add recipe2 ingredients': (test) => {
     async.forEach(recipes[1].ingredients, (i, cb) => {
       lib.recipes.addIngredient(
@@ -139,6 +142,7 @@ exports.lib_recipes = {
         test.done();
       });
   },
+
   'get recipe by user': (test) => {
     lib.recipes.getByUser(
       users[0].id,
@@ -155,7 +159,11 @@ exports.lib_recipes = {
         test.done();
       });
   },
-  
+
+  'bookmark recipe 1 by user2': (test) => {
+
+  },
+
   'quit-lib': (test) => {
     lib.quit(test.done);
   },

@@ -8,7 +8,7 @@ module.exports = function (env) {
   let mode = 'dev';
 
   if (!env) {
-    env = 'test';
+    env = 'dev';
   }
 
   switch (env) {
