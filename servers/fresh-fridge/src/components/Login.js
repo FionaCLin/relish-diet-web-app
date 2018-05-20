@@ -42,8 +42,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: constants.LOGIN_PWD_TEXT_CHANGED, pwdtext: e.target.value });
     },
     onClickLogin: (e, email, password) => {
+      e.preventDefault();
+      console.log(e.target)
       console.log('login click', email, password);
       axios.post('http://localhost:3002/api/users/login', {
+        // email: 'synexenel1416@yopmail.com',
+        // password: '123'
         email: email,
         password: password
       }).then(function (response) {

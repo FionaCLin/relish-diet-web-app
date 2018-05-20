@@ -310,32 +310,14 @@ div.vertical{
   -ms-transform: rotate(-90deg);     /* IE 9 */
 }
 
-.myCarouseldiv-item1{
-  background-image: ./images/bg1.jpg; 
+.myCarouselsubdiv{
+  margin: 8px 0;
+  padding: auto;
   width: 100 %; 
   height: 100 %;
-  background-position: center center;
-  background-size: cover;
   z-index: 0;
   }
 
-.myCarouseldiv-item2{
-background-image: url(images/bg2.jpg); 
-width: 100 %; 
-height: 100 %;
-background-position: center center;
-background-size: cover;
-z-index: 0;  
-}
-
-.myCarouseldiv-item3{
-  background-image: url(images/bg3.jpg); 
-  width: 100 %; 
-  height: 100 %;
-  background-position: center center;
-  background-size: cover;
-  z-index: 0;
-}
 
 th.vertical{
   max-width: 50px;
