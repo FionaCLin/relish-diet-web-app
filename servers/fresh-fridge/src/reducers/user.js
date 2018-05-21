@@ -1,4 +1,5 @@
 import constants from '../constants/'
+import api from '../api.js'
 
 const initialState = [
   {
@@ -8,7 +9,7 @@ const initialState = [
 ]
 
 export default function users(state = initialState, action) {
-  console.log('reducer running', action);
+  // console.log('reducer running', action);
   switch (action.type) {
     case constants.LOGIN_EMAIL_TEXT_CHANGED:
       return Object.assign({}, state, {
@@ -19,6 +20,8 @@ export default function users(state = initialState, action) {
         password: action.pwdtext
       });
     case constants.LOGIN:
+      console.log(state.loginUserEmailInput, state.password);
+      action.token = api.login(state.loginUserEmailInput, state.password);
       return Object.assign({}, state, {
         password: '',
         token: action.token
