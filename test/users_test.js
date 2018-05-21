@@ -4,7 +4,7 @@ let _ = require('lodash');
 
 let lib, api;
 
-let users = data();
+let users = data().users;
 exports.lib_users = {
 
   'boot': (test) => {
