@@ -3,7 +3,7 @@ import api from '../api.js'
 
 const initialState = [
   {
-    loginUserEmailInput: 'your email',
+    loginUserEmailInput: '',
     password: ''
   }
 ]
