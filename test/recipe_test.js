@@ -6,11 +6,12 @@ let lib, api;
 
 let users = data().users;
 let recipes = data().recipes;
+let reviewsCount = 0;
 exports.lib_recipes = {
 
   'boot': (test) => {
     var config = require('../config')(process.env.NODE_ENV);
-    api = require('../api' )(config);
+    api = require('../api')(config);
     lib = api.lib;
     test.equal(lib.users.hasOwnProperty('get'), true);
     test.done();
@@ -117,10 +118,28 @@ exports.lib_recipes = {
         });
     }, test.done);
   },
-  'add recipe\'s reveiws': (test) => {
-    lib.bookmarks.add(
-
-    );
+  'add reply to recipe1 reviews': (test) => {
+    let review = recipes[0].reviews[0];
+    async.forEach(review.reply, (r, cb) => {
+      r.recipe_id = recipes[0].id;
+      r.parent = review.id;
+      lib.reviews.add(
+        r,
+        (err, res) => {
+          r.id = res.id;
+          reviewsCount++;
+          cb();
+        });
+    }, test.done);
+  },
+  'get reviews by recipes': (test) => {
+    lib.reviews.getByRecipe(
+      recipes[0].id,
+      (err, res) => {
+        // console.log(res, err);
+        test.equal(res.length, reviewsCount);
+        test.done()
+      })
   },
   'add recipe2 ingredients': (test) => {
     async.forEach(recipes[1].ingredients, (i, cb) => {
@@ -159,11 +178,46 @@ exports.lib_recipes = {
         test.done();
       });
   },
-
-  'bookmark recipe 1 by user2': (test) => {
-
+  'get 0 bookmark by user2': (test) => {
+    lib.bookmarks.getByUser(
+      users[1].id,
+      (err, res) => {
+        test.ok(!(err instanceof Error));
+        test.equal(res.length, 0);
+        test.done();
+      });
   },
-
+  'bookmark recipes by user2': (test) => {
+    async.forEach(recipes, (r, cb) => {
+      lib.bookmarks.add(
+        users[1].id,
+        r.id,
+        (err, res) => {
+          test.ok(!(err instanceof Error));
+          cb();
+        });
+    }, (err, res) => {
+      lib.bookmarks.getByUser(
+        users[1].id,
+        (err, res) => {
+          test.equal(res.length, 2);
+          test.done()
+        }
+      )
+    });
+  },
+  'delete bookmark by id': (test) => {
+    lib.bookmarks.del(
+      1,
+      (err, res) => {
+        lib.bookmarks.get(
+          1,
+          (err, res) => {
+            test.equal(res.length, 0);
+            test.done();
+          })
+      });
+  },
   'quit-lib': (test) => {
     lib.quit(test.done);
   },
