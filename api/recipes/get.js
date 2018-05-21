@@ -25,9 +25,11 @@ module.exports = (opts) => {
         });
     };
 
-
+// since the review has its replys 
+// the api.review.getByRecipe will sort them and
+// append them to its parent recursively
     let getReviews = (next) => {
-      lib.review.getByRecipe(
+      api.review.getByRecipe(
         recipe_id,
         (err, res) => {
           if (!res) {

@@ -8,11 +8,11 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-// to get My Posted Recipes
-// returns a list of recipes.
+  // to get My Posted Recipes
+  // returns a list of recipes.
 
   api.recipes.getByUser = (user_id, done) => {
-// let's assume user goal is a number of calories intake daily 
+    // let's assume user goal is a number of calories intake daily 
     let user, recipes;
     let getUser = (next) => {
       lib.users.get(
@@ -23,11 +23,11 @@ module.exports = (opts) => {
         });
     };
 
-// based on the user id to get recipes that they have made.
+    // based on the user id to get recipes that they have made.
 
     let getRecipes = (next) => {
       lib.recipes.getByUser(
-        user_id,
+        user.id,
         (err, res) => {
           if (!res) {
             return next(new Error('unknown user/no recipes'));
@@ -39,7 +39,8 @@ module.exports = (opts) => {
 
     // filter the recipes by the total calories 50 above and below the goal 
     let filterRecipes = (next) => {
-      recipes = recipes.filter(recipe => recipe.calories < user.goal + 50 && recipe.calories > user.goal - 50);
+      recipes = recipes.filter(recipe => recipe.calories < user.calories_goal + 50 && recipe.calories > user.calories_goal - 50);
+      next();
     };
 
     async.series([
