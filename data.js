@@ -32,8 +32,7 @@ module.exports = () => {
 
   // //recipe1
   let recipes = [{ // 30 recipes
-    id: '',
-    creator: '',
+    memberno: 1,
     name: 'Spicy Southwestern Vegetarian Burger', //weight loss, Yield: 1 burger, image link: https://skinnyms.com/wpcontent/uploads/2014/04/Spicy-Southwestern-Vegetarian-Burger.jpg
     method: "1.In a large skillet add 1 tablespoon oil, turn to medium-low heat and saut� onions until tender, about 4 minutes. Add garlic and saute one additional minute. Add kidney beans, green chili peppers and corn, continue to saut until beans soften up, about 3 minutes. Add oregano, chili powder, cumin and cayenne pepper, stir to combine 2.Combine in a large mixing bowl bean mixture, cheese and bread crumbs 3.Mash all ingredients with a potato masher or fork until beans are well mashed. Allow to cool for 10 minutes  4.Make 5 burger shaped patties. Note: Patties can be cooked right away or covered and refrigerated for up to 24 hours 5.Add remaining tablespoon oil to a non-stick large skillet, turn to medium heat and cook until patties are browned on both sides and heated through, approximately 12 minutes total 6.Serve patties on your favorite bun or roll. Try your favorite condiments",
     duration: 40,
@@ -111,15 +110,43 @@ module.exports = () => {
       fat: 1.5
     }],
     reviews: [{
-      member_id: 2,//not declared
+      user_id: 2,//not declared
       likes: 1,
-      comment: 'This recipe looks fantastic. I really need to try it.'
+      content: 'This recipe looks fantastic. I really need to try it.',
+      reply: [{
+        user_id: 3,
+        likes: 11,
+        content: 'Gonna experiment 2a little bit',
+        reply: [{
+          user_id: 3,
+          likes: 11,
+          content: 'Gonna experiment 8a little bit',
+          reply: [{
+            user_id: 3,
+            likes: 11,
+            content: 'Gonna experiment a9 little bit'
+          }]
+        }, {
+          user_id: 3,
+          likes: 11,
+          content: 'Gonna experiment a little bit'
+        }]
+      }, {
+        user_id: 3,
+        likes: 11,
+        content: 'Gonna experiment a little bit'
+      }, {
+        user_id: 3,
+        likes: 11,
+        content: 'Gonna experiment a little bit'
+      }]
     }, {
-      member_id: 3,
+      user_id: 3,
       likes: 11,
-      comment: 'Gonna experiment a little bit'
+      content: 'Gonna experiment a little bit'
     }]
-  }, { // recipe2
+  }, {
+    memberno: 1, // recipe2
     name: 'Pesto Grilled Chicken',//weight loss, yield:4 servings,image link: https://skinnyms.com/wp-content/uploads/2014/04/Pesto-Grilled-Chicken-1.jpg
     method: '1.Add the basil, garlic, nuts, cheese, and lemon juice in a food processor and blend until well combined.Slowly drizzle in the olive oil and continue blending until smooth.Season with salt and pepper. 2.Reserve 1/3 cup pesto and combine the rest with the chicken in a casserole dish or freezer bag. Marinate in the refrigerator overnight. 3.When ready to eat, preheat a gas or charcoal grill over medium heat.Grill the chicken until cooked through. 4.Serve the chicken with your favorite side dish and the reserved pesto.',
     duration: 30,
@@ -180,72 +207,87 @@ module.exports = () => {
       fat: 12
     }],
     reviews: [{
-      member_id: 1,
+      user_id: 1,
       likes: 1,
-      comment: 'I\'ve been successful with this, a million times over, exactly as written.'
+      content: 'I\'ve been successful with this, a million times over, exactly as written.'
     }, {
-      member_id: 3,
+      user_id: 3,
       likes: 11,
-      comment: 'Turned out very different than I imagined'
+      content: 'Turned out very different than I imagined'
+    }]
+  },
+  { // recipe3
+    memberno: 1,
+    name: 'Spicy Garlic Shrimp',//weight loss, yield: 4 servings, image link: https://skinnyms.com/wp-content/uploads/2014/04/Spicy-Garlic-Shrimp.jpg
+    method: '1.Heat the olive oil over medium heat in a large skillet.Add the shrimp.Cook for 4 - 5 minutes or until pink in color.Remove shrimp and set aside.Add garlic and red pepper flakes, saut� for one minute.2.Remove the skillet, add the white wine to deglaze the pan.Place the skillet back on the burner, add broth and cook until the desired thickness has been reached.Add parsley, return shrimp to skillet and toss to coat.Remove from heat and serve.3.Serve over quinoa, rice, or your favorite whole grain.',
+    duration: 30,
+    ingredients: [{
+      name: 'olive oil',
+      amount: 2,
+      uom: 'tablespoons',
+      calories: 240,
+      protein: 0,
+      cabs: 0,
+      fat: 28
+    }, {
+      name: 'garlic crushed',
+      amount: 4,
+      uom: 'cloves',
+      calories: 18,
+      protein: 0.8,
+      cabs: 3.99,
+      fat: 0.06
+    }, {
+      name: 'red pepper flakes',
+      amount: 1 / 2,
+      uom: 'teaspoon',
+      calories: 3,
+      protein: 0,
+      cabs: 0.5,
+      fat: 0
+    }, {
+      name: 'jumbo raw shrimp, deveined',
+      amount: 2,
+      uom: 'dozen',
+      calories: 86,
+      protein: 16.5,
+      cabs: 0.74,
+      fat: 1.4
+    }, {
+      name: 'dry white wine',
+      amount: 1 / 4,
+      uom: 'cup',
+      calories: 20,
+      protein: 0.02,
+      cabs: 0.2,
+      fat: 0
+    }, {
+      name: 'chicken broth, fat free',
+      amount: 1 / 4,
+      uom: 'cup',
+      calories: 3,
+      protein: 0.24,
+      cabs: 0.38,
+      fat: 0
+    }, {
+      name: 'freshly chopped parsley',
+      amount: 1 / 4,
+      uom: 'cup',
+      calories: 5,
+      protein: 0.45,
+      cabs: 0.95,
+      fat: 0.12
+    }],
+    reviews: [{
+      user_id: '6585',
+      likes: 1,
+      content: 'It\'s the best!!'
+    }, {
+      user_id: '9756',
+      likes: 11,
+      content: 'Intriguing... '
     }]
   }];
-  // { // recipe3
-  //   name: 'Spicy Garlic Shrimp',//weight loss, yield: 4 servings, image link: https://skinnyms.com/wp-content/uploads/2014/04/Spicy-Garlic-Shrimp.jpg
-  //   method: '1.Heat the olive oil over medium heat in a large skillet.Add the shrimp.Cook for 4 - 5 minutes or until pink in color.Remove shrimp and set aside.Add garlic and red pepper flakes, saut� for one minute.2.Remove the skillet, add the white wine to deglaze the pan.Place the skillet back on the burner, add broth and cook until the desired thickness has been reached.Add parsley, return shrimp to skillet and toss to coat.Remove from heat and serve.3.Serve over quinoa, rice, or your favorite whole grain.',
-  // duration: 30,
-  //   ingredients: [{
-  //     name: '2 tablespoons of olive oil',
-  //     calories: 240,
-  //     protein: 0,
-  //     cabs: 0,
-  //     fat: 28
-  //   }, {
-  //     name: '4 cloves garlic crushed',
-  //     calories: 18,
-  //     protein: 0.8,
-  //     cabs: 3.99,
-  //     fat: 0.06
-  //   }, {
-  //     name: '1/2 teaspoon red pepper flakes',
-  //     calories: 3,
-  //     protein: 0,
-  //     cabs: 0.5,
-  //     fat: 0
-  //   }, {
-  //     name: '2 dozen jumbo raw shrimp, deveined',
-  //     calories: 86,
-  //     protein: 16.5,
-  //     cabs: 0.74,
-  //     fat: 1.4
-  //   }, {
-  //     name: '1/4 cup dry white wine',
-  //     calories: 20,
-  //     protein: 0.02,
-  //     cabs: 0.2,
-  //     fat: 0
-  //   }, {
-  //     name: '1/4 cup chicken broth, fat free',
-  //     calories: 3,
-  //     protein: 0.24,
-  //     cabs: 0.38,
-  //     fat: 0
-  //   }, {
-  //     name: '1/4 cup freshly chopped parsley',
-  //     calories: 5,
-  //     protein: 0.45,
-  //     cabs: 0.95,
-  //     fat: 0.12
-  //   }],
-  //   reviews: [{
-  //     member_id: '6585',
-  //     likes: 1,
-  //     comment: 'It\'s the best!!'
-  //   }, {
-  //     member_id: '9756',
-  //     likes: 11,
-  //     comment: 'Intriguing... '
-  // }]
-  // }];
 
 
   let users = [{
@@ -378,13 +420,13 @@ module.exports = () => {
 //     fat: 1
 //   }],
 //   reviews: [{
-//     member_id: '3476',
+//     user_id: '3476',
 //     likes: 1,
-//     comment: 'Turned out very different than I imagined'
+//     content: 'Turned out very different than I imagined'
 //   }, {
-//     member_id: '3687',
+//     user_id: '3687',
 //     likes: 11,
-//     comment: 'This recipe looks fantastic. I really need to try it.'
+//     content: 'This recipe looks fantastic. I really need to try it.'
 //   }]
 // } { // recipe5
 //   name: 'Saut�ed Mushrooms',//weight loss, yield: 1 servings, image link: https://skinnyms.com/wp-content/uploads/2014/04/Crazy-Good-Saut%C3%A9ed-Mushrooms-with-Fresh-Herbs.jpg
@@ -437,13 +479,13 @@ module.exports = () => {
 //     fat: 0.04
 //   }],
 //   reviews: [{
-//     member_id: '6325',
+//     user_id: '6325',
 //     likes: 1,
-//     comment: 'I've been successful with this, a million times over, exactly as written.'
+//     content: 'I've been successful with this, a million times over, exactly as written.'
 //   }, {
-//     member_id: '8657',
+//     user_id: '8657',
 //     likes: 11,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }]
 // } { // recipe6
 //   name: 'Loaded Spaghetti',//weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/wh0914sdo-flatbelly01-dinner-0-1522860282.jpg?resize=768:*
@@ -481,13 +523,13 @@ module.exports = () => {
 //     fat: 5
 //   }],
 //   reviews: [{//TODO
-//     member_id: '1231',
+//     user_id: '1231',
 //     likes: 1,
-//     comment: 'Turned out very different than I imagined'
+//     content: 'Turned out very different than I imagined'
 //   }, {
-//     member_id: '3452',
+//     user_id: '3452',
 //     likes: 11,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }]
 // } { // recipe7
 //   name: 'Summer Farrotto',//weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1406-fbd5-0-1522859712.jpg?resize=768:*
@@ -537,13 +579,13 @@ module.exports = () => {
 //     fat: 2
 //   }],
 //   reviews: [{
-//     member_id: '9734',
+//     user_id: '9734',
 //     likes: 1,
-//     comment: 'Gonna experiment a little bit'
+//     content: 'Gonna experiment a little bit'
 //   }, {
-//     member_id: '4423',
+//     user_id: '4423',
 //     likes: 11,
-//     comment: 'I've been successful with this, a million times over, exactly as written.'
+//     content: 'I've been successful with this, a million times over, exactly as written.'
 //   }]
 // } { // recipe8
 //   name: 'Pork with veggies',//weight loss, serves 1, image link: https://www.womenshealthmag.com/weight-loss/a20052572/healthy-dinner-recipes-0/
@@ -575,13 +617,13 @@ module.exports = () => {
 //     fat: 0.2
 //   }],
 //   reviews: [{
-//     member_id: '4879',
+//     user_id: '4879',
 //     likes: 1,
-//     comment: 'Didn't like it.. lots of jarring tastes'
+//     content: 'Didn't like it.. lots of jarring tastes'
 //   }, {
-//     member_id: '8987',
+//     user_id: '8987',
 //     likes: 11,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }]
 // } { // recipe9
 //   name: 'Baked chicken with mushroom and sweet potato',//weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/wh0413sdo-flatbelly01-1516714472.jpg?resize=768:*
@@ -619,13 +661,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '9743',
+//     user_id: '9743',
 //     likes: 1,
-//     comment: 'This recipe looks fantastic. I really need to try it'
+//     content: 'This recipe looks fantastic. I really need to try it'
 //   }, {
-//     member_id: '1349',
+//     user_id: '1349',
 //     likes: 11,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }]
 // } { // recipe10
 //   name: 'Pork with roasted vegetables',//weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1205-fbd-1516714308.jpg?resize=768:*
@@ -663,13 +705,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '7283',
+//     user_id: '7283',
 //     likes: 1,
-//     comment: 'Didn't like it.. lots of jarring tastes'
+//     content: 'Didn't like it.. lots of jarring tastes'
 //   }, {
-//     member_id: '7831',
+//     user_id: '7831',
 //     likes: 11,
-//     comment: 'Maybe try some other ingredients?'
+//     content: 'Maybe try some other ingredients?'
 //   }]
 // } { // recipe11
 //   name: 'Mushroom Bison burger',// weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1203-fbd-1516714413.jpg?resize=768:* 
@@ -713,13 +755,13 @@ module.exports = () => {
 //     fat: 3
 //   }],
 //   reviews: [{
-//     member_id: '3452',
+//     user_id: '3452',
 //     likes: 1,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }, {
-//     member_id: '8493',
+//     user_id: '8493',
 //     likes: 11,
-//     comment: 'Didn't like it.. lots of jarring tastes'
+//     content: 'Didn't like it.. lots of jarring tastes'
 //   }]
 // } { // recipe12
 //   name: 'Salmon with lemon and dill',// weight loss, serves 1, image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1112-fbd-1516714281.jpg?resize=768:*
@@ -757,13 +799,13 @@ module.exports = () => {
 //     fat: 0.54
 //   }],
 //   reviews: [{
-//     member_id: '9234',
+//     user_id: '9234',
 //     likes: 1,
-//     comment: 'Thanks for such an awesome recipe'
+//     content: 'Thanks for such an awesome recipe'
 //   }, {
-//     member_id: '2391',
+//     user_id: '2391',
 //     likes: 11,
-//     comment: 'Maybe try some other ingredients?'
+//     content: 'Maybe try some other ingredients?'
 //   }]
 // } { // recipe13
 //   name: 'Beef stir-fry with butternut squash soup',//weight loss, serves 1,image link: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1104-fbd-1516714380.jpg?resize=768:*
@@ -807,13 +849,13 @@ module.exports = () => {
 //     fat: 2.05
 //   }],
 //   reviews: [{
-//     member_id: '1293',
+//     user_id: '1293',
 //     likes: 1,
-//     comment: 'Gonna experiment a little bit'
+//     content: 'Gonna experiment a little bit'
 //   }, {
-//     member_id: '9743',
+//     user_id: '9743',
 //     likes: 11,
-//     comment: 'My family loves this recipe'
+//     content: 'My family loves this recipe'
 //   }]
 // } { // recipe14
 //   name: 'Spiced Green Tea Smoothie',//weight loss, serves 1, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2FSpiced_Green_Tea-XL.jpg%3Fitok%3DUnAGUS6g&w=800&q=85
@@ -845,13 +887,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '7123',
+//     user_id: '7123',
 //     likes: 1,
-//     comment: 'My family loves this recipe'
+//     content: 'My family loves this recipe'
 //   }, {
-//     member_id: '3942',
+//     user_id: '3942',
 //     likes: 11,
-//     comment: 'My new favorite snack'
+//     content: 'My new favorite snack'
 //   }]
 // } { // recipe15
 //   name: 'Chocolate dipped bananas',//weight loss, serves 1, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2Fchocolate-pancakes-2002262-x.jpg%3Fitok%3DTKgzsEut&w=800&q=85
@@ -871,13 +913,13 @@ module.exports = () => {
 //     fat: 0.33
 //   }],
 //   reviews: [{
-//     member_id: '8663',
+//     user_id: '8663',
 //     likes: 1,
-//     comment: 'My new favorite snack'
+//     content: 'My new favorite snack'
 //   }, {
-//     member_id: '6349',
+//     user_id: '6349',
 //     likes: 11,
-//     comment: 'Gonna experiment a little bit'
+//     content: 'Gonna experiment a little bit'
 //   }]
 // } { // recipe16
 //   name: 'Breakfast barley with banana and sunflower seeds',//weight loss,serves 1, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Fmedium_16_9%2Fpublic%2Fmigration%2Fimages%2Fslides%2Fbarley-banana-sunflower-seeds-400x400.jpg%3Fitok%3D-5_BSxQo&w=800&q=85
@@ -918,13 +960,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '9283',
+//     user_id: '9283',
 //     likes: 1,
-//     comment: 'Thanks for such an awesome recipe'
+//     content: 'Thanks for such an awesome recipe'
 //   }, {
-//     member_id: '1526',
+//     user_id: '1526',
 //     likes: 11,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }]
 // } { // recipe17
 //   name: 'Creamy avocado cups',//weight loss,serving size: 3 endive cups,image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2Fcreamy-avocado-cups-2013002-x.jpg%3Fitok%3DIleSr7B_&w=800&q=85
@@ -962,13 +1004,13 @@ module.exports = () => {
 //     fat: 0.06
 //   }],
 //   reviews: [{
-//     member_id: '7839',
+//     user_id: '7839',
 //     likes: 1,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }, {
-//     member_id: '2399',
+//     user_id: '2399',
 //     likes: 11,
-//     comment: 'My new favorite snack'
+//     content: 'My new favorite snack'
 //   }]
 // } { // recipe18
 //   name: 'Dark Chocolate & Oat Cluster',//weight loss, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2Fdark-chocolate-oat-clusters-2002350-x.jpg%3Fitok%3DdEmYHHLd&w=800&q=85
@@ -1003,13 +1045,13 @@ module.exports = () => {
 //     fat: 5
 //   }],
 //   reviews: [{//TODO
-//     member_id: 4344'',
+//     user_id: 4344'',
 //     likes: 1,
-//     comment: 'My new favorite snack'
+//     content: 'My new favorite snack'
 //   }, {
-//     member_id: '7575',
+//     user_id: '7575',
 //     likes: 11,
-//     comment: 'Turned out very different than I imagined'
+//     content: 'Turned out very different than I imagined'
 //   }]
 // } { // recipe19
 //   name: 'Avocado Whip',//weight loss, yields: 2 cups, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2FAvocado_Whip-XL.jpg%3Fitok%3Dj125PVHK&w=800&q=85 
@@ -1041,9 +1083,9 @@ module.exports = () => {
 //     fat: 0.02
 //   }],
 //   reviews: [{
-//     member_id: '8364',
+//     user_id: '8364',
 //     likes: 1,
-//     comment: 'Maybe try some other ingredients?'
+//     content: 'Maybe try some other ingredients?'
 //   }]
 // } { // recipe20
 //   name: 'Ham, Sliced Pear & Swiss Sandwich',// weight loss, serves 1, image link: https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-img.health.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Flarge_16_9%2Fpublic%2Fstyles%2Fmain%2Fpublic%2Fham-pear-swiss-1993198-x.jpg%3Fitok%3DIwx9t4op&w=800&q=85
@@ -1089,13 +1131,13 @@ module.exports = () => {
 //     fat: 8
 //   }],
 //   reviews: [{
-//     member_id: '8736',
+//     user_id: '8736',
 //     likes: 1,
-//     comment: 'Thanks for such an awesome recipe'
+//     content: 'Thanks for such an awesome recipe'
 //   }, {
-//     member_id: '2131',
+//     user_id: '2131',
 //     likes: 11,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }]
 // } { // recipe21
 //   name: 'Mushroom Ratatouille',//serves 2, weight loss, image: http://www.weightloss.com.au/assets/Uploads/Recipes/mushroom-ratatouille-lge.jpg
@@ -1148,13 +1190,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '3874',
+//     user_id: '3874',
 //     likes: 1,
-//     comment: 'Didn't like it.. lots of jarring tastes'
+//     content: 'Didn't like it.. lots of jarring tastes'
 //   }, {
-//     member_id: '3844',
+//     user_id: '3844',
 //     likes: 11,
-//     comment: 'My family loves this recipe'
+//     content: 'My family loves this recipe'
 //   }]
 // } { // recipe22
 //   name: 'Cookout for one',//weight loss, serves 1, image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1407-flatbelly3-1522859723.jpg?resize=768:*
@@ -1192,13 +1234,13 @@ module.exports = () => {
 //     fat: 0.24
 //   }],
 //   reviews: [{
-//     member_id: '8364',
+//     user_id: '8364',
 //     likes: 1,
-//     comment: 'Tastes fantastic'
+//     content: 'Tastes fantastic'
 //   }, {
-//     member_id: '8973',
+//     user_id: '8973',
 //     likes: 11,
-//     comment: 'My family loves this recipe'
+//     content: 'My family loves this recipe'
 //   }]
 // } { // recipe23
 //   name: 'Bow ties with spring vegetables',//weight loss, image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/fast-past-6-0-1522252797.jpg?resize=768:*
@@ -1236,13 +1278,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '2732',
+//     user_id: '2732',
 //     likes: 1,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }, {
-//     member_id: '9342',
+//     user_id: '9342',
 //     likes: 11,
-//     comment: 'Turned out much better than I imagined'
+//     content: 'Turned out much better than I imagined'
 //   }]
 // } { // recipe24
 //   name: 'Pizza party',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1312-flat-belly-05-0-1516714475.jpg?resize=768:*
@@ -1282,13 +1324,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '2368',
+//     user_id: '2368',
 //     likes: 1,
-//     comment: 'I've been successful with this, a million times over, exactly as written.'
+//     content: 'I've been successful with this, a million times over, exactly as written.'
 //   }, {
-//     member_id: '4321',
+//     user_id: '4321',
 //     likes: 11,
-//     comment: 'Maybe try some other ingredients?'
+//     content: 'Maybe try some other ingredients?'
 // }]
 // } { // recipe25
 //   name: 'Light lasagna', //image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1301-flat-belly-5-0-1516714434.jpg?resize=768:*
@@ -1332,13 +1374,13 @@ module.exports = () => {
 //     fat: 0.23
 //   }],
 //   reviews: [{
-//     member_id: '3294',
+//     user_id: '3294',
 //     likes: 1,
-//     comment: 'Delicious'
+//     content: 'Delicious'
 //   }, {
-//     member_id: '3972',
+//     user_id: '3972',
 //     likes: 11,
-//     comment: 'This recipe looks fantastic. I really need to try it'
+//     content: 'This recipe looks fantastic. I really need to try it'
 //   }]
 // } { // recipe26
 //   name: 'Chicken with broccoli dip',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1211-flat-belly-5-0-1516714408.jpg?resize=768:*
@@ -1376,13 +1418,13 @@ module.exports = () => {
 //     fat: 1
 //   }],
 //   reviews: [{
-//     member_id: '8237',
+//     user_id: '8237',
 //     likes: 1,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }, {
-//     member_id: '8483',
+//     user_id: '8483',
 //     likes: 11,
-//     comment: 'Thanks for such an awesome recipe'
+//     content: 'Thanks for such an awesome recipe'
 //   }]
 // } { // recipe27
 //   name: 'Cilantro shrimp with squash,chard and wild rice',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1210-flat-belly-05-0-1516714347.jpg?resize=768:* 
@@ -1426,13 +1468,13 @@ module.exports = () => {
 //     fat: 1
 //   }],
 //   reviews: [{
-//     member_id: '2982',
+//     user_id: '2982',
 //     likes: 1,
-//     comment: 'Gonna experiment a little bit'
+//     content: 'Gonna experiment a little bit'
 //   }, {
-//     member_id: '232',
+//     user_id: '232',
 //     likes: 11,
-//     comment: 'My new favorite snack'
+//     content: 'My new favorite snack'
 //   }]
 // } { // recipe28
 //   name: 'Pork with roasted vegetables',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1205-fbd-1516714308.jpg?resize=768:*
@@ -1464,13 +1506,13 @@ module.exports = () => {
 //     fat: 0
 //   }],
 //   reviews: [{
-//     member_id: '1234',
+//     user_id: '1234',
 //     likes: 1,
-//     comment: 'Maybe try some other ingredients?'
+//     content: 'Maybe try some other ingredients?'
 //   }, {
-//     member_id: '2345',
+//     user_id: '2345',
 //     likes: 11,
-//     comment: 'I've been successful with this, a million times over, exactly as written.'
+//     content: 'I've been successful with this, a million times over, exactly as written.'
 //   }]
 // } { // recipe29
 //   name: 'Seared scallops',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1110-fbd-1516714415.jpg?resize=768:*
@@ -1502,13 +1544,13 @@ module.exports = () => {
 //     fat: 0.04
 //   }],
 //   reviews: [{
-//     member_id: '2487',
+//     user_id: '2487',
 //     likes: 1,
-//     comment: 'Intriguing...'
+//     content: 'Intriguing...'
 //   }, {
-//     member_id: '332',
+//     user_id: '332',
 //     likes: 11,
-//     comment: 'Gonna experiment a little bit'
+//     content: 'Gonna experiment a little bit'
 //   }]
 // } { // recipe30
 //   name: 'Chicken parmigiana with penne',//image: https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/766/images/1011-fbd-1516714275.jpg?resize=768:*
@@ -1546,19 +1588,19 @@ module.exports = () => {
 //     fat: 13
 //   }],
 //   reviews: [{
-//     member_id: '4432',
+//     user_id: '4432',
 //     likes: 1,
-//     comment: 'Didn't like it.. lots of jarring tastes'
+//     content: 'Didn't like it.. lots of jarring tastes'
 //   }, {
-//     member_id: '9343',
+//     user_id: '9343',
 //     likes: 11,
-//     comment: 'It's the best!!'
+//     content: 'It's the best!!'
 //   }]
 // }];
 
 // let mealplans = [{
 //   title: 'Weight loss regime',
-//   member_id: 1,
+//   user_id: 1,
 //   time_slots: [{
 //     day: 'MON',
 //     meal_type: 'BREAKFAST',
