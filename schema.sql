@@ -32,6 +32,7 @@ CREATE TABLE Members
   -- not sure if it should have its own table
   gender VARCHAR(1),
   avatar TEXT,
+  token TEXT,
   CONSTRAINT Member_PK            PRIMARY KEY (id),
   CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')),
   CONSTRAINT Email_CHK CHECK
