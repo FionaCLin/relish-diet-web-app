@@ -3,22 +3,22 @@ import bg1 from './images/bg1.jpg';
 import bg2 from './images/bg2.jpg';
 import bg3 from './images/bg3.jpg';
 
+const bg_img = (img) => {
+  return ({
+    backgroundImage: 'url(' + img + ')'
+  })
+}
+
 const Background = (props) => {
   return (
     <div id="background-carousel">
-      <div id="myCarouseldiv" className="carousel slide" data-ride="carousel">
-        <div className="myCarouselsubdiv carousel-inner" >
-          <div className="item active">
-           <img src={bg1}  alt="bg1.jpg" />
-        </div>
-          <div className="item">
-           <img src={bg2}  alt="bg2.jpg" />
-        </div>
-          <div className="item">
-           <img src={bg3}  alt="bg3.jpg" />
+      <div id="myCarousel" className="carousel slide myCarouselDiv" data-ride="carousel">
+        <div className="carousel-inner myCarouselDiv" >
+          <div className="item active bg_login" style={ bg_img(bg1) }></div>
+          <div className="item bg_login" style={ bg_img(bg2) }></div>
+          <div className="item bg_login" style={ bg_img(bg3) }></div>
         </div>
       </div>
-    </div>
     </div >
   )
 }
