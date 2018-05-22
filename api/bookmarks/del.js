@@ -20,8 +20,16 @@ module.exports = (opts) => {
 
     attrs = _.pick(attrs, keys);
 
-    //does the recipe id already exist?
-    //should i add a check here? fk it
+    let checkValid = (next) => {
+      lib.bookmarks.get(
+        attrs.bookmarked_id,
+        (err, res) => {
+          if (err) {
+            return done(new Error('bookmark does not exist'));
+          }
+        }
+      )
+    }
 
     var del = (next) => {
       lib.bookmarks.del(

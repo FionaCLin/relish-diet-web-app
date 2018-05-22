@@ -21,7 +21,7 @@ module.exports = (opts) => {
         user_id,
         (err, res) => {
           if (err) {
-            next(err);
+            return done(new Error('bookmark doees not exist'));
           }
           recipes = res;
         }
