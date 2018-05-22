@@ -3,22 +3,22 @@ import constants from '../constants/';
 import { connect } from 'react-redux';
 import { url_img } from '../constants/globalFunctions';
 
-const Bookmark = (props) => {
+const RecipeList = (props) => {
   return (
     <div className="body_container">
       <div style={{ width: "100%", float: "left" }}>
-        <h3 style={{ float: "left" }}>
-          Bookmarked Recipes
-        </h3>
+        <h3 style={{ float: "left" }}>My Recipes</h3>
+        <button style={{ float: "right" }} type="button" onClick={(e) => props.addRecipeOnClick(e)} className="btn btn-success">Create Recipe</button>
       </div>
       <br />
-      <div style={{ width: "100%", float: "left" }} className="list-group">
+      <div style={{ width: "100%", float: "left" }} className="list-group" >
         {props.recipesList.map((recipe) => {
           return (
-            <a className="list-group-item list-group-item-action recipe_btn" style={{ cursor: "pointer" }}>
-              <button type="button" className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
+            <a className="list-group-item list-group-item-action recipe_btn" key={recipe.id} style={{ cursor: "pointer" }}>
+              <button type="button" onClick={(e) => props.delRecipeOnClick(e, recipe.id)} className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
                 <i className="glyphicon glyphicon-remove"></i>
               </button>
+              <button onClick={(e) => props.editRecipeOnClick(e, recipe.id)} type="button" className="btn btn-success btn-circle" style={{ float: "right", marginTop: "5px", marginRight: "10px" }}><i className="glyphicon glyphicon-edit"></i></button>
               <img onClick={(e) => props.onRecipeClick(e, recipe.id)} src={"./images/" + recipe.image + ".jpg"} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} />
               <div className="recipe_btn_content" style={{ marginTop: "-15px" }}>
                 <h4 onClick={(e) => props.onRecipeClick(e)} style={{ display: "inline" }}>{recipe.name}</h4> <span />
@@ -41,30 +41,38 @@ const Bookmark = (props) => {
                   </table>
                 </div>
               </div>
-            </a>);
+            </a>
+          );
         })}
       </div >
     </div >
   );
 };
 
-// </a>
+
 const mapStateToProps = (state) => {
-  console.log('map state%%%%%%%%%%', state.bookmarks)
+  console.log('map state%%%%%%%%%%', state.recipeList)
   return {
-    recipesList: state.bookmarks[0].recipbookMarks
+    recipesList: state.recipeList[0].myrecipes
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    addRecipeOnClick(e) {
+      console.log('click add my recipe');
+    },
+    editRecipeOnClick(e, id) {
+      console.log('click edit my recipe ', id);
+    },
+    delRecipeOnClick(e, id) {
+      console.log('click delete my recipe', id);
+    },
     onRecipeClick(e, id) {
-      console.log('click Bookmark');
+      console.log('click my recipe');
       // dispatch({type: constants.SELECT_RECIPE, select_id: id});
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bookmark);
-{/*
-   */}
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);

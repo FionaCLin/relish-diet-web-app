@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants/dashboardConst';
 import { connect } from 'react-redux';
 
 const SearchInputForm = (props) => {
@@ -28,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: constants.SEARCH_TEXT_CHANGED, searchtext: e.target.value });
     },
     onSeachClick(e) {
+      console.log('input click');
       dispatch({ type: constants.SEARCH_CLICK, searchtext: e.target.value });
     }
   };

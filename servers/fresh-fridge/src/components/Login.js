@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants/loginConst';
 import Background from './Background';
 import {connect} from 'react-redux';
 

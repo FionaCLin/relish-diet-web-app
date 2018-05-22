@@ -2,20 +2,20 @@ import React from 'react';
 import constants from '../constants/';
 import SearchInputForm from './SearchInputForm';
 import { connect } from 'react-redux';
-import { bg_img } from '../constants/helper.js';
+import { url_img } from '../constants/globalFunctions';
 
 const Dashboard = (props) => {
   console.log('render', props);
   return (
-    <div>
+    <div className="body_container">
       <SearchInputForm />
       {props.recipesList.map((item) => {
         return (
           <div className="dash_img_wrapper" style={{ float: "left" }} >
-            <div style={bg_img(item.image)} onClick={(e) => props.onRecipeClick(e, item.id)} className="dash_img"></div>
-            {/* <a href={"recipe/"+item.id+'.html'} className="overlay"> */}
-            <div className="img_text">{item.name}</div>
-            {/* </a> */}
+            <div style={url_img(item.image)} onClick={(e) => props.onRecipeClick(e, item.id)} className="dash_img"></div>
+            <a href={"recipe/" + item.id + '.html'} className="overlay">
+              <div className="img_text">{item.name}</div>
+            </a>
           </div >
 
         )
