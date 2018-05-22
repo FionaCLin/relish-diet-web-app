@@ -27,30 +27,38 @@ module.exports = (opts) => {
         });
     };
 
-    let appendReply = (next) => {
-      reviews.every((r) => {
+    let getRootReviews = (next) => {
+      reviews.forEach((r) => {
         if (!r.parent) {
-          let target = sorted_reviews.find(x => x.id === r.id);
-          if (!_.isObject(target) || !target.id === r.id) {
-            sorted_reviews.push(r);
-          }
-        } else {
-          let parent = sort_reviews.find(x => (x.id === r.parent));
-          if (_.isObject(parent)) {
-
-            parent.reply.push(r);
-          }
+          sorted_reviews.push(Object.assign({}, r));
         }
       });
-      console.log(sorted_reviews);
-      next()
+      sorted_reviews.forEach((r) => {
+        let index = reviews.indexOf(r);
+        reviews.splice(index, 1);
+      });
+      next();
+    };
+
+    let getReplys = (next) => {
+      reviews.forEach((r) => {
+        console.log(sorted_reviews);
+        let parent = sorted_reviews.find(x => x.id === r.parent);
+        if (!parent.reply) {
+          parent.reply = [];
+        }
+        parent.reply.push(r);
+      });
+      next();
     };
 
     async.series([
       getReviews,
-      appendReply
+      getRootReviews,
+      getReplys
     ], (err) => {
-      done(err, review);
+      console.log(8888888888888888, sorted_reviews);
+      done(err, sorted_reviews);
     });
   };
 };
