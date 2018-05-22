@@ -10,7 +10,7 @@ const Login = (props) => {
       <div id="content-wrapper">
         <div className="container">
           <div className="well login">
-            <h4>Login</h4>
+            <h4>{props.inputValue}</h4>
             <input className="form-control" value={props.inputValue} onChange={props.handleEmailChange} id="emailInput" placeholder="Username" type="text" />
             <input className="form-control" id="emailInput" placeholder="Password" value={props.password} onChange={props.handlePwdChange} type="password" />
             <div onClick={(e) => props.onClickLogin(e, props.inputValue, props)} className="dashboard btn btn-success">
@@ -43,8 +43,7 @@ const mapDispatchToProps = (dispatch) => {
     onClickLogin: (e) => {
       console.log(e.target)
       console.log('login click', 9999999);
-      dispatch({type: constants.LOGIN})
-
+      dispatch({type: constants.LOGIN});
     }
   };
 };

@@ -2,12 +2,7 @@ import React from 'react';
 import bg1 from './images/bg1.jpg';
 import bg2 from './images/bg2.jpg';
 import bg3 from './images/bg3.jpg';
-
-const bg_img = (img) => {
-  return ({
-    backgroundImage: 'url(' + img + ')'
-  })
-}
+import bg_img from '../constants/globalFunctions';
 
 const Background = (props) => {
   return (
