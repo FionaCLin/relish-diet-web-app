@@ -1,6 +1,6 @@
 import React from 'react';
-import { bg_img } from '../constants/helper.js'
 
+import bg_img from '../constants/globalFunctions';
 
 const Background = (props) => {
   return (

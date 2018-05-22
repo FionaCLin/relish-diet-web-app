@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from './Login';
+import MealPlanner from './MealPlanner';
 
 class App extends Component {
   render() {
     return (
       <div className="App" store={this.props.store}>
-      <Login />      
+      <MealPlanner />      
       </div>
     );
   }

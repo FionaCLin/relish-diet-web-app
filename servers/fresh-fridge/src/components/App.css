@@ -78,6 +78,7 @@ label {
     width:1500px;
     margin: 0 auto;
     padding-bottom:50px;
+    padding-top:10px;
 }
 
 
@@ -211,12 +212,11 @@ label {
 }
 
 .planner_img {
-    margin: 0 0;
-    padding: 0 0;
-    width:160px;
-    max-width:160px;
-    height:160px;
-    max-height:160px;
+    margin: 10px;
+    width:130px;
+    max-width:130px;
+    height:130px;
+    max-height:130px;
     background-size:cover;
     background-repeat:no-repeat;
     background-position:center center
@@ -325,4 +325,52 @@ th.vertical{
   height: 100%;
   z-index: 0;
   overflow: hidden;
+}
+
+.mealPlannerTitle {
+  width: 500 px;
+  float:left;
+  margin-bottom:10px;
+}
+
+.mealPlannerDays {
+  text-align:center;
+  width: 10px;
+}
+
+.mealPlannerForm {
+  width:100%;
+  float:left;
+}
+
+.macroDiv {
+  margin-top: -1px;
+}
+
+.macroLeft {
+  float: left;
+}
+
+.macroRight {
+  float: right;
+}
+
+.dropArea {
+  width:230px;
+  float:right;
+}
+
+.dropPanel {
+  height:575px;
+}
+
+.editSubmit {
+  width:115px;
+  float:right;
+  margin-left:5px;
+}
+
+.editCancel {
+  width:110px;
+  float:right;
 }
