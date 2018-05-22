@@ -36,6 +36,11 @@ module.exports = opts => {
             "fat"
         ];
         
+        let checkValid = next => {
+            if (typeof attrs.name != 'string') return done(new Error('name is not a string'));
+            if (typeof attrs.method != 'string') return done(new Error('method is not a string'));
+            if (typeof attrs.duration != 'number') return done(new Error('duration is not a number'));
+        }
         
         let ingredients = [];
         attrs.ingredients.forEach(ingredient => {
@@ -66,7 +71,7 @@ module.exports = opts => {
     **/
         // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
         let ingredientsList = [];
-
+        let macros = [];
         let checkIngredients = next => {
             attrs.ingredients.forEach(key => {
                 lib.ingredients.get(
@@ -125,6 +130,7 @@ module.exports = opts => {
         };
         //TODO: compute the total calories, fat, protein, cabs and upset the recipe
         async.series([
+            checkValid,
             checkUser,
             checkIngredients,
             createRecipe,
