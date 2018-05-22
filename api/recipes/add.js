@@ -42,10 +42,10 @@ module.exports = opts => {
             if (typeof attrs.duration != 'number') return done(new Error('duration is not a number'));
         }
         
-        let ingredients = [];
-        attrs.ingredients.forEach(ingredient => {
-            ingredients.push(_.pick(ingredient, ingKeys));
-        });
+        // let ingredients = [];
+        // attrs.ingredients.forEach(ingredient => {
+        //     ingredients.push(_.pick(ingredient, ingKeys));
+        // });
         
         //check to see if user id is valid in database
         // use lib.users.getbyid
@@ -71,7 +71,11 @@ module.exports = opts => {
     **/
         // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
         let ingredientsList = [];
-        let macros = [];
+        // let totalMacros = [];
+        let totalCals = 0;
+        let totalPro = 0;
+        let totalFat = 0;
+        let totalCarbs = 0;
         let checkIngredients = next => {
             attrs.ingredients.forEach(key => {
                 lib.ingredients.get(
@@ -89,6 +93,13 @@ module.exports = opts => {
                             id: ingredient.ndbno,
                             amount: key.amount
                         });
+                        // totalMacros.push({
+
+                        // });
+                        totalCals += key.calories;
+                        totalCarbs += key.cabs;
+                        totalPro += key.protein;
+                        totalFat += key.fat;
                     });
             });
             next();
@@ -99,6 +110,15 @@ module.exports = opts => {
         For each ingredient_id in the array, make a new ingredients table row
         incs ingredientID, recipe, and amount.
         **/
+
+        //push details to attributes.
+        attrs.push({
+            calories: totalCals,
+            protein: totalPro,
+            cabs: totalCarbs,
+            fat: totalFat
+        })
+
         var createRecipe = next => {
             attrs.at = Date.now();
             lib.recipes.add(user.id, attrs, (err, res) => {
