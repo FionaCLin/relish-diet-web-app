@@ -8,20 +8,19 @@ module.exports = (opts) => {
   var api = opts.api;
 
   /**
-    Returns one recipe that is bookmarked.
-    Not sure if we even need this.
+    Returns list of recipes bookmarked by a user.
   **/
 
-  api.bookmarks.get = (bookmark_id, done) => {
+  api.bookmarks.get = (user_id, done) => {
 
     let recipe;
 
     var get = (next) => {
-      lib.bookmarks.get(
-        bookmark_id,
+      lib.bookmarks.getByUser(
+        user_id,
         (err, res) => {
           if (err) {
-            return done(new Error('bookmark doees not exist'));
+            return done(new Error('bookmarks do not exist'));
           }
           recipe = res;
         }
