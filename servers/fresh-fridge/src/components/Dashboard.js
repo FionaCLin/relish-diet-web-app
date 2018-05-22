@@ -2,14 +2,7 @@ import React from 'react';
 import constants from '../constants/';
 import SearchInputForm from './SearchInputForm';
 import { connect } from 'react-redux';
-
-const bg_img = (img) => {
-  console.log('get image', img)
-  return ({
-    backgroundImage: 'url(./images/' + img + '.jpg)'
-  })
-}
-
+import { bg_img } from '../constants/helper.js';
 
 const Dashboard = (props) => {
   console.log('render', props);
