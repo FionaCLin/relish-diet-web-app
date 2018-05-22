@@ -31,9 +31,6 @@ const initialState = [
       name: 'Berrilicious porridge',
       image: 'porridge'
     }, {
-      name: 'Banana pudding with carmael sauce',
-      image: 'pudding'
-    }, {
       name: 'Sunfried tomato and olives pizza',
       image: 'protein'
     }, {
@@ -42,6 +39,9 @@ const initialState = [
     }, {
       name: 'Banana pudding with carmael sauce',
       image: 'soup'
+    }, {
+      name: 'Banana pudding with carmael sauce',
+      image: 'Banana-Creams'
     }]
   }
 ]
