@@ -40,7 +40,9 @@ module.exports = opts => {
             if (typeof attrs.name != 'string') return done(new Error('name is not a string'));
             if (typeof attrs.method != 'string') return done(new Error('method is not a string'));
             if (typeof attrs.duration != 'number') return done(new Error('duration is not a number'));
-        }
+            console.log("Valid recipe");
+            next();
+        };
         
         // let ingredients = [];
         // attrs.ingredients.forEach(ingredient => {
@@ -57,6 +59,7 @@ module.exports = opts => {
                 if (!res) {
                     return next(new Error("unknown user"));
                 }
+                console.log("user is fine");
                 user = res;
                 next(err);
             });
@@ -72,12 +75,17 @@ module.exports = opts => {
         // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
         let ingredientsList = [];
         // let totalMacros = [];
-        let totalCals = 0;
-        let totalPro = 0;
-        let totalFat = 0;
-        let totalCarbs = 0;
+        
+    
         let checkIngredients = next => {
+            // console.log("got here");    
+            let totalCals = 0;
+            let totalPro = 0;
+            let totalFat = 0;
+            let totalCarbs = 0;                   
             attrs.ingredients.forEach(key => {
+                // console.log(key);
+                
                 lib.ingredients.get(
                     key.ndbno,
                     (err, ingredient) => {
@@ -87,21 +95,28 @@ module.exports = opts => {
                                 (err, res) => {
                                     ingredient = res;
                                 });
+                                
                         }
+                        
                         //TO-DO: maybe calculate the sub total here 
                         ingredientsList.push({
                             id: ingredient.ndbno,
                             amount: key.amount
                         });
-                        // totalMacros.push({
-
-                        // });
-                        totalCals += key.calories;
-                        totalCarbs += key.cabs;
-                        totalPro += key.protein;
-                        totalFat += key.fat;
                     });
+                    console.log("amount: "+key.amount);
+                    console.log("calories: "+key.calories);
+                totalCals += key.calories * key.amount;
+                totalCarbs += key.cabs * key.amount;
+                totalPro += key.protein * key.amount;
+                totalFat += key.fat * key.amount;
             });
+            // attrs.push({calories: totalCals});
+            console.log("totalCals: "+totalCals);
+            attrs.calories = totalCals;
+            attrs.cabs = totalCarbs;
+            attrs.protein = totalPro;
+            attrs.fat = totalFat;
             next();
         };
         //now i have array for all id of all ingredients. and amounts.
@@ -112,12 +127,8 @@ module.exports = opts => {
         **/
 
         //push details to attributes.
-        attrs.push({
-            calories: totalCals,
-            protein: totalPro,
-            cabs: totalCarbs,
-            fat: totalFat
-        })
+      
+        // console.log(totalCals);
 
         var createRecipe = next => {
             attrs.at = Date.now();
