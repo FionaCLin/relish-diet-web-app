@@ -34,11 +34,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleEmailChange: (e) => {
       console.log('input change');
-      dispatch({type: constants.LOGIN_EMAIL_TEXT_CHANGED, emailtext: e.target.value});
+      dispatch({type: constants.login.LOGIN_EMAIL_TEXT_CHANGED, emailtext: e.target.value});
     },
     handlePwdChange: (e) => {
       console.log('input change', e.target.value);
-      dispatch({type: constants.LOGIN_PWD_TEXT_CHANGED, pwdtext: e.target.value});
+      dispatch({type: constants.login.LOGIN_PWD_TEXT_CHANGED, pwdtext: e.target.value});
     },
     onClickLogin: (e) => {
       console.log(e.target)

@@ -1,7 +1,7 @@
+import login from './loginConst';
+import mealPlanner from './mealPlannerConst';
+
 export default {
-  LOGIN: 'LOGIN',
-  LOGIN_EMAIL_TEXT_CHANGED: 'LOGIN_EMAIL_TEXT_CHANGED',
-  LOGIN_PWD_TEXT_CHANGED: 'LOGIN_PWD_TEXT_CHANGED',
-  ADD_MEAL_PLANNER: 'ADD_MEAL_PLANNER',
-  EDIT_MEAL_PLANNER: 'EDIT_MEAL_PLANNER',
+    login,
+    mealPlanner  
 };
