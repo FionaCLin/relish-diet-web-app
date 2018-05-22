@@ -3,10 +3,11 @@ import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import recipe from './images/recipe.jpg';
+import { isNull } from 'util';
 
 const daysOfWeek = ['\xa0\xa0\xa0', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const macroNutrients = ['Intake', 'Carbs', 'Protein', 'Fats', 'Sodium'];
-const mealTImes = ['BREKKIE', '\xa0LUNCH', 'DINNER']
+const mealTimes = ['BREKKIE', '\xa0LUNCH', 'DINNER']
 
 const recipeInfo = [
     {
@@ -24,7 +25,7 @@ const recipeInfo = [
     {
         id: 200,
         name: 'Pistachio and figs cake',
-        img: 'images/sandwich.jpg',
+        img: 'images/cake.jpg',
         macros: {
             Intake: 10,
             Carbs: 20,
@@ -71,177 +72,145 @@ const recipeInfo = [
     }
 ];
 
-const dailyMeals = [
-    [null, null, null],
-    [100, null, 400],
-    [null, 200, null],
-    [null, 200, null],
-    [400, null, 500],
-    [null, null, null],
-    [null, null, 100]
-]
+class MealPlanner extends React.Component {
+    constructor(props){
+        super(props)
+        this.dragOut = true;
+        this.dragOutNum = null;
+        this.state = {
+            name: "Bodybuilding plan (PART A)",
+            dailyMeals : [
+                [null, null, null],
+                [100, null, 400],
+                [null, 200, null],
+                [null, 200, null],
+                [400, null, 500],
+                [null, null, null],
+                [null, null, 100]
+            ]
+        }
+    }
 
-const MealPlanner = (props) => {
-  return (
-    <div class="body_container">
-        <h4>Edit Meal Plan</h4>
-        <div class="form-group mealPlannerForm">
-            <input type="text" class="form-control mealPlannerTitle" value="Bodybuilding plan (PART A)" placeholder="Title"></input>
-        </div>
-        <p></p>
-        <div class="macroLeft">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        {
-                            daysOfWeek.map((item) => {
-                                return <th scope="col" class="mealPlannerDays">{item}</th>
-                            })
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"><div class="vertical">BREKKIE</div></th>
-                        <td style={ bg_img('./images/recipe.jpg') } class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td style={ bg_img('./images/paella.jpg') } class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><div class="vertical">&nbsp;LUNCH</div></th>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img_wrapper">
-                        <div style={ bg_img('./images/cake.jpg') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text">Pistachio and figs cake</div>
-                            </div>
-                        </td>
-                        <td style={ bg_img('./images/cake.jpg') } class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><div class="vertical">DINNER</div></th>
-                        <td class="planner_img"></td>
-                        <td style={ bg_img('./images/paella.jpg') } class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td style={ bg_img('./images/pudding.png') } class="planner_img"></td>
-                        <td class="planner_img"></td>
-                        <td style={ bg_img('./images/recipe.jpg') } class="planner_img"></td>
-                    </tr>
-                    <tr>
-                    <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">1250 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">900 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">1111 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">890 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">991 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">790 kJ</div></td>
-                        <td class="macro_img"><div class="macroLeft">Intake</div><div class="macroRight">1002 kJ</div></td>
-                    </tr>
-                    <tr>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">151 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">123 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">145 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">190 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">321 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">120 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Carbs</div><div class="macroRight">118 g</div></td>
-                    </tr>
-                    <tr>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">89 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">40 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">67 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">41 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">78 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">76 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Protein</div><div class="macroRight">81 g</div></td>
-                    </tr>
-                    <tr>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">32 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">25 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">63 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">22 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">65 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">10 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Fats</div><div class="macroRight">21 g</div></td>
-                    </tr>
-                    <tr>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">10 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">11 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">9 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">8 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">6 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">4 g</div></td>
-                        <td class="macro_img"><div class="macroLeft">Sodium</div><div class="macroRight">9 g</div></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    onDragStart = (e,v) =>{
+        e.dataTransfer.dropEffect = "move";
+        e.dataTransfer.setData( "text/plain", v )
+    }
 
-        <div class="dropArea">
-            <div class="panel panel-default">
-                <div class="panel-heading">Recipes</div>
-                <div class="panel-body pre-scrollable dropPanel">
-                    <div class="list-group">
-                        <div class="list-group-item list-group-item-action planner_img_wrapper">
-                            <div style={ bg_img('./images/recipe.jpg') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text" draggagble>Popeye toast with eggs</div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action planner_img_wrapper">
-                            <div style={ bg_img('./images/cake.jpg') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text">Pistachio and figs cake</div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action planner_img_wrapper">
-                            <div style={ bg_img('./images/sandwich.jpg') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text">Toasted stacked foccacia sandwich</div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action planner_img_wrapper">
-                            <div style={ bg_img('./images/paella.jpg') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text">Muscle and chives paella</div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action planner_img_wrapper">
-                            <div style={ bg_img('./images/pudding.png') } class="planner_img"></div>
-                            <div class="overlay">
-                                <div class="planner_img_text">Banana pudding with caramel sauce</div>
+    onDragEnd = (e, v) => {
+        e.preventDefault();
+        if (this.dragOut || (!this.dragOut && this.dragOutNum !== v)) {
+            console.log('trigger');
+            let { containers } = this.state;
+            containers[v].input = null;
+            this.setState({ containers })
+        }
+        this.dragOut = true;
+        this.dragOutNum = null;
+    }
+    
+    allowDrop = ev =>{
+        ev.preventDefault();
+    }
+    
+    onDrop = (e,v) => {
+        e.preventDefault();
+        this.dragOut = false;
+        this.dragOutNum = v;
+        const data = e.dataTransfer.getData("text/plain");
+        let { containers } = this.state;
+        containers[v].input = parseInt(data, 10);
+        this.setState({ containers });
+        console.log(v);
+    }
+
+    getRecipe = (id) => {
+        return recipeInfo.find(x => x.id == id);
+    }
+
+    calculateNutrient = (day, nutrient) => {
+        let nutrientValue = 0;
+        day.forEach(slot => {
+            nutrientValue += !isNull(slot) ? this.getRecipe(slot).macros[nutrient] : 0; 
+        });
+        return nutrientValue;
+    }
+
+    render() {
+        const { name, dailyMeals } = this.state;
+
+        return (
+            <div class="body_container">
+                <h4>Edit Meal Plan</h4>
+                <div class="form-group mealPlannerForm">
+                    <input type="text" class="form-control mealPlannerTitle" value={ name } placeholder="Title"></input>
+                </div>
+                <p></p>
+                <div class="macroLeft">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                {
+                                    daysOfWeek.map((item) => {
+                                        return <th scope="col" class="mealPlannerDays">{item}</th>
+                                    })
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                mealTimes.map((time, key) => {
+                                    let timeSlots = dailyMeals.map(day => {
+                                        let slot = !isNull(day[key]) ? bg_img(this.getRecipe(day[key]).img) : null;
+                                        return <td style={ slot } class="planner_img"></td>
+                                    });
+                                    return <tr>
+                                        <th scope="row"><div class="vertical">{time}</div></th>
+                                        { timeSlots }
+                                    </tr>
+                                })
+                            }
+                            {
+                                macroNutrients.map((nutrient) => {
+                                    let macroHead = (nutrient == 'Intake') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
+                                    let measure = (nutrient == 'Intake') ? 'kj' : 'g';
+                                    let timeSlots = dailyMeals.map(day => {
+                                        return <td class="macro_img">
+                                                    <div class="macroLeft">{ nutrient }</div>
+                                                    <div class="macroRight">{ this.calculateNutrient(day, nutrient) } { measure }</div>
+                                                </td>
+                                    })
+                                    return <tr>{ macroHead }{ timeSlots }</tr>
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        
+                <div class="dropArea">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Recipes</div>
+                        <div class="panel-body pre-scrollable dropPanel">
+                            <div class="list-group">
+                                {
+                                    recipeInfo.map(recipe => {
+                                        return <div class="list-group-item list-group-item-action planner_img_wrapper">
+                                                    <div draggable="true" style={ bg_img(recipe.img) } class="planner_img"></div>
+                                                </div>
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
+                    <br></br>
+                    <div class="macroRight">
+                        <button onclick="location.href='my_planners.html';" class="btn btn-success editSubmit">Edit</button>
+                        <button onclick="location.href='my_planners.html';" class="btn btn-secondary editCancel">Cancel</button>
+                    </div>
                 </div>
             </div>
-            <br></br>
-            <div class="macroRight">
-                <button onclick="location.href='my_planners.html';" class="btn btn-success editSubmit">Edit</button>
-                <button onclick="location.href='my_planners.html';" class="btn btn-secondary editCancel">Cancel</button>
-            </div>
-        </div>
-    </div>
-  )
+          )
+    }
+
 }
 
-const mapStateToProps = (state) => {
-  return {
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MealPlanner);
+export default MealPlanner;
