@@ -16,23 +16,32 @@ const initialState = [
       name: 'Pistachio and figs cake',
       image: 'cake'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Tender salmon on bed of salad',
+      image: 'chicken'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Meatball migoreng',
+      image: 'meatball'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Tomato and basil pasta',
+      image: 'paella'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Sunfried tomato and olives pizza',
+      image: 'pizza'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Berrilicious porridge',
+      image: 'porridge'
     }, {
-      name: 'Caramel Apple',
-      image: 'apple'
+      name: 'Banana pudding with carmael sauce',
+      image: 'pudding'
+    }, {
+      name: 'Sunfried tomato and olives pizza',
+      image: 'protein'
+    }, {
+      name: 'Berrilicious porridge',
+      image: 'sandwich'
+    }, {
+      name: 'Banana pudding with carmael sauce',
+      image: 'soup'
     }]
   }
 ]
