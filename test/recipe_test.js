@@ -123,7 +123,6 @@ exports.lib_recipes = {
   //       });
   //   }, test.done);
   // },
-<<<<<<< HEAD
   'add recipe1 reviews': (test) => {
     async.forEach(
       recipes[0].reviews,
@@ -173,23 +172,7 @@ exports.lib_recipes = {
         test.equal(res.ingredients.length, recipes[0].ingredients.length);
         test.done()
       })
-  }
-=======
-  // 'add recipe1 reviews': (test) => {
-  //   async.forEach(
-  //     recipes[0].reviews,
-  //     (r, cb) => {
-  //       r.recipe_id = recipes[0].id;
-  //       r.memberno = r.user_id;
-  //       api.reviews.add(
-  //         r,
-  //         (err, res) => {
-  //           r.id = res.id;
-  //           cb();
-  //         });
-  //     }, test.done);
-  // },
->>>>>>> 46b1b5de505b3ca50c58237ba514888112c7ab65
+  },
   // 'add reply to recipe1 reviews': (test) => {
   //   // let review = recipes[0].reviews[0];
   //   let addReply = (recipe_id, review, done) => {
@@ -211,7 +194,6 @@ exports.lib_recipes = {
   //   async.forEach(recipes[0].reviews, (review) => {
   //     addReply(recipes[0].id, review, test.done);
   //   }, test.done);
-<<<<<<< HEAD
   //   // async.forEach(review.reply, (r, cb) => {
   //   //   r.recipe_id = recipes[0].id;
   //   //   r.parent = review.id;
@@ -234,29 +216,6 @@ exports.lib_recipes = {
         test.done();
       })
   },
-=======
-    // async.forEach(review.reply, (r, cb) => {
-    //   r.recipe_id = recipes[0].id;
-    //   r.parent = review.id;
-    //   lib.reviews.add(
-    //     r,
-    //     (err, res) => {
-    //       r.id = res.id;
-    //       reviewsCount++;
-    //       cb();
-    //     });
-    // }, test.done);
-  // },
-  // 'get reviews by recipes': (test) => {
-  //   api.reviews.getByRecipe(
-  //     recipes[0].id,
-  //     (err, res) => {
-  //       console.log(res, err);
-  //       // test.equal(res.length, reviewsCount);
-  //       test.done();
-  //     })
-  // },
->>>>>>> 46b1b5de505b3ca50c58237ba514888112c7ab65
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
   //     lib.recipes.addIngredient(
