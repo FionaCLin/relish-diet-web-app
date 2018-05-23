@@ -77,6 +77,9 @@ module.exports = (opts) => {
 
     //needs to edit ingredients if necessary (only amount can be edited)
     //needs to add/delete ingredients
+
+
+    // if ingredient is not already there, add.
     let checkIngredients = next => {
       let totalCals = 0;
       let totalPro = 0;
@@ -114,6 +117,16 @@ module.exports = (opts) => {
       attrs.fat = totalFat;
       next();
     };
+
+
+      // add new ingredients
+    // for each ingredient in the new list, check it's id against : get recipe_ingredient list for this recipe.
+
+    // remove unused ingredients.
+    // for each ingredient in the recipe_ingredient list, check it's id agianst the ingredients in the new_ingredients list.
+    // if the ingredient id is not found, remove.
+
+
 
 
 

@@ -149,7 +149,7 @@ exports.lib_recipes = {
   },
   'add recipe ingredient': test => {
     recipes[0].ingredients.push(ingredient_rm);
-    api.recipe.set(
+    api.recipes.set(
       recipes[0].id,
       recipes[0],
       (err, res) => {
@@ -162,7 +162,7 @@ exports.lib_recipes = {
     recipes[0].name = recipes[0].name + ' yummy';
     recipes[0].method = recipes[0].method + 'do it twice';
     recipes[0].ingredients.push(ingredient_rm);
-    api.recipe.set(
+    api.recipes.set(
       recipes[0].id,
       recipes[0],
       (err, res) => {
