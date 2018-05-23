@@ -136,45 +136,46 @@ exports.lib_recipes = {
           });
       }, test.done);
   },
-  'add reply to recipe1 reviews': (test) => {
-    // let review = recipes[0].reviews[0];
-    let addReply = (recipe_id, review, done) => {
-      if (review.reply && review.reply.length != 0) {
-        async.forEach(review.reply, (r, cb) => {
-          r.recipe_id = recipe_id;
-          r.parent = review.id;
-          r.memberno = review.user_id;
-          api.reviews.add(
-            r,
-            (err, res) => {
-              r.id = res.id;
-              addReply(recipe_id, r, done);
-              cb();
-            });
-        }, done);
-      }; 
-    };
-    async.forEach(recipes[0].reviews, (review) => {
-      addReply(recipes[0].id, review, test.done);
-    }, test.done);
-    // async.forEach(review.reply, (r, cb) => {
-    //   r.recipe_id = recipes[0].id;
-    //   r.parent = review.id;
-    //   lib.reviews.add(
-    //     r,
-    //     (err, res) => {
-    //       r.id = res.id;
-    //       reviewsCount++;
-    //       cb();
-    //     });
-    // }, test.done);
-  },
-  'get reviews by recipes': (test) => {
-    api.reviews.getByRecipe(
-      recipes[0].id,
+  // 'add reply to recipe1 reviews': (test) => {
+  //   // let review = recipes[0].reviews[0];
+  //   let addReply = (recipe_id, review, done) => {
+  //     if (review.reply && review.reply.length != 0) {
+  //       async.forEach(review.reply, (r, cb) => {
+  //         r.recipe_id = recipe_id;
+  //         r.parent = review.id;
+  //         r.memberno = review.user_id;
+  //         api.reviews.add(
+  //           r,
+  //           (err, res) => {
+  //             r.id = res.id;
+  //             addReply(recipe_id, r, done);
+  //             cb();
+  //           });
+  //       }, done);
+  //     }; 
+  //   };
+  //   async.forEach(recipes[0].reviews, (review) => {
+  //     addReply(recipes[0].id, review, test.done);
+  //   }, test.done);
+  //   // async.forEach(review.reply, (r, cb) => {
+  //   //   r.recipe_id = recipes[0].id;
+  //   //   r.parent = review.id;
+  //   //   lib.reviews.add(
+  //   //     r,
+  //   //     (err, res) => {
+  //   //       r.id = res.id;
+  //   //       reviewsCount++;
+  //   //       cb();
+  //   //     });
+  //   // }, test.done);
+  // },
+  'set reviews by recipes': (test) => {
+    recipes[0].reviews[0].likes = 10;
+    recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
+    api.reviews.set(
+      recipes[0].reviews[0],
       (err, res) => {
-        console.log(res, err);
-        // test.equal(res.length, reviewsCount);
+        test.equal(res.likes, recipes[0].reviews[0].likes);
         test.done();
       })
   },
