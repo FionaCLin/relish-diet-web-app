@@ -189,7 +189,7 @@ class MealPlanner extends React.Component {
                                 constants.mealPlanner.mealTimes.map((time, mealKey) => {
                                     let timeSlots = dailyMeals.map((day, dayKey) => {
                                         if (!isNull(day[mealKey])) {
-                                            return <td style={bg_img(this.getRecipe(day[mealKey]).img)} class="planner_img"
+                                            return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
                                                         draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
                                                         onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
                                                         onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
@@ -240,7 +240,7 @@ class MealPlanner extends React.Component {
                                                 })
                                                 return <div class="list-group-item list-group-item-action planner_img_wrapper">
                                                             <div class="macroInfo btn-xs btn-default" onMouseEnter={ (e) => this.macroOver(e, recipe.id) } onMouseLeave={(e) => this.macroOut(e)}><span class="glyphicon glyphicon-signal" aria-hidden="true" ></span></div>
-                                                            <div class="planner_img" draggable="true" style={ bg_img(recipe.img) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
+                                                            <div class="planner_img" draggable="true" style={ bg_img(recipe.img[0]) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
                                                             <div class="overlay">
                                                                 <div class="planner_img_text" centred>
                                                                     { (showMacro === recipe.id) ? <table>{macros}</table> : recipe.name } 

@@ -1,31 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
 #background-carousel{
 	position:fixed;
@@ -78,7 +50,7 @@ label {
     width:1500px;
     margin: 0 auto;
     padding-bottom:50px;
-    padding-top:10px;
+    padding-top:20px;
 }
 
 
@@ -438,4 +410,27 @@ th.vertical{
   float:left;
   margin-bottom:10px;
   margin-top: 20px;
+}
+
+.ingredients {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.recipeContent {
+  float: left;
+  width: 70%;
+  padding-right: 20px;
+}
+
+.recipeTitle {
+  margin-bottom: 10px;
+  float: left;
+  width: 100%;
+}
+
+.bookmarkBtn {
+  float: right;
+  font-size: small;
+  width: 150px;
 }

@@ -12,14 +12,12 @@ class Dashboard extends React.Component {
             <SearchInputForm />
             {this.props.recipeInfo.map((item) => {
               return (
-                <div className="dash_img_wrapper" style={{ float: "left" }} >
-                  <div style={bg_img(item.img)} className="dash_img"></div>
-                  <Link to={"/recipe/" + item.id}>
+                <Link to={"recipe/" + item.id} className="dash_img_wrapper" style={{ float: "left" }} >
+                  <div style={bg_img(item.img[0])} className="dash_img"></div>
                     <div className="overlay">
                       <div className="img_text">{item.name}</div>
                     </div>
                   </Link>
-                </div >
               )
             })}
           </div>
