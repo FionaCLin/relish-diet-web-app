@@ -11,18 +11,18 @@ module.exports = (opts) => {
   //remove the bookmarked recipe from the user's bookmarked list.
   //should it be done according to userID+recipeID vs bookmarkedID?
 
-  api.bookmarks.del = (attrs, done) => {
+  api.bookmarks.del = (bookmarked_id, done) => {
 
     // whitelist attrs
-    var keys = [
-      'bookmarked_id'
-    ];
+    // var keys = [
+    //   'bookmarked_id'
+    // ];
 
-    attrs = _.pick(attrs, keys);
+    // attrs = _.pick(attrs, keys);
 
     let checkValid = (next) => {
       lib.bookmarks.get(
-        attrs.bookmarked_id,
+        bookmarked_id,
         (err, res) => {
           if (err) {
             return done(new Error('bookmark does not exist'));
@@ -33,7 +33,7 @@ module.exports = (opts) => {
 
     var del = (next) => {
       lib.bookmarks.del(
-        attrs.bookmarked_id,
+        bookmarked_id,
         (err, res) => {
           if (err) {
             next(err);
@@ -45,8 +45,8 @@ module.exports = (opts) => {
 
     async.series([
       del
-    ], (err) => {
-      done(err, user);
+    ], (err, res) => {
+      done(err, res);
     });
   };
 };
