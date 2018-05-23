@@ -122,41 +122,41 @@ exports.lib_recipes = {
   //       });
   //   }, test.done);
   // },
-  'add recipe1 reviews': (test) => {
-    async.forEach(
-      recipes[0].reviews,
-      (r, cb) => {
-        r.recipe_id = recipes[0].id;
-        r.memberno = r.user_id;
-        api.reviews.add(
-          r,
-          (err, res) => {
-            r.id = res.id;
-            cb();
-          });
-      }, test.done);
-  },
-  'add reply to recipe1 reviews': (test) => {
-    // let review = recipes[0].reviews[0];
-    let addReply = (recipe_id, review, done) => {
-      if (review.reply && review.reply.length != 0) {
-        async.forEach(review.reply, (r, cb) => {
-          r.recipe_id = recipe_id;
-          r.parent = review.id;
-          r.memberno = review.user_id;
-          api.reviews.add(
-            r,
-            (err, res) => {
-              r.id = res.id;
-              addReply(recipe_id, r, done);
-              cb();
-            });
-        }, done);
-      }; 
-    };
-    async.forEach(recipes[0].reviews, (review) => {
-      addReply(recipes[0].id, review, test.done);
-    }, test.done);
+  // 'add recipe1 reviews': (test) => {
+  //   async.forEach(
+  //     recipes[0].reviews,
+  //     (r, cb) => {
+  //       r.recipe_id = recipes[0].id;
+  //       r.memberno = r.user_id;
+  //       api.reviews.add(
+  //         r,
+  //         (err, res) => {
+  //           r.id = res.id;
+  //           cb();
+  //         });
+  //     }, test.done);
+  // },
+  // 'add reply to recipe1 reviews': (test) => {
+  //   // let review = recipes[0].reviews[0];
+  //   let addReply = (recipe_id, review, done) => {
+  //     if (review.reply && review.reply.length != 0) {
+  //       async.forEach(review.reply, (r, cb) => {
+  //         r.recipe_id = recipe_id;
+  //         r.parent = review.id;
+  //         r.memberno = review.user_id;
+  //         api.reviews.add(
+  //           r,
+  //           (err, res) => {
+  //             r.id = res.id;
+  //             addReply(recipe_id, r, done);
+  //             cb();
+  //           });
+  //       }, done);
+  //     }; 
+  //   };
+  //   async.forEach(recipes[0].reviews, (review) => {
+  //     addReply(recipes[0].id, review, test.done);
+  //   }, test.done);
     // async.forEach(review.reply, (r, cb) => {
     //   r.recipe_id = recipes[0].id;
     //   r.parent = review.id;
@@ -168,16 +168,16 @@ exports.lib_recipes = {
     //       cb();
     //     });
     // }, test.done);
-  },
-  'get reviews by recipes': (test) => {
-    api.reviews.getByRecipe(
-      recipes[0].id,
-      (err, res) => {
-        console.log(res, err);
-        // test.equal(res.length, reviewsCount);
-        test.done();
-      })
-  },
+  // },
+  // 'get reviews by recipes': (test) => {
+  //   api.reviews.getByRecipe(
+  //     recipes[0].id,
+  //     (err, res) => {
+  //       console.log(res, err);
+  //       // test.equal(res.length, reviewsCount);
+  //       test.done();
+  //     })
+  // },
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
   //     lib.recipes.addIngredient(
@@ -215,46 +215,49 @@ exports.lib_recipes = {
   //       test.done();
   //     });
   // },
-  // 'get 0 bookmark by user2': (test) => {
-  //   api.bookmarks.getByUser(
-  //     users[1].id,
-  //     (err, res) => {
-  //       test.ok(!(err instanceof Error));
-  //       test.equal(res.length, 0);
-  //       test.done();
-  //     });
-  // },
-  // 'bookmark recipes by user2': (test) => {
-  //   async.forEach(recipes, (r, cb) => {
-  //     api.bookmarks.add(
-  //       users[1].id,
-  //       r.id,
-  //       (err, res) => {
-  //         test.ok(!(err instanceof Error));
-  //         cb();
-  //       });
-  //   }, (err, res) => {
-  //     api.bookmarks.getByUser(
-  //       users[1].id,
-  //       (err, res) => {
-  //         test.equal(res.length, 2);
-  //         test.done()
-  //       }
-  //     )
-  //   });
-  // },
-  // 'delete bookmark by id': (test) => {
-  //   api.bookmarks.del(
-  //     1,
-  //     (err, res) => {
-  //       lib.bookmarks.get(
-  //         1,
-  //         (err, res) => {
-  //           test.equal(res.length, 0);
-  //           test.done();
-  //         })
-  //     });
-  // },
+  'get 0 bookmark by user2': (test) => {
+    api.bookmarks.getByUser(
+      users[1].id,
+      (err, res) => {
+        test.ok(!(err instanceof Error));
+        test.equal(res.length, 0);
+        test.done();
+      });
+  },
+  'bookmark recipes by user2': (test) => {
+    async.forEach(recipes, (r, cb) => {
+      api.bookmarks.add(
+        {recipe_id: r.id,
+          user_id: users[1].id   
+        },
+        (err, res) => {
+          console.log(err);
+          
+          test.ok(!(err instanceof Error));
+          cb();
+        });
+    }, (err, res) => {
+      api.bookmarks.getByUser(
+        users[1].id,
+        (err, res) => {
+          // test.equal(res.length, 2);
+          test.done()
+        }
+      )
+    });
+  },
+  'delete bookmark by id': (test) => {
+    api.bookmarks.del(
+      1,
+      (err, res) => {
+        lib.bookmarks.get(
+          1,
+          (err, res) => {
+            test.equal(res.length, 0);
+            test.done();
+          })
+      });
+  },
   'quit-lib': (test) => {
     lib.quit(test.done);
   },
