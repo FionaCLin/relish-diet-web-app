@@ -24,7 +24,6 @@ class App extends Component {
           <Route path="/bookmark" exact stric component={Bookmark} />
           <Route path="/recipes" exact stric component={RecipeList} />
           <Route path="/recipe" component={RecipePage} />
-          <Route path="/mealplan" exact stric component={MealPlanner} />
         </div>
       </Router>
     );
