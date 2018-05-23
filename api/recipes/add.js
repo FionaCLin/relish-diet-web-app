@@ -40,7 +40,6 @@ module.exports = opts => {
             if (typeof attrs.name != 'string') return done(new Error('name is not a string'));
             if (typeof attrs.method != 'string') return done(new Error('method is not a string'));
             if (typeof attrs.duration != 'number') return done(new Error('duration is not a number'));
-            console.log("Valid recipe");
             next();
         };
         
@@ -59,7 +58,6 @@ module.exports = opts => {
                 if (!res) {
                     return next(new Error("unknown user"));
                 }
-                console.log("user is fine");
                 user = res;
                 next(err);
             });
@@ -104,15 +102,11 @@ module.exports = opts => {
                             amount: key.amount
                         });
                     });
-                    console.log("amount: "+key.amount);
-                    console.log("calories: "+key.calories);
                 totalCals += key.calories * key.amount;
                 totalCarbs += key.cabs * key.amount;
                 totalPro += key.protein * key.amount;
                 totalFat += key.fat * key.amount;
             });
-            // attrs.push({calories: totalCals});
-            console.log("totalCals: "+totalCals);
             attrs.calories = totalCals;
             attrs.cabs = totalCarbs;
             attrs.protein = totalPro;
