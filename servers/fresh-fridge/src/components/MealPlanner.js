@@ -24,6 +24,8 @@ const recipeList = [
     }
 ];
 
+const goal = [1, 2, 3, 4, 5];
+
 const recipeInfo = [
     {
         id: 100,
@@ -104,7 +106,14 @@ class MealPlanner extends React.Component {
                 [400, null, 500],
                 [null, null, null],
                 [null, null, 100]
-            ]
+            ],
+            macros: {
+                Intake: 0,
+                Carbs: 0,
+                Protein: 0,
+                Fats: 0,
+                Sodium: 0
+            }
         }
     }
 
@@ -115,7 +124,7 @@ class MealPlanner extends React.Component {
 
     onDragEnd = (e, v) => {
         e.preventDefault();
-        if (this.dragOut || (!this.dragOut && !(this.dragOutNum[0] == v[0] && this.dragOutNum[1] == v[1]))) {
+        if (this.dragOut || (!this.dragOut && !(this.dragOutNum[0] === v[0] && this.dragOutNum[1] === v[1]))) {
             let { dailyMeals } = this.state;
             dailyMeals[v[0]][v[1]] = null;
             this.setState({ dailyMeals });
@@ -140,7 +149,7 @@ class MealPlanner extends React.Component {
     }
 
     getRecipe = (id) => {
-        return recipeInfo.find(x => x.id == id);
+        return recipeInfo.find(x => x.id === id);
     }
 
     calculateNutrient = (day, nutrient) => {
@@ -152,7 +161,7 @@ class MealPlanner extends React.Component {
     }
 
     getMeasurement = (nutrient) => {
-        return ((nutrient == 'Intake') ? 'kj' : 'g');
+        return ((nutrient === 'Intake') ? 'kCal' : 'g');
     }
 
     cancel = () => {
@@ -168,7 +177,6 @@ class MealPlanner extends React.Component {
         let { showMacro } = this.state;
         showMacro = id;
         this.setState({showMacro});
-        console.log('enter');
     }
 
     macroOut = (e) => {
@@ -176,7 +184,6 @@ class MealPlanner extends React.Component {
         let { showMacro } = this.state;
         showMacro = null;
         this.setState({ showMacro });
-        console.log('out');
     }
 
     changeRecipe = (e, recipe) => {
@@ -186,14 +193,55 @@ class MealPlanner extends React.Component {
         this.setState({currRecipes});
     }
 
+    calculateOverall = (nutrient) => {
+        let overallNutrient = 0;
+        this.state.dailyMeals.map((day) => {
+            overallNutrient += this.calculateNutrient(day, nutrient);
+        })
+        this.state.macros[nutrient] = overallNutrient;
+        return overallNutrient;
+    }
+
     render() {
         const { showMacro, currRecipes, name, dailyMeals } = this.state;
 
         return (
             <div class="body_container">
-                <h4>Edit Meal Plan</h4>
                 <div class="form-group mealPlannerForm">
-                    <input type="text" class="form-control mealPlannerTitle" value={ name } placeholder="Title"></input>
+                        <div class="mealPlanHeader">
+                        <h4>Edit Meal Plan</h4>
+                        <input type="text" class="form-control mealPlannerTitle" value={ name } placeholder="Title"></input>
+                        </div>
+                        <div class="panel panel-default overallPlannerMacros" style={{marginTop:10}}>
+                            <table class="table table-sm table-bordered table-striped" style={{textAlign: 'center'}}>
+                                <tbody>
+                                    <tr class="overallMacroRow">
+                                        <td class="overallMacroRow"></td>
+                                        <td class="overallMacroRow">Intake (kJ)</td>
+                                        <td class="overallMacroRow">Carbs (g)</td>
+                                        <td class="overallMacroRow">Protein (g)</td>
+                                        <td class="overallMacroRow">Fats (g)</td>
+                                        <td class="overallMacroRow">Sodium (g)</td>
+                                    </tr>
+                                    <tr class="overallMacroRow">
+                                        <td class="overallMacroRow" style={{textAlign: 'left'}}>Goal</td>
+                                        {
+                                            goal.map((item) => {
+                                                return <td class="macro_col overallMacroRow">{ item }</td>
+                                            })
+                                        }
+                                    </tr>
+                                    <tr class="overallMacroRow">
+                                        <td class="overallMacroRow">Current</td>
+                                        {
+                                            constants.mealPlanner.macroNutrients.map((nutrient) => {
+                                                return <td class="macro_col overallMacroRow">{ this.calculateOverall(nutrient) }</td>
+                                            })
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
                 <p></p>
                 <div class="macroLeft">
@@ -212,7 +260,6 @@ class MealPlanner extends React.Component {
                                 constants.mealPlanner.mealTimes.map((time, mealKey) => {
                                     let timeSlots = dailyMeals.map((day, dayKey) => {
                                         if (!isNull(day[mealKey])) {
-                                            console.log(day[mealKey]);
                                             return <td style={bg_img(this.getRecipe(day[mealKey]).img)} class="planner_img"
                                                         draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
                                                         onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
@@ -236,7 +283,7 @@ class MealPlanner extends React.Component {
                             }
                             {
                                 constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                    let macroHead = (nutrient == 'Intake') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
+                                    let macroHead = (nutrient === 'Intake') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
                                     let timeSlots = dailyMeals.map(day => {
                                         return <td class="macro_img">
                                                     <div class="macroLeft">{ nutrient }</div>
@@ -257,7 +304,7 @@ class MealPlanner extends React.Component {
                             <div class="panel-body pre-scrollable dropPanel">
                                 <div class="list-group">
                                     {
-                                        ((currRecipes == constants.mealPlanner.PERSONAL) ?
+                                        ((currRecipes === constants.mealPlanner.PERSONAL) ?
                                             recipeInfo.map(recipe => {
                                                 let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
                                                     return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
@@ -267,12 +314,12 @@ class MealPlanner extends React.Component {
                                                             <div class="planner_img" draggable="true" style={ bg_img(recipe.img) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
                                                             <div class="overlay">
                                                                 <div class="planner_img_text" centred>
-                                                                    { (showMacro == recipe.id) ? <table>{macros}</table> : recipe.name } 
+                                                                    { (showMacro === recipe.id) ? <table>{macros}</table> : recipe.name } 
                                                                 </div>
                                                             </div>
                                                         </div>
                                             })
-                                        : ((currRecipes == constants.mealPlanner.BOOKMARKED) ? constants.mealPlanner.BOOKMARKED : constants.mealPlanner.RECOMMENDED))
+                                        : ((currRecipes === constants.mealPlanner.BOOKMARKED) ? constants.mealPlanner.BOOKMARKED : constants.mealPlanner.RECOMMENDED))
                                     }
                                 </div>
                             </div>
@@ -286,7 +333,7 @@ class MealPlanner extends React.Component {
                     <div style={{float:"left", width: 20}}>
                         {
                             recipeList.map((item) => {
-                                return <button class={currRecipes == item.recipes ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
+                                return <button class={currRecipes === item.recipes ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
                             })
                         }
                     </div>

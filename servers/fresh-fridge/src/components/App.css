@@ -360,12 +360,6 @@ th.vertical{
   overflow: hidden;
 }
 
-.mealPlannerTitle {
-  width: 500 px;
-  float:left;
-  margin-bottom:10px;
-}
-
 .mealPlannerDays {
   text-align:center;
   width: 10px;
@@ -419,4 +413,29 @@ th.vertical{
   margin-left:130px;
   position:absolute;
   z-index: 5;
+}
+
+.overallPlannerMacros {
+  width: 35%;
+  float: right;
+  font-size: small;
+  margin-right:20px;
+}
+
+.mealPlanHeader {
+  width: 40%;
+  float:left;
+  text-align: left;
+}
+
+.overallMacroRow {
+  padding: 5px !important;
+  margin: 0 !important;
+}
+
+.mealPlannerTitle {
+  width: 100%;
+  float:left;
+  margin-bottom:10px;
+  margin-top: 20px;
 }
