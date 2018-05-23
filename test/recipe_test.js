@@ -139,7 +139,7 @@ exports.lib_recipes = {
   },
   'remove recipe ingredient': test => {
     ingredient_rm = recipes[0].ingredients.pop();
-    api.recipe.set(
+    api.recipes.set(
       recipes[0].id,
       recipes[0],
       (err, res) => {
@@ -269,8 +269,6 @@ exports.lib_recipes = {
           user_id: users[1].id   
         },
         (err, res) => {
-          console.log(err);
-          
           test.ok(!(err instanceof Error));
           cb();
         });
