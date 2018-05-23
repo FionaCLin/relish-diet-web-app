@@ -7,6 +7,7 @@ let lib, api;
 let users = data().users;
 let recipes = data().recipes;
 let reviewsCount = 0;
+let ingredient_rm;
 exports.lib_recipes = {
 
   'boot': (test) => {
@@ -136,6 +137,42 @@ exports.lib_recipes = {
           });
       }, test.done);
   },
+  'remove recipe ingredient': test => {
+    ingredient_rm = recipes[0].ingredients.pop();
+    api.recipe.set(
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done()
+      })
+  },
+  'add recipe ingredient': test => {
+    recipes[0].ingredients.push(ingredient_rm);
+    api.recipe.set(
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done()
+      })
+  },
+  'update recipe name, method, duration': test => {
+    recipes[0].duration *= 2;
+    recipes[0].name = recipes[0].name + ' yummy';
+    recipes[0].method = recipes[0].method + 'do it twice';
+    recipes[0].ingredients.push(ingredient_rm);
+    api.recipe.set(
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.name, recipes[0].name);
+        test.equal(res.duration, recipes[0].duration);
+        test.equal(res.method, recipes[0].method);
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done()
+      })
+  }
   // 'add reply to recipe1 reviews': (test) => {
   //   // let review = recipes[0].reviews[0];
   //   let addReply = (recipe_id, review, done) => {
