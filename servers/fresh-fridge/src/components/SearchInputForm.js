@@ -10,7 +10,6 @@ const SearchInputForm = (props) => {
         <button onClick={(e)=>props.onSeachClick(e)} className="btn btn-default" type="button"><span className="glyphicon glyphicon-search"></span></button>
       </span>
     </div>
-
   )
 };
 

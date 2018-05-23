@@ -5,89 +5,7 @@ import bg_img from '../constants/globalFunctions';
 import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
 
-
-const recipeList = [
-    {
-        recipes: constants.mealPlanner.PERSONAL,
-        title: "Personal Recipes",
-        class: "glyphicon glyphicon-pencil"
-    },
-    {
-        recipes: constants.mealPlanner.BOOKMARKED,
-        title: "Bookmarked Recipes",
-        class: "glyphicon glyphicon-bookmark"
-    },
-    {
-        recipes: constants.mealPlanner.RECOMMENDED,
-        title: "Recommended Recipes",
-        class: "glyphicon glyphicon-thumbs-up"
-    }
-];
-
 const goal = [1, 2, 3, 4, 5];
-
-const recipeInfo = [
-    {
-        id: 100,
-        name: 'Popeye toast with eggs',
-        img: 'images/recipe.jpg',
-        macros: {
-            Intake: 1000,
-            Carbs: 200,
-            Protein: 300,
-            Fats: 400,
-            Sodium: 50
-        }
-    },
-    {
-        id: 200,
-        name: 'Pistachio and figs cake',
-        img: 'images/cake.jpg',
-        macros: {
-            Intake: 10,
-            Carbs: 20,
-            Protein: 30,
-            Fats: 40,
-            Sodium: 50
-        }
-    },
-    {
-        id: 300,
-        name: 'Toasted stacked foccacia sandwich',
-        img: 'images/sandwich.jpg',
-        macros: {
-            Intake: 10,
-            Carbs: 20,
-            Protein: 30,
-            Fats: 40,
-            Sodium: 50
-        }
-    },
-    {
-        id: 400,
-        name: 'Muscle and chives paella',
-        img: 'images/paella.jpg',
-        macros: {
-            Intake: 10,
-            Carbs: 20,
-            Protein: 30,
-            Fats: 40,
-            Sodium: 50
-        }
-    },
-    {
-        id: 500,
-        name: 'Banana pudding with caramel sauce',
-        img: 'images/pudding.png',
-        macros: {
-            Intake: 10,
-            Carbs: 20,
-            Protein: 30,
-            Fats: 40,
-            Sodium: 50
-        }
-    }
-];
 
 class MealPlanner extends React.Component {
     constructor(props){
@@ -149,7 +67,8 @@ class MealPlanner extends React.Component {
     }
 
     getRecipe = (id) => {
-        return recipeInfo.find(x => x.id === id);
+        console.log(this.props.recipeInfo);
+        return this.props.recipeInfo.find(x => x.id === id);
     }
 
     calculateNutrient = (day, nutrient) => {
@@ -164,11 +83,13 @@ class MealPlanner extends React.Component {
         return ((nutrient === 'Intake') ? 'kCal' : 'g');
     }
 
-    cancel = () => {
+    cancel = (e) => {
+        e.preventDefault();
         console.log("Cancelled");
     }
 
-    editPlanner = () => {
+    editPlanner = (e) => {
+        e.preventDefault();
         console.log("Finish Edit");
     }
 
@@ -202,6 +123,14 @@ class MealPlanner extends React.Component {
         return overallNutrient;
     }
 
+    changeName = (e) => {
+        e.preventDefault();
+        let { name } = this.state;
+        name = e.target.value;
+        this.setState({name});
+        console.log(name);
+    }
+
     render() {
         const { showMacro, currRecipes, name, dailyMeals } = this.state;
 
@@ -210,7 +139,7 @@ class MealPlanner extends React.Component {
                 <div class="form-group mealPlannerForm">
                         <div class="mealPlanHeader">
                         <h4>Edit Meal Plan</h4>
-                        <input type="text" class="form-control mealPlannerTitle" value={ name } placeholder="Title"></input>
+                        <input type="text" class="form-control mealPlannerTitle" onChange={(e) => this.changeName(e)} value={ name } placeholder="Title"></input>
                         </div>
                         <div class="panel panel-default overallPlannerMacros" style={{marginTop:10}}>
                             <table class="table table-sm table-bordered table-striped" style={{textAlign: 'center'}}>
@@ -305,7 +234,7 @@ class MealPlanner extends React.Component {
                                 <div class="list-group">
                                     {
                                         ((currRecipes === constants.mealPlanner.PERSONAL) ?
-                                            recipeInfo.map(recipe => {
+                                            this.props.recipeInfo.map(recipe => {
                                                 let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
                                                     return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
                                                 })
@@ -326,14 +255,14 @@ class MealPlanner extends React.Component {
                         </div>
                         <br></br>
                         <div class="macroRight">
-                            <button onClick={ this.editPlanner() } class="btn btn-success editSubmit">Edit</button>
-                            <button onClick={ this.cancel() } class="btn btn-secondary editCancel">Cancel</button>
+                            <button onClick={ (e) => this.editPlanner(e) } class="btn btn-success editSubmit">Edit</button>
+                            <button onClick={ (e) => this.cancel(e) } class="btn btn-secondary editCancel">Cancel</button>
                         </div>
                     </div>
                     <div style={{float:"left", width: 20}}>
                         {
-                            recipeList.map((item) => {
-                                return <button class={currRecipes === item.recipes ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
+                            constants.mealPlanner.recipeList.map((item) => {
+                                return <button class={(currRecipes === item.recipes) ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
                             })
                         }
                     </div>
