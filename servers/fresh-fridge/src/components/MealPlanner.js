@@ -5,10 +5,29 @@ import bg_img from '../constants/globalFunctions';
 import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
 
+
+const recipeList = [
+    {
+        recipes: constants.mealPlanner.PERSONAL,
+        title: "Personal Recipes",
+        class: "glyphicon glyphicon-pencil"
+    },
+    {
+        recipes: constants.mealPlanner.BOOKMARKED,
+        title: "Bookmarked Recipes",
+        class: "glyphicon glyphicon-bookmark"
+    },
+    {
+        recipes: constants.mealPlanner.RECOMMENDED,
+        title: "Recommended Recipes",
+        class: "glyphicon glyphicon-thumbs-up"
+    }
+];
+
 const recipeInfo = [
     {
         id: 100,
-        name: 'Popeyetoast with eggs',
+        name: 'Popeye toast with eggs',
         img: 'images/recipe.jpg',
         macros: {
             Intake: 1000,
@@ -75,6 +94,7 @@ class MealPlanner extends React.Component {
         this.dragOutNum = null;
         this.state = {
             showMacro: null,
+            currRecipes: constants.mealPlanner.PERSONAL,
             name: "Bodybuilding plan (PART A)",
             dailyMeals : [
                 [null, null, null],
@@ -159,8 +179,15 @@ class MealPlanner extends React.Component {
         console.log('out');
     }
 
+    changeRecipe = (e, recipe) => {
+        e.preventDefault();
+        let {currRecipes} = this.state;
+        currRecipes = recipe;
+        this.setState({currRecipes});
+    }
+
     render() {
-        const { showMacro, name, dailyMeals } = this.state;
+        const { showMacro, currRecipes, name, dailyMeals } = this.state;
 
         return (
             <div class="body_container">
@@ -190,7 +217,7 @@ class MealPlanner extends React.Component {
                                                         draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
                                                         onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
                                                         onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
-                                                        <div class="drop_img_wrapper" centred>
+                                                        <div class="drop_img_wrapper">
                                                             <div class="overlay">
                                                                 <div class="planner_img_text">{this.getRecipe(day[mealKey]).name}</div>
                                                             </div>
@@ -230,20 +257,22 @@ class MealPlanner extends React.Component {
                             <div class="panel-body pre-scrollable dropPanel">
                                 <div class="list-group">
                                     {
-                                        recipeInfo.map(recipe => {
-                                            let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
-                                                return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
-                                            })
-                                            return <div class="list-group-item list-group-item-action planner_img_wrapper">
-                                                        <div class="macroInfo btn-xs btn-default" onMouseEnter={ (e) => this.macroOver(e, recipe.id) } onMouseLeave={(e) => this.macroOut(e)}><span class="glyphicon glyphicon-signal" aria-hidden="true" ></span></div>
-                                                        <div class="planner_img" draggable="true" style={ bg_img(recipe.img) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
-                                                        <div class="overlay">
-                                                            <div class="planner_img_text" centred>
-                                                                { (showMacro == recipe.id) ? <table>{macros}</table> : recipe.name } 
+                                        ((currRecipes == constants.mealPlanner.PERSONAL) ?
+                                            recipeInfo.map(recipe => {
+                                                let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
+                                                    return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
+                                                })
+                                                return <div class="list-group-item list-group-item-action planner_img_wrapper">
+                                                            <div class="macroInfo btn-xs btn-default" onMouseEnter={ (e) => this.macroOver(e, recipe.id) } onMouseLeave={(e) => this.macroOut(e)}><span class="glyphicon glyphicon-signal" aria-hidden="true" ></span></div>
+                                                            <div class="planner_img" draggable="true" style={ bg_img(recipe.img) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
+                                                            <div class="overlay">
+                                                                <div class="planner_img_text" centred>
+                                                                    { (showMacro == recipe.id) ? <table>{macros}</table> : recipe.name } 
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                        })
+                                            })
+                                        : ((currRecipes == constants.mealPlanner.BOOKMARKED) ? constants.mealPlanner.BOOKMARKED : constants.mealPlanner.RECOMMENDED))
                                     }
                                 </div>
                             </div>
@@ -255,9 +284,11 @@ class MealPlanner extends React.Component {
                         </div>
                     </div>
                     <div style={{float:"left", width: 20}}>
-                        <button class="btn btn-default sideButton" title="Personal Recipes"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
-                        <button class="btn btn-default sideButton" title="Bookmarked Recipes"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span></button>
-                        <button class="btn btn-default sideButton" title="Recommended Recipes"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></button>
+                        {
+                            recipeList.map((item) => {
+                                return <button class={currRecipes == item.recipes ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
+                            })
+                        }
                     </div>
                 </div>
             </div>
