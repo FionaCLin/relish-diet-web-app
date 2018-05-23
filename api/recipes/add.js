@@ -104,15 +104,11 @@ module.exports = opts => {
                             amount: key.amount
                         });
                     });
-                    console.log("amount: "+key.amount);
-                    console.log("calories: "+key.calories);
                 totalCals += key.calories * key.amount;
                 totalCarbs += key.cabs * key.amount;
                 totalPro += key.protein * key.amount;
                 totalFat += key.fat * key.amount;
             });
-            // attrs.push({calories: totalCals});
-            console.log("totalCals: "+totalCals);
             attrs.calories = totalCals;
             attrs.cabs = totalCarbs;
             attrs.protein = totalPro;
