@@ -8,7 +8,7 @@ let users = data().users;
 let recipes = data().recipes;
 let reviewsCount = 0;
 let ingredient_rm;
-exports.lib_recipes = {
+exports.recipes = {
 
   'boot': (test) => {
     var config = require('../config')(process.env.NODE_ENV);
@@ -139,7 +139,7 @@ exports.lib_recipes = {
   },
   'remove recipe ingredient': test => {
     ingredient_rm = recipes[0].ingredients.pop();
-    api.recipe.set(
+    api.recipes.set(
       recipes[0].id,
       recipes[0],
       (err, res) => {
@@ -269,8 +269,6 @@ exports.lib_recipes = {
           user_id: users[1].id   
         },
         (err, res) => {
-          console.log(err);
-          
           test.ok(!(err instanceof Error));
           cb();
         });
