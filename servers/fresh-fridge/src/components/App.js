@@ -27,12 +27,12 @@ class App extends Component {
           <NavigationBar />
           <Route path="/login" exact stric component={Login} />
           <Route path="/" exact stric component={Login} exact stric />
-          <Route path="/dashboard" exact strict component={Dashboard} />
+          <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
           <Route path="/search" exact strict component={Dashboard} />
           <PropsRoute path="/mealplan" exact stric component={MealPlanner} recipeInfo={this.state.recipes}/>
           <Route path="/bookmark" exact stric component={Bookmark} />
           <Route path="/recipes" exact stric component={RecipeList} />
-          <Route path="/recipe" component={RecipePage} />
+          <PropsRoute path="/recipe/:id" component={RecipePage} recipeInfo={this.state.recipes}/>
         </div>
       </Router>
     );
