@@ -214,16 +214,16 @@ exports.recipes = {
   //   //     });
   //   // }, test.done);
   // },
-  'set reviews by recipes': (test) => {
-    recipes[0].reviews[0].likes = 10;
-    recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
-    api.reviews.set(
-      recipes[0].reviews[0],
-      (err, res) => {
-        test.equal(res.likes, recipes[0].reviews[0].likes);
-        test.done();
-      });
-  },
+  // 'set reviews by recipes': (test) => {
+  //   recipes[0].reviews[0].likes = 10;
+  //   recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
+  //   api.reviews.set(
+  //     recipes[0].reviews[0],
+  //     (err, res) => {
+  //       test.equal(res.likes, recipes[0].reviews[0].likes);
+  //       test.done();
+  //     });
+  // },
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
   //     lib.recipes.addIngredient(

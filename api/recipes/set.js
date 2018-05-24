@@ -128,13 +128,13 @@ module.exports = (opts) => {
         });
       next();
     };
-
-    //   lib.recipes.set(
-    //     recipe_id,
-    //     attrs, (err) => {
-    //       next(err);
-    //     });
-    // };
+    let setRecipe = (next) => {
+      lib.recipes.set(
+        recipe_id,
+        attrs, (err) => {
+          next(err);
+        });
+    };
 
     // // add new ingredients
     // // for each ingredient in the new list, check it's id against : get recipe_ingredient list for this recipe.
@@ -188,8 +188,8 @@ module.exports = (opts) => {
       getRecipe,
       checkValid,
       remove,
-      checkIngredients
-      // setRecipe
+      checkIngredients,
+      setRecipe
       // linkIngredients
     ], (err) => {
       lib.recipes.getDetail(
