@@ -43,6 +43,64 @@ export const users = [
     }
 ];
 
+
+export const mealPlans = [
+    {
+        id: 5,
+        name: 'Bodybuilding plan (PART A)',
+        creator: CURR_USER_ID,
+        img: [
+            'images/sandwich.jpg',
+            'images/recipe.jpg',
+            'images/pudding.png',
+            'images/meatball.jpg'
+        ],
+        dailyMeals : [
+            [null, null, null],
+            [100, null, 400],
+            [null, 200, null],
+            [null, 200, null],
+            [400, null, 500],
+            [null, null, null],
+            [null, null, 100]
+        ],
+        macros: {
+            Intake: 0,
+            Carbs: 0,
+            Protein: 0,
+            Fats: 0,
+            Sodium: 0
+        }
+    },
+    {
+        id: 6,
+        name: 'Bodybuilding plan (PART B)',
+        creator: CURR_USER_ID,
+        img: [
+            'images/sandwich.jpg',
+            'images/recipe.jpg',
+            'images/pudding.png',
+            'images/meatball.jpg'
+        ],
+        dailyMeals : [
+            [500, null, 500],
+            [400, null, 400],
+            [200, 200, null],
+            [null, 200, null],
+            [400, null, 500],
+            [100, null, null],
+            [null, null, 100]
+        ],
+        macros: {
+            Intake: 0,
+            Carbs: 0,
+            Protein: 0,
+            Fats: 0,
+            Sodium: 0
+        }
+    }
+];
+
 export const recipeInfo = [
     {
         id: 100,
