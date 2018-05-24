@@ -1,52 +1,43 @@
 'use strict';
 
 module.exports = (app, api) => {
+  app.put('/api/recipes/:recipeid/reviews/:id', function (req, res) {
+    let comment = req.body;
+    comment.recipe_id = req.params.recipeid;
+    comment.review_id = req.params.id;
 
-
-
-  app.put('/api/recipes/:id/reviews/:id', function (req, res) {
-    // api.reviews.edit(
-
-    // )
+    api.reviews.edit(
+      comment,
+      (err, review) => {
+        console.log(review);
+        if (err) {
+          res.status(400).send(err.message);
+        }
+        res.status(200).send(review);
+      });
   });
 
   // curl - vX POST  http://localhost:3002/api/recipes/1/reviews -H "Content-Type: application/json"  -d  "{\"user_id\": 2, \"likes\":1, \"content\": \"This recipe looks fantastic. I really need to try it.\"}";
 
   // get the payload with req.body
-  app.post('/api/reviews/create', function (req, res) {
+  app.post('/api/recipes/:id/reviews/create', function (req, res) {
     api.reviews.add(
       req.body,
-      (err, recipe) => {
-        console.log(err);
+      (err, review) => {
+        console.log(review);
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
-        res.status(200).send();
+        res.status(200).send(review);
       });
   });
 
-  /*   curl - vX PUT http://localhost:3002/api/reviews/1 -H "Content-Type: application/json" -d "{\"email\":\"fiona@freshfridge.com\"}"
-   */
-
-  app.put('/api/reviews/:id', function (req, res) {
-    api.reviews.set(
-      req.params.id,
-      req.body,
-      (err, recipe) => {
-        if (err) {
-          res.status(400).send(err);
-        }
-        res.status(200).send();
-      });
-  });
-
-  // can we delete a reviews??
   app.delete('/api/reviews/:id', function (req, res) {
     api.reviews.del(
       req.params.id,
       (err, recipe) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });

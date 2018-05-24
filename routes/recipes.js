@@ -4,10 +4,14 @@ module.exports = (app, api) => {
   // recipe
   // recipe details
   app.get('/api/recipes/:id', function (req, res) {
-    api.recipes.getDetails(
+    console.log(req.params.id);
+    api.recipes.get(
       req.params.id,
       (err, recipe) => {
-        res.send(recipe);
+        if (err) {
+          return res.status(400).send(err.message);
+        }
+        res.status(200).send(recipe);
       });
   });
 
@@ -31,20 +35,21 @@ module.exports = (app, api) => {
     req.body;
     api.recipes.add({
       name: req.body.name,
-      creatorId: req.body.creator
-      // images'
-      // ingredients':
-      // method':
-      // duration':
-      // rate':
-      // creatorI:
-      // ... find those field that map to our api keys
+      creatorID: req.body.creator,
+      ingredients: req.body.ingredients,
+      method: req.body.method,
+      calories: req.body.calories,
+      carbs: req.body.carbs,
+      protein: req.body.protein,
+      fat: req.body.fat,
+      duration: 40
     },
       (err, recipe) => {
         if (err) {
-          res.status(400).send(err);
+          console.log(err.message, req.body.creator);
+          return res.status(400).send(err.message);
         }
-        res.status(200).send();
+        res.status(200).send(recipe);
       });
   });
 

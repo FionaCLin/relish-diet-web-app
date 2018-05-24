@@ -1,6 +1,13 @@
 import axios from 'axios';
+import { recipeInfo } from './constants/dummyData.js';
+axios.defaults.baseURL = 'http://localhost:3002/';
+// axios.defaults.headers.common['Authorization'] = 647484;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function login (email, password) {
+  // return getRecipe(1);
+  // return getDashboard(1);
+
   // console.log(email, password);
   // let user = null;
   // axios.post('http://localhost:3002/api/users/login', {
@@ -10,54 +17,106 @@ function login (email, password) {
   //   password: password
   // }).then(function (response) {
   //   // suppose the response contain the token?
-  //   user = response.data;
+  //   return user = response.data;
   //   console.log('you have login', user);
   // }).catch(function (error) {
   //   console.log('you haven\'t login');
   //   console.log(error);
+  // return error;
   // });
-  // return user;
-  return addRecipe({});
+  // return addRecipe({});
+}
+
+// function editRecipe (recipe) {
+//   recipe = recipeInfo[0];
+//   axios.put('api/recipes/create', recipe
+//   ).then(function (response) {
+//     // suppose the response contain the token?
+//     let newCreatedRecipe = response.data;
+//     console.log('new recipe', newCreatedRecipe);
+//   }).catch(function (error) {
+//     console.log('you haven\'t login');
+//     console.log(error);
+//   });
+// }
+function getDashboard (user_id) {
+  axios.get('api/users/' + user_id + '/dashboard/'
+  ).then(function (response) {
+    // suppose the response contain the token?
+    let recipe = response.data;
+    console.log('get recipe 1', recipe);
+    return recipe;
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+    return error;
+  });
 }
 function addRecipe (recipe) {
-  recipe = {
-    id: 100,
-    creator: 1,
-    name: 'Popeye toast with eggs',
-    img: ['images/recipe.jpg', 'images/recipe2.png', 'images/recipe3.jpg'],
-    macros: {
-      Intake: 1025,
-      Carbs: 32,
-      Protein: 24,
-      Fats: 15,
-      Sodium: 2
-    },
-    method: 'Preheat the grill to high.\n' +
-      'Lay the tomato vines in a large baking tray, prick each tomato with the tip of a sharp knife' +
-      ' and grill for 4 minutes, then add the bread to the tray to toast on both sides.\n' +
-      'Meanwhile, crack 1 egg into a blender, add the ham, spinach, a good pinch of black pepper and the milk and blitz until smooth.\n' +
-      'Take the tray from under the grill and divide the green eggy mixture between' +
-      'the four pieces of toast, spreading it right out to the edges.\n' +
-      'Dry fry the remaining 2 eggs in a non-stick frying pan on a medium heat, covering the pan with' +
-      ' a lid to steam and coddle the eggs on the top – cook to your liking.',
-    ingredients: [
-      '160 g of cherry tomatoes',
-      '4 slices of wholemeal bread',
-      '3 large eggs',
-      '80 g of baby spinach'
-    ]
-  };
-
-  axios.post('http://localhost:3002/api/users/login', {
-
-  }).then(function (response) {
-    // suppose the response contain the token?
+  recipe = recipeInfo[0];
+  axios.post('api/recipes/create', recipe
+  ).then(function (response) {
     let newCreatedRecipe = response.data;
     console.log('new recipe', newCreatedRecipe);
   }).catch(function (error) {
     console.log('you haven\'t login');
     console.log(error);
   });
+}
+
+function getRecipe (recipe_id) {
+  axios.get('api/recipes/' + recipe_id
+  ).then(function (response) {
+    // suppose the response contain the token?
+    let recipe = response.data;
+    console.log('get recipe 1', recipe);
+    return recipe;
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+    return error;
+  });
+}
+
+function addComment (recipe_id, comment) {
+  comment = {
+    commentor: 2,
+    message: 'Was a great meal, but my husband found it a little bit salty.',
+    rating: 3
+  };
+  axios.post('api/recipes/' + recipe_id + '/reviews/create', comment)
+    .then(function (response) {
+      // suppose the response contain the token?
+      comment = response.data;
+      console.log('you have ', comment);
+      return comment;
+    }).catch(function (error) {
+      console.log('Error');
+      console.log(error);
+    });
+}
+function delComment (commentId) {
+  axios.delete('api/reviews/' + commentId)
+    .then(function (response) {
+      // suppose the response contain the token?
+      console.log(response.status);
+      return;
+    }).catch(function (error) {
+      console.log('Error');
+      console.log(error);
+    });
+}
+function editComment (commentId, comment) {
+  axios.put('api/reviews/' + commentId, comment)
+    .then(function (response) {
+      // suppose the response contain the token?
+      comment = response.data;
+      console.log('you have ', comment);
+      return comment;
+    }).catch(function (error) {
+      console.log('Error');
+      console.log(error);
+    });
 }
 
 export default {
