@@ -15,10 +15,13 @@ class Profile extends React.Component {
             usernameOpen: false,
             passwordOpen: false,
             goalOpen: false,
+            bmiOpen: false,
             email: user.email,
             username: user.username,
             password: user.password,
-            goals: user.goals
+            goals: user.goals,
+            height: user.height,
+            weight: user.weight
         };
     }
 
@@ -49,6 +52,13 @@ class Profile extends React.Component {
         let { goalOpen } = this.state;
         goalOpen = !goalOpen;
         this.setState({goalOpen});
+    }
+
+    openBMI = (e) => {
+        e.preventDefault();
+        let { bmiOpen } = this.state;
+        bmiOpen = !bmiOpen;
+        this.setState({bmiOpen});
     }
 
     changeEmail = (e) => {
@@ -85,9 +95,68 @@ class Profile extends React.Component {
         console.log("ENter");
     }
 
+    changeGoal = (e, index) => {
+        e.preventDefault();
+        let { goals } = this.state;
+        if (!goals.includes(index)) {
+            goals.push(index);
+        } else {
+            goals.splice(index, 1);
+        }
+        this.setState({goals});
+    }
+
+    saveGoal = (e) => {
+        e.preventDefault();
+        let users = this.props.users;
+        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
+        users[userIndex].goals = this.state.goals;
+        this.props.changeUsers(users);
+        this.openGoal(e);
+        console.log("ENter");
+    }
+
+    changeWeight = (e) => {
+        e.preventDefault();
+        let { weight } = this.state;
+        weight = e.target.value;
+        this.setState({weight});
+    }
+
+    changeHeight = (e) => {
+        e.preventDefault();
+        let { height } = this.state;
+        height = e.target.value;
+        this.setState({height});
+    }
+
+    saveBMI = (e) => {
+        e.preventDefault();
+        let users = this.props.users;
+        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
+        users[userIndex].height = this.state.height;
+        users[userIndex].weight = this.state.weight;
+        this.props.changeUsers(users);
+        this.openBMI(e);
+        console.log("ENter");
+    }
+
+    goalsFromBMI = (BMI) => {
+        let goals = [];
+        if (BMI < 18.5) {
+            goals.push(3, 4);
+        } else if (BMI < 25) {
+            goals.push(1, 3);
+        } else {
+            goals.push(0, 2);
+        }
+        return goals;
+    }
+
     render() {
         let user = this.props.users.find(x => x.id == this.props.curr_user);
         const goalOptions = ['Slimming', 'Building Muscle', 'Weight loss', 'Stamina Training', 'General Fitness'];
+        let BMI = Math.round((user.weight/Math.pow(user.height/100,2))*10)/10;
         return (
             <div class="recipe_container">
             <h4>Profile</h4>
@@ -166,22 +235,54 @@ class Profile extends React.Component {
                 </div>
                 <div class="list-group-item list-group-item-action profile_section">
                     <div class="form-group row">
+                        <label for="emailInput" class="col-sm-2 col-form-label">BMI</label>
+                        <div class="col-sm-10">
+                            {/* <!--bmiEdit--> */}
+                            <div id="passwordEdit" style={{display: (this.state.bmiOpen) ? "block" : "none"}}>
+                                <input type="title" class="form-control" id="usernameInput" placeholder="Weight" style={{margin:"10px", width:"500px", float: "left"}}
+                                    value={this.state.weight} onChange={(e) => {this.changeWeight(e)}}></input><div style={{float:"left", marginTop:"15px"}}>kg</div>
+                                <input type="title" class="form-control" id="usernameInput" placeholder="Height" style={{margin:"10px", width:"500px", float: "left"}}
+                                    value={this.state.height} onChange={(e) => {this.changeHeight(e)}}></input><div style={{float:"left", marginTop:"15px"}}>cm</div>
+                                <div style={{float:"right", marginTop:"10px"}}>
+                                    <button class="btn btn-secondary" onClick={(e) => this.openBMI(e)} style={{marginRight:"10px"}}>Cancel</button>
+                                    <button class="btn btn-success" onClick={(e) => this.saveBMI(e)}>Re-calculate</button>
+                                </div>
+                            </div>
+                            {/* <!--bmiShow--> */}
+                            <div id="passwordShow" style={{display: (!this.state.bmiOpen) ? "block" : "none", marginBottom:"-10px"}}>
+                                <div>{BMI}</div>
+                                <div style={{marginTop:"10px"}}>
+                                    <div style={{float:"left"}}>Suggested goals: </div>
+                                    <div style={{float:"left"}}>
+                                        {
+                                            this.goalsFromBMI(BMI).map((goalIndex) => {
+                                                return <span class="label label-success" style={{marginLeft:"5px"}}>{goalOptions[goalIndex]}</span>
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-sm" style={{float:"right"}} onClick={(e) => this.openBMI(e)}>
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                            </div>
+                            {/* <!----> */}
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item list-group-item-action profile_section">
+                    <div class="form-group row">
                         <label for="emailInput" class="col-sm-2 col-form-label">Personal Goals</label>
                         <div class="col-sm-10">
                             {/* <!--goalEdit--> */}
                             <div id="goalEdit" style={{display: (this.state.goalOpen) ? "block" : "none"}}>
                                 {
                                     goalOptions.map((goal, index) => {
-                                        if (user.goals.includes(index)) {
-                                            return <label class="checkbox-inline"><input type="checkbox" value={'"' + index + '"'} checked></input>{goal}</label>
-                                        } else {
-                                            return <label class="checkbox-inline"><input type="checkbox" value={'"' + index + '"'}></input>{goal}</label>
-                                        }
+                                        return <label class="checkbox-inline"><input type="checkbox" value={'"' + index + '"'} onChange={(e) => this.changeGoal(e, index)} checked={!!this.state.goals.includes(index)}></input>{goal}</label>
                                     })
                                 }
                                 <div style={{float:"right",marginTop:"10px"}}>
                                     <button class="btn btn-secondary" onClick={(e) => this.openGoal(e)} style={{marginRight:"10px"}}>Cancel</button>
-                                    <button class="btn btn-success" onClick="">Save</button>
+                                    <button class="btn btn-success" onClick={(e) => this.saveGoal(e)}>Save</button>
                                 </div>
                             </div>
                             {/* <!--goalShow--> */}
@@ -189,7 +290,7 @@ class Profile extends React.Component {
                                 <div style={{float:"left"}}>
                                     {
                                         user.goals.map((goalIndex) => {
-                                            return <span class="label label-success">{goalOptions[goalIndex]}</span>
+                                            return <span class="label label-success" style={{marginLeft:"5px"}}>{goalOptions[goalIndex]}</span>
                                         })
                                     }
                                 </div>

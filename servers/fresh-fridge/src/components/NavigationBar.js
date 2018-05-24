@@ -24,7 +24,7 @@ const NavigationBar = (prop) => {
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav navbar-right">
             <li>
-              <NavLink to="/dashboard">
+              <NavLink to="/search">
                 <span className="glyphicon glyphicon-search"></span>
               </NavLink>
             </li>

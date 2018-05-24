@@ -16,6 +16,7 @@ import NavigationBar from './NavigationBar';
 import MealList from './MealList';
 import EditRecipe from './EditRecipe';
 import Profile from './Profile';
+import Search from './Search';
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +36,6 @@ class App extends Component {
           <Route path="/login" exact strict component={Login} />
           <Route path="/" exact strict component={Login}/>
           <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
-          <Route path="/search" exact strict component={Dashboard} />
           <PropsRoute path="/meallist" exact strict component={MealList} mealPlans={this.state.mealPlans}
               curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
           <PropsRoute path="/mealplan/:mode" exact strict component={MealPlanner} recipeInfo={this.state.recipes}
@@ -55,6 +55,9 @@ class App extends Component {
           <PropsRoute path="/recipe/:id" component={RecipePage} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
               users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})}/>
           <PropsRoute path="/profile" component={Profile} changeUsers={(users) => this.setState({users})} curr_user={CURR_USER_ID} users={this.state.users} />
+          <PropsRoute path="/search" exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
+          <PropsRoute path="/search/name/:name" exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
+          <PropsRoute path="/search/macros/:macros" exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
         </div>
       </Router>
     );
