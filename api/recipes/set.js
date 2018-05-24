@@ -103,13 +103,11 @@ module.exports = (opts) => {
                   ingredient = res;
                 });
             }
-            console.log(addlist, attrs.ingredients.length, 99444499, recipe.ingredients.length);
             lib.recipes.addIngredient(
               recipe_id,
               ingredient.ndbno,
               ingredient.amount,
               (err, res) => {
-                console.log(err, res, 5555);
                 if (err) {
                   return next(err);
                 }
@@ -159,7 +157,6 @@ module.exports = (opts) => {
           next(err);
         });
     };
-
     async.series([
       checkUser,
       getRecipe,
