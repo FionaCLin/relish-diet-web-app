@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const cons = require('consolidate');
-const passport = require('passport');
-const Strategy = require('passport-http-bearer').Strategy;
+// const cons = require('consolidate');
+// const passport = require('passport');
+// const Strategy = require('passport-http-bearer').Strategy;
 const async = require('async');
 const pg = require('pg');
 
@@ -19,14 +19,14 @@ module.exports = (config, opts) => {
 
   let server = express();
 
-  let authscheme = require('./auth')(api);
-  passport.use(new Strategy(authscheme.strategy));
+  // let authscheme = require('./auth')(api);
+  // passport.use(new Strategy(authscheme.strategy));
 
-  server.get('/*',
-    passport.authenticate('bearer', { session: false }),
-    function (req, res) {
-      res.json({ username: req.user.username, email: req.user.emails[0].value });
-    });
+  // server.get('/*',
+  //   passport.authenticate('bearer', { session: false }),
+  //   function (req, res) {
+  //     res.json({ username: req.user.username, email: req.user.emails[0].value });
+  //   });
   // Set .dust as default extension
   server.set('view engine', 'dust'); server.set('views', __dirname + '/views');
 
