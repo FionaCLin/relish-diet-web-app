@@ -67,7 +67,7 @@ module.exports = (opts) => {
     };
 
     // remove the ingredients not in the old recipe.ingredients
-    let remove = (next) => {
+    let removeIngredients = (next) => {
       let removelist = recipe.ingredients.filter(i => !(attrs.ingredients.find(e => e.ndbno == i.ndbno)));
       async.forEach(removelist, (ingredient, cb) => {
         lib.recipes.delIngredient(
@@ -89,7 +89,7 @@ module.exports = (opts) => {
     // needs to add/delete ingredients
 
     // if ingredient is not already there, add.
-    let checkIngredients = next => {
+    let addIngredients = next => {
       let addlist = attrs.ingredients.filter(i => !(recipe.ingredients.find(e => e.ndbno == i.ndbno)));
 
       addlist.forEach(key => {
@@ -124,6 +124,28 @@ module.exports = (opts) => {
 
       next();
     };
+    // if ingredient is not already there, add.
+    let updateIngredients = next => {
+      let updatelist = attrs.ingredients.filter(i => (recipe.ingredients.find(e => e.ndbno == i.ndbno)));
+
+      updatelist.forEach(ingredient => {
+        let amount = recipe.ingredients.find(i => i.ndbno == ingredient.ndbno).amount;
+        lib.recipes.updateIngredients(
+          recipe.id,
+          ingredient.ndbno,
+          ingredient.amount,
+          (err, res) => {
+            if (err) {
+              next(err);
+            }
+            recipe.calories += ingredient.calories * (ingredient.amount - amount);
+            recipe.cabs += ingredient.cabs * (ingredient.amount - amount);
+            recipe.protein += ingredient.protein * (ingredient.amount - amount);
+            recipe.fat += ingredient.fat * (ingredient.amount - amount);
+          });
+      });
+      next();
+    };
 
     let setRecipe = (next) => {
       lib.recipes.getDetail(
@@ -138,59 +160,12 @@ module.exports = (opts) => {
         });
     };
 
-    // // add new ingredients
-    // // for each ingredient in the new list, check it's id against : get recipe_ingredient list for this recipe.
-
-    // // remove unused ingredients.
-    // // for each ingredient in the recipe_ingredient list, check it's id agianst the ingredients in the new_ingredients list.
-    // // if the ingredient id is not found, remove.
-
-    // // now need to add into recipe_ingredients table or edit existing entries.
-    // // fuck it just set the whole thing to whatever the new recipe has.
-
-    // let linkIngredients = next => {
-    //   ingredientsList.forEach(ingredient => {
-    //     lib.recipe.getIngredient(
-    //       recipe_id, ingredient.id,
-    //       (err, res) => {
-    //         if (err || !res) {
-    //           return (Error('Could not get ingredient?'));
-    //         }
-    //         if (!res) {
-    //           // ingredient link could not be found. make it.
-    //           lib.recipes.addIngredient(
-    //             recipe_id,
-    //             ingredient.id,
-    //             ingredient.amount,
-    //             (err, res) => {
-    //               if (err) {
-    //                 return next(err);
-    //               }
-    //             }
-    //           );
-    //         } else {
-    //           // edit exisiting ingredient.
-    //           lib.recipe.setIngredient(
-    //             recipe_id,
-    //             ingredient.id,
-    //             ingredient.amount,
-    //             (err, res) => {
-    //               if (err) {
-    //                 done(Error('Could not edit ingredient_recipe tabe.'));
-    //               }
-    //             });
-    //         }
-    //       });
-    //   });
-    //   next();
-    // };
-
     async.series([
       checkUser,
       getRecipe,
       checkValid,
-      remove,
-      checkIngredients,
+      removeIngredients,
+      addIngredients,
       setRecipe
       // linkIngredients
     ], (err) => {
