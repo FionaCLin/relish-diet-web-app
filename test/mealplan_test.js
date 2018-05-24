@@ -116,7 +116,7 @@ exports.mealplan_test = {
       user_id: users[0].id,
       title: 'to lost weight'
     };
-    lib.mealplans.add(
+    api.mealplans.add(
       mealplan1,
       (err, res) => {
         test.equal(res.title, mealplan1.title);
@@ -129,7 +129,7 @@ exports.mealplan_test = {
       user_id: users[0].id,
       title: 'gain weight'
     };
-    lib.mealplans.add(
+    api.mealplans.add(
       mealplan2,
       (err, res) => {
         test.equal(res.title, mealplan2.title);
@@ -137,9 +137,18 @@ exports.mealplan_test = {
         test.done();
       });
   },
+  'get mealplan1': test => {
+    api.mealplans.get(
+      mealplan1.id,
+      (err, res) => {
+        test.equal(res.title, mealplan1.title);
+        test.done();
+      }
+    )
+  },
   'update mealplan': test => {
     mealplan1.title1 = 'gain weight';
-    lib.mealplans.set(
+    api.mealplans.set(
       mealplan1.id,
       mealplan1,
       (err, res) => {
@@ -149,7 +158,7 @@ exports.mealplan_test = {
       });
   },
   'del mealplan1': test => {
-    lib.mealplans.del(
+    api.mealplans.del(
       mealplan1.id,
       (err, res) => {
         test.ok(!(err instanceof Error));
@@ -164,23 +173,26 @@ exports.mealplan_test = {
   'add timeslot': test => {
     mealplan2.timeslots = [{
       recipe_id: 1,
-      day: 'MON'
+      day: 'MON',
+      mealtimes: 'BREKKIE'
     }, {
       recipe_id: 2,
-      day: 'TUE'
+      day: 'TUE',
+      mealtimes: 'BREKKIE',
     }, {
       recipe_id: 1,
-      day: 'WED'
+      day: 'WED',
+      mealtimes: 'BREKKIE',
     }];
     async.forEach(mealplan2.timeslots,
       (timeslot, cb) => {
         timeslot.plan_id = mealplan2.id;
-        lib.timeslots.add(
+        api.timeslots.add(
           timeslot,
           (err, res) => {
             test.equal(res.recipe_id, timeslot.recipe_id);
             test.equal(res.day, timeslot.day);
-            test.equal(res.meal_type, timeslot.meal_type);
+            test.equal(res.meal_type, timeslot.mealtimes);
             timeslot.id = res.id;
             cb();
           });

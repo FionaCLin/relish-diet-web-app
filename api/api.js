@@ -37,10 +37,10 @@ module.exports = (opts) => {
   });
 
 
-  // api.products = require('./mealplans')({
-  //   api: api,
-  //   lib: lib
-  // });
+  api.products = require('./mealplans')({
+    api: api,
+    lib: lib
+  });
 
   api.products = require('./recipes')({
     api: api,
@@ -52,10 +52,10 @@ module.exports = (opts) => {
     lib: lib
   });
 
-  // api.products = require('./timeslots')({
-  //   api: api,
-  //   lib: lib
-  // });
+  api.products = require('./timeslots')({
+    api: api,
+    lib: lib
+  });
   /**
    * purge all data in the system to pristine state (use for testing)
    */

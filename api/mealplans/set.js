@@ -8,7 +8,7 @@ module.exports = opts => {
   var api = opts.api;
 
 
-  api.mealplans.add = (attrs, done) => {
+  api.mealplans.set = (plan_id, attrs, done) => {
     var mealplan;
     var user;
     // whitelist attrs
@@ -23,31 +23,27 @@ module.exports = opts => {
     //Validate input fields.
 
     let checkValid = next => {
-      if (typeof attrs.title != 'string') return done(new Error('title is not a string'));
+      if (typeof attrs.title != 'string') return done(new Error('title is not a string')); //up to this line its not working.
       next();
     };
 
-    // check to see if user id is valid in database
-    // use lib.users.getbyid
-    // if not exisiting, return user not found
-    // if existing - create.
+    let checkUser = next => {
+      lib.users.get(attrs.user_id, (err, res) => {
+        if (!res) {
+          return next(new Error("unknown user"));
+        }
+        user = res;
+        next(err);
+      });
+    };
 
-    // let checkUser = next => {
-    //   lib.users.get(attrs.user_id, (err, res) => {
-    //     if (!res) {
-    //       return next(new Error("unknown user"));
-    //     }
-    //     user = res;
-    //     next(err);
-    //   });
-    // };
-
-    let addMealPlanner = next => {
-      lib.mealplans.add(
+    let setMealPlanner = next => {
+      lib.mealplans.set(
+        plan_id,
         attrs,
         (err, res) => {
           if (err) {
-            return done(new Error("Meal plan could not be added."));
+            return done(new Error("Meal plan could not be edited."));
           }
           mealplan = res;
           next();
@@ -55,6 +51,9 @@ module.exports = opts => {
       )
     };
 
+
+    //get preexisting time slots
+    
     // let addTimeSlots = next => {
     //   attrs.timeslots.forEach(slot => {
     //     slot.plan_id = mealplan.plan_id;
@@ -74,7 +73,8 @@ module.exports = opts => {
     //TODO: compute the total calories, fat, protein, cabs and upset the recipe
     async.series([
       checkValid,
-      addMealPlanner,
+      checkUser,
+      setMealPlanner,
       // printer,
     ], (err) => {
       done(err, mealplan);

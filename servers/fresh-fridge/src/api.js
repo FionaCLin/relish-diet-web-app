@@ -1,4 +1,7 @@
 import axios from 'axios';
+axios.defaults.baseURL = 'https://localhost:3002';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function login (email, password) {
   // console.log(email, password);
@@ -17,7 +20,7 @@ function login (email, password) {
   //   console.log(error);
   // });
   // return user;
-  return addRecipe({});
+  return getRecipe({});
 }
 function addRecipe (recipe) {
   recipe = {
@@ -48,16 +51,27 @@ function addRecipe (recipe) {
     ]
   };
 
-  axios.post('http://localhost:3002/api/users/login', {
-
-  }).then(function (response) {
+  axios.post('/api/recipes/create', recipe ) 
+    .then(function (response) {
     // suppose the response contain the token?
     let newCreatedRecipe = response.data;
     console.log('new recipe', newCreatedRecipe);
   }).catch(function (error) {
-    console.log('you haven\'t login');
+    console.log("you haven't made a recipe");
     console.log(error);
   });
+}
+
+function getRecipe (recipeID) {
+  recipeID = 1;
+
+  axios.get('/api/recipes/'+recipeID)
+    .then(function (response) {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.log("Could not get recipe");
+      console.log(error);
+    });
 }
 
 export default {

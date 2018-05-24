@@ -22,11 +22,11 @@ module.exports = (config, opts) => {
   let authscheme = require('./auth')(api);
   passport.use(new Strategy(authscheme.strategy));
 
-  server.get('/*',
-    passport.authenticate('bearer', { session: false }),
-    function (req, res) {
-      res.json({ username: req.user.username, email: req.user.emails[0].value });
-    });
+  // server.get('/*',
+    // passport.authenticate('bearer', { session: false }),
+    // function (req, res) {
+      // res.json({ username: req.user.username, email: req.user.emails[0].value });
+    // });
   // Set .dust as default extension
   server.set('view engine', 'dust'); server.set('views', __dirname + '/views');
 
