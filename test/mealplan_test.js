@@ -200,7 +200,7 @@ exports.mealplan_test = {
   },
   'remove timeslot': test => {
     let timeslot = mealplan2.timeslots.pop();
-    lib.timeslots.del(
+    api.timeslots.del(
       timeslot.id,
       (err, res) => {
         lib.timeslots.get(
@@ -212,7 +212,7 @@ exports.mealplan_test = {
       });
   },
   'get timesoles by plan id': test => {
-    lib.timeslots.getByPlan(
+    api.timeslots.getByPlan(
       mealplan2.id,
       (err, res) => {
         test.equal(res.length, mealplan2.timeslots.length);

@@ -31,15 +31,14 @@ module.exports = opts => {
     // if not exisiting, return user not found
     // if existing - create.
 
-    // let checkUser = next => {
-    //   lib.users.get(attrs.user_id, (err, res) => {
-    //     if (!res) {
-    //       return next(new Error("unknown user"));
-    //     }
-    //     user = res;
-    //     next(err);
-    //   });
-    // };
+    let checkUser = next => {
+      lib.users.get(attrs.user_id, (err, res) => {
+        if (!res) {
+          return next(new Error("unknown user"));
+        }
+        next(err);
+      });
+    };
 
     let addMealPlanner = next => {
       lib.mealplans.add(
@@ -54,23 +53,6 @@ module.exports = opts => {
       )
     };
 
-    // let addTimeSlots = next => {
-    //   attrs.timeslots.forEach(slot => {
-    //     slot.plan_id = mealplan.plan_id;
-    //     lib.timeslots.add(
-    //       slot,
-    //       (err, res) => {
-    //         if (err) {
-    //           return done(new Error("Time slot could not be added."));
-    //         }
-    //       }
-    //     )
-    //   })
-    //   next();
-    // }
-
-
-    //TODO: compute the total calories, fat, protein, cabs and upset the recipe
     async.series([
       checkValid,
       addMealPlanner,

@@ -59,10 +59,7 @@ module.exports = opts => {
     // if existing - create.
 
     let checkUser = next => {
-      console.log(attrs.creatorID, 77777);
       lib.users.get(attrs.creatorID, (err, res) => {
-        console.log(res, err, 9999999999);
-
         if (!res) {
           return next(new Error('unknown user'));
         }
@@ -83,7 +80,6 @@ module.exports = opts => {
     // let totalMacros = [];
 
     let checkIngredients = next => {
-      // console.log("got here");
       let totalCals = 0;
       let totalPro = 0;
       let totalFat = 0;
@@ -137,7 +133,6 @@ module.exports = opts => {
           return next(err);
         }
         recipe = res;
-        console.log(res);
         next();
       });
     };
@@ -168,7 +163,6 @@ module.exports = opts => {
       createRecipe,
       linkIngredients
     ], (err) => {
-      console.log(err);
       if (err) {
         return done(err);
       }
