@@ -4,44 +4,38 @@ axios.defaults.baseURL = 'http://localhost:3002/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function login (email, password) {
-  // return getRecipe(1);
-  // return getDashboard(1);
-
-  // console.log(email, password);
-  // let user = null;
-  // axios.post('http://localhost:3002/api/users/login', {
-  //   // email: 'synexenel1416@yopmail.com',
-  //   // password: '123'
-  //   email: email,
-  //   password: password
-  // }).then(function (response) {
-  //   // suppose the response contain the token?
-  //   return user = response.data;
-  //   console.log('you have login', user);
-  // }).catch(function (error) {
-  //   console.log('you haven\'t login');
-  //   console.log(error);
-  // return error;
-  // });
-  // return addRecipe({});
+  console.log(email, password);
+  let user = null;
+  axios.post('api/users/login', {
+    // email: 'synexenel1416@yopmail.com',
+    // password: '123'
+    email: email,
+    password: password
+  }).then(function (response) {
+    // suppose the response contain the token?
+    let user = response.data;
+    console.log('you have login', user);
+    return user;
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+    return error;
+  });
 }
 
-// function editRecipe (recipe) {
-//   recipe = recipeInfo[0];
-//   axios.put('api/recipes/create', recipe
-//   ).then(function (response) {
-//     // suppose the response contain the token?
-//     let newCreatedRecipe = response.data;
-//     console.log('new recipe', newCreatedRecipe);
-//   }).catch(function (error) {
-//     console.log('you haven\'t login');
-//     console.log(error);
-//   });
-// }
+function editRecipe (recipe) {
+  axios.put('api/recipes/' + recipe.id, recipe
+  ).then(function (response) {
+    let newCreatedRecipe = response.data;
+    console.log('new recipe', newCreatedRecipe);
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+  });
+}
 function getDashboard (user_id) {
   axios.get('api/users/' + user_id + '/dashboard/'
   ).then(function (response) {
-    // suppose the response contain the token?
     let recipe = response.data;
     console.log('get recipe 1', recipe);
     return recipe;
