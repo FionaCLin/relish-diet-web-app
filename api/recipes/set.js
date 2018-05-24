@@ -121,14 +121,16 @@ module.exports = (opts) => {
             recipe.fat += ingredient.fat * ingredient.amount;
           });
       });
+
+      next();
+    };
+
+    let setRecipe = (next) => {
       lib.recipes.getDetail(
         recipe_id,
         (err, res) => {
           console.log(res.ingredients.length, 933399);
         });
-      next();
-    };
-    let setRecipe = (next) => {
       lib.recipes.set(
         recipe_id,
         attrs, (err) => {
