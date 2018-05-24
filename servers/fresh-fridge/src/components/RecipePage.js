@@ -117,11 +117,11 @@ class RecipePage extends React.Component {
       <div class="mealPlannerForm">
         <div class="recipeContent">
           <div class="panel panel-default">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" style={{textAlign:"center"}}>
               <tbody><tr>
                 {
                   constants.mealPlanner.macroNutrients.map((nutrient) => {
-                    let measure = (nutrient === 'Intake') ? "(kJ)" : "(g)";
+                    let measure = (nutrient === 'Energy') ? "(kJ)" : "(g)";
                     return <td>{nutrient} {measure}</td>
                   })
                 }

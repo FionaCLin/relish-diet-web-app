@@ -98,7 +98,7 @@ class MealPlanner extends React.Component {
     }
 
     getMeasurement = (nutrient) => {
-        return ((nutrient === 'Intake') ? 'kCal' : 'g');
+        return ((nutrient === 'Energy') ? 'kCal' : 'g');
     }
 
     macroOver = (e, id) => {
@@ -199,7 +199,7 @@ class MealPlanner extends React.Component {
                                 <tbody>
                                     <tr class="overallMacroRow">
                                         <td class="overallMacroRow"></td>
-                                        <td class="overallMacroRow">Intake (kJ)</td>
+                                        <td class="overallMacroRow">Energy (kJ)</td>
                                         <td class="overallMacroRow">Carbs (g)</td>
                                         <td class="overallMacroRow">Protein (g)</td>
                                         <td class="overallMacroRow">Fats (g)</td>
@@ -273,7 +273,7 @@ class MealPlanner extends React.Component {
                             }
                             {
                                 constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                    let macroHead = (nutrient === 'Intake') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
+                                    let macroHead = (nutrient === 'Energy') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
                                     let timeSlots = dailyMeals.map(day => {
                                         return <td class="macro_img">
                                                     <div class="macroLeft">{ nutrient }</div>

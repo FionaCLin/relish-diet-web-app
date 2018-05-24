@@ -93,7 +93,7 @@ class MealList extends React.Component {
                                     <tbody><tr>
                                         {
                                         constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                            return <td className="macro_col">{nutrient} {(nutrient === 'Intake') ? "(kCal)" : "(g)"}</td>
+                                            return <td className="macro_col">{nutrient} {(nutrient === 'Energy') ? "(kCal)" : "(g)"}</td>
                                         })
                                         }
                                     </tr>

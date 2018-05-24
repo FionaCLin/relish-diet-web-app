@@ -2,7 +2,7 @@ const PERSONAL =  'PERSONAL';
 const BOOKMARKED = 'BOOKMARKED';
 const RECOMMENDED = 'RECOMMENDED';
 const daysOfWeek = ['\xa0\xa0\xa0', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-const macroNutrients = ['Intake', 'Carbs', 'Protein', 'Fats', 'Sodium'];
+const macroNutrients = ['Energy', 'Carbs', 'Protein', 'Fats', 'Sodium'];
 const mealTimes = ['BREKKIE', '\xa0LUNCH', 'DINNER'];
 const recipeList = [
     {
@@ -33,7 +33,7 @@ const defaultPlan = {
         [null, null, null]
     ],
     macros: {
-        Intake: 0,
+        Energy: 0,
         Carbs: 0,
         Protein: 0,
         Fats: 0,

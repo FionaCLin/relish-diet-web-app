@@ -60,7 +60,7 @@ const NavigationBar = (prop) => {
                 </li>
                 <li role="separator" className="divider"></li>
                 <li>
-                  <NavLink to="/editprofile">
+                  <NavLink to="/profile">
                     Profile
                   </NavLink>
                 </li>

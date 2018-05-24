@@ -92,7 +92,7 @@ class RecipeList extends React.Component {
         <div style={{ width: "100%", float: "left" }}>
           <h3 style={{ float: "left" }}>{(list_type == constants.recipeList.BOOKMARK_LIST) ? "Bookmarked Recipes": "My Recipes"}</h3>
           { (list_type !== constants.recipeList.BOOKMARK_LIST) ?
-            <button style={{ float: "right" }} type="button" onClick={(e) => this.addRecipe(e)} className="btn btn-success">Create Recipe</button> : null
+            <Link to="recipes/add"><button style={{ float: "right" }} type="button" className="btn btn-success">Create Recipe</button></Link> : null
           }
         </div>
         <br />
@@ -105,7 +105,11 @@ class RecipeList extends React.Component {
                   <i className="glyphicon glyphicon-remove"></i>
                 </button>
                 { (list_type !== constants.recipeList.BOOKMARK_LIST) ?
-                <button onClick={(e) => this.editRecipe(e, recipe.id)} type="button" className="btn btn-success btn-circle" style={{ float: "right", marginTop: "5px", marginRight: "10px" }}><i className="glyphicon glyphicon-edit"></i></button>
+                  <Link to={"recipes/edit/" + recipe.id}>
+                    <button type="button" className="btn btn-success btn-circle" style={{ float: "right", marginTop: "5px", marginRight: "10px" }}>
+                      <i className="glyphicon glyphicon-edit"></i>
+                    </button>
+                  </Link>
                 : null }  
                 <Link to={"recipe/" + recipe.id}><img src={recipe.img[0]} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
                 <div className="recipe_btn_content" style={{ marginTop: "-15px" }}>
@@ -119,7 +123,7 @@ class RecipeList extends React.Component {
                       <tbody><tr>
                         {
                           constants.mealPlanner.macroNutrients.map((nutrient) => {
-                              return <td className="macro_col">{nutrient} {(nutrient === 'Intake') ? "(kCal)" : "(g)"}</td>
+                              return <td className="macro_col">{nutrient} {(nutrient === 'Energy') ? "(kCal)" : "(g)"}</td>
                           })
                         }
                       </tr>
