@@ -28,7 +28,6 @@ module.exports = (opts) => {
         if (!res) {
           return next(new Error("unknown user"));
         }
-        console.log("user is fine");
         user = res;
         next(err);
       });
@@ -41,10 +40,6 @@ module.exports = (opts) => {
           if (err) {
             return done(Error("recipe error"));
           }
-          console.log(res);
-          // if (!res) {
-          //   return done(Error("Recipe does not exist."))
-          // }
           recipe = res;
           next();
         }
