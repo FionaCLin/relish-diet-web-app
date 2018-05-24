@@ -46,7 +46,7 @@ const NavigationBar = (prop) => {
               </ul>
             </li>
             <li>
-              <NavLink to="mealplan">
+              <NavLink to="/mealplan">
                 <span className="glyphicon glyphicon-calendar"></span>
               </NavLink>
             </li>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
+import { isUndefined } from 'util';
 
 const goal = [1, 2, 3, 4, 5];
 
@@ -74,7 +75,9 @@ class MealPlanner extends React.Component {
     calculateNutrient = (day, nutrient) => {
         let nutrientValue = 0;
         day.forEach(slot => {
-            nutrientValue += !isNull(slot) ? this.getRecipe(slot).macros[nutrient] : 0; 
+            if (!isNull(slot)) {
+                nutrientValue += !(isUndefined(this.getRecipe(slot))) ? this.getRecipe(slot).macros[nutrient] : 0;
+            }
         });
         return nutrientValue;
     }
@@ -129,6 +132,10 @@ class MealPlanner extends React.Component {
         name = e.target.value;
         this.setState({name});
         console.log(name);
+    }
+
+    removeRecipe = (meal, day) => {
+        this.state.dailyMeals[meal][day] = null;
     }
 
     render() {
@@ -189,17 +196,20 @@ class MealPlanner extends React.Component {
                                 constants.mealPlanner.mealTimes.map((time, mealKey) => {
                                     let timeSlots = dailyMeals.map((day, dayKey) => {
                                         if (!isNull(day[mealKey])) {
-                                            return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
-                                                        draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
-                                                        onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
-                                                        onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
-                                                        <div class="drop_img_wrapper">
-                                                            <div class="overlay">
-                                                                <div class="planner_img_text">{this.getRecipe(day[mealKey]).name}</div>
+                                            if (!isUndefined(this.getRecipe(day[mealKey]))) {
+                                                return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
+                                                            draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
+                                                            onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
+                                                            onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
+                                                            <div class="drop_img_wrapper">
+                                                                <div class="overlay">
+                                                                    <div class="planner_img_text">{this.getRecipe(day[mealKey]).name}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    
+                                                        </td>
+                                            } else {
+                                                this.removeRecipe(mealKey, dayKey);
+                                            }    
                                         } else {
                                             return <td class="planner_img"  onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}></td>
                                         }
