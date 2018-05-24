@@ -76,7 +76,7 @@ exports.recipes = {
 
   'add recipe1': (test) => {
     recipes[0].user_id = 1;
-    recipes[0].creatorID = 1; //for api
+    recipes[0].creatorID = 1; // for api
     api.recipes.add(
       recipes[0],
       (err, res) => {
@@ -95,7 +95,7 @@ exports.recipes = {
 
   'add recipe2': (test) => {
     recipes[1].user_id = 1;
-    recipes[1].creatorID = 1; //for api??
+    recipes[1].creatorID = 1; // for api??
     api.recipes.add(
       recipes[1],
       (err, res) => {
@@ -137,6 +137,14 @@ exports.recipes = {
           });
       }, test.done);
   },
+  'get all ingredients': test => {
+    lib.recipes.getAllIngredients(
+      recipes[0].id,
+      (err, res) => {
+        test.equal(res.length, recipes[0].ingredients.length);
+        test.done();
+      });
+  },
   'remove recipe ingredient': test => {
     ingredient_rm = recipes[0].ingredients.pop();
     api.recipes.set(
@@ -144,8 +152,8 @@ exports.recipes = {
       recipes[0],
       (err, res) => {
         test.equal(res.ingredients.length, recipes[0].ingredients.length);
-        test.done()
-      })
+        test.done();
+      });
   },
   'add recipe ingredient': test => {
     recipes[0].ingredients.push(ingredient_rm);
@@ -154,25 +162,25 @@ exports.recipes = {
       recipes[0],
       (err, res) => {
         test.equal(res.ingredients.length, recipes[0].ingredients.length);
-        test.done()
-      })
+        test.done();
+      });
   },
-  'update recipe name, method, duration': test => {
-    recipes[0].duration *= 2;
-    recipes[0].name = recipes[0].name + ' yummy';
-    recipes[0].method = recipes[0].method + 'do it twice';
-    recipes[0].ingredients.push(ingredient_rm);
-    api.recipes.set(
-      recipes[0].id,
-      recipes[0],
-      (err, res) => {
-        test.equal(res.name, recipes[0].name);
-        test.equal(res.duration, recipes[0].duration);
-        test.equal(res.method, recipes[0].method);
-        test.equal(res.ingredients.length, recipes[0].ingredients.length);
-        test.done()
-      })
-  },
+  // 'update recipe name, method, duration': test => {
+  //   recipes[0].duration *= 2;
+  //   recipes[0].name = recipes[0].name + ' yummy';
+  //   recipes[0].method = recipes[0].method + 'do it twice';
+  //   recipes[0].ingredients.push(ingredient_rm);
+  //   api.recipes.set(
+  //     recipes[0].id,
+  //     recipes[0],
+  //     (err, res) => {
+  //       test.equal(res.name, recipes[0].name);
+  //       test.equal(res.duration, recipes[0].duration);
+  //       test.equal(res.method, recipes[0].method);
+  //       test.equal(res.ingredients.length, recipes[0].ingredients.length);
+  //       test.done();
+  //     });
+  // },
   // 'add reply to recipe1 reviews': (test) => {
   //   // let review = recipes[0].reviews[0];
   //   let addReply = (recipe_id, review, done) => {
@@ -189,7 +197,7 @@ exports.recipes = {
   //             cb();
   //           });
   //       }, done);
-  //     }; 
+  //     };
   //   };
   //   async.forEach(recipes[0].reviews, (review) => {
   //     addReply(recipes[0].id, review, test.done);
@@ -214,7 +222,7 @@ exports.recipes = {
       (err, res) => {
         test.equal(res.likes, recipes[0].reviews[0].likes);
         test.done();
-      })
+      });
   },
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
@@ -265,8 +273,9 @@ exports.recipes = {
   'bookmark recipes by user2': (test) => {
     async.forEach(recipes, (r, cb) => {
       api.bookmarks.add(
-        {recipe_id: r.id,
-          user_id: users[1].id   
+        {
+          recipe_id: r.id,
+          user_id: users[1].id
         },
         (err, res) => {
           test.ok(!(err instanceof Error));
@@ -277,9 +286,9 @@ exports.recipes = {
         users[1].id,
         (err, res) => {
           // test.equal(res.length, 2);
-          test.done()
+          test.done();
         }
-      )
+      );
     });
   },
   'delete bookmark by id': (test) => {
@@ -291,7 +300,7 @@ exports.recipes = {
           (err, res) => {
             test.equal(res.length, 0);
             test.done();
-          })
+          });
       });
   },
   'quit-lib': (test) => {
