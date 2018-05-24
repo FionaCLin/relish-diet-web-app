@@ -187,7 +187,6 @@ exports.recipes = {
   //     if (review.reply && review.reply.length != 0) {
   //       async.forEach(review.reply, (r, cb) => {
   //         r.recipe_id = recipe_id;
-  //         r.parent = review.id;
   //         r.memberno = review.user_id;
   //         api.reviews.add(
   //           r,
@@ -204,7 +203,6 @@ exports.recipes = {
   //   }, test.done);
   //   // async.forEach(review.reply, (r, cb) => {
   //   //   r.recipe_id = recipes[0].id;
-  //   //   r.parent = review.id;
   //   //   lib.reviews.add(
   //   //     r,
   //   //     (err, res) => {

@@ -4,14 +4,11 @@ const _ = require('lodash');
 const async = require('async');
 
 module.exports = (opts) => {
-
   let lib = opts.lib;
   let api = opts.api;
 
   api.recipes.get = (recipe_id, done) => {
-
     let recipe;
-
 
     let getRecipe = (next) => {
       lib.recipes.getDetail(
@@ -25,12 +22,9 @@ module.exports = (opts) => {
         });
     };
 
-// since the review has its replys 
-// the api.review.getByRecipe will sort them and
-// append them to its parent recursively
     let getReviews = (next) => {
       api.reviews.getByRecipe(
-        recipe_id,
+        recipe.id,
         (err, res) => {
           if (!res) {
           }

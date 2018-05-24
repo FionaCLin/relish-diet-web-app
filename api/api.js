@@ -31,23 +31,22 @@ module.exports = (opts) => {
     lib: lib
   });
 
-  api.products = require('./bookmarks')({
+  api.bookmarks = require('./bookmarks')({
     api: api,
     lib: lib
   });
 
-
-  api.products = require('./mealplans')({
+  api.mealplans = require('./mealplans')({
     api: api,
     lib: lib
   });
 
-  api.products = require('./recipes')({
+  api.recipes = require('./recipes')({
     api: api,
     lib: lib
   });
 
-  api.products = require('./reviews')({
+  api.reviews = require('./reviews')({
     api: api,
     lib: lib
   });

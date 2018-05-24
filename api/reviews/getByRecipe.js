@@ -11,7 +11,7 @@ module.exports = (opts) => {
     let user, reviews, review;
     let sorted_reviews = [];
 
-    if (!recipe_id || !_.isNumber(recipe_id)) {
+    if (!recipe_id || typeof recipe_id !== 'number') {
       return done(new Error('invalid recipe_id'));
     }
 
@@ -27,37 +27,9 @@ module.exports = (opts) => {
         });
     };
 
-    let getRootReviews = (next) => {
-      reviews.forEach((r) => {
-        if (!r.parent) {
-          sorted_reviews.push(Object.assign({}, r));
-        }
-      });
-      sorted_reviews.forEach((r) => {
-        let index = reviews.indexOf(r);
-        reviews.splice(index, 1);
-      });
-      next();
-    };
-
-    let getReplys = (next) => {
-      reviews.forEach((r) => {
-        console.log(sorted_reviews);
-        let parent = sorted_reviews.find(x => x.id === r.parent);
-        if (!parent.reply) {
-          parent.reply = [];
-        }
-        parent.reply.push(r);
-      });
-      next();
-    };
-
     async.series([
-      getReviews,
-      getRootReviews,
-      getReplys
+      getReviews
     ], (err) => {
-      console.log(8888888888888888, sorted_reviews);
       done(err, sorted_reviews);
     });
   };

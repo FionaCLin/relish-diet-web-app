@@ -14,8 +14,9 @@ module.exports = (config, opts) => {
 
   require('./users')(app, api);
   require('./recipes')(app, api);
-
-
+  require('./dashboards')(app, api);
+  require('./reviews')(app, api);
+  // require('./mealplan')(app, api);
 
   // app.post('/api/todos', todosController.create);
   // app.get('/api/todos', todosController.list);
@@ -35,10 +36,8 @@ module.exports = (config, opts) => {
   //     message: 'Method Not Allowed',
   //   }));
 
-
   // application -------------------------------------------------------------
   // router.get('/', function (req, res) {
   //   res.render('index', {title: 'node-postgres-promises'});
   // });
-
 };

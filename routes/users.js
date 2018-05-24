@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = (app, api) => {
-
   // user
   app.get('/api/users/:id', function (req, res) {
     api.users.get(
@@ -16,13 +15,11 @@ module.exports = (app, api) => {
       curl -vX POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"test@freshfridge.com\",\"username\":\"toby\",\"password\":\"123\",\"nameGiven\":\"david\", \"nameFamily\":\"phan\", \"birthday\":\"01-01-2000\",\"gender\":\"M\",\"goal\":\"lose weight\"}"
   */
 
-
   // get the payload with req.body
   app.post('/api/signup', function (req, res) {
     api.users.add(
       req.body,
       (err, user) => {
-        console.log(err);
         if (err) {
           res.status(400).send(err);
         }
@@ -45,9 +42,9 @@ module.exports = (app, api) => {
       });
   });
 
-/*
- curl - vX POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"password\":\"123\"}"
- */
+  /*
+   curl - vX POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"password\":\"123\"}"
+   */
 
   app.post('/api/users/login', function (req, res) {
     api.users.auth(
@@ -57,8 +54,9 @@ module.exports = (app, api) => {
         if (err) {
           res.status(400).send(err);
         }
-        res.status(200).send();
+        console.log(user);
+        res.status(200).send(user);
       });
   });
-
 };
+

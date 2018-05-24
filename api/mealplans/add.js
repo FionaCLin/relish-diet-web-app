@@ -1,12 +1,11 @@
-"use strict";
+'use strict';
 
-var _ = require("lodash");
-var async = require("async");
+var _ = require('lodash');
+var async = require('async');
 
 module.exports = opts => {
   var lib = opts.lib;
   var api = opts.api;
-
 
   api.mealplans.add = (attrs, done) => {
     var mealplan;
@@ -20,10 +19,10 @@ module.exports = opts => {
 
     attrs = _.pick(attrs, keys);
 
-    //Validate input fields.
+    // Validate input fields.
 
     let checkValid = next => {
-      if (typeof attrs.title != 'string') return done(new Error('title is not a string'));
+      if (typeof attrs.title !== 'string') return done(new Error('title is not a string'));
       next();
     };
 
