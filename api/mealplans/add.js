@@ -12,9 +12,9 @@ module.exports = opts => {
     var user;
     // whitelist attrs
     var keys = [
-      "title",
-      "user_id",
-      "timeslots"
+      'title',
+      'user_id',
+      'timeslots'
     ];
 
     attrs = _.pick(attrs, keys);
@@ -34,8 +34,9 @@ module.exports = opts => {
     let checkUser = next => {
       lib.users.get(attrs.user_id, (err, res) => {
         if (!res) {
-          return next(new Error("unknown user"));
+          return next(new Error('unknown user'));
         }
+        user = res;
         next(err);
       });
     };
@@ -45,18 +46,41 @@ module.exports = opts => {
         attrs,
         (err, res) => {
           if (err) {
-            return done(new Error("Meal plan could not be added."));
+            return done(new Error('Meal plan could not be added.'));
           }
           mealplan = res;
           next();
         }
-      )
+      );
+    };
+
+    let addTimeSlots = next => {
+      if (attrs.timeslots && typeof attrs.timeslots !== 'array') {
+        // nothing to do if no timeslots
+        return next();
+      } else if (attrs.timeslots) {
+        console.log(attrs.timeslots);
+
+        attrs.timeslots.forEach(slot => {
+          slot.plan_id = mealplan.plan_id;
+          lib.timeslots.add(
+            slot,
+            (err, res) => {
+              if (err) {
+                return done(new Error('Time slot could not be added.'));
+              }
+              slot.id = res.id;
+            });
+        });
+        next();
+      }
+      next();
     };
 
     async.series([
       checkValid,
       addMealPlanner,
-      // printer,
+      addTimeSlots
     ], (err) => {
       done(err, mealplan);
     });

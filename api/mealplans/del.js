@@ -1,19 +1,17 @@
-"use strict";
+'use strict';
 
-var _ = require("lodash");
-var async = require("async");
+var _ = require('lodash');
+var async = require('async');
 
 module.exports = opts => {
   var lib = opts.lib;
   var api = opts.api;
 
-
   api.mealplans.del = (plan_id, done) => {
-
-    //Validate input fields.
+    // Validate input fields.
 
     let checkValid = next => {
-      if (typeof plan_id != 'number') return done(new Error('title is not a string'));
+      if (typeof plan_id !== 'number') return done(new Error('plan id is not a string'));
       next();
     };
 
@@ -22,11 +20,10 @@ module.exports = opts => {
         plan_id,
         (err, res) => {
           if (err) {
-            return done(new Error("Meal plan could not be deleted."));
+            return done(new Error('Meal plan could not be deleted.'));
           }
           next();
-        }
-      )
+        });
     };
 
     let timeslots = [];
@@ -36,13 +33,12 @@ module.exports = opts => {
         plan_id,
         (err, res) => {
           if (err) {
-            return done(new Error("Error getting time slots."));
+            return done(new Error('Error getting time slots.'));
           }
           timeslots = res;
           next();
-        }
-      )
-    }
+        });
+    };
 
     let delTimeSlots = next => {
       timeslots.forEach(slot => {
@@ -50,21 +46,19 @@ module.exports = opts => {
           slot.timeslot_id,
           (err, res) => {
             if (err) {
-              return done(new Error("Couldnt delete time slots."));
+              return done(new Error('Couldnt delete time slots.'));
             }
-          }
-        )
-      })
+          });
+      });
       next();
-    }
+    };
 
-
-    //TODO: compute the total calories, fat, protein, cabs and upset the recipe
+    // TODO: compute the total calories, fat, protein, cabs and upset the recipe
     async.series([
       checkValid,
-      delMealPlanner,
       getTimeSlots,
       delTimeSlots,
+      delMealPlanner
     ], (err) => {
       done(err);
     });

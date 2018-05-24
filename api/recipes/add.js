@@ -12,17 +12,17 @@ module.exports = opts => {
     var user;
     // whitelist attrs
     var keys = [
+      'creatorID',
       'name',
-      'images',
-      'ingredients',
       'method',
       'duration',
-      'rate',
-      'creatorID',
+      'ingredients',
       'calories',
       'carbs',
       'protein',
-      'fat'
+      'fat',
+      'rate',
+      'images'
     ];
 
     attrs = _.pick(attrs, keys);
@@ -42,9 +42,6 @@ module.exports = opts => {
     let checkValid = next => {
       if (!attrs.name || typeof attrs.name !== 'string') { return done(new Error('name is not a string')); }
       if (!attrs.method || typeof attrs.method !== 'string') { return done(new Error('method is not a string')); }
-      // if (!attrs.duration || typeof attrs.duration !== 'number') {
-      //     return done(new Error('duration is not a number'));
-      //   }
       next();
     };
 
@@ -60,7 +57,7 @@ module.exports = opts => {
 
     let checkUser = next => {
       lib.users.get(attrs.creatorID, (err, res) => {
-        if (!res) {
+        if (err || !res) {
           return next(new Error('unknown user'));
         }
         user = res;
@@ -128,6 +125,15 @@ module.exports = opts => {
 
     var createRecipe = next => {
       attrs.at = Date.now();
+      if (attrs.duration && typeof attrs.duration !== 'number') {
+        return done(new Error('duration is not a number'));
+      }
+      for (let i = 5; i < 10; i++) {
+        if (attrs[keys[i]] && typeof attrs[keys[i]] !== 'number') {
+          console.log(attrs[keys[i]]);
+          return done(new Error(keys[i] + ' is not a number'));
+        }
+      }
       lib.recipes.add(user.id, attrs, (err, res) => {
         if (err) {
           return next(err);
@@ -150,8 +156,7 @@ module.exports = opts => {
               return next(err);
             }
             // ingredient.ndbno = res.id;
-          }
-        );
+          });
       });
       next();
     };
