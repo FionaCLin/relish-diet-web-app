@@ -113,33 +113,6 @@ module.exports = () => {
       user_id: 2,//not declared
       likes: 1,
       content: 'This recipe looks fantastic. I really need to try it.',
-      reply: [{
-        user_id: 3,
-        likes: 11,
-        content: 'Gonna experiment 2a little bit',
-        reply: [{
-          user_id: 3,
-          likes: 11,
-          content: 'Gonna experiment 8a little bit',
-          reply: [{
-            user_id: 3,
-            likes: 11,
-            content: 'Gonna experiment a9 little bit'
-          }]
-        }, {
-          user_id: 3,
-          likes: 11,
-          content: 'Gonna experiment a little bit'
-        }]
-      }, {
-        user_id: 3,
-        likes: 11,
-        content: 'Gonna experiment a little bit'
-      }, {
-        user_id: 3,
-        likes: 11,
-        content: 'Gonna experiment a little bit'
-      }]
     }, {
       user_id: 3,
       likes: 11,

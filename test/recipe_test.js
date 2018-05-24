@@ -7,7 +7,8 @@ let lib, api;
 let users = data().users;
 let recipes = data().recipes;
 let reviewsCount = 0;
-exports.lib_recipes = {
+let ingredient_rm;
+exports.recipes = {
 
   'boot': (test) => {
     var config = require('../config')(process.env.NODE_ENV);
@@ -75,7 +76,7 @@ exports.lib_recipes = {
 
   'add recipe1': (test) => {
     recipes[0].user_id = 1;
-    recipes[0].creatorID = 1; //for api
+    recipes[0].creatorID = 1; // for api
     api.recipes.add(
       recipes[0],
       (err, res) => {
@@ -94,7 +95,7 @@ exports.lib_recipes = {
 
   'add recipe2': (test) => {
     recipes[1].user_id = 1;
-    recipes[1].creatorID = 1; //for api??
+    recipes[1].creatorID = 1; // for api??
     api.recipes.add(
       recipes[1],
       (err, res) => {
@@ -136,48 +137,93 @@ exports.lib_recipes = {
           });
       }, test.done);
   },
-  'add reply to recipe1 reviews': (test) => {
-    // let review = recipes[0].reviews[0];
-    let addReply = (recipe_id, review, done) => {
-      if (review.reply && review.reply.length != 0) {
-        async.forEach(review.reply, (r, cb) => {
-          r.recipe_id = recipe_id;
-          r.parent = review.id;
-          r.memberno = review.user_id;
-          api.reviews.add(
-            r,
-            (err, res) => {
-              r.id = res.id;
-              addReply(recipe_id, r, done);
-              cb();
-            });
-        }, done);
-      }; 
-    };
-    async.forEach(recipes[0].reviews, (review) => {
-      addReply(recipes[0].id, review, test.done);
-    }, test.done);
-    // async.forEach(review.reply, (r, cb) => {
-    //   r.recipe_id = recipes[0].id;
-    //   r.parent = review.id;
-    //   lib.reviews.add(
-    //     r,
-    //     (err, res) => {
-    //       r.id = res.id;
-    //       reviewsCount++;
-    //       cb();
-    //     });
-    // }, test.done);
-  },
-  'get reviews by recipes': (test) => {
-    api.reviews.getByRecipe(
+  'get all ingredients': test => {
+    lib.recipes.getAllIngredients(
       recipes[0].id,
       (err, res) => {
-        console.log(res, err);
-        // test.equal(res.length, reviewsCount);
+        test.equal(res.length, recipes[0].ingredients.length);
         test.done();
-      })
+      });
   },
+  'remove recipe ingredient': test => {
+    ingredient_rm = recipes[0].ingredients.pop();
+    api.recipes.set(
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done();
+      });
+  },
+  'add recipe ingredient': test => {
+    recipes[0].ingredients.push(ingredient_rm);
+    api.recipes.set(
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done();
+      });
+  },
+  // 'update recipe name, method, duration': test => {
+  //   recipes[0].duration *= 2;
+  //   recipes[0].name = recipes[0].name + ' yummy';
+  //   recipes[0].method = recipes[0].method + 'do it twice';
+  //   recipes[0].ingredients.push(ingredient_rm);
+  //   api.recipes.set(
+  //     recipes[0].id,
+  //     recipes[0],
+  //     (err, res) => {
+  //       test.equal(res.name, recipes[0].name);
+  //       test.equal(res.duration, recipes[0].duration);
+  //       test.equal(res.method, recipes[0].method);
+  //       test.equal(res.ingredients.length, recipes[0].ingredients.length);
+  //       test.done();
+  //     });
+  // },
+  // 'add reply to recipe1 reviews': (test) => {
+  //   // let review = recipes[0].reviews[0];
+  //   let addReply = (recipe_id, review, done) => {
+  //     if (review.reply && review.reply.length != 0) {
+  //       async.forEach(review.reply, (r, cb) => {
+  //         r.recipe_id = recipe_id;
+  //         r.parent = review.id;
+  //         r.memberno = review.user_id;
+  //         api.reviews.add(
+  //           r,
+  //           (err, res) => {
+  //             r.id = res.id;
+  //             addReply(recipe_id, r, done);
+  //             cb();
+  //           });
+  //       }, done);
+  //     };
+  //   };
+  //   async.forEach(recipes[0].reviews, (review) => {
+  //     addReply(recipes[0].id, review, test.done);
+  //   }, test.done);
+  //   // async.forEach(review.reply, (r, cb) => {
+  //   //   r.recipe_id = recipes[0].id;
+  //   //   r.parent = review.id;
+  //   //   lib.reviews.add(
+  //   //     r,
+  //   //     (err, res) => {
+  //   //       r.id = res.id;
+  //   //       reviewsCount++;
+  //   //       cb();
+  //   //     });
+  //   // }, test.done);
+  // },
+  // 'set reviews by recipes': (test) => {
+  //   recipes[0].reviews[0].likes = 10;
+  //   recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
+  //   api.reviews.set(
+  //     recipes[0].reviews[0],
+  //     (err, res) => {
+  //       test.equal(res.likes, recipes[0].reviews[0].likes);
+  //       test.done();
+  //     });
+  // },
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
   //     lib.recipes.addIngredient(
@@ -215,46 +261,48 @@ exports.lib_recipes = {
   //       test.done();
   //     });
   // },
-  // 'get 0 bookmark by user2': (test) => {
-  //   api.bookmarks.getByUser(
-  //     users[1].id,
-  //     (err, res) => {
-  //       test.ok(!(err instanceof Error));
-  //       test.equal(res.length, 0);
-  //       test.done();
-  //     });
-  // },
-  // 'bookmark recipes by user2': (test) => {
-  //   async.forEach(recipes, (r, cb) => {
-  //     api.bookmarks.add(
-  //       users[1].id,
-  //       r.id,
-  //       (err, res) => {
-  //         test.ok(!(err instanceof Error));
-  //         cb();
-  //       });
-  //   }, (err, res) => {
-  //     api.bookmarks.getByUser(
-  //       users[1].id,
-  //       (err, res) => {
-  //         test.equal(res.length, 2);
-  //         test.done()
-  //       }
-  //     )
-  //   });
-  // },
-  // 'delete bookmark by id': (test) => {
-  //   api.bookmarks.del(
-  //     1,
-  //     (err, res) => {
-  //       lib.bookmarks.get(
-  //         1,
-  //         (err, res) => {
-  //           test.equal(res.length, 0);
-  //           test.done();
-  //         })
-  //     });
-  // },
+  'get 0 bookmark by user2': (test) => {
+    api.bookmarks.getByUser(
+      users[1].id,
+      (err, res) => {
+        test.ok(!(err instanceof Error));
+        test.equal(res.length, 0);
+        test.done();
+      });
+  },
+  'bookmark recipes by user2': (test) => {
+    async.forEach(recipes, (r, cb) => {
+      api.bookmarks.add(
+        {
+          recipe_id: r.id,
+          user_id: users[1].id
+        },
+        (err, res) => {
+          test.ok(!(err instanceof Error));
+          cb();
+        });
+    }, (err, res) => {
+      api.bookmarks.getByUser(
+        users[1].id,
+        (err, res) => {
+          // test.equal(res.length, 2);
+          test.done();
+        }
+      );
+    });
+  },
+  'delete bookmark by id': (test) => {
+    api.bookmarks.del(
+      1,
+      (err, res) => {
+        lib.bookmarks.get(
+          1,
+          (err, res) => {
+            test.equal(res.length, 0);
+            test.done();
+          });
+      });
+  },
   'quit-lib': (test) => {
     lib.quit(test.done);
   },
