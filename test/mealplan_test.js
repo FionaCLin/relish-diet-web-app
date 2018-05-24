@@ -144,7 +144,7 @@ exports.mealplan_test = {
         test.equal(res.title, mealplan1.title);
         test.done();
       }
-    )
+    );
   },
   'update mealplan': test => {
     mealplan1.title1 = 'gain weight';
@@ -178,11 +178,11 @@ exports.mealplan_test = {
     }, {
       recipe_id: 2,
       day: 'TUE',
-      mealtimes: 'BREKKIE',
+      mealtimes: 'BREKKIE'
     }, {
       recipe_id: 1,
       day: 'WED',
-      mealtimes: 'BREKKIE',
+      mealtimes: 'BREKKIE'
     }];
     async.forEach(mealplan2.timeslots,
       (timeslot, cb) => {
