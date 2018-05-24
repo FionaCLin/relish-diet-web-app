@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { recipeInfo } from './constants/dummyData.js';
 axios.defaults.baseURL = 'http://localhost:3002/';
-// axios.defaults.headers.common['Authorization'] = 647484;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function login (email, password) {
@@ -67,7 +66,6 @@ function addRecipe (recipe) {
 function getRecipe (recipe_id) {
   axios.get('api/recipes/' + recipe_id
   ).then(function (response) {
-    // suppose the response contain the token?
     let recipe = response.data;
     console.log('get recipe 1', recipe);
     return recipe;
@@ -86,7 +84,6 @@ function addComment (recipe_id, comment) {
   };
   axios.post('api/recipes/' + recipe_id + '/reviews/create', comment)
     .then(function (response) {
-      // suppose the response contain the token?
       comment = response.data;
       console.log('you have ', comment);
       return comment;
@@ -98,9 +95,6 @@ function addComment (recipe_id, comment) {
 function delComment (commentId) {
   axios.delete('api/reviews/' + commentId)
     .then(function (response) {
-      // suppose the response contain the token?
-      console.log(response.status);
-      return;
     }).catch(function (error) {
       console.log('Error');
       console.log(error);
@@ -109,8 +103,6 @@ function delComment (commentId) {
 function editComment (commentId, comment) {
   axios.put('api/reviews/' + commentId, comment)
     .then(function (response) {
-      // suppose the response contain the token?
-      comment = response.data;
       console.log('you have ', comment);
       return comment;
     }).catch(function (error) {
