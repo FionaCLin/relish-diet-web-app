@@ -1,14 +1,13 @@
-import constants from '../constants/'
-import api from '../api.js'
-
+import constants from '../constants/loginConst';
+import api from '../api.js';
 const initialState = [
   {
     loginUserEmailInput: '',
     password: ''
   }
-]
+];
 
-export default function users(state = initialState, action) {
+export default function users (state = initialState, action) {
   // console.log('reducer running', action);
   switch (action.type) {
     case constants.LOGIN_EMAIL_TEXT_CHANGED:

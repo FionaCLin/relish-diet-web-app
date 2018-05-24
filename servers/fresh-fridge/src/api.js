@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-function login(email, password) {
-  console.log(email, password)
+function login (email, password) {
+  console.log(email, password);
   let token = null;
   axios.post('http://localhost:3002/api/users/login', {
     // email: 'synexenel1416@yopmail.com',
@@ -9,9 +9,9 @@ function login(email, password) {
     email: email,
     password: password
   }).then(function (response) {
-    console.log('you have login');
-    //suppose the response contain the token?
-    token = response.data.token;
+    // suppose the response contain the token?
+    token = response;
+    console.log('you have login', response);
   }).catch(function (error) {
     console.log('you haven\'t login');
     console.log(error);
@@ -21,4 +21,4 @@ function login(email, password) {
 
 export default {
   login
-}
+};
