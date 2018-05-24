@@ -119,5 +119,5 @@ CREATE TABLE Time_Slots
   recipe_id INTEGER NOT NULL,
   CONSTRAINT Time_Slot_PK            PRIMARY KEY (id),
   CONSTRAINT Time_Slot_Recipe_FK     FOREIGN KEY (recipe_id) REFERENCES Recipes(id),
-  CONSTRAINT Time_Slot_Plan_FK       FOREIGN KEY (recipe_id) REFERENCES Meal_Plans(id),
+  CONSTRAINT Time_Slot_Plan_FK       FOREIGN KEY (plan_id) REFERENCES Meal_Plans(id),
   CONSTRAINT Day_CHECK check(day IN ('MON','TUE', 'WED', 'THU','FRI','SAT','SUN')));

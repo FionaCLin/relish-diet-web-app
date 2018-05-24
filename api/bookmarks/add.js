@@ -18,14 +18,37 @@ module.exports = (opts) => {
       'recipe_id'
     ];
 
+    let user;
+    let recipe;
+
     attrs = _.pick(attrs, keys);
 
-    //does the recipe id already exist?
-    //should i add a check here? fk it
+    let checkUser = next => {
+      lib.users.get(attrs.user_id, (err, res) => {
+        if (!res) {
+          return next(new Error("unknown user"));
+        }
+        user = res;
+        next(err);
+      });
+    };
+
+    let checkRecipe = next => {
+      lib.recipes.get(
+        attrs.recipe_id,
+        (err, res) => {
+          if (err) {
+            return done(Error("recipe error"));
+          }
+          recipe = res;
+          next();
+        }
+      )
+    }
 
     var add = (next) => {
       lib.bookmarks.add(
-        attrs.user_id, attrs.recipe_id,
+        user.id, recipe.id,
         (err, res) => {
           if (err) {
             next(err);
@@ -36,9 +59,11 @@ module.exports = (opts) => {
     }
 
     async.series([
+      checkUser,
+      checkRecipe,
       add
-    ], (err) => {
-      done(err, user);
+    ], (err, res) => {
+      done(err, res);
     });
   };
 };

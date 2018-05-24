@@ -9,21 +9,25 @@ module.exports = (opts) => {
 
   api.reviews.set = (attrs, done) => {
     let user, review;
-
     let validate = (next) => {
       attrs = _.defaults(attrs, {
-        recipe_id: null,
+        review_id: null,
         memberno: null,
-        content: ''
-        // likes: null // maybe this one for set
+        content: '',
+        likes: null
       });
-      if (!attrs.recipe_id || !_.isNumber(attrs.recipe_id)) {
-        return done(new Error('invalid recipe_id'));
+      if (!attrs.review_id || !_.isNumber(attrs.review_id)) {
+        return done(new Error('invalid review_id'));
       }
       if (!attrs.memberno || !_.isNumber(attrs.memberno)) {
         return done(new Error('invalid memberno'));
       }
-      if (!attrs.content || !_.isString(attrs.content)) {
+      if (!attrs.likes || !_.isNumber(attrs.likes)) {
+        return done(new Error('invalid likes'));
+      }
+      if (!attrs.content
+        || !_.isString(attrs.content)
+        || attrs.content.length < 4) {
         return done(new Error('invalid content'));
       }
       next();
@@ -37,26 +41,40 @@ module.exports = (opts) => {
             next(err);
           }
           user = res;
+          next();
         });
     };
 
-    let addReview = (next) => {
-      lib.reviews.add(
-        user.id,
+    let getReview = (next) => {
+      lib.reviews.get(
+        attrs.review_id,
+        (err, res) => {
+          if (err || !res) {
+            return done(new Error('review not found'));
+          }
+          review = res;
+          next();
+        })
+    }
+
+    let setReview = (next) => {
+      lib.reviews.set(
+        review.id,
         attrs,
         (err, res) => {
           if (err) {
             next(err);
           }
           review = res;
+          next();
         });
-      next();
     };
 
     async.series([
       validate,
       getUser,
-      addReview
+      getReview,
+      setReview
     ], (err) => {
       done(err, review);
     });

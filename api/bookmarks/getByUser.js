@@ -11,7 +11,7 @@ module.exports = (opts) => {
     Returns list of recipes bookmarked by a user.
   **/
 
-  api.bookmarks.get = (user_id, done) => {
+  api.bookmarks.getByUser = (user_id, done) => {
 
     let recipe;
 
@@ -23,6 +23,7 @@ module.exports = (opts) => {
             return done(new Error('bookmarks do not exist'));
           }
           recipe = res;
+          next();
         }
       )
     }
