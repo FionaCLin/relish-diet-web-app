@@ -38,7 +38,7 @@ module.exports = opts => {
       let checkValid = next => {
           if (!attrs.name || typeof attrs.name !== 'string') { return done(new Error('name is not a string')); }
           if (!attrs.method || typeof attrs.method !== 'string') { return done(new Error('method is not a string')); }
-          if (!attrs.duration || _.isNumber(attrs.duration)) {
+          if (!attrs.duration || typeof attrs.duration != 'number') {
               return done(new Error('duration is not a number'));
             }
           next();
