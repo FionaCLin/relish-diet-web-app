@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = (app, api) => {
-
   // recipe
+  // recipe details
   app.get('/api/recipes/:id', function (req, res) {
-    api.recipes.get(
+    api.recipes.getDetails(
       req.params.id,
       (err, recipe) => {
         res.send(recipe);
@@ -24,14 +24,23 @@ module.exports = (app, api) => {
       'creatorID',
 
   */
- // "{\"name\":\"Chicken and Broccoli\", \"method\":\"1. do this, 2. do that\", \"duration\":\"40\", \"rate\":\"0\", \"creatorID\":\"1\"}"
+  // "{\"name\":\"Chicken and Broccoli\", \"method\":\"1. do this, 2. do that\", \"duration\":\"40\", \"rate\":\"0\", \"creatorID\":\"1\"}"
 
   // get the payload with req.body
   app.post('/api/recipes/create', function (req, res) {
-    api.recipes.add(
-      req.body,
+    req.body;
+    api.recipes.add({
+      name: req.body.name,
+      creatorId: req.body.creator
+      // images'
+      // ingredients':
+      // method':
+      // duration':
+      // rate':
+      // creatorI:
+      // ... find those field that map to our api keys
+    },
       (err, recipe) => {
-        console.log(err);
         if (err) {
           res.status(400).send(err);
         }
@@ -54,22 +63,7 @@ module.exports = (app, api) => {
       });
   });
 
-/*
- curl - vX POST  http://localhost:3002/api/recipes/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"password\":\"123\"}"
- */
- // ??
-  app.post('/api/recipes/login', function (req, res) {
-    api.recipes.auth(
-      req.body.email,
-      req.body.password,
-      (err, recipe) => {
-        if (err) {
-          res.status(400).send(err);
-        }
-        res.status(200).send();
-      });
-  });
-
+  // can we delete a recipes??
   app.delete('/api/recipes/:id', function (req, res) {
     api.recipes.del(
       req.params.id,
@@ -80,5 +74,4 @@ module.exports = (app, api) => {
         res.status(200).send();
       });
   });
-
 };
