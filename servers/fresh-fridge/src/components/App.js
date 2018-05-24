@@ -33,8 +33,14 @@ class App extends Component {
           <Route path="/" exact strict component={Login}/>
           <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
           <Route path="/search" exact strict component={Dashboard} />
-          <PropsRoute path="/meallist" exact strict component={MealList} mealPlans={this.state.mealPlans} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
-          <PropsRoute path="/mealplan" exact strict component={MealPlanner} recipeInfo={this.state.recipes}/>
+          <PropsRoute path="/meallist" exact strict component={MealList} mealPlans={this.state.mealPlans}
+              curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
+          <PropsRoute path="/mealplan/:mode" exact strict component={MealPlanner} recipeInfo={this.state.recipes}
+              users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans} recipeInfo={this.state.recipes}
+              editPlan={(mealPlans) => this.setState({mealPlans})}/>
+          <PropsRoute path="/mealplan/:mode/:id" exact strict component={MealPlanner} recipeInfo={this.state.recipes}
+              users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans} recipeInfo={this.state.recipes}
+              editPlan={(mealPlans) => this.setState({mealPlans})}/>
           <PropsRoute path="/recipes" exact strict component={RecipeList} recipeInfo={this.state.recipes} list_type={constants.recipeList.RECIPE_LIST}
               curr_user={CURR_USER_ID} editRecipes={(recipes) => this.setState({recipes})}/>
           <PropsRoute path="/bookmark" exact strict component={RecipeList} recipeInfo={this.state.recipes} list_type={constants.recipeList.BOOKMARK_LIST}

@@ -62,12 +62,11 @@ class MealList extends React.Component {
                 </div>
                 <div style={{width:"100%",float:"left"}}>
                     <h3 style={{float:"left"}}>My Meal Plans</h3>
-                    <Link to="mealplan"><button style={{float:"right"}} type="button" class="btn btn-success">Create Meal Plan</button></Link>
+                    <Link to="mealplan/add"><button style={{float:"right"}} type="button" class="btn btn-success">Create Meal Plan</button></Link>
                 </div>
                 <br></br>
                 <div style={{width:"100%",float:"left"}} class="list-group">
                     { this.state.mealPlans.map((plan) => {
-                        console.log("HERE", plan);
                         return (
                         <a class="list-group-item list-group-item-action recipe_btn" style={{cursor:"pointer"}}>
                             <button type="button" onClick={(e) => this.changeModal(e, plan)} class="btn btn-danger btn-circle" style={{float:"right",marginTop:"5px"}} data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>

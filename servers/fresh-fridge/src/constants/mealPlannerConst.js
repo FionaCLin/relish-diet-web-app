@@ -21,6 +21,25 @@ const recipeList = [
         class: "glyphicon glyphicon-thumbs-up"
     }
 ];
+const defaultPlan = {
+    name: "",
+    dailyMeals : [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+    ],
+    macros: {
+        Intake: 0,
+        Carbs: 0,
+        Protein: 0,
+        Fats: 0,
+        Sodium: 0
+    }
+};
 
 export default {
     daysOfWeek,
@@ -30,6 +49,8 @@ export default {
     PERSONAL,
     BOOKMARKED,
     RECOMMENDED,
-    ADD_MEAL_PLANNER: 'ADD_MEAL_PLANNER',
-    EDIT_MEAL_PLANNER: 'EDIT_MEAL_PLANNER',
+    defaultPlan,
+    ADD_MEAL_PLANNER: 'add',
+    EDIT_MEAL_PLANNER: 'edit',
+    VIEW_MEAL_PLANNER: 'view'
 }
