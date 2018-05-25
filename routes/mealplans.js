@@ -17,7 +17,11 @@ module.exports = (app, api) => {
   });
 
   /*
-    curl -X POST  http://localhost:3002/api/mealplans/create -H "Content-Type: application/json"  -d "{\"title\":\"\",\"user_id\":\"\",\"timeslots:\":[]}" */
+    curl -X POST  http://localhost:3002/api/mealplans/create -H "Content-Type: application/json"  -d "{\"title\":\"\",\"user_id\":\"\",\"timeslots:\":[]}"
+    eg.:
+    curl -X POST  http://localhost:3002/api/mealplans/create -H "Content-Type: application/json"  -d "{\"title\":\"hello\",\"user_id\":\"1\",\"timeslots:\":[]}"
+
+    */
 
   app.post('/api/mealplans/create', function (req, res) {
     api.mealplans.add(
