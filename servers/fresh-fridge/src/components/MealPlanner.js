@@ -168,10 +168,10 @@ class MealPlanner extends React.Component {
             name: this.state.name,
             creator: this.props.curr_user,
             img: [
-                'images/sandwich.jpg',
                 'images/recipe.jpg',
+                'images/paella.jpg',
                 'images/pudding.png',
-                'images/meatball.jpg'
+                'images/recipe.jpg'
             ],
             dailyMeals : this.state.dailyMeals,
             macros: this.state.macros

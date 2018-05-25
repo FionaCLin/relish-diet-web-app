@@ -18,11 +18,11 @@ class EditRecipe extends React.Component {
                 method: '',
                 ingredients: [],
                 macros: {
-                    Energy: 10,
-                    Carbs: 20,
-                    Protein: 30,
-                    Fats: 40,
-                    Sodium: 50
+                    Energy: 452,
+                    Carbs: 36,
+                    Protein: 6,
+                    Fats: 20,
+                    Sodium: 2
                 },
                 img: []
             }
@@ -122,11 +122,11 @@ class EditRecipe extends React.Component {
             name: this.state.name,
             img: this.state.img,
             macros: {
-                Energy: 60,
-                Carbs: 80,
-                Protein: 10,
-                Fats: 60,
-                Sodium: 10
+                Energy: 452,
+                Carbs: 36,
+                Protein: 6,
+                Fats: 20,
+                Sodium: 2
             },
             method: this.state.method,
             ingredients: this.state.ingredients,

@@ -193,7 +193,7 @@ class RecipePage extends React.Component {
                   recipe.img.map((item, index) => {
                     console.log(item);
                     return <div className={(index === 0) ? "item active" : "item"}>
-                              <img src={"../" + item} style={{ width: "400px", height: "400px" }} alt="img"></img>
+                              <img src={"../../" + item} style={{ width: "400px", height: "400px" }} alt="img"></img>
                             </div>
                   })
                 }
