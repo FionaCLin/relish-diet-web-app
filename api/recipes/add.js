@@ -25,6 +25,7 @@ module.exports = opts => {
       'images'
     ];
 
+    console.log(attrs, 8888);
     attrs = _.pick(attrs, keys);
 
     // TODO: validate the

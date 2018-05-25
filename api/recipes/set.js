@@ -7,7 +7,7 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.recipes.set = (recipe_id, attrs, done) => {
+  api.recipes.set = (user_id, recipe_id, attrs, done) => {
     var recipe;
     var user;
     // whitelist attrs
@@ -33,20 +33,20 @@ module.exports = (opts) => {
       'protein',
       'fat'
     ];
-
     let checkValid = next => {
-      if (typeof attrs.name !== 'string') return done(new Error('name is not a string'));
+      if (attrs.name && typeof attrs.name !== 'string') return done(new Error('name is not a string'));
       recipe.name = attrs.name;
-      if (typeof attrs.method !== 'string') return done(new Error('method is not a string'));
+      if (attrs.method && typeof attrs.method !== 'string') return done(new Error('method is not a string'));
       recipe.method = attrs.method;
-      if (typeof attrs.duration !== 'number') return done(new Error('duration is not a number'));
+      if (attrs.duration && typeof attrs.duration !== 'number') return done(new Error('duration is not a number'));
       recipe.duration = attrs.duration;
       next();
+      console.log(attrs);
     };
 
     let checkUser = next => {
-      lib.users.get(attrs.creatorID, (err, res) => {
-        if (!res) {
+      lib.users.get(user_id, (err, res) => {
+        if (err || !res) {
           return done(new Error('unknown user'));
         }
         user = res;

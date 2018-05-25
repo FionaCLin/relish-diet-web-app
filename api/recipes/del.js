@@ -10,16 +10,15 @@ module.exports = (opts) => {
   api.recipes.del = (recipe_id, done) => {
     var recipe;
 
-    //should send id of deleted recipe to delete from recipe table.
+    // should send id of deleted recipe to delete from recipe table.
     var deleteRecipe = (next) => {
       lib.recipes.del(
         recipe_id,
         (err, res) => {
-          if (!res) {
+          if (err) {
             return next(new Error('unknown recipe'));
           }
-          recipe = res;
-          next(err);
+          next(null, null);
         });
     };
 
@@ -28,5 +27,5 @@ module.exports = (opts) => {
     ], (err) => {
       done(err);
     });
-  }
-}
+  };
+};
