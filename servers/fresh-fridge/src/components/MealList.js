@@ -60,9 +60,42 @@ class MealList extends React.Component {
 
                 </div>
                 </div>
+                <div id="myModal1" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    {/* <!-- Modal content--> */}
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Create Meal Plan</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Choose a goal option to work towards.</p>
+                        <a href={"mealplan/add/0"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                            Slimming - low carbs and low fats<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
+                        </a>
+                        <a href={"mealplan/add/1"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                            Muscle Building - high carbs and high protein<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
+                        </a>
+                        <a href={"mealplan/add/2"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                            Weight Loss - low carbs and high protein<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
+                        </a>
+                        <a href={"mealplan/add/3"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                            Stamina Training - high protein and low intake<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
+                        </a>
+                        <a href={"mealplan/add/4"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                            General Fitness - all rounder<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
+                        </a>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                    </div>
+
+                </div>
+                </div>
                 <div style={{width:"100%",float:"left"}}>
                     <h3 style={{float:"left"}}>My Meal Plans</h3>
-                    <Link to="mealplan/add"><button style={{float:"right"}} type="button" class="btn btn-success">Create Meal Plan</button></Link>
+                    <button style={{float:"right"}} type="button" data-toggle="modal" data-target="#myModal1" class="btn btn-success">Create Meal Plan</button>
                 </div>
                 <br></br>
                 <div style={{width:"100%",float:"left"}} class="list-group">

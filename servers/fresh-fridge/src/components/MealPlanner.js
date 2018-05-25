@@ -2,12 +2,11 @@ import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
+import { sortDiet, sortPlan } from '../constants/dummyData';
 import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
-
-const goal = [1, 2, 3, 4, 5];
 
 class MealPlanner extends React.Component {
     constructor(props) {
@@ -21,14 +20,34 @@ class MealPlanner extends React.Component {
         this.state = {
             bookmarks: this.generateBookmarks(),
             personal: this.generatePersonal(),
+            recommended: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateRecommended() : [],
             showMacro: null,
             currRecipes: constants.mealPlanner.PERSONAL,
             name: currPlan.name,
             dailyMeals : currPlan.dailyMeals,
             macros: currPlan.macros,
-            currRecipe: null
+            currRecipe: null,
+            goal: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateGoal() : []
         }
-        console.log(this.props.match.params.mode);
+    }
+
+    generateGoal = () => {
+        return sortPlan[parseInt(this.props.match.params.id, 10)];
+    }
+
+    generateRecommended= () => {
+        let recipes = [];
+        let tags = sortDiet[parseInt(this.props.match.params.id, 10)];
+        this.props.recipeInfo.forEach((recipe) => {
+            if (    (isNaN(tags[0]) || (!isNaN(tags[0]) && recipe.macros.Energy < tags[0])) &&
+                    (isNaN(tags[1]) || (!isNaN(tags[1]) && recipe.macros.Carbs < tags[1])) &&
+                    (isNaN(tags[2]) || (!isNaN(tags[2]) && recipe.macros.Protein < tags[2])) &&
+                    (isNaN(tags[3]) || (!isNaN(tags[3]) && recipe.macros.Fats < tags[3])) &&
+                    (isNaN(tags[4]) || (!isNaN(tags[4]) && recipe.macros.Sodium < tags[4])) ) {
+                        recipes.push(recipe);
+            }
+        });
+        return recipes;
     }
 
     generatePersonal = () => {
@@ -178,7 +197,7 @@ class MealPlanner extends React.Component {
     render() {
         const { showMacro, currRecipes, name, dailyMeals } = this.state;
         let recipeList = (currRecipes === constants.mealPlanner.PERSONAL) ? this.state.personal :
-                            ((currRecipes === constants.mealPlanner.BOOKMARKED) ? this.state.bookmarks : this.props.recipeInfo);
+                            ((currRecipes === constants.mealPlanner.BOOKMARKED) ? this.state.bookmarks : this.state.recommended);
 
         return (
             <div class="body_container">
@@ -199,7 +218,7 @@ class MealPlanner extends React.Component {
                                 <tbody>
                                     <tr class="overallMacroRow">
                                         <td class="overallMacroRow"></td>
-                                        <td class="overallMacroRow">Energy (kJ)</td>
+                                        <td class="overallMacroRow">Energy (kCal)</td>
                                         <td class="overallMacroRow">Carbs (g)</td>
                                         <td class="overallMacroRow">Protein (g)</td>
                                         <td class="overallMacroRow">Fats (g)</td>
@@ -209,7 +228,7 @@ class MealPlanner extends React.Component {
                                         <tr class="overallMacroRow">
                                             <td class="overallMacroRow" style={{textAlign: 'left'}}>Goal</td>
                                             {
-                                                goal.map((item) => {
+                                                this.state.goal.map((item) => {
                                                     return <td class="macro_col overallMacroRow">{ item }</td>
                                                 })
                                             }

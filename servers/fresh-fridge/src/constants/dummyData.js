@@ -44,6 +44,22 @@ export const users = [
 ];
 
 
+export const sortDiet = [
+    [300, 14, NaN, NaN, NaN],
+    [1000, 1000, 1000, 1000, 1000],
+    [600, 16, NaN, 26, NaN],
+    [700, 45, NaN, NaN, NaN],
+    [500, NaN, NaN, NaN, NaN]
+];
+
+export const sortPlan = [
+    [10090, 1209 , 120, 45, 90],
+    [19000, 1030, 100, 1000, 100],
+    [9300, 1656, 800, 246, 38],
+    [700, 4523, 102, 234, 89],
+    [12100, 904 , 120, 45, 90]
+];
+
 export const mealPlans = [
     {
         id: 5,
@@ -300,5 +316,7 @@ export default {
     recipeInfo,
     users,
     mealPlans,
-    ingredientList
+    ingredientList,
+    sortDiet,
+    sortPlan
 }

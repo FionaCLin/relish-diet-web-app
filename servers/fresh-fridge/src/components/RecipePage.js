@@ -121,7 +121,7 @@ class RecipePage extends React.Component {
               <tbody><tr>
                 {
                   constants.mealPlanner.macroNutrients.map((nutrient) => {
-                    let measure = (nutrient === 'Energy') ? "(kJ)" : "(g)";
+                    let measure = (nutrient === 'Energy') ? "(kCal)" : "(g)";
                     return <td>{nutrient} {measure}</td>
                   })
                 }
