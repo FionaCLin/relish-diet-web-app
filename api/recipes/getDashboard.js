@@ -4,20 +4,27 @@ const _ = require('lodash');
 const async = require('async');
 
 module.exports = (opts) => {
-
   let lib = opts.lib;
   let api = opts.api;
 
 // to get all recipes.
 // used for dashboard? possibly
 
-  api.recipes.getAll = (recipe_id, done) => {
+  api.recipes.getDashboard = (user_id, done) => {
+    let recipe, user;
 
-    let recipe;
+    let checkUser = next => {
+      lib.users.get(user_id, (err, res) => {
+        if (err || !res) {
+          return next(new Error('unknown user'));
+        }
+        user = res;
+        next(err);
+      });
+    };
 
     let getRecipe = (next) => {
       lib.recipes.getAll(
-        recipe_id,
         (err, res) => {
           if (!res) {
             return next(new Error('unknown recipe'));
@@ -28,6 +35,7 @@ module.exports = (opts) => {
     };
 
     async.series([
+      checkUser,
       getRecipe
     ], (err) => {
       done(err, recipe);

@@ -2,7 +2,8 @@
 
 module.exports = (app, api) => {
   app.get('/api/users/:id/dashboard', function (req, res) {
-    api.recipes.getByUser(
+    console.log(req.params.id);
+    api.recipes.getDashboard(
       req.params.id,
       (err, recipes) => {
         console.log(recipes);
