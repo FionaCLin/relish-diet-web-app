@@ -9,7 +9,7 @@ export const users = [
         goals: [0, 1, 3],
         height: 140,
         weight: 52,
-        bookmarks: []
+        bookmarks: [200]
     },
     {
         id: 2,
