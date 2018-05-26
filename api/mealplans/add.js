@@ -50,8 +50,7 @@ module.exports = opts => {
           }
           mealplan = res;
           next();
-        }
-      );
+        });
     };
 
     let addTimeSlots = next => {
