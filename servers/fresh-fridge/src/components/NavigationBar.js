@@ -24,7 +24,7 @@ const NavigationBar = (prop) => {
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav navbar-right">
             <li>
-              <NavLink to="/dashboard">
+              <NavLink to="/search">
                 <span className="glyphicon glyphicon-search"></span>
               </NavLink>
             </li>
@@ -46,7 +46,7 @@ const NavigationBar = (prop) => {
               </ul>
             </li>
             <li>
-              <NavLink to="mealplan">
+              <NavLink to="/meallist">
                 <span className="glyphicon glyphicon-calendar"></span>
               </NavLink>
             </li>
@@ -60,7 +60,7 @@ const NavigationBar = (prop) => {
                 </li>
                 <li role="separator" className="divider"></li>
                 <li>
-                  <NavLink to="/editprofile">
+                  <NavLink to="/profile">
                     Profile
                   </NavLink>
                 </li>

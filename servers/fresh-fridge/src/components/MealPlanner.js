@@ -2,37 +2,74 @@ import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
+import { sortDiet, sortPlan } from '../constants/dummyData';
 import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
-
-const goal = [1, 2, 3, 4, 5];
+import { isUndefined } from 'util';
+import Link from 'react-router-dom/Link';
 
 class MealPlanner extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.dragOut = true;
         this.dragOutNum = null;
+        let currPlan = (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ?
+                            constants.mealPlanner.defaultPlan :
+                            this.props.mealPlans.find(x => x.id == this.props.match.params.id);
+        
         this.state = {
+            bookmarks: this.generateBookmarks(),
+            personal: this.generatePersonal(),
+            recommended: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateRecommended() : [],
             showMacro: null,
             currRecipes: constants.mealPlanner.PERSONAL,
-            name: "Bodybuilding plan (PART A)",
-            dailyMeals : [
-                [null, null, null],
-                [100, null, 400],
-                [null, 200, null],
-                [null, 200, null],
-                [400, null, 500],
-                [null, null, null],
-                [null, null, 100]
-            ],
-            macros: {
-                Intake: 0,
-                Carbs: 0,
-                Protein: 0,
-                Fats: 0,
-                Sodium: 0
-            }
+            name: currPlan.name,
+            dailyMeals : currPlan.dailyMeals,
+            macros: currPlan.macros,
+            currRecipe: null,
+            goal: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateGoal() : []
         }
+    }
+
+    generateGoal = () => {
+        return sortPlan[parseInt(this.props.match.params.id, 10)];
+    }
+
+    generateRecommended= () => {
+        let recipes = [];
+        let tags = sortDiet[parseInt(this.props.match.params.id, 10)];
+        this.props.recipeInfo.forEach((recipe) => {
+            if (    (isNaN(tags[0]) || (!isNaN(tags[0]) && recipe.macros.Energy < tags[0])) &&
+                    (isNaN(tags[1]) || (!isNaN(tags[1]) && recipe.macros.Carbs < tags[1])) &&
+                    (isNaN(tags[2]) || (!isNaN(tags[2]) && recipe.macros.Protein < tags[2])) &&
+                    (isNaN(tags[3]) || (!isNaN(tags[3]) && recipe.macros.Fats < tags[3])) &&
+                    (isNaN(tags[4]) || (!isNaN(tags[4]) && recipe.macros.Sodium < tags[4])) ) {
+                        recipes.push(recipe);
+            }
+        });
+        return recipes;
+    }
+
+    generatePersonal = () => {
+        let recipes = [];
+        this.props.recipeInfo.forEach((recipe) => {
+            if (recipe.creator === this.props.curr_user) {
+                recipes.push(recipe);
+            }
+        });
+        return recipes;
+    }
+
+    generateBookmarks = () => {
+        let recipes = [];
+        let users = this.props.users;
+        let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
+        this.props.recipeInfo.forEach((recipe) => {
+            if (!isUndefined(bookmarks.find(x => x === recipe.id))) {
+                recipes.push(recipe);
+            }
+        });
+        return recipes;
     }
 
     onDragStart = (e,v) =>{
@@ -63,34 +100,24 @@ class MealPlanner extends React.Component {
         let { dailyMeals } = this.state;
         dailyMeals[v[0]][v[1]] = parseInt(data, 10);
         this.setState({ dailyMeals });
-        console.log(v);
     }
 
     getRecipe = (id) => {
-        console.log(this.props.recipeInfo);
         return this.props.recipeInfo.find(x => x.id === id);
     }
 
     calculateNutrient = (day, nutrient) => {
         let nutrientValue = 0;
         day.forEach(slot => {
-            nutrientValue += !isNull(slot) ? this.getRecipe(slot).macros[nutrient] : 0; 
+            if (!isNull(slot)) {
+                nutrientValue += !(isUndefined(this.getRecipe(slot))) ? this.getRecipe(slot).macros[nutrient] : 0;
+            }
         });
         return nutrientValue;
     }
 
     getMeasurement = (nutrient) => {
-        return ((nutrient === 'Intake') ? 'kCal' : 'g');
-    }
-
-    cancel = (e) => {
-        e.preventDefault();
-        console.log("Cancelled");
-    }
-
-    editPlanner = (e) => {
-        e.preventDefault();
-        console.log("Finish Edit");
+        return ((nutrient === 'Energy') ? 'kCal' : 'g');
     }
 
     macroOver = (e, id) => {
@@ -128,38 +155,85 @@ class MealPlanner extends React.Component {
         let { name } = this.state;
         name = e.target.value;
         this.setState({name});
-        console.log(name);
+    }
+
+    removeRecipe = (meal, day) => {
+        this.state.dailyMeals[meal][day] = null;
+    }
+
+    editPlan = (e) => {
+        e.preventDefault();
+        let plan = {
+            id: 8,
+            name: this.state.name,
+            creator: this.props.curr_user,
+            img: [
+                'images/recipe.jpg',
+                'images/paella.jpg',
+                'images/pudding.png',
+                'images/recipe.jpg'
+            ],
+            dailyMeals : this.state.dailyMeals,
+            macros: this.state.macros
+        };
+
+        let mealPlans = this.props.mealPlans;
+        if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
+            const planIndex = mealPlans.indexOf(mealPlans.find(x => x.id == this.props.match.params.id));
+            mealPlans[planIndex] = plan;
+        } else {
+            mealPlans.unshift(plan);
+        }
+        this.props.editPlan(mealPlans);
+        console.log("enter", mealPlans);
+    }
+
+    changeCurrRecipe = (e, recipe) => {
+        let { currRecipe } = this.state;
+        currRecipe = recipe;
+        this.setState({currRecipe});
     }
 
     render() {
         const { showMacro, currRecipes, name, dailyMeals } = this.state;
+        let recipeList = (currRecipes === constants.mealPlanner.PERSONAL) ? this.state.personal :
+                            ((currRecipes === constants.mealPlanner.BOOKMARKED) ? this.state.bookmarks : this.state.recommended);
 
         return (
             <div class="body_container">
                 <div class="form-group mealPlannerForm">
                         <div class="mealPlanHeader">
-                        <h4>Edit Meal Plan</h4>
-                        <input type="text" class="form-control mealPlannerTitle" onChange={(e) => this.changeName(e)} value={ name } placeholder="Title"></input>
+                        { (this.props.match.params.mode === constants.mealPlanner.VIEW_MEAL_PLANNER) ?
+                            <h4 style={{marginTop:"30px"}}>{ name }</h4> :
+                            <div>
+                                <h4>{(this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? "New" : "Edit"} Meal Plan</h4>
+                                <input type="text" class="form-control mealPlannerTitle" onChange={(e) => this.changeName(e)} value={ name } placeholder="Title"></input>
+                            </div>
+                        }
                         </div>
-                        <div class="panel panel-default overallPlannerMacros" style={{marginTop:10}}>
+                        <div class="panel panel-default overallPlannerMacros"
+                                style={{marginTop: ((this.props.match.params.mode === constants.mealPlanner.EDIT_MEAL_PLANNER) ? "40px" : "10px"),
+                                        marginRight: ((this.props.match.params.mode === constants.mealPlanner.VIEW_MEAL_PLANNER) ? "0px" : "")}}>
                             <table class="table table-sm table-bordered table-striped" style={{textAlign: 'center'}}>
                                 <tbody>
                                     <tr class="overallMacroRow">
                                         <td class="overallMacroRow"></td>
-                                        <td class="overallMacroRow">Intake (kJ)</td>
+                                        <td class="overallMacroRow">Energy (kCal)</td>
                                         <td class="overallMacroRow">Carbs (g)</td>
                                         <td class="overallMacroRow">Protein (g)</td>
                                         <td class="overallMacroRow">Fats (g)</td>
                                         <td class="overallMacroRow">Sodium (g)</td>
                                     </tr>
-                                    <tr class="overallMacroRow">
-                                        <td class="overallMacroRow" style={{textAlign: 'left'}}>Goal</td>
-                                        {
-                                            goal.map((item) => {
-                                                return <td class="macro_col overallMacroRow">{ item }</td>
-                                            })
-                                        }
-                                    </tr>
+                                    { (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ?
+                                        <tr class="overallMacroRow">
+                                            <td class="overallMacroRow" style={{textAlign: 'left'}}>Goal</td>
+                                            {
+                                                this.state.goal.map((item) => {
+                                                    return <td class="macro_col overallMacroRow">{ item }</td>
+                                                })
+                                            }
+                                        </tr> : null
+                                    }
                                     <tr class="overallMacroRow">
                                         <td class="overallMacroRow">Current</td>
                                         {
@@ -189,17 +263,23 @@ class MealPlanner extends React.Component {
                                 constants.mealPlanner.mealTimes.map((time, mealKey) => {
                                     let timeSlots = dailyMeals.map((day, dayKey) => {
                                         if (!isNull(day[mealKey])) {
-                                            return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
-                                                        draggable="true" onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
-                                                        onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
-                                                        onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
-                                                        <div class="drop_img_wrapper">
-                                                            <div class="overlay">
-                                                                <div class="planner_img_text">{this.getRecipe(day[mealKey]).name}</div>
+                                            if (!isUndefined(this.getRecipe(day[mealKey]))) {
+                                                return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
+                                                            draggable={(this.props.match.params.mode !== constants.mealPlanner.VIEW_MEAL_PLANNER) ? "true": "false"}
+                                                            onClick={(this.props.match.params.mode === constants.mealPlanner.VIEW_MEAL_PLANNER) ?
+                                                                (e) => this.changeCurrRecipe(e, this.getRecipe(day[mealKey])) : ""}
+                                                            onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
+                                                            onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
+                                                            onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>
+                                                            <div class="drop_img_wrapper">
+                                                                <div class="overlay">
+                                                                    <div class="planner_img_text">{this.getRecipe(day[mealKey]).name}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    
+                                                        </td>
+                                            } else {
+                                                this.removeRecipe(mealKey, dayKey);
+                                            }    
                                         } else {
                                             return <td class="planner_img"  onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}></td>
                                         }
@@ -212,7 +292,7 @@ class MealPlanner extends React.Component {
                             }
                             {
                                 constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                    let macroHead = (nutrient === 'Intake') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
+                                    let macroHead = (nutrient === 'Energy') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
                                     let timeSlots = dailyMeals.map(day => {
                                         return <td class="macro_img">
                                                     <div class="macroLeft">{ nutrient }</div>
@@ -226,15 +306,15 @@ class MealPlanner extends React.Component {
                     </table>
                 </div>
         
-                <div style={{float:"right"}}>
-                    <div style={{float:"left"}} class="dropArea">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Recipes</div>
-                            <div class="panel-body pre-scrollable dropPanel">
-                                <div class="list-group">
-                                    {
-                                        ((currRecipes === constants.mealPlanner.PERSONAL) ?
-                                            this.props.recipeInfo.map(recipe => {
+                { (this.props.match.params.mode !== constants.mealPlanner.VIEW_MEAL_PLANNER) ?
+                    <div style={{float:"right"}}>
+                        <div style={{float:"left"}} class="dropArea">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Recipes</div>
+                                <div class="panel-body pre-scrollable dropPanel">
+                                    <div class="list-group">
+                                        {
+                                            recipeList.map(recipe => {
                                                 let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
                                                     return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
                                                 })
@@ -248,25 +328,96 @@ class MealPlanner extends React.Component {
                                                             </div>
                                                         </div>
                                             })
-                                        : ((currRecipes === constants.mealPlanner.BOOKMARKED) ? constants.mealPlanner.BOOKMARKED : constants.mealPlanner.RECOMMENDED))
-                                    }
+                                        }
+                                    </div>
                                 </div>
                             </div>
+                            <br></br>
+                            <div class="macroRight">
+                                <button onClick={ (e) => this.editPlan(e) } class="btn btn-success editSubmit">
+                                    <Link to="/meallist">{ (this.props.match.params.mode === constants.mealPlanner.EDIT_MEAL_PLANNER) ? "Edit" : "Create"}</Link>
+                                </button>
+                                <Link to="/meallist"><button class="btn btn-secondary editCancel">Cancel</button></Link>
+                            </div>
                         </div>
-                        <br></br>
-                        <div class="macroRight">
-                            <button onClick={ (e) => this.editPlanner(e) } class="btn btn-success editSubmit">Edit</button>
-                            <button onClick={ (e) => this.cancel(e) } class="btn btn-secondary editCancel">Cancel</button>
+                        <div style={{float:"left", width: 20}}>
+                            {
+                                constants.mealPlanner.recipeList.map((item) => {
+                                    if (this.props.match.params.mode == constants.mealPlanner.EDIT_MEAL_PLANNER && item.recipes === constants.mealPlanner.RECOMMENDED) {
+                                        return null;
+                                    } else {
+                                        return <button class={(currRecipes === item.recipes) ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
+                                    }
+                                })
+                            }
                         </div>
-                    </div>
-                    <div style={{float:"left", width: 20}}>
-                        {
-                            constants.mealPlanner.recipeList.map((item) => {
-                                return <button class={(currRecipes === item.recipes) ? "btn sideButton btn-success" : "btn sideButton btn-default" } title={item.title} onClick={(e)=>this.changeRecipe(e, item.recipes)}><span class={item.class} aria-hidden="true"></span></button>
-                            })
-                        }
+                    </div> :
+                    <div style={{width:"330px",float:"right"}}>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">View Recipe</div>
+                            <div class="panel-body pre-scrollable list-group" style={{height:"651px"}}>
+                                <div class="list-group">
+                                    { (!isNull(this.state.currRecipe)) ?
+                                    <div class="list-group-item list-group-item-action">
+                                        <h4>{ this.state.currRecipe.name }</h4>
+                                        <br></br>
+                                        <div class="panel panel-default">
+                                            <table class="table table-bordered table-striped" style={{textAlign:"center",fontSize:"small"}}>
+                                                <thead><tr>
+                                                    <td>Sum (kJ)</td>
+                                                    <td>Carbs (g)</td>
+                                                    <td>Prot (g)</td>
+                                                    <td>Fats (g)</td>
+                                                    <td>Sodm (g)</td>
+                                                </tr></thead>
+                                                <tbody><tr>
+                                                    {
+                                                        constants.mealPlanner.macroNutrients.map((nutrient) => {
+                                                            return <td class="macro_col">{ this.state.currRecipe.macros[nutrient] }</td>
+                                                        })
+                                                    }
+                                                </tr></tbody>
+                                            </table>
+                                        </div>
+                                        <table class="table table-striped"><tbody>
+                                            <tr><td>Ingredients</td></tr>
+                                            <tr><td>
+                                            <div class="form-check">
+                                                {
+                                                    this.state.currRecipe.ingredients.map((ingredient) => {
+                                                        return <div>
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></input>
+                                                                    <label class="form-check-label" for="defaultCheck1" style={{fontWeight:"normal"}}>
+                                                                    {ingredient}
+                                                                    </label>
+                                                                    <br></br>
+                                                                </div>
+                                                    })
+                                                }
+                                            </div>
+                                            </td></tr>
+                                        </tbody></table>
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr><td>Method</td></tr>
+                                        <tr><td>
+                                        <ol>
+                                        {
+                                            this.state.currRecipe.method.split("\n").map((step) => {
+                                                return <li>{step}</li>
+                                            })
+                                        }
+                                        </ol>
+                                        </td></tr>
+                                        </tbody>
+                                    </table>
+                                </div> : <div>Click on a recipe to view</div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
+                }
             </div>
           )
     }

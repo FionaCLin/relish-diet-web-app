@@ -2,47 +2,92 @@ import React from 'react';
 import constants from '../constants/loginConst';
 import Background from './Background';
 import {connect} from 'react-redux';
-console.log(constants);
+import { Link } from 'react-router-dom';
 
-const Login = (props) => {
-  return (
-    <div>
-      <Background />
-      <div id='content-wrapper'>
-        <div className='container'>
-          <div className='well login'>
-            <h4>{props.inputValue}</h4>
-            <input className='form-control' value={props.inputValue} onChange={props.handleEmailChange} id='emailInput' placeholder='Username' type='text' />
-            <input className='form-control' id='emailInput' placeholder='Password' value={props.password} onChange={props.handlePwdChange} type='password' />
-            <div onClick={(e) => props.onClickLogin()} className='dashboard btn btn-success'>
-              Login
+
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+
+  changeUsername = (e) => {
+    e.preventDefault();
+    let username = e.target.value;
+    this.setState({username});
+  }
+
+  changePassword = (e) => {
+    e.preventDefault();
+    let password = e.target.value;
+    this.setState({password});
+  }
+
+  render () {
+      return (
+      <div>
+        <Background />
+        <div id="content-wrapper">
+          <div className="container">
+            <div className="well login">
+              <h4>Login</h4>
+              <input className="form-control" value={this.state.username} onChange={(e) => this.changeUsername(e)} id="emailInput" placeholder="Username" type="text" />
+              <input className="form-control" id="emailInput" placeholder="Password" value={this.state.password} onChange={(e) => this.changePassword(e)} type="password" />
+              <Link to="/dashboard"><div className="dashboard btn btn-success">Login</div></Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    )
+  }
+}
 
-const mapStateToProps = (state) => {
-  return {
-    inputValue: state.loginUserEmailInput,
-    password: state.password
-  };
-};
+export default Login;
+// const Login = (props) => {
+//   return (
+//     <div>
+//       <Background />
+//       <div id="content-wrapper">
+//         <div className="container">
+//           <div className="well login">
+//             <h4>{props.inputValue}</h4>
+//             <input className="form-control" value={props.inputValue} onChange={props.handleEmailChange} id="emailInput" placeholder="Username" type="text" />
+//             <input className="form-control" id="emailInput" placeholder="Password" value={props.password} onChange={props.handlePwdChange} type="password" />
+//             <div onClick={(e) => props.onClickLogin()} className="dashboard btn btn-success">
+//               Login
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleEmailChange: (e) => {
-      dispatch({type: constants.LOGIN_EMAIL_TEXT_CHANGED, emailtext: e.target.value});
-    },
-    handlePwdChange: (e) => {
-      dispatch({type: constants.LOGIN_PWD_TEXT_CHANGED, pwdtext: e.target.value});
-    },
-    onClickLogin: () => {
-      dispatch({type: constants.LOGIN});
-    }
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     inputValue: state.loginUserEmailInput,
+//     password: state.password
+//   }
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     handleEmailChange: (e) => {
+//       console.log('input change');
+//       dispatch({type: constants.login.LOGIN_EMAIL_TEXT_CHANGED, emailtext: e.target.value});
+//     },
+//     handlePwdChange: (e) => {
+//       console.log('input change', e.target.value);
+//       dispatch({type: constants.login.LOGIN_PWD_TEXT_CHANGED, pwdtext: e.target.value});
+//     },
+//     onClickLogin: () => {
+//       console.log('login click', 9999999);
+//       dispatch({type: constants.LOGIN});
+//     }
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Login);

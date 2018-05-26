@@ -117,11 +117,11 @@ class RecipePage extends React.Component {
       <div class="mealPlannerForm">
         <div class="recipeContent">
           <div class="panel panel-default">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" style={{textAlign:"center"}}>
               <tbody><tr>
                 {
                   constants.mealPlanner.macroNutrients.map((nutrient) => {
-                    let measure = (nutrient === 'Intake') ? "(kJ)" : "(g)";
+                    let measure = (nutrient === 'Energy') ? "(kCal)" : "(g)";
                     return <td>{nutrient} {measure}</td>
                   })
                 }
@@ -193,7 +193,7 @@ class RecipePage extends React.Component {
                   recipe.img.map((item, index) => {
                     console.log(item);
                     return <div className={(index === 0) ? "item active" : "item"}>
-                              <img src={"../" + item} style={{ width: "400px", height: "400px" }} alt="img"></img>
+                              <img src={"../../" + item} style={{ width: "400px", height: "400px" }} alt="img"></img>
                             </div>
                   })
                 }

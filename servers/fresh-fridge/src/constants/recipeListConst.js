@@ -1,0 +1,9 @@
+const BOOKMARK_LIST = 'BOOKMARK_LIST';
+const RECIPE_LIST = 'RECIPE_LIST';
+const MEALPLAN_LIST = 'MEALPLAN_LIST';
+
+export default {
+    BOOKMARK_LIST,
+    RECIPE_LIST,
+    MEALPLAN_LIST
+}
