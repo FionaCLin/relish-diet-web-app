@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import { isUndefined, isNull, isNullOrUndefined } from 'util';
 import Link from 'react-router-dom/Link';
+import axios from 'axios';
 
 class EditRecipe extends React.Component {
     constructor(props) {
@@ -46,16 +47,17 @@ class EditRecipe extends React.Component {
         e.preventDefault();
         let ingredientsProp = [];
         let string = e.target.value;
-        for (let ingredient of this.props.ingredientList) {
-            if (ingredient.includes(e.target.value)) {
-                ingredientsProp.push(ingredient);
-                if (ingredientsProp.length  === 6) {
-                    break;
+        axios.get('https://api.nal.usda.gov/ndb/search/?format=json&q=' + string + '&sort=n&max=10&ds=Standard%20Reference&offset=0&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
+            .then((response) => {
+                let data = response.data;
+                if (!isUndefined(data.list)) {
+                    data.list.item.forEach((item) => {
+                        ingredientsProp.push(item.name);
+                    });
+                    this.setState({ingredientsProp});
                 }
-            }
-        }
-        this.setState({string});
-        this.setState({ingredientsProp});
+                this.setState({string});
+            });
     }
 
     addIngredient = (e) => {
