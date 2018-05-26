@@ -33,8 +33,8 @@ module.exports = (opts) => {
       lib.users.get(
         attrs.memberno,
         (err, res) => {
-          if (err) {
-            next(err);
+          if (err || !res) {
+            return done(err);
           }
           user = res;
           next();
@@ -46,8 +46,8 @@ module.exports = (opts) => {
         user.id,
         attrs,
         (err, res) => {
-          if (err) {
-            next(err);
+          if (err || !res) {
+            return done(err);
           }
           review = res;
           next();
