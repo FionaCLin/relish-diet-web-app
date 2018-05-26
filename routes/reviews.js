@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (app, api) => {
-  // curl -X PUT  http://localhost:3002/api/recipes/1/reviews/3 -H "Content-Type: application/json"  -d  "{\"recipe_id\":1,\"memberno\": 2, \"likes\":1, \"content\": \"This recipe looks fantastic.eritowgojewprgowerg .\"}";
+  // curl -X PUT  http://localhost:3002/api/recipes/1/reviews/3 -H "Content-Type: application/json"  -d  "{\"recipe_id\":1,\"memberno\": 2, \"likes\":1, \"content\": \"This recipe looks fantastic..\"}";
 
   app.put('/api/recipes/:recipeid/reviews/:id', function (req, res) {
     api.reviews.set(

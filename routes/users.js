@@ -2,7 +2,7 @@
 
 module.exports = (app, api) => {
   // user
-  // curl - X GET  http://localhost:3002/api/users/1
+  // curl -X GET  http://localhost:3002/api/users/1
   app.get('/api/users/:id', function (req, res) {
     api.users.get(
       req.params.id,
@@ -12,7 +12,7 @@ module.exports = (app, api) => {
   });
 
   /*
-      curl -X POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"username\":\"hahai\",\"password\":\"123\",\"nameGiven\":\"fiona\", \"nameFamily\":\"lin\", \"birthday\":\"01-01-2000\",\"gender\":\"F\",\"goal\":\"lose weight\"}"
+      curl -X POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"synexenel1416@yopmail.com\",\"username\":\"hahai\",\"password\":\"123\",\"nameGiven\":\"fiona\", \"nameFamily\":\"lin\", \"birthday\":\"01-01-2000\",\"gender\":\"F\",\"goal\":\"lose weight\"}"
       curl -X POST  http://localhost:3002/api/signup -H "Content-Type: application/json"  -d "{\"email\":\"test@freshfridge.com\",\"username\":\"toby\",\"password\":\"123\",\"nameGiven\":\"david\", \"nameFamily\":\"phan\", \"birthday\":\"01-01-2000\",\"gender\":\"M\",\"goal\":\"lose weight\"}"
   */
 
@@ -44,7 +44,7 @@ module.exports = (app, api) => {
   });
 
   /*
-   curl -X POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"kkk@freshfridge.com\",\"password\":\"123\"}"
+   curl -X POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"synexenel1416@yopmail.com\",\"password\":\"123\"}"
    */
 
   app.post('/api/users/login', function (req, res) {
