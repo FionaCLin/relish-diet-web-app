@@ -6,6 +6,21 @@ import bg_img from '../constants/globalFunctions';
 import Link from 'react-router-dom/Link';
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: null
+    }
+  }
+
+    componentDidMount () {
+        fetch('/api/users/1')
+          .then(response => response.json())
+          .then(result => this.setState({message: result}))
+          .catch(e => console.log("Error with " + e));
+        console.log(this.state.message);
+    }
+
   render() {
     return (
           <div className="body_container">
