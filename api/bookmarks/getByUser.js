@@ -12,7 +12,6 @@ module.exports = (opts) => {
   **/
 
   api.bookmarks.getByUser = (user_id, done) => {
-
     let recipe;
 
     var get = (next) => {
@@ -24,9 +23,8 @@ module.exports = (opts) => {
           }
           recipe = res;
           next();
-        }
-      )
-    }
+        });
+    };
 
     async.series([
       get

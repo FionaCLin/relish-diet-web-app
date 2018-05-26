@@ -7,26 +7,16 @@ module.exports = (opts) => {
   var lib = opts.lib;
   var api = opts.api;
 
-  //adds to the bookmarked table for the user, along with the recipe ID.
-  //frontend: adds to My Bookmarked/Saved recipes.
+  // adds to the bookmarked table for the user, along with the recipe ID.
+  // frontend: adds to My Bookmarked/Saved recipes.
 
-  api.bookmarks.add = (attrs, done) => {
-
-    // whitelist attrs
-    var keys = [
-      'user_id',
-      'recipe_id'
-    ];
-
-    let user;
-    let recipe;
-
-    attrs = _.pick(attrs, keys);
+  api.bookmarks.add = (user_id, recipe_id, done) => {
+    let user, recipe, bookmark;
 
     let checkUser = next => {
-      lib.users.get(attrs.user_id, (err, res) => {
+      lib.users.get(user_id, (err, res) => {
         if (!res) {
-          return next(new Error("unknown user"));
+          return next(new Error('unknown user'));
         }
         user = res;
         next(err);
@@ -35,16 +25,15 @@ module.exports = (opts) => {
 
     let checkRecipe = next => {
       lib.recipes.get(
-        attrs.recipe_id,
+        recipe_id,
         (err, res) => {
           if (err) {
-            return done(Error("recipe error"));
+            return done(Error('recipe error'));
           }
           recipe = res;
           next();
-        }
-      )
-    }
+        });
+    };
 
     var add = (next) => {
       lib.bookmarks.add(
@@ -53,17 +42,17 @@ module.exports = (opts) => {
           if (err) {
             next(err);
           }
-          next();
-        }
-      )
-    }
+          bookmark = res;
+          next(err);
+        });
+    };
 
     async.series([
       checkUser,
       checkRecipe,
       add
     ], (err, res) => {
-      done(err, res);
+      done(err, bookmark);
     });
   };
 };
