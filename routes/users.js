@@ -44,16 +44,16 @@ module.exports = (app, api) => {
   });
 
   /*
-   curl -X POST  http://localhost:3002/api/users/login -H "Content-Type: application/json"  -d "{\"email\":\"synexenel1416@yopmail.com\",\"password\":\"123\"}"
+   curl -X POST  http://localhost:3002/login -H "Content-Type: application/json"  -d "{\"email\":\"synexenel1416@yopmail.com\",\"password\":\"123\"}"
    */
 
-  app.post('/api/users/login', function (req, res) {
+  app.post('/login', function (req, res) {
     api.users.auth(
       req.body.email,
       req.body.password,
       (err, user) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send(user);
       });

@@ -18,4 +18,5 @@ module.exports = (config, opts) => {
   require('./reviews')(app, api);
   require('./mealplans')(app, api);
   require('./timeslots')(app, api);
+  require('./bookmarks')(app, api);
 };

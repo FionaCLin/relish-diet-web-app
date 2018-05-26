@@ -35,7 +35,7 @@ module.exports = (app, api) => {
       req.params.id,
       (err, timeslot) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });

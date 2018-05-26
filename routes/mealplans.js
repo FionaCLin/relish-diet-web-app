@@ -42,7 +42,7 @@ module.exports = (app, api) => {
       req.body,
       (err, mealplan) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });
@@ -54,7 +54,7 @@ module.exports = (app, api) => {
       req.params.id,
       (err, mealplan) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });
