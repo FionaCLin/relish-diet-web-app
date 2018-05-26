@@ -255,10 +255,8 @@ exports.recipes = {
   'bookmark recipes by user2': (test) => {
     async.forEach(recipes, (r, cb) => {
       api.bookmarks.add(
-        {
-          recipe_id: r.id,
-          user_id: users[1].id
-        },
+        users[1].id,
+        r.id,
         (err, res) => {
           test.ok(!(err instanceof Error));
           cb();
@@ -267,7 +265,7 @@ exports.recipes = {
       api.bookmarks.getByUser(
         users[1].id,
         (err, res) => {
-          // test.equal(res.length, 2);
+          test.equal(res.length, recipes.length);
           test.done();
         }
       );
@@ -275,12 +273,15 @@ exports.recipes = {
   },
   'delete bookmark by id': (test) => {
     api.bookmarks.del(
+      users[1].id,
       1,
       (err, res) => {
+        test.ok(!(err instanceof Error));
         lib.bookmarks.get(
           1,
           (err, res) => {
-            test.equal(res.length, 0);
+            test.ok(!(err instanceof Error));
+            test.ok(!res);
             test.done();
           });
       });
