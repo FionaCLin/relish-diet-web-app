@@ -41,7 +41,6 @@ module.exports = (opts) => {
       if (attrs.duration && typeof attrs.duration !== 'number') return done(new Error('duration is not a number'));
       recipe.duration = attrs.duration;
       next();
-      console.log(attrs);
     };
 
     let checkUser = next => {
@@ -146,15 +145,14 @@ module.exports = (opts) => {
     };
 
     let setRecipe = (next) => {
-      lib.recipes.getDetail(
-        recipe_id,
-        (err, res) => {
-          console.log(res.ingredients.length, 933399);
-        });
       lib.recipes.set(
         recipe_id,
         attrs, (err) => {
-          next(err);
+          lib.recipes.getDetail(
+            recipe_id,
+            (err, res) => {
+              next(err);
+            });
         });
     };
     async.series([
@@ -164,7 +162,6 @@ module.exports = (opts) => {
       removeIngredients,
       addIngredients,
       setRecipe
-      // linkIngredients
     ], (err) => {
       lib.recipes.getDetail(
         recipe_id,

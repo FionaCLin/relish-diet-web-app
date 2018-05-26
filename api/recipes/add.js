@@ -24,8 +24,6 @@ module.exports = opts => {
       'rate',
       'images'
     ];
-
-    console.log(attrs, 8888);
     attrs = _.pick(attrs, keys);
 
     // TODO: validate the
@@ -83,8 +81,6 @@ module.exports = opts => {
       let totalFat = 0;
       let totalCarbs = 0;
       attrs.ingredients.forEach(key => {
-        // console.log(key);
-
         lib.ingredients.get(
           key.ndbno,
           (err, ingredient) => {
@@ -122,8 +118,6 @@ module.exports = opts => {
 
     // push details to attributes.
 
-    // console.log(totalCals);
-
     var createRecipe = next => {
       attrs.at = Date.now();
       if (attrs.duration && typeof attrs.duration !== 'number') {
@@ -131,7 +125,6 @@ module.exports = opts => {
       }
       for (let i = 5; i < 10; i++) {
         if (attrs[keys[i]] && typeof attrs[keys[i]] !== 'number') {
-          console.log(attrs[keys[i]]);
           return done(new Error(keys[i] + ' is not a number'));
         }
       }

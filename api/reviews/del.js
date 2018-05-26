@@ -7,56 +7,51 @@ module.exports = (opts) => {
   const lib = opts.lib;
   const api = opts.api;
 
-  api.reviews.del = (attrs, done) => {
+  api.reviews.del = (user_id, review_id, done) => {
     let user, review;
-
-    let validate = (next) => {
-      attrs = _.defaults(attrs, {
-        recipe_id: null,
-        memberno: null,
-        content: ''
-        // likes: null // maybe this one for set
-      });
-      if (!attrs.recipe_id || !_.isNumber(attrs.recipe_id)) {
-        return done(new Error('invalid recipe_id'));
-      }
-      if (!attrs.memberno || !_.isNumber(attrs.memberno)) {
-        return done(new Error('invalid memberno'));
-      }
-      if (!attrs.content || !_.isString(attrs.content)) {
-        return done(new Error('invalid content'));
-      }
-      next();
-    }
 
     let getUser = (next) => {
       lib.users.get(
-        attrs.memberno,
+        user_id,
         (err, res) => {
           if (err) {
             next(err);
           }
           user = res;
+          next();
         });
     };
 
-    let addReview = (next) => {
-      lib.reviews.add(
-        user.id,
-        attrs,
+    let getReview = (next) => {
+      lib.reviews.get(
+        review_id,
         (err, res) => {
-          if (err) {
-            next(err);
+          if (err || !res) {
+            return done(new Error('review not found'));
+          }
+          if (res.memberno !== user.id) {
+            return done(new Error('action not premitted, invalid commentor'));
           }
           review = res;
+          next();
         });
-      next();
+    };
+
+    let delReview = (next) => {
+      lib.reviews.del(
+        review.id,
+        (err, res) => {
+          if (err) {
+            return done(new Error('action not premitted'));
+          }
+          next();
+        });
     };
 
     async.series([
-      validate,
       getUser,
-      addReview
+      getReview,
+      delReview
     ], (err) => {
       done(err, review);
     });

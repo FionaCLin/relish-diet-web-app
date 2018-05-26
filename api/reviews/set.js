@@ -7,18 +7,16 @@ module.exports = (opts) => {
   const lib = opts.lib;
   const api = opts.api;
 
-  api.reviews.set = (attrs, done) => {
+  api.reviews.set = (review_id, attrs, done) => {
     let user, review;
     let validate = (next) => {
       attrs = _.defaults(attrs, {
-        review_id: null,
         memberno: null,
         content: '',
-        likes: null
+        likes: null,
+        recipe_id: null
       });
-      if (!attrs.review_id || !_.isNumber(attrs.review_id)) {
-        return done(new Error('invalid review_id'));
-      }
+
       if (!attrs.memberno || !_.isNumber(attrs.memberno)) {
         return done(new Error('invalid memberno'));
       }
@@ -31,7 +29,7 @@ module.exports = (opts) => {
         return done(new Error('invalid content'));
       }
       next();
-    }
+    };
 
     let getUser = (next) => {
       lib.users.get(
@@ -47,15 +45,15 @@ module.exports = (opts) => {
 
     let getReview = (next) => {
       lib.reviews.get(
-        attrs.review_id,
+        review_id,
         (err, res) => {
           if (err || !res) {
             return done(new Error('review not found'));
           }
           review = res;
           next();
-        })
-    }
+        });
+    };
 
     let setReview = (next) => {
       lib.reviews.set(

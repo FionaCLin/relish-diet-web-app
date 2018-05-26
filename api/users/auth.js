@@ -5,7 +5,6 @@ module.exports = (opts) => {
   var api = opts.api;
 
   api.users.auth = (email, password, done) => {
-
     lib.users.auth(
       email,
       password,

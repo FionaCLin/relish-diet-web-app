@@ -59,8 +59,6 @@ module.exports = opts => {
         // nothing to do if no timeslots
         return next();
       } else if (attrs.timeslots) {
-        console.log(attrs.timeslots);
-
         attrs.timeslots.forEach(slot => {
           slot.plan_id = mealplan.plan_id;
           lib.timeslots.add(

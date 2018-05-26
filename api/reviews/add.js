@@ -7,15 +7,15 @@ module.exports = (opts) => {
   const lib = opts.lib;
   const api = opts.api;
 
-  api.reviews.add = (attrs, done) => {
+  api.reviews.add = (recipe_id, attrs, done) => {
     let user, review;
 
     let validate = (next) => {
       attrs = _.defaults(attrs, {
         recipe_id: null,
         memberno: null,
-        content: ''
-        // likes: null // maybe this one for set
+        content: '',
+        likes: null // maybe this one for set
       });
       if (!attrs.recipe_id || !_.isNumber(attrs.recipe_id)) {
         return done(new Error('invalid recipe_id'));

@@ -7,9 +7,6 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-// to get all recipes.
-// used for dashboard? possibly
-
   api.recipes.getDashboard = (user_id, done) => {
     let recipe, user;
 

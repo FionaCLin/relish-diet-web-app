@@ -3,7 +3,6 @@
 module.exports = (app, api) => {
   // timeslot details
   app.get('/api/timeslots/:id', function (req, res) {
-    console.log(req.params.id);
     api.timeslots.get(
       req.params.id,
       (err, timeslot) => {
@@ -24,7 +23,6 @@ module.exports = (app, api) => {
       req.body,
       (err, timeslot) => {
         if (err) {
-          console.log(err.message, req.body.creator);
           return res.status(400).send(err.message);
         }
         res.status(200).send(timeslot);

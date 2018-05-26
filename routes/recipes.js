@@ -5,7 +5,6 @@ module.exports = (app, api) => {
   // recipe details
   // curl -X GET  http://localhost:3002/api/recipe/1
   app.get('/api/recipes/:id', function (req, res) {
-    console.log(req.params.id);
     api.recipes.get(
       req.params.id,
       (err, recipe) => {
@@ -34,12 +33,10 @@ module.exports = (app, api) => {
   // get the payload with req.body
   app.post('/api/recipes/create', function (req, res) {
     req.body;
-    console.log(req.body);
     api.recipes.add(
       req.body,
       (err, recipe) => {
         if (err) {
-          console.log(err.message, req.body.creator);
           return res.status(400).send(err.message);
         }
         res.status(200).send(recipe);
