@@ -26,7 +26,8 @@ module.exports = (opts) => {
       api.reviews.getByRecipe(
         recipe.id,
         (err, res) => {
-          if (!res) {
+          if (err || !res) {
+            return done(err, res);
           }
           recipe.reviews = res;
           next(err);

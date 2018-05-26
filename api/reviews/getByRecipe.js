@@ -30,7 +30,7 @@ module.exports = (opts) => {
     async.series([
       getReviews
     ], (err) => {
-      done(err, sorted_reviews);
+      done(err, reviews);
     });
   };
 };
