@@ -33,6 +33,7 @@ CREATE TABLE Members
   gender VARCHAR(1),
   avatar TEXT,
   token TEXT,
+  tokenKey INTEGER,
   CONSTRAINT Member_PK            PRIMARY KEY (id),
   CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')),
   CONSTRAINT Email_CHK CHECK
