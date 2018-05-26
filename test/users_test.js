@@ -1,5 +1,5 @@
 'use strict';
-let data = require('../data.js');
+let data = require('./data.js');
 let _ = require('lodash');
 
 let lib, api;
@@ -55,7 +55,7 @@ exports.lib_users = {
         lib.users.get(
           users[0].id,
           (err, res) => {
-            
+            test.ok(res.hasOwnProperty('token'));
             test.equal(res.username, users[0].username);
             test.equal(res.email, users[0].email);
             test.equal(res.namefamily, users[0].nameFamily);

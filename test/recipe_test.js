@@ -1,5 +1,5 @@
 'use strict';
-let data = require('../data.js');
+let data = require('./data.js');
 let async = require('async');
 
 let lib, api;
@@ -25,6 +25,8 @@ exports.recipes = {
   },
 
   'add user1s': (test) => {
+    users.pop();
+    users.pop();
     api.users.add(
       users[0],
       (err, res) => {
@@ -128,8 +130,9 @@ exports.recipes = {
       recipes[0].reviews,
       (r, cb) => {
         r.recipe_id = recipes[0].id;
-        r.memberno = r.user_id;
+        r.memberno = Number(users[Math.floor(Math.random() * users.length)].id);
         api.reviews.add(
+          recipes[0].id,
           r,
           (err, res) => {
             r.id = res.id;
@@ -148,6 +151,7 @@ exports.recipes = {
   'remove recipe ingredient': test => {
     ingredient_rm = recipes[0].ingredients.pop();
     api.recipes.set(
+      users[0].id,
       recipes[0].id,
       recipes[0],
       (err, res) => {
@@ -158,6 +162,7 @@ exports.recipes = {
   'add recipe ingredient': test => {
     recipes[0].ingredients.push(ingredient_rm);
     api.recipes.set(
+      users[0].id,
       recipes[0].id,
       recipes[0],
       (err, res) => {
@@ -165,63 +170,33 @@ exports.recipes = {
         test.done();
       });
   },
-  // 'update recipe name, method, duration': test => {
-  //   recipes[0].duration *= 2;
-  //   recipes[0].name = recipes[0].name + ' yummy';
-  //   recipes[0].method = recipes[0].method + 'do it twice';
-  //   recipes[0].ingredients.push(ingredient_rm);
-  //   api.recipes.set(
-  //     recipes[0].id,
-  //     recipes[0],
-  //     (err, res) => {
-  //       test.equal(res.name, recipes[0].name);
-  //       test.equal(res.duration, recipes[0].duration);
-  //       test.equal(res.method, recipes[0].method);
-  //       test.equal(res.ingredients.length, recipes[0].ingredients.length);
-  //       test.done();
-  //     });
-  // },
-  // 'add reply to recipe1 reviews': (test) => {
-  //   // let review = recipes[0].reviews[0];
-  //   let addReply = (recipe_id, review, done) => {
-  //     if (review.reply && review.reply.length != 0) {
-  //       async.forEach(review.reply, (r, cb) => {
-  //         r.recipe_id = recipe_id;
-  //         r.memberno = review.user_id;
-  //         api.reviews.add(
-  //           r,
-  //           (err, res) => {
-  //             r.id = res.id;
-  //             addReply(recipe_id, r, done);
-  //             cb();
-  //           });
-  //       }, done);
-  //     };
-  //   };
-  //   async.forEach(recipes[0].reviews, (review) => {
-  //     addReply(recipes[0].id, review, test.done);
-  //   }, test.done);
-  //   // async.forEach(review.reply, (r, cb) => {
-  //   //   r.recipe_id = recipes[0].id;
-  //   //   lib.reviews.add(
-  //   //     r,
-  //   //     (err, res) => {
-  //   //       r.id = res.id;
-  //   //       reviewsCount++;
-  //   //       cb();
-  //   //     });
-  //   // }, test.done);
-  // },
-  // 'set reviews by recipes': (test) => {
-  //   recipes[0].reviews[0].likes = 10;
-  //   recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
-  //   api.reviews.set(
-  //     recipes[0].reviews[0],
-  //     (err, res) => {
-  //       test.equal(res.likes, recipes[0].reviews[0].likes);
-  //       test.done();
-  //     });
-  // },
+  'update recipe name, method, duration': test => {
+    recipes[0].duration *= 2;
+    recipes[0].name = recipes[0].name + ' yummy';
+    recipes[0].method = recipes[0].method + 'do it twice';
+    api.recipes.set(
+      users[0].id,
+      recipes[0].id,
+      recipes[0],
+      (err, res) => {
+        test.equal(res.name, recipes[0].name);
+        test.equal(res.duration, recipes[0].duration);
+        test.equal(res.method, recipes[0].method);
+        test.equal(res.ingredients.length, recipes[0].ingredients.length);
+        test.done();
+      });
+  },
+  'set reviews by recipes': (test) => {
+    recipes[0].reviews[0].likes = 10;
+    recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
+    api.reviews.set(
+      users[1].id,
+      recipes[0].reviews[0],
+      (err, res) => {
+        test.equal(res.likes, recipes[0].reviews[0].likes);
+        test.done();
+      });
+  },
   // 'add recipe2 ingredients': (test) => {
   //   async.forEach(recipes[1].ingredients, (i, cb) => {
   //     lib.recipes.addIngredient(
@@ -259,6 +234,15 @@ exports.recipes = {
   //       test.done();
   //     });
   // },
+
+  'get all recipes ': (test) => {
+    api.recipes.getDashboard(
+      users[0].id,
+      (err, res) => {
+        test.equal(res.length, 2);
+        test.done();
+      });
+  },
   'get 0 bookmark by user2': (test) => {
     api.bookmarks.getByUser(
       users[1].id,

@@ -1,5 +1,5 @@
 'use strict';
-let data = require('../data.js');
+let data = require('./data.js');
 let async = require('async');
 
 let lib, api;
@@ -95,7 +95,7 @@ exports.mealplan_test = {
 
   'add recipe2': (test) => {
     recipes[1].user_id = 1;
-    recipes[1].creatorID = 1; // for api
+    recipes[1].creatorID = 1; // for api??
     api.recipes.add(
       recipes[1],
       (err, res) => {
