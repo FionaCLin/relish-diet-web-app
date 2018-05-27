@@ -2,21 +2,11 @@ import React from 'react';
 import connect from 'react-redux';
 import constants from '../constants';
 import { isUndefined } from 'util';
+import api from '../api.js';
 
 class RecipePage extends React.Component {
   constructor(props) {
     super(props);
-    let recipeIndex = null;
-    let recipe = null;
-
-    this.props.recipeInfo.map((item, index) => {
-      if (item.id === parseInt(this.props.match.params.id, 10)) {
-        recipeIndex = index;
-        recipe = item;
-      }
-    });
-
-    let bookmarked = !isUndefined(this.props.users.find(x => x.id === this.props.curr_user).bookmarks.find(y => y === recipe.id)) ? true : false;
 
     this.state = {
       comment: {
@@ -24,18 +14,30 @@ class RecipePage extends React.Component {
         message: '',
         rating: 0
       },
-      recipe,
-      recipeIndex,
-      bookmarked
+      recipe: {
+        ingredients: [],
+        reviews: [],
+        method: '',
+        images: '',
+        bookmarked: NaN
+      },
     }
-  } 
+  }
+
+  componentWillMount() {
+    const callback = (recipe) => {
+      this.setState({recipe});
+      console.log("RECIPE", recipe);
+    };
+    api.getRecipe(this.props.match.params.id, callback);
+  }
 
   averageRating = () => {
     let rating = 0;
-    this.state.recipe.comments.forEach(comment => {
-      rating += comment.rating;
+    this.state.recipe.reviews.forEach(review => {
+      rating += review.rating;
     });
-    return Math.round(rating/this.state.recipe.comments.length);
+    return Math.round(rating/this.state.recipe.reviews.length);
   }
 
   changeMessage = (e) => {
@@ -47,9 +49,20 @@ class RecipePage extends React.Component {
 
   addComment = (e) => {
     if (this.state.comment.message !== '') {
-      let recipeInfo = this.props.recipeInfo;
-      recipeInfo[this.state.recipeIndex].comments.unshift(this.state.comment);
-      this.props.addComment(recipeInfo);
+      let comment = {
+        recipe_id: this.state.recipe.id,
+        memberno: this.props.user.id,
+        content: this.state.comment.message,
+        likes: this.state.comment.rating
+      };
+
+      let receiveComment = (result) => {
+        let recipe = this.state.recipe;
+        recipe.reviews.unshift(result);
+        this.setState({recipe});
+      }
+
+      api.addComment(this.state.recipe.id, comment, receiveComment);
       this.clearComment();
     }
   }
@@ -80,36 +93,42 @@ class RecipePage extends React.Component {
     this.setState({comment});
   }
 
+  ingredientStringify = (ingredient) => {
+    return ingredient.amount + ' ' + ingredient.uom + ' of ' + ingredient.name;
+  }
+
   editBookMark = (e) => {
     e.preventDefault();
     let { bookmarked } = this.state;
-    bookmarked = !bookmarked;
-    
-    let users = this.props.users;
-    let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
-    if (bookmarked) {
-      bookmarks.unshift(this.state.recipe.id);
-      console.log("HERE", users);
+    let resetBookmark = null;
+    let recipe = null;
+
+    if (isNaN(bookmarked)) {
+      resetBookmark = (result) => {
+        recipe = this.state.recipe;
+        recipe.bookmarked = result.id;
+        this.setState({recipe});
+      }
+      api.addBookmark(this.props.user.id, this.state.recipe.id, resetBookmark);
     } else {
-      bookmarks.splice(bookmarks.indexOf(this.state.recipe.id), 1);
+      api.deleteBookmark(this.props.user.id, this.state.recipe.bookmarked);
+      recipe = this.state.recipe;
+      recipe.bookmarked = NaN;
+      this.setState({recipe});
     }
-    this.props.addBookmark(users);
-    this.setState({bookmarked});
-    console.log('enter');
   }
 
   render() {
-    let { comment, recipe, bookmarked } = this.state;
+    let { comment, recipe } = this.state;
     return (
       <div class="body_container" textAlign="left">
       <div class="recipeTitle">
         <div style={{ float: "left" }}>
           <h4 style={{ display: "inline" }}>{recipe.name}</h4>&nbsp;
-          <h6 style={{ display: "inline" }}>by {this.props.users.find(x => x.id == recipe.creator).username}</h6>
         </div>
-          { (recipe.creator !== this.props.curr_user) ?
-          <button type="button" onClick={(e) => this.editBookMark(e)} class={ bookmarked ? "btn btn-success bookmarkBtn" : "btn btn-default bookmarkBtn"}>
-            <span className="glyphicon glyphicon-bookmark" aria-hidden="true"></span>{ bookmarked ? "\xa0\xa0Bookmarked" : "\xa0\xa0Bookmark"}
+          { (recipe.memberno !== this.props.user.id) ?
+          <button type="button" onClick={(e) => this.editBookMark(e)} class={ !isNaN(recipe.bookmarked) ? "btn btn-success bookmarkBtn" : "btn btn-default bookmarkBtn"}>
+            <span className="glyphicon glyphicon-bookmark" aria-hidden="true"></span>{ !isNaN(recipe.bookmarked) ? "\xa0\xa0Bookmarked" : "\xa0\xa0Bookmark"}
           </button> : null
           }
 
@@ -127,11 +146,11 @@ class RecipePage extends React.Component {
                 }
               </tr>
               <tr>
-                {
-                  constants.mealPlanner.macroNutrients.map((nutrient) => {
-                    return <td className="macro_col">{recipe.macros[nutrient]}</td>
-                  })
-                }
+                <td className="macro_col">{recipe.calories}</td>
+                <td className="macro_col">{recipe.cabs}</td>
+                <td className="macro_col">{recipe.fat}</td>
+                <td className="macro_col">{recipe.protein}</td>
+                <td className="macro_col">{recipe.sodium}</td>
               </tr>
               </tbody></table>
           </div >
@@ -145,7 +164,7 @@ class RecipePage extends React.Component {
                       return (<div textAlign="left" width="100%">
                                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
                                 &nbsp;<label class="form-check-label" for="defaultCheck1" style={{ fontWeight: "normal" }}>
-                                  { item }
+                                  { this.ingredientStringify(item) }
                                 </label>
                                 <br />
                               </div>);
@@ -179,7 +198,7 @@ class RecipePage extends React.Component {
             {/* < !--Indicators -- > */}
             <ol className="carousel-indicators">
                 {
-                  recipe.img.map((item, index) => {
+                  recipe.images.split(",").map((item, index) => {
                       let slide = JSON.stringify(index);
                       return <li data-target="#myCarousel" data-slide-to={slide} class={(index === 0) ? "active" : ""}></li>
                     }
@@ -190,8 +209,7 @@ class RecipePage extends React.Component {
             {/* <!--Wrapper for slides-- > */}
             <div className="carousel-inner">
                 {
-                  recipe.img.map((item, index) => {
-                    console.log(item);
+                  recipe.images.split(",").map((item, index) => {
                     return <div className={(index === 0) ? "item active" : "item"}>
                               <img src={"../../" + item} style={{ width: "400px", height: "400px" }} alt="img"></img>
                             </div>
@@ -206,14 +224,14 @@ class RecipePage extends React.Component {
       <div style={{ float: "left", width: "100%", textAlign: "center", fontSize: "40px" }}>{ this.fillStar(this.averageRating(), false) }</div>
       {/* <!--Comment box-- > */}
       <h4>Comments</h4>
-      { (recipe.creator !== this.props.curr_user) ?
+      { (recipe.memberno !== this.props.user.id) ?
       <table className="table table-striped">
         <tbody><tr><td>
           <div className="form-group" style={{ paddingTop: "15px" }}>
             <textarea className="form-control" rows="5" id="comment" value={comment.message} onChange={(e) => this.changeMessage(e)} placeholder="Add a comment..."></textarea>
             <div style={{ fontSize: "18px", marginTop: "10px", marginLeft: "10px" }}>
               <span style={{ fontSize: "14px" }}>Rating: </span>
-              <span>{ this.fillStar(comment.rating, true) }</span>
+              <span>{ this.fillStar(comment.likes, true) }</span>
               <span style={{ float: "right" }}><button className="btn btn-default" onClick={(e) => this.addComment(e)} type="submit">Post</button></span>
             </div>
           </div>
@@ -223,13 +241,13 @@ class RecipePage extends React.Component {
       </table > : null }
       {/* < !--Comments--> */}
         {
-          recipe.comments.map((comment) => {
+          recipe.reviews.map((review) => {
             return  <div className="list-group-item list-group-item-action comment">
                       <div>
-                        <span >{this.props.users.find(x => x.id == comment.commentor).username}</span>
-                        <div style={{ float: "right", fontSize: "18px" }}>{ this.fillStar(comment.rating, false) }</div>
+                        <span>Username</span>
+                        <div style={{ float: "right", fontSize: "18px" }}>{ this.fillStar(review.likes, false) }</div>
                       </div>
-                      <div style={{ marginTop: "10px" }}>{comment.message}</div>
+                      <div style={{ marginTop: "10px" }}>{review.message}</div>
                     </div>
           })
         }
