@@ -5,45 +5,62 @@ import bg_img from '../constants/globalFunctions';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import { isNull } from 'util';
+import api from '../api.js';
 
 class RecipeList extends React.Component {
   constructor(props) {
     super(props);
-    let recipes = [];
-    if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
-      let users = this.props.users;
-      let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
-      this.props.recipeInfo.forEach(recipe => {
-        if (!isUndefined(bookmarks.find(x => x === recipe.id))) {
-          recipes.push(recipe.id);
-        }
-      });
-    } else {
-      this.props.recipeInfo.forEach((recipe) => {
-        if (recipe.creator === this.props.curr_user) {
-          recipes.push(recipe.id);
-        }
-      });
-    }
+    // let recipes = [];
+    // if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
+    //   let users = this.props.users;
+    //   let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
+    //   this.props.recipeInfo.forEach(recipe => {
+    //     if (!isUndefined(bookmarks.find(x => x === recipe.id))) {
+    //       recipes.push(recipe.id);
+    //     }
+    //   });
+    // } else {
+    //   this.props.recipeInfo.forEach((recipe) => {
+    //     if (recipe.creator === this.props.curr_user) {
+    //       recipes.push(recipe.id);
+    //     }
+    //   });
+    // }
 
     this.state = {
-      recipes: recipes,
+      recipes: undefined,
       modalRecipe: {
         id: 0,
         name: ''
       }
     }
+
+    if (this.props.list_type == constants.recipeList.BOOKMARK_LIST) {
+      console.log("ENTER");
+      const receiveBookmarks = (bookmarks) => {
+        this.setState({ recipes: bookmarks });
+        console.log("BOOKMARKS", bookmarks);
+        console.log("RECIPES", this.state.recipes);
+      }
+      console.log("USER", this.props.user);
+      api.getBookmarks(this.props.user.id, receiveBookmarks);
+    }
+  }
+
+  componentWillMount() {
   }
 
   deleteRecipe = (e, recipeId) => {
     e.preventDefault();
     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
+      // delete from bookmark list
       let users = this.props.users;
       let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
       bookmarks.splice(bookmarks.indexOf(recipeId), 1);
       console.log("DELETE", users);
       this.props.editBookmark(users);
     } else {
+      // delete from list by user
       let recipeInfo = this.props.recipeInfo;
       recipeInfo.splice(recipeInfo.indexOf(recipeInfo.find(x => x.id === recipeId)), 1);
       this.props.editRecipes(recipeInfo);
@@ -97,28 +114,28 @@ class RecipeList extends React.Component {
         </div>
         <br />
         <div style={{ width: "100%", float: "left" }} className="list-group" >
-          {recipes.map((recipeId) => {
-            let recipe = this.props.recipeInfo.find(x => x.id === recipeId);
+          {recipes.map((item) => {
+            // let recipe = this.props.recipeInfo.find(x => x.id === recipeId);
             return (
-              <a className="list-group-item list-group-item-action recipe_btn" key={recipe.id} style={{ cursor: "pointer" }}>
-                <button type="button" onClick={(e) => this.changeModal(e, recipe)} className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
+              <a className="list-group-item list-group-item-action recipe_btn" key={item.recipe_id} style={{ cursor: "pointer" }}>
+                <button type="button" onClick={(e) => this.changeModal(e, item)} className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
                   <i className="glyphicon glyphicon-remove"></i>
                 </button>
                 { (list_type !== constants.recipeList.BOOKMARK_LIST) ?
-                  <Link to={"recipes/edit/" + recipe.id}>
+                  <Link to={"recipes/edit/" + item.recipe_id}>
                     <button type="button" className="btn btn-success btn-circle" style={{ float: "right", marginTop: "5px", marginRight: "10px" }}>
                       <i className="glyphicon glyphicon-edit"></i>
                     </button>
                   </Link>
                 : null }  
-                <Link to={"recipe/" + recipe.id}><img src={recipe.img[0]} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
+                <Link to={"recipe/" + item.recipe_id}><img src={'../images/recip.jpg'} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
                 <div className="recipe_btn_content" style={{ marginTop: "-15px" }}>
-                  <Link to={"recipe/" + recipe.id}><h4 style={{ display: "inline" }}>{recipe.name + " "}</h4></Link><span />
-                  {
+                  <Link to={"recipe/" + item.recipe_id}><h4 style={{ display: "inline" }}>{item.recipe.name + " "}</h4></Link><span />
+                  {/* {
                     (list_type !== constants.recipeList.BOOKMARK_LIST && !isUndefined(users)) ?
                     <div style={{ display: "inline", fontSize: "14px" }}>by {users.find(x => x.id == recipe.creator).username}</div> : null
-                  }
-                  <Link to={"recipe/" + recipe.id}><div className="panel panel-default" style={{ marginTop: "10px" }}>
+                  } */}
+                  <Link to={"recipe/" + item.recipe_id}><div className="panel panel-default" style={{ marginTop: "10px" }}>
                     <table className="table table-bordered table-striped" style={{ textAlign: "center" }}>
                       <tbody><tr>
                         {
@@ -128,11 +145,16 @@ class RecipeList extends React.Component {
                         }
                       </tr>
                         <tr>
-                          {
+                          {/* {
                           constants.mealPlanner.macroNutrients.map((nutrient) => {
                                 return <td className="macro_col">{recipe.macros[nutrient]}</td>
                             })
-                          }
+                          } */}
+                          <td className="macro_col">{item.recipe.carolies}</td>
+                          <td className="macro_col">{item.recipe.cabs}</td>
+                          <td className="macro_col">{item.recipe.fat}</td>
+                          <td className="macro_col">{item.recipe.protein}</td>
+                          <td className="macro_col">{item.recipe.duration}</td>
                         </tr>
                       </tbody>
                     </table>

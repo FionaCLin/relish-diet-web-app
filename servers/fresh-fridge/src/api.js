@@ -3,10 +3,10 @@ import { recipeInfo } from './constants/dummyData.js';
 axios.defaults.baseURL = 'http://localhost:3002/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-function login (email, password) {
+function login (email, password, callback) {
   console.log(email, password);
   let user = null;
-  axios.post('api/users/login', {
+  axios.post('login', {
     // email: 'synexenel1416@yopmail.com',
     // password: '123'
     email: email,
@@ -15,9 +15,25 @@ function login (email, password) {
     // suppose the response contain the token?
     let user = response.data;
     console.log('you have login', user);
-    return user;
+    return callback(user);
   }).catch(function (error) {
     console.log('you haven\'t login');
+    console.log(error);
+    callback(error);
+    return error;
+  });
+}
+
+function getBookmarks (userId, callback) {
+  console.log(userId);
+  let bookmarkedRecipes = null;
+  axios.get('api/users/' + userId + '/bookmarks'
+  ).then(function (response) {
+    bookmarkedRecipes = response.data;
+    console.log('recevied bookmarked recipes', bookmarkedRecipes);
+    return callback(bookmarkedRecipes);
+  }).catch(function (error) {
+    console.log('no bookmarked recipes');
     console.log(error);
     return error;
   });
@@ -45,6 +61,7 @@ function getDashboard (user_id) {
     return error;
   });
 }
+
 function addRecipe (recipe) {
   recipe = recipeInfo[0];
   axios.post('api/recipes/create', recipe
@@ -108,15 +125,16 @@ function editComment (commentId, comment) {
 function getRecipe (recipeID) {
   recipeID = 1;
 
-  axios.get('/api/recipes/'+recipeID)
+  axios.get('/api/recipes/' + recipeID)
     .then(function (response) {
       console.log(response.data);
     }).catch(function (error) {
-      console.log("Could not get recipe");
+      console.log('Could not get recipe');
       console.log(error);
     });
 }
 
 export default {
-  login
+  login,
+  getBookmarks
 };

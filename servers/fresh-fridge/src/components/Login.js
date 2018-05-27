@@ -3,6 +3,8 @@ import constants from '../constants/loginConst';
 import Background from './Background';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+import api from '../api.js';
+import { isUndefined } from 'util';
 
 
 class Login extends React.Component {
@@ -10,8 +12,10 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      loginResult: undefined
     }
+    console.log("SETUSER!", this.props.setUser);
   }
 
   changeUsername = (e) => {
@@ -26,6 +30,22 @@ class Login extends React.Component {
     this.setState({password});
   }
 
+  checkLogin = (e) => {
+    e.preventDefault();
+    console.log("SETUSER", this.props.setUser);
+    const loginCallback = (loginResult) => {
+      this.setState({loginResult});
+      this.props.setUser(loginResult);
+      console.log(loginResult)
+      if (isUndefined(this.state.loginResult.id)) {
+        // show error message for user
+      } else {
+        this.props.history.push('/dashboard');
+      }
+    };
+    api.login(this.state.username, this.state.password, loginCallback);
+  }
+
   render () {
       return (
       <div>
@@ -36,7 +56,7 @@ class Login extends React.Component {
               <h4>Login</h4>
               <input className="form-control" value={this.state.username} onChange={(e) => this.changeUsername(e)} id="emailInput" placeholder="Username" type="text" />
               <input className="form-control" id="emailInput" placeholder="Password" value={this.state.password} onChange={(e) => this.changePassword(e)} type="password" />
-              <Link to="/dashboard"><div className="dashboard btn btn-success">Login</div></Link>
+              <div onClick = { (e) => this.checkLogin(e) } className="dashboard btn btn-success">Login</div>
             </div>
           </div>
         </div>

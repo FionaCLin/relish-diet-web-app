@@ -148,7 +148,7 @@ module.exports = () => {
       },
         {
           memberno: '8273',
-          likes: 11,
+          likes: 4,
           content: 'Gonna experiment a little bit'
         }]
     },
