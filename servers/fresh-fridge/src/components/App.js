@@ -56,7 +56,7 @@ class App extends Component {
             ingredientList={ingredientList} curr_user={CURR_USER_ID} />
           <PropsRoute path='/bookmark' exact strict component={RecipeList} recipeInfo={this.state.recipes} list_type={constants.recipeList.BOOKMARK_LIST}
             curr_user={CURR_USER_ID} users={this.state.users} editBookmark={(users) => this.setState({users})} user={this.state.user} />
-          <PropsRoute path='/recipe/:id' component={RecipePage} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
+          <PropsRoute path='/recipe/:id' component={RecipePage} user={this.state.user} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
             users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})} />
           <PropsRoute path='/profile' component={Profile} changeUsers={(users) => this.setState({users})} curr_user={CURR_USER_ID} users={this.state.users} />
           <PropsRoute path='/search' exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
