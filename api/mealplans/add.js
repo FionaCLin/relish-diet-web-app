@@ -51,7 +51,6 @@ module.exports = opts => {
       lib.mealplans.add(
         attrs,
         (err, res) => {
-          console.log(err);
           if (err) {
             return done(new Error('Meal plan could not be added.'));
           }

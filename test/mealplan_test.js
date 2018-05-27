@@ -74,11 +74,9 @@ exports.mealplan_test = {
     }, test.done);
   },
   'add mealplan1': test => {
-    console.log(mealplan1);
     api.mealplans.add(
       mealplan1,
       (err, res) => {
-        console.log(res, err);
         test.equal(res.title, mealplan1.title);
         mealplan1.id = res.id;
         test.done();
@@ -148,11 +146,9 @@ exports.mealplan_test = {
         api.timeslots.add(
           timeslot,
           (err, res) => {
-            console.log(timeslot.recipe_id);
-            console.log(res, err);
             test.equal(res.recipe_id, timeslot.recipe_id);
             test.equal(res.day, timeslot.day);
-            test.equal(res.meal_type, timeslot.mealtimes);
+            test.equal(res.meal_type, timeslot.meal_type);
             timeslot.id = res.id;
             cb();
           });

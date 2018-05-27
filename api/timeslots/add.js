@@ -13,7 +13,7 @@ module.exports = opts => {
       'plan_id',
       'recipe_id',
       'day',
-      'mealtimes',
+      'meal_type',
       'name'
     ];
 
@@ -48,7 +48,7 @@ module.exports = opts => {
     };
 
     let addTimeSlot = next => {
-      attrs.meal_type = attrs.mealtimes;
+      attrs.meal_type = attrs.meal_type;
       attrs.name = 'test';
       lib.timeslots.add(
         attrs,

@@ -9,8 +9,7 @@ DROP TABLE IF EXISTS Meal_Plans CASCADE;
 DROP TABLE IF EXISTS BookMarks CASCADE;
 COMMIT;
 /*schema starts here*/
-SET search_Path
-= Fresh_Fridge, '$user', public;
+SET search_Path = Fresh_Fridge, '$user', public;
 -- CREATE DOMAIN EMailType AS VARCHAR(50) CHECK (value SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+');
 CREATE TABLE Members
 (
@@ -36,8 +35,7 @@ CREATE TABLE Members
   tokenKey TEXT,
   CONSTRAINT Member_PK            PRIMARY KEY (id),
   CONSTRAINT Gender_CHK CHECK (gender IN ('F','G')),
-  CONSTRAINT Email_CHK CHECK
-(email SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+')
+  CONSTRAINT Email_CHK CHECK (email SIMILAR TO '[[:alnum:]_]+@[[:alnum:]]+%.[[:alnum:]]+')
   );
 
 CREATE TABLE Recipes
@@ -108,7 +106,7 @@ CREATE TABLE Meal_Plans
   id SERIAL,
   title VARCHAR(100) NOT NULL,
   memberNo INTEGER NOT NULL,
-sodium NUMERIC DEFAULT 0,
+  sodium NUMERIC DEFAULT 0,
   calories NUMERIC DEFAULT 0,
   protein NUMERIC DEFAULT 0,
   cabs NUMERIC DEFAULT 0,
