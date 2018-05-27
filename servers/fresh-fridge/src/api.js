@@ -104,6 +104,19 @@ function addRecipe (recipe) {
   });
 }
 
+function dashboardSearch (user_id, keyword) {
+  axios.get('api/users/' + user_id + '/dashboard/' + keyword
+  ).then(function (response) {
+    let recipe = response.data;
+    console.log('get recipe 1', recipe);
+    return recipe;
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+    return error;
+  });
+}
+
 function getRecipe (recipe_id) {
   axios.get('api/recipes/' + recipe_id
   ).then(function (response) {
@@ -170,5 +183,6 @@ export default {
   getPersonal,
   addRecipe,
   updateUser,
-  updatePassword
+  updatePassword,
+  dashboardSearch
 };
