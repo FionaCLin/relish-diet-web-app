@@ -1,8 +1,14 @@
 const PERSONAL =  'PERSONAL';
 const BOOKMARKED = 'BOOKMARKED';
 const RECOMMENDED = 'RECOMMENDED';
+const LOSE_WEIGHT = 'Lose weight';
+const GAIN_MUSCLE = 'Gain muscle';
+const SLIMMING = 'Slimming';
+const STAMINA_TRAINING = 'Stamina training';
+const GENERAL_FITNESS = 'General fitness';
 const daysOfWeek = ['\xa0\xa0\xa0', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-const macroNutrients = ['Energy', 'Carbs', 'Protein', 'Fats', 'Sodium'];
+const macroNutrients = ['Energy', 'Carbs', 'Fats', 'Protein', 'Sodium'];
+const smallMacros = ['calories', 'cabs', 'fat', 'protein', 'sodium'];
 const mealTimes = ['BREKKIE', '\xa0LUNCH', 'DINNER'];
 const recipeList = [
     {
@@ -41,40 +47,40 @@ const defaultPlan = {
     }
 };
 const sortDiet = {
-    "Lose weight" : {
+    'Lose weight' : {
         calories: 300,
         cabs: 14,
-        fats: NaN,
-        protein: NaN,
-        sodium: NaN
+        fat: 'NaN',
+        protein: 'NaN',
+        sodium: 'NaN'
     },
-    "Gain muscle" : {
+    'Gain muscle': {
         calories: 1000,
         cabs: 1000,
-        fats: 1000,
+        fat: 1000,
         protein: 1000,
         sodium: 1000
     },
-    "Sliming" : {
+    'Slimming': {
         calories: 600,
         cabs: 16,
-        fats: NaN,
+        fat: 'NaN',
         protein: 26,
-        sodium: NaN
+        sodium: 'NaN'
     },
-    "Stamina training" : {
+    'Stamina training' : {
         calories: 700,
         cabs: 45,
-        fats: NaN,
-        protein: NaN,
-        sodium: NaN
+        fat: 'NaN',
+        protein: 'NaN',
+        sodium: 'NaN'
     },
-    "General fitness" : {
+    'General fitness' : {
         calories: 500,
-        cabs: NaN,
-        fats: NaN,
-        protein: NaN,
-        sodium: NaN
+        cabs: 'NaN',
+        fat: 'NaN',
+        protein: 'NaN',
+        sodium: 'NaN'
     }
 };
 
@@ -99,5 +105,11 @@ export default {
     sortPlan,
     ADD_MEAL_PLANNER: 'add',
     EDIT_MEAL_PLANNER: 'edit',
-    VIEW_MEAL_PLANNER: 'view'
+    VIEW_MEAL_PLANNER: 'view',
+    LOSE_WEIGHT,
+    GAIN_MUSCLE,
+    SLIMMING,
+    STAMINA_TRAINING,
+    GENERAL_FITNESS,
+    smallMacros
 }

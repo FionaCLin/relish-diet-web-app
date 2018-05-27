@@ -17,17 +17,9 @@ class Dashboard extends React.Component {
   componentWillMount () {
     const dashRecipes = (result) => {
       this.setState({recipes: result});
-      console.log("RECIPES", result);
     }
-    
-    const goal = [{
-      calories: 300,
-      cabs: 14,
-      fats: NaN,
-      protein: NaN,
-      sodium: NaN
-    }];
-    api.getDashboardWithGoal(this.props.user.id, goal, dashRecipes);
+
+    api.getDashboardWithGoal(this.props.user.id, [constants.mealPlanner.sortDiet[this.props.user.goal]], dashRecipes);
   }
 
   render() {

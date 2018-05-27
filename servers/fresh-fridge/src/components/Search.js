@@ -2,7 +2,6 @@ import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
-import { sortDiet } from '../constants/dummyData';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import { isNullOrUndefined } from 'util';
@@ -13,17 +12,15 @@ import api from '../api';
 class Search extends React.Component {
     constructor(props) {
         super(props);
-        const tags = this.processUrl();
-        const recipes = (!isNullOrUndefined(this.props.match.params.name)) ? this.searchName(this.props.recipeInfo, tags) :
-            (!isNullOrUndefined(this.props.match.params.macros) ? this.searchMacros(this.props.recipeInfo, tags) : []);
+        const recipes = (!isNullOrUndefined(this.props.match.params.name)) ? this.searchName(this.props.match.params.name) : [];
         this.state = {
             recipes,
-            tags,
-            Energy: '',
-            Carbs: '',
-            Protein: '',
-            Fats: '',
-            Sodium: '',
+            tags: [],
+            calories: '',
+            cabs: '',
+            protein: '',
+            fat: '',
+            sodium: '',
             option: true,
             goal: null
         }
@@ -32,79 +29,54 @@ class Search extends React.Component {
 
     changeEnergy = (e) => {
         e.preventDefault();
-        let Energy = e.target.value;
-        this.setState({ Energy });
+        let calories = e.target.value;
+        this.setState({ calories });
     }
 
     changeCarbs = (e) => {
         e.preventDefault();
-        let Carbs = e.target.value;
-        this.setState({ Carbs });
+        let cabs = e.target.value;
+        this.setState({ cabs });
     }
 
     changeProtein = (e) => {
         e.preventDefault();
-        let Protein = e.target.value;
-        this.setState({ Protein });
+        let protein = e.target.value;
+        this.setState({ protein });
     }
 
     changeFats = (e) => {
         e.preventDefault();
-        let Fats = e.target.value;
-        this.setState({ Fats });
+        let fat = e.target.value;
+        this.setState({ fat });
     }
 
     changeSodium = (e) => {
         e.preventDefault();
-        let Sodium = e.target.value;
-        this.setState({ Sodium });
+        let sodium = e.target.value;
+        this.setState({ sodium });
     }
 
-    processUrl = (e) => {
+    getTags = () => {
         let tags = [];
         if (!isNullOrUndefined(this.props.match.params.name)) {
             tags.push(this.props.match.params.name);
-        } else if (!isNullOrUndefined(this.props.match.params.macros)) {
-            tags = this.props.match.params.macros.split('l');
-            tags = tags.map((tag) => parseInt(tag, 10));
+        } else {
+            constants.mealPlanner.smallMacros.map((nutrient) => {
+                tags.push(this.state[nutrient]);
+            })
         }
+        this.setState({tags});
         return tags;
     }
 
     macroUrl = () => {
         let url = '';
-        constants.mealPlanner.macroNutrients.forEach((nutrient) => {
+        constants.mealPlanner.smallMacros.forEach((nutrient) => {
             url += this.state[nutrient] + 'l';
         })
         url = url.slice(0, -1);
         return url;
-    }
-
-    searchName = (recipes, tags) => {
-        let name = tags[0];
-        console.log("NAME", name);
-        let sorted = [];
-        recipes.forEach((recipe) => {
-            console.log("NAMES", recipe.name, name);
-            if (recipe.name.toLowerCase().includes(name.toLowerCase())) {
-                sorted.push(recipe);
-            }
-        })
-        return sorted;
-    }
-
-    searchMacros = (recipes, tags) => {
-        let sorted = [];
-        recipes.forEach((recipe) => {
-            if ((isNaN(tags[0]) || (!isNaN(tags[0]) && recipe.macros.Energy < tags[0])) &&
-                (isNaN(tags[1]) || (!isNaN(tags[1]) && recipe.macros.Carbs < tags[1])) &&
-                (isNaN(tags[2]) || (!isNaN(tags[2]) && recipe.macros.Protein < tags[2])) &&
-                (isNaN(tags[3]) || (!isNaN(tags[3]) && recipe.macros.Fats < tags[3])) &&
-                (isNaN(tags[4]) || (!isNaN(tags[4]) && recipe.macros.Sodium < tags[4]))) {
-                sorted.push(recipe);
-            }
-        });
-        return sorted;
     }
 
     swapButton = (e, flag) => {
@@ -115,36 +87,30 @@ class Search extends React.Component {
 
     setGoal = (e, goal) => {
         e.preventDefault();
-        let goals = sortDiet[goal].map((diet) => {
-            if (isNaN(diet)) {
-                return ''
-            } else {
-                return diet;
-            }
-        })
+        let diet = constants.mealPlanner.sortDiet[goal];
         this.setState({ goal });
-        this.setState({ Energy: goals[0] });
-        this.setState({ Carbs: goals[1] });
-        this.setState({ Protein: goals[2] });
-        this.setState({ Fats: goals[3] });
-        this.setState({ Sodium: goals[4] });
+        this.setState({ calories: diet.calories });
+        this.setState({ cabs: diet.cabs });
+        this.setState({ protein: diet.protein });
+        this.setState({ fat: diet.fat });
+        this.setState({ sodium: diet.sodium });
     }
 
     onGoalSearch = (e) => {
-        // need to make the NaN as a string, because the route make
-        // NaN as null, null treated as 0, so quote the NaN as a string
-        let goals = [{
-            calories: 100,
-            cabs: 'NaN',
-            fats: 'NaN',
-            protein: 'NaN',
-            sodium: 'NaN'
-        }]
-        let userId = 1;
-        api.getDashboardWithGoal(userId,goals,(res) =>{
-
-        });
+        const goalResult = (recipes) => {
+            this.setState({recipes});
+            this.getTags();
+        };
+        const goalSearch = [{
+            calories: this.state.calories,
+            cabs: this.state.cabs,
+            protein: this.state.protein,
+            fat: this.state.fat,
+            sodium: this.state.sodium
+        }];
+        api.getDashboardWithGoal(this.props.user.id, goalSearch, goalResult);
     }
+
     render() {
         return (
             <div className="body_container">
@@ -159,39 +125,42 @@ class Search extends React.Component {
                                         <div>
                                             <div style={{ float: "left", width: "20%", paddingLeft: "20px", paddingRight: "20px" }}>
                                                 <label for="carbs" style={{ fontWeight: "normal", fontSize: "small" }}>Energy (kCal)</label>
-                                                <input type="number" onChange={(e) => this.changeEnergy(e)} value={this.state.Energy} class="form-control" id="carbs" placeholder="Kilojoules" min="0"></input>
+                                                <input type="number" onChange={(e) => this.changeEnergy(e)} value={this.state.calories} class="form-control" id="carbs" placeholder="Kilojoules" min="0"></input>
                                             </div>
                                             <div style={{ float: "left", width: "20%", paddingLeft: "20px", paddingRight: "20px" }}>
                                                 <label for="carbs" style={{ fontWeight: "normal", fontSize: "small" }}>Carbohydrates (g)</label>
-                                                <input type="number" onChange={(e) => this.changeCarbs(e)} value={this.state.Carbs} class="form-control" id="carbs" placeholder="Carbohydrates" min="0"></input>
+                                                <input type="number" onChange={(e) => this.changeCarbs(e)} value={this.state.cabs} class="form-control" id="carbs" placeholder="Carbohydrates" min="0"></input>
                                             </div>
                                             <div style={{ float: "left", width: "20%", paddingLeft: "20px", paddingRight: "20px" }}>
                                                 <label for="carbs" style={{ fontWeight: "normal", fontSize: "small" }}>Protein (g)</label>
-                                                <input type="number" onChange={(e) => this.changeProtein(e)} value={this.state.Protein} class="form-control" id="carbs" placeholder="Protein" min="0"></input>
+                                                <input type="number" onChange={(e) => this.changeProtein(e)} value={this.state.protein} class="form-control" id="carbs" placeholder="Protein" min="0"></input>
                                             </div>
                                             <div style={{ float: "left", width: "20%", paddingLeft: "20px", paddingRight: "20px" }}>
                                                 <label for="carbs" style={{ fontWeight: "normal", fontSize: "small" }}>Fats (g)</label>
-                                                <input type="number" onChange={(e) => this.changeFats(e)} value={this.state.Fats} class="form-control" id="carbs" placeholder="Fats" min="0"></input>
+                                                <input type="number" onChange={(e) => this.changeFats(e)} value={this.state.fat} class="form-control" id="carbs" placeholder="Fats" min="0"></input>
                                             </div>
                                             <div style={{ float: "left", width: "20%", paddingLeft: "20px", paddingRight: "20px" }}>
                                                 <label for="carbs" style={{ fontWeight: "normal", fontSize: "small" }}>Sodium (g)</label>
-                                                <input type="number" onChange={(e) => this.changeSodium(e)} value={this.state.Sodium} class="form-control" id="carbs" placeholder="Sodium" min="0"></input>
+                                                <input type="number" onChange={(e) => this.changeSodium(e)} value={this.state.sodium} class="form-control" id="carbs" placeholder="Sodium" min="0"></input>
                                             </div>
                                         </div> :
                                         <div style={{ margin: "13px", marginLeft: "20px" }}>
-                                            <button class={(this.state.goal == 0) ? "btn btn-success" : "btn btn-default"} onClick={(e) => this.setGoal(e, 0)} style={{ width: "260px" }}>Slimming</button>
-                                            <button class={(this.state.goal == 1) ? "btn btn-success" : "btn btn-default"} onClick={(e) => this.setGoal(e, 1)} style={{ width: "260px" }}>Muscle Building</button>
-                                            <button class={(this.state.goal == 2) ? "btn btn-success" : "btn btn-default"} onClick={(e) => this.setGoal(e, 2)} style={{ width: "260px" }}>Weight Loss</button>
-                                            <button class={(this.state.goal == 3) ? "btn btn-success" : "btn btn-default"} onClick={(e) => this.setGoal(e, 3)} style={{ width: "260px" }}>Stamina Training</button>
-                                            <button class={(this.state.goal == 4) ? "btn btn-success" : "btn btn-default"} onClick={(e) => this.setGoal(e, 4)} style={{ width: "260px" }}>General Fitness</button>
+                                            <button class={(this.state.goal == constants.mealPlanner.LOSE_WEIGHT) ? "btn btn-success" : "btn btn-default"}
+                                                onClick={(e) => this.setGoal(e, constants.mealPlanner.LOSE_WEIGHT)} style={{ width: "260px" }}>Lose Weight</button>
+                                            <button class={(this.state.goal == constants.mealPlanner.GAIN_MUSCLE) ? "btn btn-success" : "btn btn-default"}
+                                                onClick={(e) => this.setGoal(e, constants.mealPlanner.GAIN_MUSCLE)} style={{ width: "260px" }}>Gain Muscle</button>
+                                            <button class={(this.state.goal == constants.mealPlanner.SLIMMING) ? "btn btn-success" : "btn btn-default"}
+                                                onClick={(e) => this.setGoal(e, constants.mealPlanner.SLIMMING)} style={{ width: "260px" }}>Slimming</button>
+                                            <button class={(this.state.goal == constants.mealPlanner.STAMINA_TRAINING) ? "btn btn-success" : "btn btn-default"}
+                                                onClick={(e) => this.setGoal(e, constants.mealPlanner.STAMINA_TRAINING)} style={{ width: "260px" }}>Stamina Training</button>
+                                            <button class={(this.state.goal == constants.mealPlanner.GENERAL_FITNESS) ? "btn btn-success" : "btn btn-default"}
+                                                onClick={(e) => this.setGoal(e, constants.mealPlanner.GENERAL_FITNESS)} style={{ width: "260px" }}>General Fitness</button>
                                         </div>
                                     }
                                     <button class={(this.state.option) ? "btn btn-secondary" : "btn btn-default"} onClick={(e) => this.swapButton(e, true)} style={{ float: "left", marginTop: "15px", marginLeft: "20px" }}>Macro Limits</button>
                                     <button class={(this.state.option) ? "btn btn-default" : "btn btn-secondary"} onClick={(e) => this.swapButton(e, false)} style={{ float: "left", marginTop: "15px", marginLeft: "20px" }}>Goal Options</button>
                                     <div style={{ float: "right", marginTop: "15px", marginRight: "20px" }}>
-                                        {/* <NavLink to={'../../search/macros/' + this.macroUrl()} > */}
                                         <button class="btn btn-default" onClick={(e) => this.onGoalSearch(e)} type="submit">Advanced Search</button>
-                                        {/* </NavLink> */}
                                     </div>
                                 </div>
                             </div>
@@ -205,11 +174,11 @@ class Search extends React.Component {
                             this.state.tags.map((tag, index) => {
                                 console.log(tag);
                                 if (!isNaN(tag)) {
-                                    return <span class="label label-success">{constants.mealPlanner.macroNutrients[index] + ": < " + tag}{(index == 0) ? " kCal" : " g"}</span>
+                                    return <span class="label label-success" style={{marginLeft: "10px"}}>{constants.mealPlanner.macroNutrients[index] + ": < " + tag}{(index == 0) ? " kCal" : " g"}</span>
                                 }
                             }) :
                             this.state.tags.map((tag) => {
-                                return <span class="label label-success">{tag}</span>
+                                return <span class="label label-success" style={{marginLeft: "10px"}}>{tag}</span>
                             })
                     }
                 </div>
@@ -218,10 +187,10 @@ class Search extends React.Component {
                     {this.state.recipes.map((recipe) => {
                         return (
                             <Link to={"../../recipe/" + recipe.id} class="list-group-item list-group-item-action recipe_btn">
-                                <img src={"../../" + recipe.img[0]} alt="Avatar" class="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }}></img>
+                                <img src={"../../" + recipe.images.split(",")[0]} alt="Avatar" class="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }}></img>
                                 <div class="recipe_btn_content">
                                     <h4 style={{ display: "inline" }}>{recipe.name + " "}</h4>
-                                    <div style={{ display: "inline", fontSize: "14px" }}>by {this.props.users.find(x => x.id == recipe.creator).username}</div>
+                                    {/* <div style={{ display: "inline", fontSize: "14px" }}>by {this.props.users.find(x => x.id == recipe.creator).username}</div> */}
                                     <span></span>
                                     <div class="panel panel-default" style={{ marginTop: "10px" }}>
                                         <table class="table table-bordered table-striped" style={{ textAlign: "center" }}>
@@ -233,12 +202,11 @@ class Search extends React.Component {
                                                     <td>Fats (g)</td>
                                                     <td>Sodium (g)</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="macro_col">{recipe.macros.Energy}</td>
-                                                    <td class="macro_col">{recipe.macros.Carbs}</td>
-                                                    <td class="macro_col">{recipe.macros.Protein}</td>
-                                                    <td class="macro_col">{recipe.macros.Fats}</td>
-                                                    <td class="macro_col">{recipe.macros.Sodium}</td>
+                                                <tr>{
+                                                        constants.mealPlanner.smallMacros.map((nutrient) => {
+                                                            return <td class="macro_col">{recipe[nutrient]}</td>
+                                                        })
+                                                    }
                                                 </tr>
                                             </tbody>
                                         </table>
