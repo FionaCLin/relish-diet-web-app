@@ -7,8 +7,15 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  api.recipes.getDashboard = (user_id, done) => {
-    let recipe, user;
+  api.dashboards.getWithGoal = (user_id, attrs, done) => {
+    let recipes, user, recipe;
+    let keys = [
+      'calories',
+      'cabs',
+      'fats',
+      'protein',
+      'sodium'
+    ];
 
     let checkUser = next => {
       lib.users.get(user_id, (err, res) => {
@@ -31,6 +38,13 @@ module.exports = (opts) => {
         });
     };
 
+    // let attrs = [
+    //   [300, 14, NaN, NaN, NaN],
+    //   [1000, 1000, 1000, 1000, 1000],
+    //   [600, 16, NaN, 26, NaN],
+    //   [700, 45, NaN, NaN, NaN],
+    //   [500, NaN, NaN, NaN, NaN]
+    // ];
     // const goals = [{
     //   calories: 100,
     //   cabs: NaN,
@@ -45,11 +59,22 @@ module.exports = (opts) => {
     //   sodium: 4
     // }];
 
+    // Energy: goals[0]
+    // g.carbs: goals[1]
+    // g.protein: goals[2]
+    // g.fats: goals[3]
+    // g.sodium: goals[4]
+    // let filter = next => {
+    //   recipe.forEach(re => {
+
+    //   });
+    // };
+
     async.series([
       checkUser,
       getRecipe
     ], (err) => {
-      done(err, recipe);
+      done(err, recipes);
     });
   };
 };

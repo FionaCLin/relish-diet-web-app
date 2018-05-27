@@ -82,7 +82,6 @@ module.exports = opts => {
     // let ingredients = [{key: 'ndbno', amount: key.amount}] make the ingredient object array,
     let ingredientsList = [];
     // let totalMacros = [];
-
     let totalCals = 0;
     let totalPro = 0;
     let totalFat = 0;
