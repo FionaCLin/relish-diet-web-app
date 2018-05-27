@@ -1,5 +1,6 @@
 import React from 'react';
 import NavLink from 'react-router-dom/NavLink'
+import { isNull, isUndefined } from 'util';
 
 const NavigationBar = (prop) => {
   return (
@@ -15,12 +16,13 @@ const NavigationBar = (prop) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <NavLink to="/dashboard" className="navbar-brand" style={{ color: "LimeGreen" }}>
+          <NavLink to={(isNull(prop.user) || isUndefined(prop.user.id)) ? "/" : "/dashboard"} className="navbar-brand" style={{ color: "LimeGreen" }}>
             <span className="glyphicon glyphicon-grain"></span> Fresh Fridge
             </NavLink>
         </div>
 
         {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
+        { (!isNull(prop.user) && !isUndefined(prop.user.id)) ?
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav navbar-right">
             <li>
@@ -65,14 +67,15 @@ const NavigationBar = (prop) => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/login">
-                    <a href="login">Logout</a>
+                  <NavLink to="/">
+                    <a href="login" onClick={(e) => { const user = null; prop.setUser(user) }}>Logout</a>
                   </NavLink>
                 </li>
               </ul>
             </li>
           </ul>
-        </div>
+        </div> : null
+        }
         {/*<!-- /.navbar-collapse -->*/}
       </div >
       {/*< !-- /.container-fluid -->*/}

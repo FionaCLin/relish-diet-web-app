@@ -35,9 +35,13 @@ class SearchInputForm extends React.Component {
       <div className="input-group">
         <input type="text" value={this.state.search} onChange={(e) => this.changeSearch(e)} className="form-control" placeholder="Search from hundreds of recipes!" />
         <span className="input-group-btn">
+<<<<<<< HEAD
+          <Link to={(this.state.search == '') ? "/search" : "/search/name/" + this.state.search}><button className="btn btn-default" type="button"><span className="glyphicon glyphicon-search"></span></button></Link>
+=======
           {/* <Link to={"/search/name/" + this.state.search}> */}
           <button className="btn btn-default" onClick={(e)=>this.onClickSearch(e)} type="button"><span className="glyphicon glyphicon-search"></span></button>
           {/* </Link> */}
+>>>>>>> a520d43e18fa247ba3a75181bb7a8535165e07cb
         </span>
       </div>
     )
