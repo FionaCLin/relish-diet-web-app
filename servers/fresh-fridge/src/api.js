@@ -162,6 +162,31 @@ function deleteRecipe (recipe_id) {
 }
 
 
+function dashboardSearch (userId, keyword) {
+  axios.get('api/users/' + userId + '/dashboard/' + keyword
+  ).then(function (response) {
+    let recipe = response.data;
+    console.log('get recipe 1', recipe);
+    return recipe;
+  }).catch(function (error) {
+    console.log('you haven\'t login');
+    console.log(error);
+    return error;
+  });
+}
+
+function getDashboardWithGoal (userId, goals, callback) {
+  axios.post('api/users/' + userId + '/dashboard/', goals)
+    .then(function (response) {
+      let recipes = response.data;
+      console.log('get recipe 1', recipes);
+      return callback(recipes);
+    }).catch(function (error) {
+      console.log('you haven\'t login');
+      console.log(error);
+      return callback(error);
+    });
+}
 export default {
   login,
   getBookmarks,
@@ -174,5 +199,7 @@ export default {
   addBookmark,
   deleteBookmark,
   updateUser,
-  updatePassword
+  updatePassword,
+  dashboardSearch,
+  getDashboardWithGoal
 };

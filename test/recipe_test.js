@@ -124,6 +124,7 @@ exports.recipes = {
       recipe.user_id = 1;
       recipe.creatorID = 1; // for api??
       recipe.images = './images/apple.js';
+      recipe.calories = Math.floor(Math.random() * 100 + 100) * recipe.calories;
       api.recipes.add(
         recipe,
         (err, res) => {
