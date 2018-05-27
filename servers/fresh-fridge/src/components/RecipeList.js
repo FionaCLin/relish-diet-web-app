@@ -10,22 +10,6 @@ import api from '../api.js';
 class RecipeList extends React.Component {
   constructor(props) {
     super(props);
-    // let recipes = [];
-    // if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
-    //   let users = this.props.users;
-    //   let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
-    //   this.props.recipeInfo.forEach(recipe => {
-    //     if (!isUndefined(bookmarks.find(x => x === recipe.id))) {
-    //       recipes.push(recipe.id);
-    //     }
-    //   });
-    // } else {
-    //   this.props.recipeInfo.forEach((recipe) => {
-    //     if (recipe.creator === this.props.curr_user) {
-    //       recipes.push(recipe.id);
-    //     }
-    //   });
-    // }
 
     this.state = {
       recipes: [],
@@ -48,20 +32,13 @@ class RecipeList extends React.Component {
   deleteRecipe = (e, recipeId) => {
     e.preventDefault();
     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
-      // delete from bookmark list
-      let users = this.props.users;
-      let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
-      bookmarks.splice(bookmarks.indexOf(recipeId), 1);
-      console.log("DELETE", users);
-      this.props.editBookmark(users);
+      api.deleteBookmark(this.props.user.id, recipeId);
+      recipeId = this.state.modalRecipe.id;
     } else {
-      // delete from list by user
-      let recipeInfo = this.props.recipeInfo;
-      recipeInfo.splice(recipeInfo.indexOf(recipeInfo.find(x => x.id === recipeId)), 1);
-      this.props.editRecipes(recipeInfo);
+      api.deleteRecipe(recipeId);
     }
     let { recipes } = this.state;
-    recipes.splice(recipes.indexOf(recipeId), 1);
+    recipes.splice(recipes.indexOf(recipes.find(x => x.id == recipeId)), 1);
     this.setState({recipes});
   }
 
@@ -74,8 +51,6 @@ class RecipeList extends React.Component {
 
   render() {
     let list_type = this.props.list_type;
-    let users = this.props.users;
-    console.log(users);
     let { recipes } = this.state;
       return (
       <div className="body_container">
@@ -95,7 +70,8 @@ class RecipeList extends React.Component {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" onClick={(e) => this.deleteRecipe(e, this.state.modalRecipe.id)} class="btn btn-danger" data-dismiss="modal">Remove</button>
+                      <button type="button" onClick={(e) => (list_type == constants.recipeList.BOOKMARK_LIST) ? this.deleteRecipe(e, e.target.id) : this.deleteRecipe(e, this.state.modalRecipe.id)}
+                        class="btn btn-danger" data-dismiss="modal">Remove</button>
                     </div>
                   </div>
                 </div>
@@ -111,7 +87,7 @@ class RecipeList extends React.Component {
         <div style={{ width: "100%", float: "left" }} className="list-group" >
           {recipes.map((item) => {
             return (
-              <a className="list-group-item list-group-item-action recipe_btn" key={(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id} style={{ cursor: "pointer" }}>
+              <a className="list-group-item list-group-item-action recipe_btn" id={(list_type == constants.recipeList.BOOKMARK_LIST) ? item.id : null} key={(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id} style={{ cursor: "pointer" }}>
                 <button type="button" onClick={(e) => this.changeModal(e, item)} className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
                   <i className="glyphicon glyphicon-remove"></i>
                 </button>
@@ -122,9 +98,12 @@ class RecipeList extends React.Component {
                     </button>
                   </Link>
                 : null }  
-                <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><img src={'../images/recip.jpg'} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
+                <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><img src={'../images/recip.jpg'}
+                  alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
                 <div className="recipe_btn_content" style={{ marginTop: "-15px" }}>
-                  <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><h4 style={{ display: "inline" }}>{((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.name : item.name) + " "}</h4></Link><span />
+                  <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><h4 style={{ display: "inline" }}>
+                    {((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.name : item.name) + " "}
+                  </h4></Link><span />
                   <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><div className="panel panel-default" style={{ marginTop: "10px" }}>
                     <table className="table table-bordered table-striped" style={{ textAlign: "center" }}>
                       <tbody><tr>

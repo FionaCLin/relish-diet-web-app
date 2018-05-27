@@ -36,7 +36,7 @@ class App extends Component {
     return (
       <Router>
         <div store={this.props.store}>
-          <NavigationBar />
+          <NavigationBar user={this.state.user} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/login' exact strict component={Login} history={history} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/' exact strict component={Login} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/dashboard' exact strict component={Dashboard} recipeInfo={this.state.recipes} user={this.state.user} />
@@ -58,7 +58,7 @@ class App extends Component {
             curr_user={CURR_USER_ID} users={this.state.users} editBookmark={(users) => this.setState({users})} user={this.state.user} />
           <PropsRoute path='/recipe/:id' component={RecipePage} user={this.state.user} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
             users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})} />
-          <PropsRoute path='/profile' component={Profile} changeUsers={(users) => this.setState({users})} curr_user={CURR_USER_ID} users={this.state.users} />
+          <PropsRoute path='/profile' component={Profile} user={this.state.user} />
           <PropsRoute path='/search' exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
           <PropsRoute path='/search/name/:name' exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />
           <PropsRoute path='/search/macros/:macros' exact strict component={Search} users={this.state.users} recipeInfo={this.state.recipes} />

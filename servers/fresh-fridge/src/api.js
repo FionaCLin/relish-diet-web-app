@@ -116,17 +116,6 @@ function deleteBookmark (user_id, bookmark_id) {
   });
 }
 
-function editRecipe (recipe) {
-  axios.put('api/recipes/' + recipe.id, recipe
-  ).then(function (response) {
-    let newCreatedRecipe = response.data;
-    console.log('new recipe', newCreatedRecipe);
-  }).catch(function (error) {
-    console.log("you haven't made a recipe");
-    console.log(error);
-  });
-}
-
 function getDashboard (user_id) {
   axios.post('api/users/' + user_id + '/dashboard/'
   ).then(function (response) {
@@ -151,13 +140,35 @@ function addRecipe (recipe) {
   });
 }
 
+function editRecipe (recipe) {
+    axios.put('api/recipes/' + recipe.id, recipe
+    ).then(function (response) {
+      let newCreatedRecipe = response.data;
+      console.log('new recipe', newCreatedRecipe);
+    }).catch(function (error) {
+      console.log("you haven't made a recipe");
+      console.log(error);
+    });
+}
+
+function deleteRecipe (recipe_id) {
+  axios.delete('/api/recipes/' + recipe_id
+  ).then(function (response) {
+    console.log('deleted recipe');
+  }).catch(function(error) {
+    console.log('Error');
+    console.log(error);
+  })
+}
+
+
 export default {
   login,
   getBookmarks,
   getPersonal,
   addRecipe,
   // editRecipe,
-  // deleteRecipe,
+  deleteRecipe,
   getRecipe,
   addComment,
   addBookmark,
