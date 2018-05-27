@@ -164,6 +164,18 @@ function dashboardSearch (userId, keyword) {
   });
 }
 
+function getDashboardWithGoal (userId, goals, callback) {
+  axios.post('api/users/' + userId + '/dashboard/', goals)
+    .then(function (response) {
+      let recipes = response.data;
+      console.log('get recipe 1', recipes);
+      return callback(recipes);
+    }).catch(function (error) {
+      console.log('you haven\'t login');
+      console.log(error);
+      return callback(error);
+    });
+}
 export default {
   login,
   getBookmarks,
@@ -175,5 +187,6 @@ export default {
   deleteBookmark,
   updateUser,
   updatePassword,
-  dashboardSearch
+  dashboardSearch,
+  getDashboardWithGoal
 };
