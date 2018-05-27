@@ -46,7 +46,7 @@ CREATE TABLE Recipes
   memberNo INTEGER NOT NULL,
   name TEXT NOT NULL,
   method TEXT,
-  duration INTEGER,
+  sodium NUMERIC DEFAULT 0,
   calories NUMERIC DEFAULT 0,
   protein NUMERIC DEFAULT 0,
   cabs NUMERIC DEFAULT 0,
