@@ -31,7 +31,6 @@ module.exports = (opts) => {
           bookmark.recipe_id,
           (err, res) => {
             bookmark.recipe = res;
-            console.log(bookmark.recipe);
             cb();
           });
       }, next);
