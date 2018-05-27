@@ -938,8 +938,13 @@ module.exports = () => {
   let mealplans = [
     {
       title: 'Weight loss regime',
-      memberno: 1,
-      time_slots:
+      user_id: 1,
+      sodium: 20,
+      calories: 40,
+      protein: 30,
+      cabs: 50,
+      fat: 50,
+      timeslots:
       [{ day: 'MON', meal_type: 'BREAKFAST', recipe_id: 5 },
         { day: 'MON', meal_type: 'LUNCH', recipe_id: 3 },
         { day: 'MON', meal_type: 'DINNER', recipe_id: 3 },
@@ -950,7 +955,7 @@ module.exports = () => {
         { day: 'WED', meal_type: 'LUNCH', recipe_id: 5 },
         { day: 'WED', meal_type: 'DINNER', recipe_id: 3 },
         { day: 'THU', meal_type: 'BREAKFAST', recipe_id: 7 },
-        { day: 'THU', meal_type: 'LUNCH', recipe_id: 0 },
+        { day: 'THU', meal_type: 'LUNCH', recipe_id: 8 },
         { day: 'THU', meal_type: 'DINNER', recipe_id: 9 },
         { day: 'FRI', meal_type: 'BREAKFAST', recipe_id: 7 },
         { day: 'FRI', meal_type: 'LUNCH', recipe_id: 4 },
@@ -960,7 +965,7 @@ module.exports = () => {
         { day: 'SAT', meal_type: 'DINNER', recipe_id: 2 },
         { day: 'SUN', meal_type: 'BREAKFAST', recipe_id: 2 },
         { day: 'SUN', meal_type: 'LUNCH', recipe_id: 1 },
-        { day: 'SUN', meal_type: 'DINNER', recipe_id: 0 }]
+        { day: 'SUN', meal_type: 'DINNER', recipe_id: 8 }]
     }
   ];
   return {

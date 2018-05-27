@@ -2,8 +2,8 @@
 
 module.exports = (app, api) => {
   // timeslot details
-  app.get('/api/timeslots/:id', function (req, res) {
-    api.timeslots.get(
+  app.get('/api/mealplans/:id/timeslots', function (req, res) {
+    api.timeslots.getByPlan(
       req.params.id,
       (err, timeslot) => {
         if (err) {
