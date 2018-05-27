@@ -34,20 +34,18 @@ class RecipeList extends React.Component {
         name: ''
       }
     }
-
-    if (this.props.list_type == constants.recipeList.BOOKMARK_LIST) {
-      console.log("ENTER");
-      const receiveBookmarks = (recipes) => {
-        this.setState({ recipes });
-        console.log("BOOKMARKS", recipes);
-        console.log("RECIPES", this.state.recipes);
-      }
-      console.log("USER", this.props.user);
-      api.getBookmarks(2, receiveBookmarks);
-    }
   }
 
   componentWillMount() {
+    const receiveList = (recipes) => this.setState({ recipes });
+    if (this.props.list_type == constants.recipeList.BOOKMARK_LIST) {
+      console.log("ENTER");
+      console.log("USER", this.props.user);
+      api.getBookmarks(this.props.user.id, receiveList);
+    } else {
+      console.log("USER", this.props.user);
+      api.getPersonal(this.props.user.id, receiveList);
+    }
   }
 
   deleteRecipe = (e, recipeId) => {
@@ -117,25 +115,25 @@ class RecipeList extends React.Component {
           {recipes.map((item) => {
             // let recipe = this.props.recipeInfo.find(x => x.id === recipeId);
             return (
-              <a className="list-group-item list-group-item-action recipe_btn" key={item.recipe_id} style={{ cursor: "pointer" }}>
+              <a className="list-group-item list-group-item-action recipe_btn" key={(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id} style={{ cursor: "pointer" }}>
                 <button type="button" onClick={(e) => this.changeModal(e, item)} className="btn btn-danger btn-circle" style={{ float: "right", marginTop: "5px" }} data-toggle="modal" data-target="#myModal">
                   <i className="glyphicon glyphicon-remove"></i>
                 </button>
                 { (list_type !== constants.recipeList.BOOKMARK_LIST) ?
-                  <Link to={"recipes/edit/" + item.recipe_id}>
+                  <Link to={"recipes/edit/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}>
                     <button type="button" className="btn btn-success btn-circle" style={{ float: "right", marginTop: "5px", marginRight: "10px" }}>
                       <i className="glyphicon glyphicon-edit"></i>
                     </button>
                   </Link>
                 : null }  
-                <Link to={"recipe/" + item.recipe_id}><img src={'../images/recip.jpg'} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
+                <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><img src={'../images/recip.jpg'} alt="Avatar" className="dash_img" style={{ marginLeft: "5px", width: "150px", height: "150px", float: "left" }} /></Link>
                 <div className="recipe_btn_content" style={{ marginTop: "-15px" }}>
-                  <Link to={"recipe/" + item.recipe_id}><h4 style={{ display: "inline" }}>{item.recipe.name + " "}</h4></Link><span />
+                  <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><h4 style={{ display: "inline" }}>{((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.name : item.name) + " "}</h4></Link><span />
                   {/* {
                     (list_type !== constants.recipeList.BOOKMARK_LIST && !isUndefined(users)) ?
                     <div style={{ display: "inline", fontSize: "14px" }}>by {users.find(x => x.id == recipe.creator).username}</div> : null
                   } */}
-                  <Link to={"recipe/" + item.recipe_id}><div className="panel panel-default" style={{ marginTop: "10px" }}>
+                  <Link to={"recipe/" + ((list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe_id : item.id)}><div className="panel panel-default" style={{ marginTop: "10px" }}>
                     <table className="table table-bordered table-striped" style={{ textAlign: "center" }}>
                       <tbody><tr>
                         {
@@ -150,11 +148,11 @@ class RecipeList extends React.Component {
                                 return <td className="macro_col">{recipe.macros[nutrient]}</td>
                             })
                           } */}
-                          <td className="macro_col">{item.recipe.carolies}</td>
-                          <td className="macro_col">{item.recipe.cabs}</td>
-                          <td className="macro_col">{item.recipe.fat}</td>
-                          <td className="macro_col">{item.recipe.protein}</td>
-                          <td className="macro_col">{item.recipe.duration}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.carolies : item.calories}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.cabs : item.cabs}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.fat : item.fat}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.protein : item.protein}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.duration : item.duration}</td>
                         </tr>
                       </tbody>
                     </table>

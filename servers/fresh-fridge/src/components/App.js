@@ -49,7 +49,7 @@ class App extends Component {
             users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans}
             editPlan={(mealPlans) => this.setState({mealPlans})} />
           <PropsRoute path='/recipes' exact strict component={RecipeList} recipeInfo={this.state.recipes} list_type={constants.recipeList.RECIPE_LIST}
-            curr_user={CURR_USER_ID} editRecipes={(recipes) => this.setState({recipes})} />
+            curr_user={CURR_USER_ID} editRecipes={(recipes) => this.setState({recipes})} user={this.state.user} />
           <PropsRoute path='/recipes/:mode/:id' exact strict component={EditRecipe} recipeInfo={this.state.recipes} editRecipes={(recipes) => this.setState({recipes})}
             ingredientList={ingredientList} curr_user={CURR_USER_ID} />
           <PropsRoute path='/recipes/:mode' exact strict component={EditRecipe} recipeInfo={this.state.recipes} editRecipes={(recipes) => this.setState({recipes})}

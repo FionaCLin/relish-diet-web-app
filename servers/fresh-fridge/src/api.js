@@ -39,6 +39,20 @@ function getBookmarks (userId, callback) {
   });
 }
 
+function getPersonal (userId, callback) {
+  console.log(userId);
+  let personalRecipes = null;
+  axios.get('api/users/' + userId + '/recipes'
+  ).then(function (response) {
+    personalRecipes = response.data;
+    return callback(personalRecipes);
+  }).catch(function (error) {
+    console.log('no personal recipes');
+    console.log(error);
+    return error;
+  });
+}
+
 function editRecipe (recipe) {
   axios.put('api/recipes/' + recipe.id, recipe
   ).then(function (response) {
@@ -136,5 +150,6 @@ function getRecipe (recipeID) {
 
 export default {
   login,
-  getBookmarks
+  getBookmarks,
+  getPersonal
 };

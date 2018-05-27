@@ -75,4 +75,17 @@ e.g.:
         res.status(200).send();
       });
   });
+
+  // recipe details by user
+  // curl -X GET  http://localhost:3002/api/users/1/recipes
+  app.get('/api/users/:id/recipes', function (req, res) {
+    api.recipes.getByUser(
+      req.params.id,
+      (err, recipe) => {
+        if (err) {
+          return res.status(400).send(err.message);
+        }
+        res.status(200).send(recipe);
+      });
+  });
 };
