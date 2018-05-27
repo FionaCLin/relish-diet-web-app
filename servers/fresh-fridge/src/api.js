@@ -156,6 +156,8 @@ export default {
   getBookmarks,
   getPersonal,
   addRecipe,
+  // editRecipe,
+  // deleteRecipe,
   getRecipe,
   addComment,
   addBookmark,

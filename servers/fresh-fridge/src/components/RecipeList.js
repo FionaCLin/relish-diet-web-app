@@ -135,7 +135,7 @@ class RecipeList extends React.Component {
                         }
                       </tr>
                         <tr>
-                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.carolies : item.calories}</td>
+                              <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.calories : item.calories}</td>
                               <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.cabs : item.cabs}</td>
                               <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.fat : item.fat}</td>
                               <td className="macro_col">{(list_type == constants.recipeList.BOOKMARK_LIST) ? item.recipe.protein : item.protein}</td>
