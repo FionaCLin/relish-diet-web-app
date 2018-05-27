@@ -35,6 +35,7 @@ class EditRecipe extends React.Component {
             string: '',
             measure: '',
             amount: '',
+            nbdno: '',
             name: recipe.name,
             ingredients: recipe.ingredients,
             method: recipe.method,
@@ -52,7 +53,10 @@ class EditRecipe extends React.Component {
                 let data = response.data;
                 if (!isUndefined(data.list)) {
                     data.list.item.forEach((item) => {
-                        ingredientsProp.push(item.name);
+                        ingredientsProp.push({
+                            nbdno: item.nbdno,
+                            name: item.name
+                        });
                     });
                     this.setState({ingredientsProp});
                 }
@@ -63,7 +67,12 @@ class EditRecipe extends React.Component {
     addIngredient = (e) => {
         e.preventDefault();
         let { ingredients } = this.state;
-        let ingredient = this.state.amount + ' ' + this.state.measure + ' of ' + this.state.string;
+        let ingredient = {
+            amount: this.state.amount,
+            measure: this.state.measure,
+            name: this.state.string,
+            nbdno: this.state.nbdno
+        }
         ingredients.push(ingredient);
         this.setState({ingredients});
         let string = '';
@@ -72,6 +81,16 @@ class EditRecipe extends React.Component {
         this.setState({amount});
         let measure = '';
         this.setState({measure});
+    }
+
+    // pickIngredient = (e, ingredient) => {
+    //     console.log("PICKED");
+    //     e.preventDefault();
+    //     this.setState({nbdno: ingredient.nbno});
+    // }
+
+    ingredientStringify = (ingredient) => {
+        return ingredient.amount + ' ' + ingredient.measure + ' of ' + ingredient.name;
     }
 
     changeMeasure = (e) => {
@@ -115,34 +134,57 @@ class EditRecipe extends React.Component {
         this.setState({img});
     }
 
+    // getIngredientMacros = () => {
+    //     let ingredients = this.state.ingredients;
+    //     ingredients.forEach((ingredient) => {
+    //         console.log("INGREDIENT", ingredient);
+    //         axios.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ingredient.nbdno + '&type=f&format=json&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
+    //             .then((response) => {
+    //                 let data = response.data;
+    //                 console.log("RESPONSE", data);
+    //             });
+    //     });
+    // }
+
     editRecipe = (e) => {
         e.preventDefault();
-        let recipes = this.props.recipeInfo;
-        let recipe = {
-            id: 600,
-            creator: this.props.curr_user,
-            name: this.state.name,
-            img: this.state.img,
-            macros: {
-                Energy: 452,
-                Carbs: 36,
-                Protein: 6,
-                Fats: 20,
-                Sodium: 2
-            },
-            method: this.state.method,
-            ingredients: this.state.ingredients,
-            comments: []
-        };
+        // let recipes = this.props.recipeInfo;
+        // let recipe = {
+        //     id: 600,
+        //     creator: this.props.curr_user,
+        //     name: this.state.name,
+        //     img: this.state.img,
+        //     macros: {
+        //         Energy: 452,
+        //         Carbs: 36,
+        //         Protein: 6,
+        //         Fats: 20,
+        //         Sodium: 2
+        //     },
+        //     method: this.state.method,
+        //     ingredients: this.state.ingredients,
+        //     comments: []
+        // };
+        // if (this.props.match.params.mode == 'edit') {
+        //     let recipeIndex = recipes.indexOf(recipes.find(x => x.id == this.props.match.params.id));
+        //     recipes[recipeIndex] = recipe;
+        // } else {
+        //     recipes.unshift(recipe);
+        // }
+        // this.props.editRecipes(recipes);
+        // console.log("Enter", recipe);
+        let images = [];
+        this.state.img.forEach((item) => {
+            if (!isNullOrUndefined(item)) images.push(item);
+        })
+        this.getIngredientMacros();
 
-        if (this.props.match.params.mode == 'edit') {
-            let recipeIndex = recipes.indexOf(recipes.find(x => x.id == this.props.match.params.id));
-            recipes[recipeIndex] = recipe;
-        } else {
-            recipes.unshift(recipe);
+        let recipe = {
+            name: this.state.name,
+            method: this.state.method,
+            images: images.join(','),
         }
-        this.props.editRecipes(recipes);
-        console.log("Enter", recipe);
+        console.log("ENTER");
     }
 
 
@@ -169,13 +211,14 @@ class EditRecipe extends React.Component {
                                 <option>ml</option>
                                 <option>tbsp</option>
                                 <option>tsp</option>
+                                <option>cup(s)</option>
                             </select>
-                            <div style={{float: "left", marginLeft:"10px", marginRight:"10px", lineHeight:"32px"}}>of</div>
-                            <input list="ingredients" value={this.state.string} name="ingredients" placeholder="ingredient" onChange={(e) => this.autocomplete(e)} style={{float: "left", width: "540px", height: "32px"}}></input>
+                            <div style={{float: "left", marginLeft:"10px", marginRight:"20px", lineHeight:"32px"}}>of</div>
+                            <input list="ingredients" value={this.state.string} name="ingredients" placeholder="ingredient" onChange={(e) => this.autocomplete(e)} style={{float: "left", width: "510px", height: "32px"}}></input>
                             <datalist id="ingredients">
                                 {
                                     this.state.ingredientsProp.map((ingredient) => {
-                                        return <option>{ingredient}</option>
+                                        return <option onClick={(e) => this.pickIngredient(e, ingredient) }>{ingredient.name}</option>
                                     })
                                 }
                             </datalist>
@@ -184,8 +227,8 @@ class EditRecipe extends React.Component {
                                 <ul style={{float: "left", marginTop: "5px"}} >
                                     {
                                         this.state.ingredients.map((ingredient) => {
-                                            return <li><button onClick={(e) => this.removeIngredient(e, ingredient)} class="btn btn-secondary" style={{marginTop:"10px", width: "500px", textAlign:"left"}}>
-                                                        {ingredient}
+                                            return <li><button onClick={(e) => this.removeIngredient(e, ingredient)} class="btn btn-secondary" style={{marginTop:"10px", width: "750px", textAlign:"left"}}>
+                                                        {this.ingredientStringify(ingredient)}
                                                         <span class="pull-right">
                                                             <span class="glyphicon glyphicon-remove">
                                                             </span>

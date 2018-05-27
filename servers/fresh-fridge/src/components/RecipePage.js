@@ -28,7 +28,7 @@ class RecipePage extends React.Component {
       recipeIndex,
       bookmarked
     }
-  }
+  } 
 
   averageRating = () => {
     let rating = 0;
