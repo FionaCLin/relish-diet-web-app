@@ -40,6 +40,7 @@ module.exports = (opts) => {
         });
         goals.push(goal);
       });
+      next();
     };
 
     let getRecipe = (next) => {
@@ -75,6 +76,7 @@ module.exports = (opts) => {
 
     async.series([
       checkUser,
+      grabGoals,
       getRecipe,
       filter
     ], (err) => {

@@ -228,14 +228,13 @@ exports.recipes = {
     api.dashboards.getWithGoal(
       users[0].id,
       [{
-        calories: 3000,
+        calories: 100,
         cabs: NaN,
         fats: NaN,
         protein: NaN,
         sodium: NaN
       }],
       (err, res) => {
-        console.log(err, res, '<<<<');
         test.done();
       });
   },
