@@ -31,6 +31,20 @@ module.exports = (opts) => {
         });
     };
 
+    // const goals = [{
+    //   calories: 100,
+    //   cabs: NaN,
+    //   fats: 10,
+    //   protein: 1,
+    //   sodium: 4
+    // },{
+    //   calories: NaN,
+    //   cabs: NaN,
+    //   fats: 10,
+    //   protein: 1,
+    //   sodium: 4
+    // }];
+
     async.series([
       checkUser,
       getRecipe
