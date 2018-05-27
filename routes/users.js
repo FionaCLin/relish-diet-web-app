@@ -30,7 +30,6 @@ module.exports = (app, api) => {
 
   // get the payload with req.body
   app.put('/api/users/:id/password', function (req, res) {
-    console.log(req.params.id, req.body, 8888);
     api.users.setPassword(
       req.params.id,
       req.body,
