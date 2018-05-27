@@ -22,7 +22,22 @@ module.exports = (app, api) => {
       req.body,
       (err, user) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
+        }
+        res.status(200).send();
+      });
+  });
+
+  // get the payload with req.body
+  app.put('/api/users/:id/password', function (req, res) {
+    console.log(req.params.id, req.body, 8888);
+    api.users.setPassword(
+      req.params.id,
+      req.body,
+      (err, user) => {
+        console.log(err, user, 9999999999999);
+        if (err) {
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });
@@ -37,7 +52,7 @@ module.exports = (app, api) => {
       req.body,
       (err, user) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send(err.message);
         }
         res.status(200).send();
       });

@@ -18,10 +18,26 @@ function login (email, password, callback) {
     return callback(user);
   }).catch(function (error) {
     console.log('you haven\'t login');
-    console.log(error);
-    callback(error);
-    return error;
+    return callback(error);
   });
+}
+
+function updateUser (user_id, attrs, callback) {
+  axios.put('api/users/' + user_id, attrs)
+    .then(function (response) {
+      return callback('ok');
+    }).catch(function (error) {
+      return callback(error);
+    });
+}
+
+function updatePassword (user_id, attrs, callback) {
+  axios.put('api/users/' + user_id + '/password', attrs)
+    .then(function (response) {
+      return callback('ok');
+    }).catch(function (error) {
+      return callback(error);
+    });
 }
 
 function getBookmarks (userId, callback) {
@@ -152,5 +168,7 @@ export default {
   login,
   getBookmarks,
   getPersonal,
-  addRecipe
+  addRecipe,
+  updateUser,
+  updatePassword
 };
