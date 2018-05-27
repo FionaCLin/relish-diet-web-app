@@ -8,7 +8,9 @@ module.exports = (opts) => {
   let api = opts.api;
 
   api.dashboards.getWithGoal = (user_id, attrs, done) => {
-    let recipes, user, recipe;
+    let user, recipe;
+    let recipes = [];
+    let goals = [];
     let keys = [
       'calories',
       'cabs',
@@ -27,6 +29,19 @@ module.exports = (opts) => {
       });
     };
 
+    let grabGoals = next => {
+      attrs.forEach(attr => {
+        let goal = _.defaults(attr, {
+          calories: undefined,
+          cabs: undefined,
+          fats: undefined,
+          protein: undefined,
+          sodium: undefined
+        });
+        goals.push(goal);
+      });
+    };
+
     let getRecipe = (next) => {
       lib.recipes.getAll(
         (err, res) => {
@@ -38,41 +53,30 @@ module.exports = (opts) => {
         });
     };
 
-    // let attrs = [
-    //   [300, 14, NaN, NaN, NaN],
-    //   [1000, 1000, 1000, 1000, 1000],
-    //   [600, 16, NaN, 26, NaN],
-    //   [700, 45, NaN, NaN, NaN],
-    //   [500, NaN, NaN, NaN, NaN]
-    // ];
-    // const goals = [{
-    //   calories: 100,
-    //   cabs: NaN,
-    //   fats: 10,
-    //   protein: 1,
-    //   sodium: 4
-    // },{
-    //   calories: NaN,
-    //   cabs: NaN,
-    //   fats: 10,
-    //   protein: 1,
-    //   sodium: 4
-    // }];
+    // only filter with 1 goal for a now
+    let filterOne = (goal, cb) => {
+      recipe.forEach((recipe) => {
+        if ((isNaN(goal.calories) || (!isNaN(goal.calories) && recipe.calories < goal.calories)) &&
+          (isNaN(goal.cabs) || (!isNaN(goal.cabs) && recipe.cabs < goal.cabs)) &&
+          (isNaN(goal.protein) || (!isNaN(goal.protein) && recipe.protein < goal.protein)) &&
+          (isNaN(goal.fat) || (!isNaN(goal.fat) && recipe.fat < goal.fat)) &&
+          (isNaN(goal.sodium) || (!isNaN(goal.sodium) && recipe.sodium < goal.sodium))) {
+          recipes.push(recipe);
+        }
+      });
+      cb();
+    };
 
-    // Energy: goals[0]
-    // g.carbs: goals[1]
-    // g.protein: goals[2]
-    // g.fats: goals[3]
-    // g.sodium: goals[4]
-    // let filter = next => {
-    //   recipe.forEach(re => {
-
-    //   });
-    // };
+    let filter = next => {
+      async.forEach(goals, (goal, cb) => {
+        filterOne(goal, cb);
+      }, next);
+    };
 
     async.series([
       checkUser,
-      getRecipe
+      getRecipe,
+      filter
     ], (err) => {
       done(err, recipes);
     });
