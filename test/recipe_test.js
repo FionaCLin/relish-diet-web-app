@@ -198,6 +198,17 @@ exports.recipes = {
   //       test.done();
   //     });
   // },
+  'search by keyword ap': test => {
+    // lib.recipes.search(
+    //   'app',
+    api.dashboards.search(
+      users[0].id,
+      'app',
+      (err, res) => {
+        test.equal(res.length, 4);
+        test.done();
+      });
+  },
   'update recipe name, method, duration': test => {
     recipes[0].name = recipes[0].name + ' yummy';
     recipes[0].method = recipes[0].method + 'do it twice';
@@ -213,6 +224,7 @@ exports.recipes = {
         test.done();
       });
   },
+
   // 'set reviews by recipes': (test) => {
   //   recipes[0].reviews[0].likes = 10;
   //   recipes[0].reviews[0].review_id = recipes[0].reviews[0].id;
