@@ -28,7 +28,7 @@ class RecipeList extends React.Component {
     // }
 
     this.state = {
-      recipes: undefined,
+      recipes: [],
       modalRecipe: {
         id: 0,
         name: ''
@@ -37,13 +37,13 @@ class RecipeList extends React.Component {
 
     if (this.props.list_type == constants.recipeList.BOOKMARK_LIST) {
       console.log("ENTER");
-      const receiveBookmarks = (bookmarks) => {
-        this.setState({ recipes: bookmarks });
-        console.log("BOOKMARKS", bookmarks);
+      const receiveBookmarks = (recipes) => {
+        this.setState({ recipes });
+        console.log("BOOKMARKS", recipes);
         console.log("RECIPES", this.state.recipes);
       }
       console.log("USER", this.props.user);
-      api.getBookmarks(this.props.user.id, receiveBookmarks);
+      api.getBookmarks(2, receiveBookmarks);
     }
   }
 
