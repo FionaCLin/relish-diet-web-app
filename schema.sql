@@ -108,6 +108,11 @@ CREATE TABLE Meal_Plans
   id SERIAL,
   title VARCHAR(100) NOT NULL,
   memberNo INTEGER NOT NULL,
+sodium NUMERIC DEFAULT 0,
+  calories NUMERIC DEFAULT 0,
+  protein NUMERIC DEFAULT 0,
+  cabs NUMERIC DEFAULT 0,
+  fat NUMERIC DEFAULT 0,
   CONSTRAINT Meal_Plan_PK         PRIMARY KEY (id),
   CONSTRAINT Meal_Plan_Member_FK  FOREIGN KEY (memberNo) REFERENCES Members(id) on DELETE CASCADE);
 

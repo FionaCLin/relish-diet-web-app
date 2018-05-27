@@ -14,7 +14,12 @@ module.exports = opts => {
     var keys = [
       'title',
       'user_id',
-      'timeslots'
+      'timeslots',
+      'calories',
+      'cabs',
+      'protein',
+      'fat',
+      'sodium'
     ];
 
     attrs = _.pick(attrs, keys);

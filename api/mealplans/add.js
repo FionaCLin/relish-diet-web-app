@@ -14,7 +14,13 @@ module.exports = opts => {
     var keys = [
       'title',
       'user_id',
-      'timeslots'
+      'timeslots',
+      'calories',
+      'cabs',
+      'protein',
+      'fat',
+      'sodium'
+
     ];
 
     attrs = _.pick(attrs, keys);
@@ -45,6 +51,7 @@ module.exports = opts => {
       lib.mealplans.add(
         attrs,
         (err, res) => {
+          console.log(err);
           if (err) {
             return done(new Error('Meal plan could not be added.'));
           }

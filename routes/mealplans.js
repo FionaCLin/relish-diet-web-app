@@ -15,6 +15,18 @@ module.exports = (app, api) => {
         res.status(200).send(mealplan);
       });
   });
+  // curl -X GET  http://localhost:3002/api/users/1/mealplans/
+
+  app.get('/api/users/:id/mealplans', function (req, res) {
+    api.mealplans.getByUser(
+      req.params.id,
+      (err, mealplans) => {
+        if (err) {
+          return res.status(400).send(err.message);
+        }
+        res.status(200).send(mealplans);
+      });
+  });
 
   /*
     curl -X POST  http://localhost:3002/api/mealplans/create -H "Content-Type: application/json"  -d "{\"title\":\"\",\"user_id\":\"\",\"timeslots:\":[]}"

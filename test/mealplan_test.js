@@ -6,7 +6,7 @@ let lib, api;
 
 let users = data().users;
 let recipes = data().recipes;
-let mealplan1;
+let mealplan1 = data().mealplans[0];
 let mealplan2;
 exports.mealplan_test = {
 
@@ -74,13 +74,11 @@ exports.mealplan_test = {
     }, test.done);
   },
   'add mealplan1': test => {
-    mealplan1 = {
-      user_id: users[0].id,
-      title: 'to lost weight'
-    };
+    console.log(mealplan1);
     api.mealplans.add(
       mealplan1,
       (err, res) => {
+        console.log(res, err);
         test.equal(res.title, mealplan1.title);
         mealplan1.id = res.id;
         test.done();
@@ -142,39 +140,16 @@ exports.mealplan_test = {
         test.done();
       });
   },
-  'del mealplan1': test => {
-    api.mealplans.del(
-      mealplan1.id,
-      (err, res) => {
-        test.ok(!(err instanceof Error));
-        lib.mealplans.get(
-          mealplan1.id,
-          (err, res) => {
-            test.ok(!res);
-            test.done();
-          });
-      });
-  },
+
   'add timeslot': test => {
-    mealplan2.timeslots = [{
-      recipe_id: 1,
-      day: 'MON',
-      mealtimes: 'BREKKIE'
-    }, {
-      recipe_id: 2,
-      day: 'TUE',
-      mealtimes: 'BREKKIE'
-    }, {
-      recipe_id: 1,
-      day: 'WED',
-      mealtimes: 'BREKKIE'
-    }];
-    async.forEach(mealplan2.timeslots,
+    async.forEach(mealplan1.timeslots,
       (timeslot, cb) => {
-        timeslot.plan_id = mealplan2.id;
+        timeslot.plan_id = mealplan1.id;
         api.timeslots.add(
           timeslot,
           (err, res) => {
+            console.log(timeslot.recipe_id);
+            console.log(res, err);
             test.equal(res.recipe_id, timeslot.recipe_id);
             test.equal(res.day, timeslot.day);
             test.equal(res.meal_type, timeslot.mealtimes);
@@ -184,7 +159,7 @@ exports.mealplan_test = {
       }, test.done);
   },
   'remove timeslot': test => {
-    let timeslot = mealplan2.timeslots.pop();
+    let timeslot = mealplan1.timeslots.pop();
     api.timeslots.del(
       timeslot.id,
       (err, res) => {
@@ -198,9 +173,31 @@ exports.mealplan_test = {
   },
   'get timesoles by plan id': test => {
     api.timeslots.getByPlan(
+      mealplan1.id,
+      (err, res) => {
+        test.equal(res.length, mealplan1.timeslots.length);
+        test.done();
+      });
+  },
+
+  'del mealplan2': test => {
+    api.mealplans.del(
       mealplan2.id,
       (err, res) => {
-        test.equal(res.length, mealplan2.timeslots.length);
+        test.ok(!(err instanceof Error));
+        lib.mealplans.get(
+          mealplan2.id,
+          (err, res) => {
+            test.ok(!res);
+            test.done();
+          });
+      });
+  },
+  'get mealplan by user': test => {
+    api.mealplans.getByUser(
+      users[0].id,
+      (err, res) => {
+        // test.equal
         test.done();
       });
   },
