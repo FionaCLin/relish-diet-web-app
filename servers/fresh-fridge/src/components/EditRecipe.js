@@ -52,7 +52,10 @@ class EditRecipe extends React.Component {
                 let data = response.data;
                 if (!isUndefined(data.list)) {
                     data.list.item.forEach((item) => {
-                        ingredientsProp.push(item.name);
+                        ingredientsProp.push({
+                            nbdno: item.nbdno,
+                            name: item.name
+                        });
                     });
                     this.setState({ingredientsProp});
                 }
@@ -63,7 +66,11 @@ class EditRecipe extends React.Component {
     addIngredient = (e) => {
         e.preventDefault();
         let { ingredients } = this.state;
-        let ingredient = this.state.amount + ' ' + this.state.measure + ' of ' + this.state.string;
+        let ingredient = {
+            amount: this.state.amount,
+            measure: this.state.measure,
+            name: this.state.string
+        }
         ingredients.push(ingredient);
         this.setState({ingredients});
         let string = '';
@@ -72,6 +79,10 @@ class EditRecipe extends React.Component {
         this.setState({amount});
         let measure = '';
         this.setState({measure});
+    }
+
+    ingredientStringify = (ingredient) => {
+        return ingredient.amount + ' ' + ingredient.measure + ' of ' + ingredient.name;
     }
 
     changeMeasure = (e) => {
@@ -169,13 +180,14 @@ class EditRecipe extends React.Component {
                                 <option>ml</option>
                                 <option>tbsp</option>
                                 <option>tsp</option>
+                                <option>cup(s)</option>
                             </select>
-                            <div style={{float: "left", marginLeft:"10px", marginRight:"10px", lineHeight:"32px"}}>of</div>
-                            <input list="ingredients" value={this.state.string} name="ingredients" placeholder="ingredient" onChange={(e) => this.autocomplete(e)} style={{float: "left", width: "540px", height: "32px"}}></input>
+                            <div style={{float: "left", marginLeft:"10px", marginRight:"20px", lineHeight:"32px"}}>of</div>
+                            <input list="ingredients" value={this.state.string} name="ingredients" placeholder="ingredient" onChange={(e) => this.autocomplete(e)} style={{float: "left", width: "510px", height: "32px"}}></input>
                             <datalist id="ingredients">
                                 {
                                     this.state.ingredientsProp.map((ingredient) => {
-                                        return <option>{ingredient}</option>
+                                        return <option>{ingredient.name}</option>
                                     })
                                 }
                             </datalist>
@@ -184,8 +196,8 @@ class EditRecipe extends React.Component {
                                 <ul style={{float: "left", marginTop: "5px"}} >
                                     {
                                         this.state.ingredients.map((ingredient) => {
-                                            return <li><button onClick={(e) => this.removeIngredient(e, ingredient)} class="btn btn-secondary" style={{marginTop:"10px", width: "500px", textAlign:"left"}}>
-                                                        {ingredient}
+                                            return <li><button onClick={(e) => this.removeIngredient(e, ingredient)} class="btn btn-secondary" style={{marginTop:"10px", width: "750px", textAlign:"left"}}>
+                                                        {this.ingredientStringify(ingredient)}
                                                         <span class="pull-right">
                                                             <span class="glyphicon glyphicon-remove">
                                                             </span>
