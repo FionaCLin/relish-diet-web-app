@@ -4,31 +4,40 @@ import SearchInputForm from './SearchInputForm';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import Link from 'react-router-dom/Link';
+import api from '../api.js';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: null
+      recipes: []
     }
   }
 
-    componentDidMount () {
-        fetch('/api/users/1')
-          .then(response => response.json())
-          .then(result => this.setState({message: result}))
-          .catch(e => console.log("Error with " + e));
-        console.log(this.state.message);
+  componentWillMount () {
+    const dashRecipes = (result) => {
+      this.setState({recipes: result});
+      console.log("RECIPES", result);
     }
+    
+    const goal = [{
+      calories: 300,
+      cabs: 14,
+      fats: NaN,
+      protein: NaN,
+      sodium: NaN
+    }];
+    api.getDashboardWithGoal(this.props.user.id, goal, dashRecipes);
+  }
 
   render() {
     return (
           <div className="body_container">
             <SearchInputForm />
-            {this.props.recipeInfo.map((item) => {
+            {this.state.recipes.map((item) => {
               return (
                 <Link to={"recipe/" + item.id} className="dash_img_wrapper" style={{ float: "left" }} >
-                  <div style={bg_img(item.img[0])} className="dash_img"></div>
+                  <div style={bg_img(item.images.split(',')[0])} className="dash_img"></div>
                     <div className="overlay">
                       <div className="img_text">{item.name}</div>
                     </div>
@@ -41,41 +50,3 @@ class Dashboard extends React.Component {
 }
 
 export default Dashboard;
-
-// const Dashboard = (props) => {
-//   console.log('render', props);
-//   return (
-//     <div className="body_container">
-//       <SearchInputForm />
-//       {props.recipesList.map((item) => {
-//         return (
-//           <div className="dash_img_wrapper" style={{ float: "left" }} >
-//             <div style={url_img(item.image)} onClick={(e) => props.onRecipeClick(e, item.id)} className="dash_img"></div>
-//             <a href={"recipe/" + item.id + '.html'} className="overlay">
-//               <div className="img_text">{item.name}</div>
-//             </a>
-//           </div >
-
-//         )
-
-//       })}
-//     </div>
-//   )
-// }
-
-// const mapStateToProps = (state) => {
-//   console.log('map state%%%%%%%%%%', state.dashboard)
-//   return {
-//     recipesList: state.dashboard[0].recipesList
-//   }
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onRecipeClick(e, id) {
-//       // dispatch({type: constants.SELECT_RECIPE, select_id: id});
-//     }
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

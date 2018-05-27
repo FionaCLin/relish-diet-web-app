@@ -40,6 +40,51 @@ const defaultPlan = {
         Sodium: 0
     }
 };
+const sortDiet = {
+    "Lose weight" : {
+        calories: 300,
+        cabs: 14,
+        fats: NaN,
+        protein: NaN,
+        sodium: NaN
+    },
+    "Gain muscle" : {
+        calories: 1000,
+        cabs: 1000,
+        fats: 1000,
+        protein: 1000,
+        sodium: 1000
+    },
+    "Sliming" : {
+        calories: 600,
+        cabs: 16,
+        fats: NaN,
+        protein: 26,
+        sodium: NaN
+    },
+    "Stamina training" : {
+        calories: 700,
+        cabs: 45,
+        fats: NaN,
+        protein: NaN,
+        sodium: NaN
+    },
+    "General fitness" : {
+        calories: 500,
+        cabs: NaN,
+        fats: NaN,
+        protein: NaN,
+        sodium: NaN
+    }
+};
+
+const sortPlan = [
+    [10090, 1209 , 120, 45, 90],
+    [19000, 1030, 100, 1000, 100],
+    [9300, 1656, 800, 246, 38],
+    [700, 4523, 102, 234, 89],
+    [12100, 904 , 120, 45, 90]
+];
 
 export default {
     daysOfWeek,
@@ -50,6 +95,8 @@ export default {
     BOOKMARKED,
     RECOMMENDED,
     defaultPlan,
+    sortDiet,
+    sortPlan,
     ADD_MEAL_PLANNER: 'add',
     EDIT_MEAL_PLANNER: 'edit',
     VIEW_MEAL_PLANNER: 'view'
