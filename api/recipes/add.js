@@ -12,17 +12,17 @@ module.exports = opts => {
     var user;
     // whitelist attrs
     var keys = [
-      'creatorID',
       'name',
       'method',
-      'duration',
+      'images',
       'ingredients',
       'calories',
-      'carbs',
+      'cabs',
       'protein',
       'fat',
-      'rate',
-      'images'
+      'sodium',
+      'creatorID',
+      'rate'
     ];
     attrs = _.pick(attrs, keys);
 
@@ -39,8 +39,16 @@ module.exports = opts => {
     ];
 
     let checkValid = next => {
-      if (!attrs.name || typeof attrs.name !== 'string') { return done(new Error('name is not a string')); }
-      if (!attrs.method || typeof attrs.method !== 'string') { return done(new Error('method is not a string')); }
+      for (let i = 0; i < 3; i++) {
+        if (!attrs[keys[i]] || typeof attrs[keys[i]] !== 'string') { return done(new Error(keys[i] + ' is not a string')); }
+      }
+      for (let i = 4; i < keys.length - 1; i++) {
+        if (!attrs[keys[i]] && typeof attrs[keys[i]] !== 'number') {
+          console.log(attrs[keys[i]], keys[i], typeof attrs[keys[i]]);
+          return done(new Error(keys[i] + ' is not a number'));
+        }
+      }
+
       next();
     };
 
@@ -75,11 +83,11 @@ module.exports = opts => {
     let ingredientsList = [];
     // let totalMacros = [];
 
+    let totalCals = 0;
+    let totalPro = 0;
+    let totalFat = 0;
+    let totalCarbs = 0;
     let checkIngredients = next => {
-      let totalCals = 0;
-      let totalPro = 0;
-      let totalFat = 0;
-      let totalCarbs = 0;
       attrs.ingredients.forEach(key => {
         lib.ingredients.get(
           key.ndbno,
@@ -103,10 +111,6 @@ module.exports = opts => {
         totalPro += key.protein * key.amount;
         totalFat += key.fat * key.amount;
       });
-      attrs.calories = totalCals;
-      attrs.cabs = totalCarbs;
-      attrs.protein = totalPro;
-      attrs.fat = totalFat;
       next();
     };
     // now i have array for all id of all ingredients. and amounts.
@@ -120,13 +124,11 @@ module.exports = opts => {
 
     var createRecipe = next => {
       attrs.at = Date.now();
-      if (attrs.duration && typeof attrs.duration !== 'number') {
-        return done(new Error('duration is not a number'));
-      }
-      for (let i = 5; i < 10; i++) {
-        if (attrs[keys[i]] && typeof attrs[keys[i]] !== 'number') {
-          return done(new Error(keys[i] + ' is not a number'));
-        }
+      if (!(attrs.calories || attrs.cabs || attrs.fat || attrs.protein)) {
+        attrs.calories = totalCals;
+        attrs.cabs = totalCarbs;
+        attrs.protein = totalPro;
+        attrs.fat = totalFat;
       }
       lib.recipes.add(user.id, attrs, (err, res) => {
         if (err) {

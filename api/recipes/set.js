@@ -13,12 +13,15 @@ module.exports = (opts) => {
     // whitelist attrs
     var keys = [
       'name',
+      'method',
       'images',
       'ingredients',
-      'method',
-      'duration',
-      'rate',
-      'creatorID'
+      'calories',
+      'cabs',
+      'protein',
+      'fat',
+      'sodium',
+      'rate'
     ];
 
     attrs = _.pick(attrs, keys);
