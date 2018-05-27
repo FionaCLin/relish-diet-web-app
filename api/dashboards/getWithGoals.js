@@ -62,6 +62,7 @@ module.exports = (opts) => {
           (isNaN(goal.protein) || (!isNaN(goal.protein) && recipe.protein < goal.protein)) &&
           (isNaN(goal.fat) || (!isNaN(goal.fat) && recipe.fat < goal.fat)) &&
           (isNaN(goal.sodium) || (!isNaN(goal.sodium) && recipe.sodium < goal.sodium))) {
+            console.log("PUSHED");
           recipes.push(recipe);
         }
       });

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { recipeInfo } from './constants/dummyData.js';
 axios.defaults.baseURL = 'http://localhost:3002/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -187,6 +186,7 @@ function getDashboardWithGoal (userId, goals, callback) {
       return callback(error);
     });
 }
+
 export default {
   login,
   getBookmarks,
