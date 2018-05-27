@@ -35,6 +35,7 @@ class EditRecipe extends React.Component {
             string: '',
             measure: '',
             amount: '',
+            nbdno: '',
             name: recipe.name,
             ingredients: recipe.ingredients,
             method: recipe.method,
@@ -69,7 +70,8 @@ class EditRecipe extends React.Component {
         let ingredient = {
             amount: this.state.amount,
             measure: this.state.measure,
-            name: this.state.string
+            name: this.state.string,
+            nbdno: this.state.nbdno
         }
         ingredients.push(ingredient);
         this.setState({ingredients});
@@ -80,6 +82,12 @@ class EditRecipe extends React.Component {
         let measure = '';
         this.setState({measure});
     }
+
+    // pickIngredient = (e, ingredient) => {
+    //     console.log("PICKED");
+    //     e.preventDefault();
+    //     this.setState({nbdno: ingredient.nbno});
+    // }
 
     ingredientStringify = (ingredient) => {
         return ingredient.amount + ' ' + ingredient.measure + ' of ' + ingredient.name;
@@ -126,34 +134,57 @@ class EditRecipe extends React.Component {
         this.setState({img});
     }
 
+    // getIngredientMacros = () => {
+    //     let ingredients = this.state.ingredients;
+    //     ingredients.forEach((ingredient) => {
+    //         console.log("INGREDIENT", ingredient);
+    //         axios.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ingredient.nbdno + '&type=f&format=json&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
+    //             .then((response) => {
+    //                 let data = response.data;
+    //                 console.log("RESPONSE", data);
+    //             });
+    //     });
+    // }
+
     editRecipe = (e) => {
         e.preventDefault();
-        let recipes = this.props.recipeInfo;
-        let recipe = {
-            id: 600,
-            creator: this.props.curr_user,
-            name: this.state.name,
-            img: this.state.img,
-            macros: {
-                Energy: 452,
-                Carbs: 36,
-                Protein: 6,
-                Fats: 20,
-                Sodium: 2
-            },
-            method: this.state.method,
-            ingredients: this.state.ingredients,
-            comments: []
-        };
+        // let recipes = this.props.recipeInfo;
+        // let recipe = {
+        //     id: 600,
+        //     creator: this.props.curr_user,
+        //     name: this.state.name,
+        //     img: this.state.img,
+        //     macros: {
+        //         Energy: 452,
+        //         Carbs: 36,
+        //         Protein: 6,
+        //         Fats: 20,
+        //         Sodium: 2
+        //     },
+        //     method: this.state.method,
+        //     ingredients: this.state.ingredients,
+        //     comments: []
+        // };
+        // if (this.props.match.params.mode == 'edit') {
+        //     let recipeIndex = recipes.indexOf(recipes.find(x => x.id == this.props.match.params.id));
+        //     recipes[recipeIndex] = recipe;
+        // } else {
+        //     recipes.unshift(recipe);
+        // }
+        // this.props.editRecipes(recipes);
+        // console.log("Enter", recipe);
+        let images = [];
+        this.state.img.forEach((item) => {
+            if (!isNullOrUndefined(item)) images.push(item);
+        })
+        this.getIngredientMacros();
 
-        if (this.props.match.params.mode == 'edit') {
-            let recipeIndex = recipes.indexOf(recipes.find(x => x.id == this.props.match.params.id));
-            recipes[recipeIndex] = recipe;
-        } else {
-            recipes.unshift(recipe);
+        let recipe = {
+            name: this.state.name,
+            method: this.state.method,
+            images: images.join(','),
         }
-        this.props.editRecipes(recipes);
-        console.log("Enter", recipe);
+        console.log("ENTER");
     }
 
 
@@ -187,7 +218,7 @@ class EditRecipe extends React.Component {
                             <datalist id="ingredients">
                                 {
                                     this.state.ingredientsProp.map((ingredient) => {
-                                        return <option>{ingredient.name}</option>
+                                        return <option onClick={(e) => this.pickIngredient(e, ingredient) }>{ingredient.name}</option>
                                     })
                                 }
                             </datalist>

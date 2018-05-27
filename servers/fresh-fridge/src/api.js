@@ -63,8 +63,9 @@ function editRecipe (recipe) {
     console.log(error);
   });
 }
+
 function getDashboard (user_id) {
-  axios.get('api/users/' + user_id + '/dashboard/'
+  axios.post('api/users/' + user_id + '/dashboard/'
   ).then(function (response) {
     let recipe = response.data;
     console.log('get recipe 1', recipe);
@@ -77,7 +78,6 @@ function getDashboard (user_id) {
 }
 
 function addRecipe (recipe) {
-  recipe = recipeInfo[0];
   axios.post('api/recipes/create', recipe
   ).then(function (response) {
     let newCreatedRecipe = response.data;
@@ -151,5 +151,6 @@ function getRecipe (recipeID) {
 export default {
   login,
   getBookmarks,
-  getPersonal
+  getPersonal,
+  addRecipe
 };
