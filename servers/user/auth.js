@@ -12,7 +12,6 @@ module.exports = (api) => {
         if (err || !res) {
           return done(new Error('invalid bearer token'));
         }
-        console.log(res, '<<<<');
         return done(null, res.token);
       });
   };

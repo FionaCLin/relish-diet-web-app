@@ -34,7 +34,6 @@ module.exports = (app, api) => {
       req.params.id,
       req.body,
       (err, user) => {
-        console.log(err, user, 9999999999999);
         if (err) {
           res.status(400).send(err.message);
         }

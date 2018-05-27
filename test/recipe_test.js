@@ -83,7 +83,6 @@ exports.recipes = {
     api.recipes.add(
       recipes[0],
       (err, res) => {
-        console.log(res, err);
         test.equal(recipes[0].user_id, res.memberno);
         test.equal(recipes[0].name, res.name);
         test.equal(recipes[0].method, res.method);
@@ -123,12 +122,11 @@ exports.recipes = {
     async.forEach(recipes, (recipe, cb) => {
       recipe.user_id = 1;
       recipe.creatorID = 1; // for api??
-      recipe.images = './images/apple.js';
+      recipe.images = (Math.floor(Math.random() * 4) % 2) ? 'apple.js' : 'images/cake.js';
       recipe.calories = Math.floor(Math.random() * 100 + 100) * recipe.calories;
       api.recipes.add(
         recipe,
         (err, res) => {
-          console.log(err, res, recipe);
           test.equal(recipe.user_id, res.memberno);
           test.equal(recipe.name, res.name);
           test.equal(recipe.method, res.method);

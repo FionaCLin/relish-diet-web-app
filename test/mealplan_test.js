@@ -73,44 +73,6 @@ exports.mealplan_test = {
       cb();
     }, test.done);
   },
-
-  'add recipe1': (test) => {
-    recipes[0].user_id = 1;
-    recipes[0].creatorID = 1; // for api
-    api.recipes.add(
-      recipes[0],
-      (err, res) => {
-        test.equal(recipes[0].user_id, res.memberno);
-        test.equal(recipes[0].name, res.name);
-        test.equal(recipes[0].method, res.method);
-        test.equal(recipes[0].duration, res.duration);
-        test.equal(recipes[0].ingredients.length, res.ingredients.length); // for api
-        recipes[0].id = res.id;
-        // res.ingredients = recipes[0].ingredients;
-        // res.reviews = recipes[0].reviews;
-        // recipes[0] = res;
-        test.done();
-      });
-  },
-
-  'add recipe2': (test) => {
-    recipes[1].user_id = 1;
-    recipes[1].creatorID = 1; // for api??
-    api.recipes.add(
-      recipes[1],
-      (err, res) => {
-        test.equal(recipes[1].user_id, res.memberno);
-        test.equal(recipes[1].name, res.name);
-        test.equal(recipes[1].method, res.method);
-        test.equal(recipes[1].duration, res.duration);
-        test.equal(recipes[1].ingredients.length, res.ingredients.length); // for api
-        recipes[1].id = res.id;
-        // res.ingredients = recipes[1].ingredients;
-        // res.reviews = recipes[1].reviews;
-        // recipes[1] = res;
-        test.done();
-      });
-  },
   'add mealplan1': test => {
     mealplan1 = {
       user_id: users[0].id,
@@ -124,6 +86,29 @@ exports.mealplan_test = {
         test.done();
       });
   },
+  'add recipes': (test) => {
+    async.forEach(recipes, (recipe, cb) => {
+      recipe.user_id = 1;
+      recipe.creatorID = 1; // for api??
+      recipe.images = (Math.floor(Math.random() * 4) % 2) ? 'apple.js' : 'images/cake.js';
+      recipe.calories = Math.floor(Math.random() * 100 + 100) * recipe.calories;
+      api.recipes.add(
+        recipe,
+        (err, res) => {
+          test.equal(recipe.user_id, res.memberno);
+          test.equal(recipe.name, res.name);
+          test.equal(recipe.method, res.method);
+          test.equal(recipe.sodium, res.sodium);
+          test.equal(recipe.ingredients.length, res.ingredients.length); // for api
+          recipe.id = res.id;
+          // res.ingredients = recipes[1].ingredients;
+          // res.reviews = recipes[1].reviews;
+          // recipes[1] = res;
+          cb();
+        });
+    }, test.done);
+  },
+
   'add mealplan2': test => {
     mealplan2 = {
       user_id: users[0].id,

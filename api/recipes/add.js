@@ -44,7 +44,6 @@ module.exports = opts => {
       }
       for (let i = 4; i < keys.length - 1; i++) {
         if (!attrs[keys[i]] && typeof attrs[keys[i]] !== 'number') {
-          console.log(attrs[keys[i]], keys[i], typeof attrs[keys[i]]);
           return done(new Error(keys[i] + ' is not a number'));
         }
       }
