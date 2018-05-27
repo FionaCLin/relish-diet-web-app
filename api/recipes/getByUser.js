@@ -7,9 +7,6 @@ module.exports = (opts) => {
   let lib = opts.lib;
   let api = opts.api;
 
-  // to get My Posted Recipes
-  // returns a list of recipes.
-
   api.recipes.getByUser = (user_id, done) => {
     // let's assume user goal is a number of calories intake daily
     let user, recipes;

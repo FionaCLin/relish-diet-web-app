@@ -46,6 +46,11 @@ module.exports = (opts) => {
     lib: lib
   });
 
+  api.dashboard = require('./dashboards')({
+    api: api,
+    lib: lib
+  });
+
   api.reviews = require('./reviews')({
     api: api,
     lib: lib
