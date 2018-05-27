@@ -13,7 +13,15 @@ module.exports = (app, api) => {
   });
 
   app.post('/api/users/:id/dashboard', function (req, res) {
-    console.log(req.body);
+    req.body = [{
+      calories: 100,
+      cabs: 10,
+      fats: 1,
+      protein: 5,
+      sodium: NaN
+    }];
+    // console.log(req.body);
+
     api.dashboards.getWithGoals(
       req.params.id,
       req.body,

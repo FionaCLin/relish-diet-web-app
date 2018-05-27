@@ -224,6 +224,21 @@ exports.recipes = {
         test.done();
       });
   },
+  'test dashboad with goal': test => {
+    api.dashboards.getWithGoal(
+      users[0].id,
+      [{
+        calories: 3000,
+        cabs: NaN,
+        fats: NaN,
+        protein: NaN,
+        sodium: NaN
+      }],
+      (err, res) => {
+        console.log(err, res, '<<<<');
+        test.done();
+      });
+  },
 
   // 'set reviews by recipes': (test) => {
   //   recipes[0].reviews[0].likes = 10;
