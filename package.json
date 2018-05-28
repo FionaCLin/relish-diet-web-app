@@ -1,0 +1,29 @@
+{
+  "name": "recipebook",
+  "version": "1.0.0",
+  "description": "Recipe manager",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Phan",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "authenticator": "^1.1.4",
+    "bcrypt": "^2.0.1",
+    "body-parser": "*",
+    "bootstrap": "^4.1.0",
+    "consolidate": "*",
+    "express": "*",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.4",
+    "nodeunit": "^0.11.2",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "sprintf": "^0.1.5"
+  }
+}
