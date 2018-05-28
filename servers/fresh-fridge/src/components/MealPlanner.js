@@ -7,6 +7,7 @@ import recipe from './images/recipe.jpg';
 import { isNull } from 'util';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
+import api from '../api.js';
 
 class MealPlanner extends React.Component {
     constructor(props) {
@@ -18,58 +19,39 @@ class MealPlanner extends React.Component {
                             this.props.mealPlans.find(x => x.id == this.props.match.params.id);
         
         this.state = {
-            bookmarks: this.generateBookmarks(),
-            personal: this.generatePersonal(),
-            recommended: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateRecommended() : [],
+            userID: this.props.match.params.userID,
+            bookmarks: [],
+            personal: [],
+            recommended: [],
             showMacro: null,
             currRecipes: constants.mealPlanner.PERSONAL,
-            name: currPlan.name,
+            name: currPlan.title,
             dailyMeals : currPlan.dailyMeals,
-            macros: currPlan.macros,
+            sodium: currPlan.sodium,
+            fat: currPlan.fat,
+            cabs: currPlan.cabs,
+            protein: currPlan.protein,
+            calories: currPlan.calories,
             currRecipe: null,
             goal: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateGoal() : []
         }
     }
 
+    componentWillMount () {
+        api.getBookmarks(this.state.userID, (result) => {
+            let recipes = [];
+            result.map((bookmark) => recipes.push(bookmark.recipe));
+            this.setState({bookmarks: recipes});
+        });
+        api.getPersonal(this.state.userID, (personal) => {this.setState({personal})});
+        if (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) {
+        api.getDashboardWithGoal(this.state.userID, [constants.mealPlanner.sortDiet[constants.mealPlanner.goalOptions[this.props.match.params.id]]],
+            (recommended) => {this.setState({recommended})});
+        }
+    }
+
     generateGoal = () => {
         return sortPlan[parseInt(this.props.match.params.id, 10)];
-    }
-
-    generateRecommended= () => {
-        let recipes = [];
-        let tags = sortDiet[parseInt(this.props.match.params.id, 10)];
-        this.props.recipeInfo.forEach((recipe) => {
-            if (    (isNaN(tags[0]) || (!isNaN(tags[0]) && recipe.macros.Energy < tags[0])) &&
-                    (isNaN(tags[1]) || (!isNaN(tags[1]) && recipe.macros.Carbs < tags[1])) &&
-                    (isNaN(tags[2]) || (!isNaN(tags[2]) && recipe.macros.Protein < tags[2])) &&
-                    (isNaN(tags[3]) || (!isNaN(tags[3]) && recipe.macros.Fats < tags[3])) &&
-                    (isNaN(tags[4]) || (!isNaN(tags[4]) && recipe.macros.Sodium < tags[4])) ) {
-                        recipes.push(recipe);
-            }
-        });
-        return recipes;
-    }
-
-    generatePersonal = () => {
-        let recipes = [];
-        this.props.recipeInfo.forEach((recipe) => {
-            if (recipe.creator === this.props.curr_user) {
-                recipes.push(recipe);
-            }
-        });
-        return recipes;
-    }
-
-    generateBookmarks = () => {
-        let recipes = [];
-        let users = this.props.users;
-        let bookmarks = users.find(x => x.id === this.props.curr_user).bookmarks;
-        this.props.recipeInfo.forEach((recipe) => {
-            if (!isUndefined(bookmarks.find(x => x === recipe.id))) {
-                recipes.push(recipe);
-            }
-        });
-        return recipes;
     }
 
     onDragStart = (e,v) =>{
@@ -103,21 +85,27 @@ class MealPlanner extends React.Component {
     }
 
     getRecipe = (id) => {
-        return this.props.recipeInfo.find(x => x.id === id);
+        let recipe = undefined;
+        recipe = this.state.personal.find(x => x.id === id);
+        if (isUndefined(recipe)) recipe = this.state.bookmarks.find(x => x.id === id);
+        if (isUndefined(recipe) && (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER)) {
+            recipe = this.state.recommended.find(x => x.id === id);
+        }
+        return recipe;
     }
 
     calculateNutrient = (day, nutrient) => {
         let nutrientValue = 0;
         day.forEach(slot => {
             if (!isNull(slot)) {
-                nutrientValue += !(isUndefined(this.getRecipe(slot))) ? this.getRecipe(slot).macros[nutrient] : 0;
+                nutrientValue += !(isUndefined(this.getRecipe(slot))) ? this.getRecipe(slot)[nutrient] : 0;
             }
         });
-        return nutrientValue;
+        return Math.round(nutrientValue);
     }
 
     getMeasurement = (nutrient) => {
-        return ((nutrient === 'Energy') ? 'kCal' : 'g');
+        return ((nutrient === 'calories') ? 'kCal' : 'g');
     }
 
     macroOver = (e, id) => {
@@ -146,7 +134,7 @@ class MealPlanner extends React.Component {
         this.state.dailyMeals.map((day) => {
             overallNutrient += this.calculateNutrient(day, nutrient);
         })
-        this.state.macros[nutrient] = overallNutrient;
+        this.state[nutrient] = overallNutrient;
         return overallNutrient;
     }
 
@@ -164,28 +152,39 @@ class MealPlanner extends React.Component {
     editPlan = (e) => {
         e.preventDefault();
         let plan = {
-            id: 8,
-            name: this.state.name,
-            creator: this.props.curr_user,
-            img: [
-                'images/recipe.jpg',
-                'images/paella.jpg',
-                'images/pudding.png',
-                'images/recipe.jpg'
-            ],
-            dailyMeals : this.state.dailyMeals,
-            macros: this.state.macros
+            title: this.state.name,
+            user_id: this.setState.userID,
+            sodium: this.state.sodium,
+            fat: this.state.fat,
+            calories: this.state.calories,
+            cabs: this.state.cabs,
+            protein: this.state.protein,
+            timeslots: this.getTimeSlots()
         };
 
-        let mealPlans = this.props.mealPlans;
         if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
-            const planIndex = mealPlans.indexOf(mealPlans.find(x => x.id == this.props.match.params.id));
-            mealPlans[planIndex] = plan;
+            // edit meal plan
         } else {
-            mealPlans.unshift(plan);
+            api.addMealPlan(plan);
         }
-        this.props.editPlan(mealPlans);
-        console.log("enter", mealPlans);
+    }
+
+    getTimeSlots = (e) => {
+        let timeslots = [];
+        constants.mealPlanner.daysOfWeek.forEach((day, dayIndex) => {
+            if (day == '\xa0\xa0\xa0') return;
+            constants.mealPlanner.mealOptions.forEach((mealTime, mealIndex) => {
+                if (!isNull(this.state.dailyMeals[dayIndex - 1][mealIndex])) {
+                    let timeslot = {
+                        day: day,
+                        meal_type: mealTime,
+                        recipe_id: this.state.dailyMeals[dayIndex - 1][mealIndex]
+                    };
+                    timeslots.push(timeslot);
+                }
+            });
+        });
+        return timeslots;
     }
 
     changeCurrRecipe = (e, recipe) => {
@@ -237,7 +236,7 @@ class MealPlanner extends React.Component {
                                     <tr class="overallMacroRow">
                                         <td class="overallMacroRow">Current</td>
                                         {
-                                            constants.mealPlanner.macroNutrients.map((nutrient) => {
+                                            constants.mealPlanner.smallMacros.map((nutrient) => {
                                                 return <td class="macro_col overallMacroRow">{ this.calculateOverall(nutrient) }</td>
                                             })
                                         }
@@ -264,7 +263,7 @@ class MealPlanner extends React.Component {
                                     let timeSlots = dailyMeals.map((day, dayKey) => {
                                         if (!isNull(day[mealKey])) {
                                             if (!isUndefined(this.getRecipe(day[mealKey]))) {
-                                                return <td style={bg_img(this.getRecipe(day[mealKey]).img[0])} class="planner_img"
+                                                return <td style={bg_img(this.getRecipe(day[mealKey]).images.split(",")[0])} class="planner_img"
                                                             draggable={(this.props.match.params.mode !== constants.mealPlanner.VIEW_MEAL_PLANNER) ? "true": "false"}
                                                             onClick={(this.props.match.params.mode === constants.mealPlanner.VIEW_MEAL_PLANNER) ?
                                                                 (e) => this.changeCurrRecipe(e, this.getRecipe(day[mealKey])) : ""}
@@ -291,8 +290,8 @@ class MealPlanner extends React.Component {
                                 })
                             }
                             {
-                                constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                    let macroHead = (nutrient === 'Energy') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
+                                constants.mealPlanner.smallMacros.map((nutrient) => {
+                                    let macroHead = (nutrient === 'calories') ? <th scope="row" rowspan="5"><div class="vertical macroDiv">MACROS</div></th> : null;
                                     let timeSlots = dailyMeals.map(day => {
                                         return <td class="macro_img">
                                                     <div class="macroLeft">{ nutrient }</div>
@@ -315,12 +314,12 @@ class MealPlanner extends React.Component {
                                     <div class="list-group">
                                         {
                                             recipeList.map(recipe => {
-                                                let macros = constants.mealPlanner.macroNutrients.map(nutrient => {
-                                                    return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{recipe.macros[nutrient]} {this.getMeasurement(nutrient)}</td></tr>
+                                                let macros = constants.mealPlanner.smallMacros.map(nutrient => {
+                                                    return <tr><td style={{float:'left',width:75}}>{nutrient}</td><td style={{float:'left',width:75}}>{Math.round(recipe[nutrient])} {this.getMeasurement(nutrient)}</td></tr>
                                                 })
                                                 return <div class="list-group-item list-group-item-action planner_img_wrapper">
                                                             <div class="macroInfo btn-xs btn-default" onMouseEnter={ (e) => this.macroOver(e, recipe.id) } onMouseLeave={(e) => this.macroOut(e)}><span class="glyphicon glyphicon-signal" aria-hidden="true" ></span></div>
-                                                            <div class="planner_img" draggable="true" style={ bg_img(recipe.img[0]) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
+                                                            <div class="planner_img" draggable="true" style={ bg_img(recipe.images.split(",")[0]) } onDragStart={ (e) => this.onDragStart(e, recipe.id) }></div>
                                                             <div class="overlay">
                                                                 <div class="planner_img_text" centred>
                                                                     { (showMacro === recipe.id) ? <table>{macros}</table> : recipe.name } 
@@ -372,8 +371,8 @@ class MealPlanner extends React.Component {
                                                 </tr></thead>
                                                 <tbody><tr>
                                                     {
-                                                        constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                                            return <td class="macro_col">{ this.state.currRecipe.macros[nutrient] }</td>
+                                                        constants.mealPlanner.smallMacros.map((nutrient) => {
+                                                            return <td class="macro_col">{ this.state.currRecipe[nutrient] }</td>
                                                         })
                                                     }
                                                 </tr></tbody>

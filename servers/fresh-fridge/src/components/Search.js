@@ -2,9 +2,8 @@ import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
-import { isUndefined } from 'util';
+import { isUndefined, isNullOrUndefined } from 'util';
 import Link from 'react-router-dom/Link';
-import { isNullOrUndefined } from 'util';
 import SearchInputForm from './SearchInputForm';
 import NavLink from 'react-router-dom/NavLink';
 import api from '../api';
@@ -100,6 +99,7 @@ class Search extends React.Component {
         const goalResult = (recipes) => {
             this.setState({recipes});
             this.getTags();
+            console.log("ENTERED GOAL SEARCH");
         };
         const goalSearch = [{
             calories: this.state.calories,

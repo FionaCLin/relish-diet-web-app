@@ -185,13 +185,46 @@ function getDashboardWithGoal (userId, goals, callback) {
       console.log(error);
       return callback(error);
     });
-}
+  }
+
+  function getMealList (userId, callback) {
+    axios.get('api/users/' + userId + '/mealplans')
+      .then(function (response) {
+        let mealList = response.data;
+        console.log('get meal list', mealList);
+        return callback(mealList);
+      }).catch(function (error) {
+        console.log("No meal plan");
+        console.log(error);
+      })
+  }
+
+  function deleteMealPlan (plan_id) {
+    axios.delete('/api/mealplans/' + plan_id)
+      .then(function (response) {
+        console.log("Deleted meal plan");
+      }).catch(function (error) {
+        console.log("No meal plan");
+        console.log(error);
+      })
+  }
+
+  function addMealPlan (mealPlan) {
+    axios.post('/api/mealplans/create', mealPlan)
+      .then(function (response) {
+        let mealplan = response.data;
+        console.log('add meal plan', mealplan);
+      }).catch(function (error) {
+        console.log('meal plan not added');
+        console.log(error);
+      })
+  }
 
 export default {
   login,
   getBookmarks,
   getPersonal,
-  addRecipe,
+  // addRecipe,
   // editRecipe,
   deleteRecipe,
   getRecipe,
@@ -201,5 +234,8 @@ export default {
   updateUser,
   updatePassword,
   dashboardSearch,
-  getDashboardWithGoal
+  getDashboardWithGoal,
+  getMealList,
+  deleteMealPlan,
+  addMealPlan
 };

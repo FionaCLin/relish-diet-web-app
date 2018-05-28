@@ -7,8 +7,10 @@ const SLIMMING = 'Slimming';
 const STAMINA_TRAINING = 'Stamina training';
 const GENERAL_FITNESS = 'General fitness';
 const daysOfWeek = ['\xa0\xa0\xa0', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+const mealOptions = ['BREAKFAST', 'LUNCH', 'DINNER'];
 const macroNutrients = ['Energy', 'Carbs', 'Fats', 'Protein', 'Sodium'];
 const smallMacros = ['calories', 'cabs', 'fat', 'protein', 'sodium'];
+const goalOptions = ['Lose weight', 'Gain muscle', 'Slimming', 'Stamina training', 'General fitness'];
 const mealTimes = ['BREKKIE', '\xa0LUNCH', 'DINNER'];
 const recipeList = [
     {
@@ -28,7 +30,7 @@ const recipeList = [
     }
 ];
 const defaultPlan = {
-    name: "",
+    title: "",
     dailyMeals : [
         [null, null, null],
         [null, null, null],
@@ -38,13 +40,11 @@ const defaultPlan = {
         [null, null, null],
         [null, null, null]
     ],
-    macros: {
-        Energy: 0,
-        Carbs: 0,
-        Protein: 0,
-        Fats: 0,
-        Sodium: 0
-    }
+    calories: 0,
+    cabs: 0,
+    fat: 0,
+    protein: 0,
+    sodium: 0
 };
 const sortDiet = {
     'Lose weight' : {
@@ -111,5 +111,7 @@ export default {
     SLIMMING,
     STAMINA_TRAINING,
     GENERAL_FITNESS,
-    smallMacros
+    smallMacros,
+    goalOptions,
+    mealOptions
 }

@@ -10,22 +10,21 @@ import api from '../api'
 class Profile extends React.Component {
     constructor(props) {
         super(props);
-        let user = this.props.users.find(x => x.id == this.props.curr_user);
         this.state = {
             emailOpen: false,
             usernameOpen: false,
             passwordOpen: false,
             goalOpen: false,
             bmiOpen: false,
-            email: user.email,
-            username: user.username,
-            password: user.password,
+            email: this.props.user.email,
+            username: this.props.user.username,
+            password: this.props.user.password,
             currentPassword: '',
             newPassword1: '',
             newPassword2: '',
-            goals: user.goals,
-            height: user.height,
-            weight: user.weight
+            goals: this.props.user.goal.split(","),
+            height: 145,
+            weight: 56
         };
     }
 
@@ -74,13 +73,11 @@ class Profile extends React.Component {
 
     saveEmail = (e) => {
         e.preventDefault();
-        let users = this.props.users;
-        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
-        users[userIndex].email = this.state.email;
-        this.props.changeUsers(users);
         this.openEmail(e);
-        api.updateUser(1, { email: this.state.email }, () => {
-            console.log("i'm back")
+        api.updateUser(this.props.user.id, { email: this.state.email }, () => {
+            let user = this.props.user;
+            user.email = this.state.email;
+            this.props.setUser(user);
         });
 
         console.log("ENter");
@@ -115,58 +112,63 @@ class Profile extends React.Component {
         this.setState({ newPassword2 });
     }
 
+    generatePassword = () => {
+        let hiddenPassword = '';
+        for (let i = 0; i < this.props.user.password.length ; i++) {
+            hiddenPassword += '&#9679;';
+        }
+        return hiddenPassword;
+    }
+
     saveUsername = (e) => {
         e.preventDefault();
-        let users = this.props.users;
-        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
-        users[userIndex].username = this.state.username;
-        this.props.changeUsers(users);
         this.openUsername(e);
-        api.updateUser(1, { username: this.state.username }, () => {
-            console.log("i'm back")
+        api.updateUser(this.props.user.id, { username: this.state.username }, () => {
+            console.log("i'm back");
+            let user = this.props.user;
+            user.username = this.state.username;
+            this.props.setUser(user);
         });
         console.log("ENter");
     }
 
     savePassword = (e) => {
         e.preventDefault();
-        let users = this.props.users;
-        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
-        users[userIndex].password = this.state.password;
-        this.props.changeUsers(users);
         this.openPassword(e);
-        if(this.state.newPassword1 != this.state.newPassword2) {
+        if(this.state.newPassword1 !== this.state.newPassword2) {
             console.log('new passwords don\'t mathch');
+        } else {
+            api.updatePassword(this.props.user.id, { password: this.state.newPassword1, oldpassword: this.state.currentPassword }, (res) => {
+                let user = this.props.user;
+                user.password = this.state.newPassword1;
+                this.props.setUser(user);
+                this.setState({ newPassword1: '', newPassword2: '', currentPassword: '' });
+            });
         }
-        api.updatePassword(1, { password: this.state.newPassword1, oldpassword: this.state.currentPassword }, (res) => {
-            console.log("i'm back",res)
-            this.setState({ newPassword1: '', newPassword2: '', currentPassword: '' })
-        });
         console.log("ENter");
     }
 
-    changeGoal = (e, index) => {
+    changeGoal = (e, goal) => {
         e.preventDefault();
         let { goals } = this.state;
-        if (!goals.includes(index)) {
-            goals.push(index);
+        if (!goals.includes(goal)) {
+            goals.push(goal);
         } else {
-            goals.splice(index, 1);
+            goals.splice(goals.indexOf(goals.find(x => x == goal)), 1);
         }
         this.setState({ goals });
     }
 
     saveGoal = (e) => {
         e.preventDefault();
-        let users = this.props.users;
-        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
-        users[userIndex].goals = this.state.goals;
-        this.props.changeUsers(users);
         this.openGoal(e);
         let goal = this.state.goals.join(',');
         console.log('>>>>',this.state.goals, goal);
-        api.updateUser(1, { goal: goal }, () => {
+        api.updateUser(this.props.user.id, { goal: goal }, () => {
             console.log("i'm back")
+            let user = this.props.user;
+            user.goal = goal;
+            this.props.setUser(user);
         });
 
         console.log("ENter");
@@ -194,11 +196,6 @@ class Profile extends React.Component {
 
     saveBMI = (e) => {
         e.preventDefault();
-        let users = this.props.users;
-        const userIndex = users.indexOf(users.find(x => x.id == this.props.curr_user));
-        users[userIndex].height = this.state.height;
-        users[userIndex].weight = this.state.weight;
-        this.props.changeUsers(users);
         this.openBMI(e);
         console.log("ENter");
     }
@@ -206,19 +203,17 @@ class Profile extends React.Component {
     goalsFromBMI = (BMI) => {
         let goals = [];
         if (BMI < 18.5) {
-            goals.push(3, 4);
+            goals.push(constants.mealPlanner.STAMINA_TRAINING, constants.mealPlanner.GENERAL_FITNESS);
         } else if (BMI < 25) {
-            goals.push(1, 3);
+            goals.push(constants.mealPlanner.GAIN_MUSCLE, constants.mealPlanner.STAMINA_TRAINING);
         } else {
-            goals.push(0, 2);
+            goals.push(constants.mealPlanner.SLIMMING, constants.mealPlanner.LOSE_WEIGHT);
         }
         return goals;
     }
 
     render() {
-        let user = this.props.users.find(x => x.id == this.props.curr_user);
-        const goalOptions = ['Slimming', 'Building Muscle', 'Weight loss', 'Stamina Training', 'General Fitness'];
-        let BMI = Math.round((user.weight / Math.pow(user.height / 100, 2)) * 10) / 10;
+        let BMI = Math.round((this.state.weight / Math.pow(this.state.height / 100, 2)) * 10) / 10;
         return (
             <div className="recipe_container">
                 <h4>Profile</h4>
@@ -238,7 +233,7 @@ class Profile extends React.Component {
                                 </div>
                                 {/* <!--emailShow--> */}
                                 <div id="emailShow" style={{ display: (!this.state.emailOpen) ? "block" : "none", marginBottom: "-10px" }}>
-                                    <div style={{ float: "left" }}>{user.email}</div>
+                                    <div style={{ float: "left" }}>{this.props.user.email}</div>
                                     <button type="button" className="btn btn-secondary btn-sm" style={{ float: "right" }} onClick={(e) => this.openEmail(e)}>
                                         <span className="glyphicon glyphicon-edit"></span>
                                     </button>
@@ -261,7 +256,7 @@ class Profile extends React.Component {
                                 </div>
                                 {/* <!--usernameShow--> */}
                                 <div id="usernameShow" style={{ display: (!this.state.usernameOpen) ? "block" : "none", marginBottom: "-10px" }}>
-                                    <div style={{ float: "left" }}>{user.username}</div>
+                                    <div style={{ float: "left" }}>{this.props.user.username}</div>
                                     <button type="button" className="btn btn-secondary btn-sm" style={{ float: "right" }} onClick={(e) => this.openUsername(e)}>
                                         <span className="glyphicon glyphicon-edit"></span>
                                     </button>
@@ -290,7 +285,7 @@ class Profile extends React.Component {
                                 </div>
                                 {/* <!--passwordShow--> */}
                                 <div id="passwordShow" style={{ display: (!this.state.passwordOpen) ? "block" : "none", marginBottom: "-10px" }}>
-                                    <div style={{ float: "left" }}>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</div>
+                                    <div style={{ float: "left" }}>{this.generatePassword()}</div>
                                     <button type="button" className="btn btn-secondary btn-sm" style={{ float: "right" }} onClick={(e) => this.openPassword(e)}>
                                         <span className="glyphicon glyphicon-edit"></span>
                                     </button>
@@ -321,8 +316,8 @@ class Profile extends React.Component {
                                         <div style={{ float: "left" }}>Suggested goals: </div>
                                         <div style={{ float: "left" }}>
                                             {
-                                                this.goalsFromBMI(BMI).map((goalIndex) => {
-                                                    return <span className="label label-success" style={{ marginLeft: "5px" }}>{goalOptions[goalIndex]}</span>
+                                                this.goalsFromBMI(BMI).map((goal) => {
+                                                    return <span className="label label-success" style={{ marginLeft: "5px" }}>{goal}</span>
                                                 })
                                             }
                                         </div>
@@ -342,8 +337,8 @@ class Profile extends React.Component {
                                 {/* <!--goalEdit--> */}
                                 <div id="goalEdit" style={{ display: (this.state.goalOpen) ? "block" : "none" }}>
                                     {
-                                        goalOptions.map((goal, index) => {
-                                            return <label className="checkbox-inline"><input type="checkbox" value={'"' + index + '"'} onChange={(e) => this.changeGoal(e, index)} checked={!!this.state.goals.includes(index)}></input>{goal}</label>
+                                        constants.mealPlanner.goalOptions.map((goal) => {
+                                            return <label className="checkbox-inline"><input type="checkbox" value={goal} onChange={(e) => this.changeGoal(e, goal)} checked={!!this.state.goals.includes(goal)}></input>{goal}</label>
                                         })
                                     }
                                     <div style={{ float: "right", marginTop: "10px" }}>
@@ -355,8 +350,8 @@ class Profile extends React.Component {
                                 <div id="goalShow" style={{ display: (!this.state.goalOpen) ? "block" : "none", marginBottom: "-10px" }}>
                                     <div style={{ float: "left" }}>
                                         {
-                                            user.goals.map((goalIndex) => {
-                                                return <span className="label label-success" style={{ marginLeft: "5px" }}>{goalOptions[goalIndex]}</span>
+                                            this.props.user.goal.split(",").map((goal) => {
+                                                return <span className="label label-success" style={{ marginLeft: "5px" }}>{goal}</span>
                                             })
                                         }
                                     </div>

@@ -1,16 +1,16 @@
 import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
-import bg_img from '../constants/globalFunctions';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import { isNull } from 'util';
+import api from '../api.js';
 
 class MealList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mealPlans: this.props.mealPlans,
+            mealPlans: [],
             modalPlan: {
                 id: 0,
                 name: ''
@@ -18,21 +18,29 @@ class MealList extends React.Component {
         }
     }
 
+    componentWillMount() {
+        const mealResult = (mealPlans) => {
+            this.setState({mealPlans});
+            console.log(mealPlans);
+        }
+        api.getMealList(this.props.user.id, mealResult);
+    }
+
     changeModal = (e, plan) => {
         e.preventDefault();
         let { modalPlan } = this.state;
         modalPlan = {
             id: plan.id,
-            name: plan.name
+            name: plan.title
         }
         this.setState({modalPlan});
     }
 
     deletePlan = (e, planId) => {
         e.preventDefault();
-        let mealPlans = this.props.mealPlans;
+        api.deleteMealPlan(planId);
+        let mealPlans = this.state.mealPlans;
         mealPlans.splice(mealPlans.indexOf(mealPlans.find(x => x.id === planId)), 1);
-        this.props.deletePlan(mealPlans);
         this.setState({mealPlans});
     }
 
@@ -71,19 +79,19 @@ class MealList extends React.Component {
                     </div>
                     <div class="modal-body">
                         <p>Choose a goal option to work towards.</p>
-                        <a href={"mealplan/add/0"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                        <a href={this.props.user.id + "/mealplan/add/0"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
                             Slimming - low carbs and low fats<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
                         </a>
-                        <a href={"mealplan/add/1"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                        <a href={this.props.user.id + "mealplan/add/1"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
                             Muscle Building - high carbs and high protein<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
                         </a>
-                        <a href={"mealplan/add/2"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                        <a href={this.props.user.id + "mealplan/add/2"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
                             Weight Loss - low carbs and high protein<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
                         </a>
-                        <a href={"mealplan/add/3"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                        <a href={this.props.user.id + "mealplan/add/3"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
                             Stamina Training - high protein and low intake<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
                         </a>
-                        <a href={"mealplan/add/4"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
+                        <a href={this.props.user.id + "mealplan/add/4"} role="button" class="btn btn-default" style={{width:"100%", textAlign: "left"}}>
                             General Fitness - all rounder<span class="pull-right"><span class="glyphicon glyphicon-menu-right" style={{color:"green"}}></span></span>
                         </a>
                     </div>
@@ -103,23 +111,11 @@ class MealList extends React.Component {
                         return (
                         <a class="list-group-item list-group-item-action recipe_btn" style={{cursor:"pointer"}}>
                             <button type="button" onClick={(e) => this.changeModal(e, plan)} class="btn btn-danger btn-circle" style={{float:"right",marginTop:"5px"}} data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-remove"></i></button>
-                            <Link to={"mealplan/edit/" + plan.id}>
+                            <Link to={this.props.user.id + "/mealplan/edit/" + plan.id}>
                                 <button type="button" class="btn btn-success btn-circle" style={{float:"right",marginTop:"5px",marginRight:"10px"}}><i class="glyphicon glyphicon-edit"></i></button>
                             </Link>
-                            <Link to={"mealplan/view/" + plan.id}>
-                                <table class="table table-bordered" style={{marginLeft:"5px",width:"150px",height:"150px",float:"left"}}>
-                                    <tr>
-                                        <td style={bg_img(plan.img[0])} class="tile_img"></td>
-                                        <td style={bg_img(plan.img[1])} class="tile_img"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={bg_img(plan.img[2])} class="tile_img"></td>
-                                        <td style={bg_img(plan.img[3])} class="tile_img"></td>
-                                    </tr>
-                                </table>
-                            </Link>
-                            <div class="recipe_btn_content" style={{marginTop:"-15px"}}>
-                                <h4 onclick="location.href='view_planner.html';" style={{display:"inline"}}>{plan.name}</h4>
+                            <div class="recipe_btn_content" >
+                                <h4 onclick="location.href='view_planner.html';" style={{display:"inline"}}>{plan.title}</h4>
                                 <span></span>
                                 <div class="panel panel-default" style={{marginTop:"10px"}}>
                                 <table className="table table-bordered table-striped" style={{ textAlign: "center" }}>
@@ -132,8 +128,8 @@ class MealList extends React.Component {
                                     </tr>
                                         <tr>
                                         {
-                                        constants.mealPlanner.macroNutrients.map((nutrient) => {
-                                                return <td className="macro_col">{plan.macros[nutrient]}</td>
+                                        constants.mealPlanner.smallMacros.map((nutrient) => {
+                                                return <td className="macro_col">{plan[nutrient]}</td>
                                             })
                                         }
                                         </tr>

@@ -35,10 +35,12 @@ class Login extends React.Component {
     console.log("SETUSER", this.props.setUser);
     const loginCallback = (loginResult) => {
       this.setState({loginResult});
+      let user = loginResult;
+      loginResult.password = this.state.password;
       this.props.setUser(loginResult);
       console.log(loginResult)
       if (isUndefined(this.state.loginResult.id)) {
-        // show error message for user
+        console.log("didn't login");
       } else {
         this.props.history.push('/dashboard');
       }

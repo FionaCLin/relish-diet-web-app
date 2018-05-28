@@ -40,14 +40,9 @@ class App extends Component {
           <PropsRoute path='/login' exact strict component={Login} history={history} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/' exact strict component={Login} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/dashboard' exact strict component={Dashboard} recipeInfo={this.state.recipes} user={this.state.user} />
-          <PropsRoute path='/meallist' exact strict component={MealList} mealPlans={this.state.mealPlans}
-            curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})} />
-          <PropsRoute path='/mealplan/:mode' exact strict component={MealPlanner} recipeInfo={this.state.recipes}
-            users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans}
-            editPlan={(mealPlans) => this.setState({mealPlans})} />
-          <PropsRoute path='/mealplan/:mode/:id' exact strict component={MealPlanner} recipeInfo={this.state.recipes}
-            users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans}
-            editPlan={(mealPlans) => this.setState({mealPlans})} />
+          <PropsRoute path='/meallist' exact strict component={MealList} user={this.state.user} />
+          <PropsRoute path='/:userID/mealplan/:mode' exact strict component={MealPlanner} user={this.state.user} recipeInfo={this.state.recipes}/>
+          <PropsRoute path='/:userID/mealplan/:mode/:id' exact strict component={MealPlanner} user={this.state.user} recipeInfo={this.state.recipes}/>
           <PropsRoute path='/recipes' exact strict component={RecipeList} recipeInfo={this.state.recipes} list_type={constants.recipeList.RECIPE_LIST}
             curr_user={CURR_USER_ID} editRecipes={(recipes) => this.setState({recipes})} user={this.state.user} />
           <PropsRoute path='/recipes/:mode/:id' exact strict component={EditRecipe} recipeInfo={this.state.recipes} editRecipes={(recipes) => this.setState({recipes})}
@@ -58,7 +53,7 @@ class App extends Component {
             curr_user={CURR_USER_ID} users={this.state.users} editBookmark={(users) => this.setState({users})} user={this.state.user} />
           <PropsRoute path='/recipe/:id' component={RecipePage} user={this.state.user} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
             users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})} />
-          <PropsRoute path='/profile' component={Profile} user={this.state.user} />
+          <PropsRoute path='/profile' component={Profile} user={this.state.user} setUser={(user) => this.setState({user})} />
           <PropsRoute path='/search' exact strict component={Search} user={this.state.user} />
           <PropsRoute path='/search/name/:name' exact strict component={Search} user={this.state.user} />
         </div>
