@@ -2,10 +2,8 @@ import React from 'react';
 import constants from '../constants/';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
-import { sortDiet, sortPlan } from '../constants/dummyData';
 import recipe from './images/recipe.jpg';
-import { isNull } from 'util';
-import { isUndefined } from 'util';
+import { isNull, isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import api from '../api.js';
 
@@ -14,9 +12,6 @@ class MealPlanner extends React.Component {
         super(props)
         this.dragOut = true;
         this.dragOutNum = null;
-        let currPlan = (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ?
-                            constants.mealPlanner.defaultPlan :
-                            this.props.mealPlans.find(x => x.id == this.props.match.params.id);
         
         this.state = {
             userID: this.props.match.params.userID,
@@ -25,19 +20,59 @@ class MealPlanner extends React.Component {
             recommended: [],
             showMacro: null,
             currRecipes: constants.mealPlanner.PERSONAL,
-            name: currPlan.title,
-            dailyMeals : currPlan.dailyMeals,
-            sodium: currPlan.sodium,
-            fat: currPlan.fat,
-            cabs: currPlan.cabs,
-            protein: currPlan.protein,
-            calories: currPlan.calories,
+            name: '',
+            dailyMeals : [],
+            sodium: '',
+            fat: '',
+            cabs: '',
+            protein: '',
+            calories: '',
             currRecipe: null,
             goal: (this.props.match.params.mode === constants.mealPlanner.ADD_MEAL_PLANNER) ? this.generateGoal() : []
         }
     }
 
     componentWillMount () {
+        this.setRecipes();
+        let currPlan = null;
+        if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
+            let editState = (result) => {
+
+                let dailyMeals = constants.mealPlanner.defaultPlan.dailyMeals;
+                result.timeslots.forEach((slot) => {
+                    let day = constants.mealPlanner.daysOfWeek.indexOf(slot.day) - 1;
+                    let meal = constants.mealPlanner.mealOptions.indexOf(slot.meal_type);
+                    dailyMeals[day][meal] = slot.recipe_id;
+                });
+
+                this.setState({
+                    name: result.title,
+                    dailyMeals : dailyMeals,
+                    calories: result.calories,
+                    cabs: result.cabs,
+                    fat: result.fat,
+                    protein: result.protein,
+                    sodium: result.sodium
+                });
+
+                console.log(dailyMeals);
+            };
+            api.getMealPlan(this.props.match.params.id, editState);
+        } else {
+            currPlan = constants.mealPlanner.defaultPlan;
+            this.setState({
+                name: currPlan.title,
+                dailyMeals: currPlan.dailyMeals,
+                calories: currPlan.calories,
+                cabs: currPlan.cabs,
+                fat: currPlan.fat,
+                protein: currPlan.protein,
+                sodium: currPlan.sodium
+            })
+        }
+    }
+
+    setRecipes = () => {
         api.getBookmarks(this.state.userID, (result) => {
             let recipes = [];
             result.map((bookmark) => recipes.push(bookmark.recipe));
@@ -51,7 +86,7 @@ class MealPlanner extends React.Component {
     }
 
     generateGoal = () => {
-        return sortPlan[parseInt(this.props.match.params.id, 10)];
+        return constants.mealPlanner.sortPlan[parseInt(this.props.match.params.id, 10)];
     }
 
     onDragStart = (e,v) =>{
@@ -131,7 +166,8 @@ class MealPlanner extends React.Component {
 
     calculateOverall = (nutrient) => {
         let overallNutrient = 0;
-        this.state.dailyMeals.map((day) => {
+        console.log("OVERALL", this.state.dailyMeals);
+        this.state.dailyMeals.forEach((day) => {
             overallNutrient += this.calculateNutrient(day, nutrient);
         })
         this.state[nutrient] = overallNutrient;
@@ -163,7 +199,7 @@ class MealPlanner extends React.Component {
         };
 
         if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
-            // edit meal plan
+            api.editMealPlan(this.props.match.params.id, plan);
         } else {
             api.addMealPlan(plan);
         }
@@ -187,10 +223,19 @@ class MealPlanner extends React.Component {
         return timeslots;
     }
 
-    changeCurrRecipe = (e, recipe) => {
-        let { currRecipe } = this.state;
-        currRecipe = recipe;
-        this.setState({currRecipe});
+    changeCurrRecipe = (e, recipeId) => {
+        e.preventDefault();
+        api.getRecipe(recipeId, (currRecipe) => {
+            console.log(currRecipe);
+            let ingredients = [];
+            currRecipe.ingredients.forEach((ingredient) => {
+                ingredients.push(ingredient.amount + " " + ingredient.uom + " of " + ingredient.name);
+            })
+            currRecipe.ingredients = ingredients;
+            this.setState({currRecipe});
+        });
+
+        console.log("HEREFDSFS");
     }
 
     render() {
@@ -266,7 +311,7 @@ class MealPlanner extends React.Component {
                                                 return <td style={bg_img(this.getRecipe(day[mealKey]).images.split(",")[0])} class="planner_img"
                                                             draggable={(this.props.match.params.mode !== constants.mealPlanner.VIEW_MEAL_PLANNER) ? "true": "false"}
                                                             onClick={(this.props.match.params.mode === constants.mealPlanner.VIEW_MEAL_PLANNER) ?
-                                                                (e) => this.changeCurrRecipe(e, this.getRecipe(day[mealKey])) : ""}
+                                                                (e) => this.changeCurrRecipe(e, day[mealKey]) : ""}
                                                             onDragStart={ (e) => this.onDragStart(e, day[mealKey])}
                                                             onDragEnd={ (e) => this.onDragEnd(e, [dayKey, mealKey])}
                                                             onDragOver={this.allowDrop} onDrop={(e) => this.onDrop(e, [dayKey, mealKey])}>

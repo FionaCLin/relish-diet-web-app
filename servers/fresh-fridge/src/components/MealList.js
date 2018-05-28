@@ -114,8 +114,9 @@ class MealList extends React.Component {
                             <Link to={this.props.user.id + "/mealplan/edit/" + plan.id}>
                                 <button type="button" class="btn btn-success btn-circle" style={{float:"right",marginTop:"5px",marginRight:"10px"}}><i class="glyphicon glyphicon-edit"></i></button>
                             </Link>
+                            <Link to={this.props.user.id + '/mealplan/view/' + plan.id}>
                             <div class="recipe_btn_content" >
-                                <h4 onclick="location.href='view_planner.html';" style={{display:"inline"}}>{plan.title}</h4>
+                                <h4 style={{display:"inline"}}>{plan.title}</h4>
                                 <span></span>
                                 <div class="panel panel-default" style={{marginTop:"10px"}}>
                                 <table className="table table-bordered table-striped" style={{ textAlign: "center" }}>
@@ -137,6 +138,7 @@ class MealList extends React.Component {
                                 </table>
                                 </div>
                             </div>
+                            </Link>
                         </a>
                         )
                     })}

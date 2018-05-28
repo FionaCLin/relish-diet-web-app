@@ -212,10 +212,32 @@ function getDashboardWithGoal (userId, goals, callback) {
   function addMealPlan (mealPlan) {
     axios.post('/api/mealplans/create', mealPlan)
       .then(function (response) {
-        let mealplan = response.data;
-        console.log('add meal plan', mealplan);
+        let result = response.data;
+        console.log('add meal plan', result);
       }).catch(function (error) {
         console.log('meal plan not added');
+        console.log(error);
+      })
+  }
+
+  function getMealPlan (mealPlanId, callback) {
+    axios.get('/api/mealplans/' + mealPlanId)
+      .then(function (response) {
+        let mealplan = response.data;
+        console.log('get meal plan', mealplan)
+        return callback(mealplan);
+      }).catch(function (error) {
+        console.log('did not get meal plan');
+        console.log(error);
+      })
+  }
+
+  function editMealPlan (mealPlanId, mealPlan) {
+    axios.put('/api/mealplans/' + mealPlanId, mealPlan)
+      .then(function (response) {
+        console.log('editted meal plan');
+      }).catch(function (error) {
+        console.log('did not edit meal plan');
         console.log(error);
       })
   }
@@ -237,5 +259,7 @@ export default {
   getDashboardWithGoal,
   getMealList,
   deleteMealPlan,
-  addMealPlan
+  addMealPlan,
+  getMealPlan,
+  editMealPlan
 };
