@@ -5,42 +5,57 @@ import bg_img from '../constants/globalFunctions';
 import { isUndefined, isNull, isNullOrUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import axios from 'axios';
+import api from '../api.js';
 
 class EditRecipe extends React.Component {
     constructor(props) {
         super(props);
         let recipe = null;
 
-        if (this.props.match.params.mode == 'edit') {
-            recipe = this.props.recipeInfo.find(x => x.id == this.props.match.params.id)
-        } else {
-            recipe = {
-                name: '',
-                method: '',
-                ingredients: [],
-                macros: {
-                    Energy: 452,
-                    Carbs: 36,
-                    Protein: 6,
-                    Fats: 20,
-                    Sodium: 2
-                },
-                img: []
-            }
-        }
-
-        console.log(recipe.img);
         this.state = {
             ingredientsProp: [],
+            finalIngredients: [],
             string: '',
             measure: '',
             amount: '',
-            nbdno: '',
-            name: recipe.name,
-            ingredients: recipe.ingredients,
-            method: recipe.method,
-            macros: recipe.macros,
-            img: recipe.img
+            name: '',
+            ingredients: [],
+            method: '',
+            calories: 0,
+            sodium: 0,
+            cabs: 0,
+            fat: 0,
+            protein: 0,
+            img: []
+        }
+    }
+
+    componentWillMount() {
+        if (this.props.match.params.mode == 'edit') {
+            let callback = (result) => {
+                let ingredients = [];
+                let img = result.images.split(',');
+                result.ingredients.forEach((ingredient) => {
+                    ingredient = {
+                        ...ingredient,
+                        measure: ingredient.uom
+                    }
+                    ingredients.push(ingredient);
+                })
+                
+                this.setState({
+                    name: result.name,
+                    ingredients: ingredients,
+                    method: result.method,
+                    calories: result.calories,
+                    sodium: result.sodium,
+                    cabs: result.cabs,
+                    fat: result.fat,
+                    protein: result.protein,
+                    img
+                })
+            }
+            api.getRecipe(this.props.match.params.id, callback);
         }
     }
 
@@ -48,13 +63,15 @@ class EditRecipe extends React.Component {
         e.preventDefault();
         let ingredientsProp = [];
         let string = e.target.value;
-        axios.get('https://api.nal.usda.gov/ndb/search/?format=json&q=' + string + '&sort=n&max=10&ds=Standard%20Reference&offset=0&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
+        axios.get('https://api.nal.usda.gov/ndb/search/?format=json&q=' + string +
+                    '&sort=n&max=10&ds=Standard%20Reference&offset=0&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
             .then((response) => {
                 let data = response.data;
+                console.log("DATA", data);
                 if (!isUndefined(data.list)) {
                     data.list.item.forEach((item) => {
                         ingredientsProp.push({
-                            nbdno: item.nbdno,
+                            ndbno: item.ndbno,
                             name: item.name
                         });
                     });
@@ -71,23 +88,16 @@ class EditRecipe extends React.Component {
             amount: this.state.amount,
             measure: this.state.measure,
             name: this.state.string,
-            nbdno: this.state.nbdno
+            ndbno: this.state.ingredientsProp.find(x => x.name === this.state.string).ndbno
         }
+        console.log(ingredient);
         ingredients.push(ingredient);
         this.setState({ingredients});
         let string = '';
-        this.setState({string});
         let amount = '';
-        this.setState({amount});
         let measure = '';
-        this.setState({measure});
+        this.setState({amount, string, measure});
     }
-
-    // pickIngredient = (e, ingredient) => {
-    //     console.log("PICKED");
-    //     e.preventDefault();
-    //     this.setState({nbdno: ingredient.nbno});
-    // }
 
     ingredientStringify = (ingredient) => {
         return ingredient.amount + ' ' + ingredient.measure + ' of ' + ingredient.name;
@@ -134,57 +144,91 @@ class EditRecipe extends React.Component {
         this.setState({img});
     }
 
-    // getIngredientMacros = () => {
-    //     let ingredients = this.state.ingredients;
-    //     ingredients.forEach((ingredient) => {
-    //         console.log("INGREDIENT", ingredient);
-    //         axios.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ingredient.nbdno + '&type=f&format=json&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
-    //             .then((response) => {
-    //                 let data = response.data;
-    //                 console.log("RESPONSE", data);
-    //             });
-    //     });
-    // }
+    getIngredientMacros = () => {
+        const ingredientMacros = ['Energy', 'Protein', 'Total lipid (fat)', 'Carbohydrate, by difference', 'Sodium, Na'];
+        const macros = ['calories', 'protein', 'fat', 'cabs']
+        const uoms = {
+                        '': 1,
+                        'g': 0.01,
+                        'ml': 0.01,
+                        'tbsp': 0.15,
+                        'tsp': 0.05,
+                        'cup(s)': 3.4
+                    };
+        let ingredients = this.state.ingredients;
+
+        ingredients.forEach((ingredient) => {
+            let newState = this.state;
+            axios.get('https://api.nal.usda.gov/ndb/reports/?ndbno=' + ingredient.ndbno + '&type=f&format=json&api_key=htxW1QWvNs6YWr0VnMHsygsKvycRRjM0Z5Q2Q2Py')
+                .then((response) => {
+                    console.log("RESPONSE", response);
+                    let data = response.data;
+                    let currIngredient = {
+                        ndbno: ingredient.ndbno, 
+                        name: ingredient.name,
+                        amount: ingredient.amount,
+                        uom: ingredient.measure,
+                        calories: 0,
+                        cabs: 0,
+                        protein: 0,
+                        fat: 0
+                    }
+
+                    if (!isUndefined(data.report)) {
+                        let nutrients = data.report.food.nutrients;
+
+                        ingredientMacros.forEach((nutrient, index) => {
+                            let nutrientValue = nutrients.find(x => x.name == nutrient).value * uoms[ingredient.measure] * ingredient.amount;
+                            if (nutrient !== 'Sodium, Na') currIngredient[macros[index]] = nutrientValue
+                            newState[macros[index]] += nutrientValue;
+                        });
+
+                        console.log(currIngredient);
+                        
+                        newState.finalIngredients.push(currIngredient);
+                        this.setState({
+                            finalIngredients: newState.finalIngredients,
+                            calories: newState.calories,
+                            cabs: newState.cabs,
+                            protein: newState.protein,
+                            fat: newState.fat,
+                            sodium: newState.sodium
+                        })
+                    }
+                });
+        });
+    }
 
     editRecipe = (e) => {
         e.preventDefault();
-        // let recipes = this.props.recipeInfo;
-        // let recipe = {
-        //     id: 600,
-        //     creator: this.props.curr_user,
-        //     name: this.state.name,
-        //     img: this.state.img,
-        //     macros: {
-        //         Energy: 452,
-        //         Carbs: 36,
-        //         Protein: 6,
-        //         Fats: 20,
-        //         Sodium: 2
-        //     },
-        //     method: this.state.method,
-        //     ingredients: this.state.ingredients,
-        //     comments: []
-        // };
-        // if (this.props.match.params.mode == 'edit') {
-        //     let recipeIndex = recipes.indexOf(recipes.find(x => x.id == this.props.match.params.id));
-        //     recipes[recipeIndex] = recipe;
-        // } else {
-        //     recipes.unshift(recipe);
-        // }
-        // this.props.editRecipes(recipes);
-        // console.log("Enter", recipe);
         let images = [];
+
         this.state.img.forEach((item) => {
             if (!isNullOrUndefined(item)) images.push(item);
-        })
+        });
         this.getIngredientMacros();
+        images = images.join(',');
+        console.log(images);
 
         let recipe = {
             name: this.state.name,
             method: this.state.method,
-            images: images.join(','),
+            images: images,
+            ingredients: this.state.finalIngredients,
+            calories: this.state.calories,
+            cabs: this.state.cabs,
+            protein: this.state.protein,
+            fat: this.state.fat,
+            sodium: this.state.sodium,
+            creatorID: this.props.user.id,
+            rate: 0
         }
-        console.log("ENTER");
+
+        if (this.props.match.params.mode == 'edit') {
+            api.editRecipe(this.props.match.params.id, this.props.user.id, recipe);
+        } else {
+            api.addRecipe(recipe);
+        }
     }
 
 
@@ -218,7 +262,7 @@ class EditRecipe extends React.Component {
                             <datalist id="ingredients">
                                 {
                                     this.state.ingredientsProp.map((ingredient) => {
-                                        return <option onClick={(e) => this.pickIngredient(e, ingredient) }>{ingredient.name}</option>
+                                        return <option>{ingredient.name}</option>
                                     })
                                 }
                             </datalist>

@@ -139,11 +139,11 @@ function addRecipe (recipe) {
   });
 }
 
-function editRecipe (recipe) {
-    axios.put('api/recipes/' + recipe.id, recipe
+function editRecipe (recipe_id, user_id, recipe) {
+    axios.put('api/users/' + user_id + '/recipes/' + recipe.id, recipe
     ).then(function (response) {
       let newCreatedRecipe = response.data;
-      console.log('new recipe', newCreatedRecipe);
+      console.log('editted recipe', newCreatedRecipe);
     }).catch(function (error) {
       console.log("you haven't made a recipe");
       console.log(error);
@@ -242,12 +242,24 @@ function getDashboardWithGoal (userId, goals, callback) {
       })
   }
 
+  function searchName(user_id, keyword, callback) {
+    axios.get('/api/users/' + user_id + '/dashboard/' + keyword)
+      .then(function (response) {
+        let recipes = response.data;
+        console.log('name searched recipes', recipes);
+        return callback(recipes);
+      }).catch(function (error) {
+        console.log('did not search');
+        console.log(error);
+      })
+  }
+
 export default {
   login,
   getBookmarks,
   getPersonal,
-  // addRecipe,
-  // editRecipe,
+  addRecipe,
+  editRecipe,
   deleteRecipe,
   getRecipe,
   addComment,
@@ -261,5 +273,6 @@ export default {
   deleteMealPlan,
   addMealPlan,
   getMealPlan,
-  editMealPlan
+  editMealPlan,
+  searchName
 };

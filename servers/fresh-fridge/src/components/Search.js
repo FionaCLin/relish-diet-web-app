@@ -11,9 +11,8 @@ import api from '../api';
 class Search extends React.Component {
     constructor(props) {
         super(props);
-        const recipes = (!isNullOrUndefined(this.props.match.params.name)) ? this.searchName(this.props.match.params.name) : [];
         this.state = {
-            recipes,
+            recipes: [],
             tags: [],
             calories: '',
             cabs: '',
@@ -23,7 +22,16 @@ class Search extends React.Component {
             option: true,
             goal: null
         }
-        console.log(this.state.recipes);
+    }
+
+    componentWillMount() {
+        if (!isNullOrUndefined(this.props.match.params.name)) {
+            const callback = (recipes) => {
+                let tags = [this.props.match.params.name];
+                this.setState({recipes, tags});
+            };
+            api.searchName(this.props.user.id, this.props.match.params.name, callback);
+        }
     }
 
     changeEnergy = (e) => {
