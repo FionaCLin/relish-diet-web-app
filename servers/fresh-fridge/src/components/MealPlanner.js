@@ -185,23 +185,29 @@ class MealPlanner extends React.Component {
         this.state.dailyMeals[meal][day] = null;
     }
 
-    editPlan = (e) => {
-        e.preventDefault();
-        let plan = {
-            title: this.state.name,
-            user_id: this.setState.userID,
-            sodium: this.state.sodium,
-            fat: this.state.fat,
-            calories: this.state.calories,
-            cabs: this.state.cabs,
-            protein: this.state.protein,
-            timeslots: this.getTimeSlots()
-        };
+    validationCheck = () => {
+        return (this.state.name !== '' && this.state.dailyMeals == constants.mealPlanner.defaultPlan.dailyMeals);
+    }
 
-        if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
-            api.editMealPlan(this.props.match.params.id, plan);
-        } else {
-            api.addMealPlan(plan);
+    editPlan = (e) => {
+        if (this.validationCheck()) {
+            e.preventDefault();
+            let plan = {
+                title: this.state.name,
+                user_id: this.setState.userID,
+                sodium: this.state.sodium,
+                fat: this.state.fat,
+                calories: this.state.calories,
+                cabs: this.state.cabs,
+                protein: this.state.protein,
+                timeslots: this.getTimeSlots()
+            };
+
+            if (this.props.match.params.mode !== constants.mealPlanner.ADD_MEAL_PLANNER) {
+                api.editMealPlan(this.props.match.params.id, plan);
+            } else {
+                api.addMealPlan(plan);
+            }
         }
     }
 
@@ -234,8 +240,6 @@ class MealPlanner extends React.Component {
             currRecipe.ingredients = ingredients;
             this.setState({currRecipe});
         });
-
-        console.log("HEREFDSFS");
     }
 
     render() {

@@ -83,20 +83,22 @@ class EditRecipe extends React.Component {
 
     addIngredient = (e) => {
         e.preventDefault();
-        let { ingredients } = this.state;
-        let ingredient = {
-            amount: this.state.amount,
-            measure: this.state.measure,
-            name: this.state.string,
-            ndbno: this.state.ingredientsProp.find(x => x.name === this.state.string).ndbno
+        if (this.state.amount !== '' && this.state.name !== '') {
+            let { ingredients } = this.state;
+            let ingredient = {
+                amount: this.state.amount,
+                measure: this.state.measure,
+                name: this.state.string,
+                ndbno: this.state.ingredientsProp.find(x => x.name === this.state.string).ndbno
+            }
+            console.log(ingredient);
+            ingredients.push(ingredient);
+            this.setState({ingredients});
+            let string = '';
+            let amount = '';
+            let measure = '';
+            this.setState({amount, string, measure});
         }
-        console.log(ingredient);
-        ingredients.push(ingredient);
-        this.setState({ingredients});
-        let string = '';
-        let amount = '';
-        let measure = '';
-        this.setState({amount, string, measure});
     }
 
     ingredientStringify = (ingredient) => {
@@ -199,35 +201,41 @@ class EditRecipe extends React.Component {
         });
     }
 
+    validationCheck = () => {
+        return (this.state.name !== '' && this.state.method !== '' && this.state.ingredients.length == 0 && this.state.images.length == 0);
+    }
+
     editRecipe = (e) => {
         e.preventDefault();
-        let images = [];
+        if (this.validationCheck()) {
+            let images = [];
 
-        this.state.img.forEach((item) => {
-            if (!isNullOrUndefined(item)) images.push(item);
-        });
-        this.getIngredientMacros();
-        images = images.join(',');
-        console.log(images);
+            this.state.img.forEach((item) => {
+                if (!isNullOrUndefined(item)) images.push(item);
+            });
+            this.getIngredientMacros();
+            images = images.join(',');
+            console.log(images);
 
-        let recipe = {
-            name: this.state.name,
-            method: this.state.method,
-            images: images,
-            ingredients: this.state.finalIngredients,
-            calories: this.state.calories,
-            cabs: this.state.cabs,
-            protein: this.state.protein,
-            fat: this.state.fat,
-            sodium: this.state.sodium,
-            creatorID: this.props.user.id,
-            rate: 0
-        }
+            let recipe = {
+                name: this.state.name,
+                method: this.state.method,
+                images: images,
+                ingredients: this.state.finalIngredients,
+                calories: this.state.calories,
+                cabs: this.state.cabs,
+                protein: this.state.protein,
+                fat: this.state.fat,
+                sodium: this.state.sodium,
+                creatorID: this.props.user.id,
+                rate: 0
+            }
 
-        if (this.props.match.params.mode == 'edit') {
-            api.editRecipe(this.props.match.params.id, this.props.user.id, recipe);
-        } else {
-            api.addRecipe(recipe);
+            if (this.props.match.params.mode == 'edit') {
+                api.editRecipe(this.props.match.params.id, this.props.user.id, recipe);
+            } else {
+                api.addRecipe(recipe);
+            }
         }
     }
 
@@ -248,7 +256,7 @@ class EditRecipe extends React.Component {
                     <div class="form-group row">
                         <label for="inputIngredients" class="col-sm-2 col-form-label">Ingredients</label>
                         <div class="col-sm-10">
-                            <input name="amount" value={this.state.amount} onChange={(e) => this.changeAmount(e)} placeholder="amount e.g. 1" size="8" style={{float: "left", width:"150px", height: "32px"}}></input>
+                            <input name="amount" type="number" value={this.state.amount} onChange={(e) => this.changeAmount(e)} placeholder="amount e.g. 1" size="8" style={{float: "left", width:"150px", height: "32px"}}></input>
                             <select value={this.state.measure} onChange={(e) => this.changeMeasure(e)} style={{float: "left", height: "32px"}}>
                                 <option></option>
                                 <option>g</option>

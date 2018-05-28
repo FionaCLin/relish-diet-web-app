@@ -58,7 +58,7 @@ const NavigationBar = (prop) => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <div style={{ marginLeft: "20px", marginRight: "20px" }}>Welcome, Loreen!</div>
+                  <div style={{ marginLeft: "20px", marginRight: "20px" }}>Welcome, {prop.user.username}</div>
                 </li>
                 <li role="separator" className="divider"></li>
                 <li>

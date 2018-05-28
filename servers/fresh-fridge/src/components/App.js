@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import './misc.js';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import PropsRoute from '../constants/routeConst';
