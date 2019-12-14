@@ -3,7 +3,7 @@ import constants from '../constants/loginConst';
 import Background from './Background';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import api from '../api.js';
+import api from '../api.js.js';
 import { isUndefined } from 'util';
 
 

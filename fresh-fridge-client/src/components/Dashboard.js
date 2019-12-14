@@ -1,10 +1,10 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants';
 import SearchInputForm from './SearchInputForm';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import Link from 'react-router-dom/Link';
-import api from '../api.js';
+import api from '../api.js.js';
 
 class Dashboard extends React.Component {
   constructor(props) {

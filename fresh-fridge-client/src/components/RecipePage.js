@@ -2,7 +2,7 @@ import React from 'react';
 import connect from 'react-redux';
 import constants from '../constants';
 import { isUndefined } from 'util';
-import api from '../api.js';
+import api from '../api.js.js';
 
 class RecipePage extends React.Component {
   constructor(props) {

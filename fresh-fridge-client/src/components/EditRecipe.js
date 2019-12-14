@@ -1,11 +1,11 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import { isUndefined, isNull, isNullOrUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import axios from 'axios';
-import api from '../api.js';
+import api from '../api.js.js';
 
 class EditRecipe extends React.Component {
     constructor(props) {

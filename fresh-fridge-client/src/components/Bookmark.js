@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants';
 import { connect } from 'react-redux';
 import { url_img } from '../constants/globalFunctions';
 

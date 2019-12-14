@@ -1,11 +1,11 @@
 import React from 'react';
-import constants from '../constants/';
+import constants from '../constants';
 import { connect } from 'react-redux';
 import bg_img from '../constants/globalFunctions';
 import { isUndefined } from 'util';
 import Link from 'react-router-dom/Link';
 import { isNull } from 'util';
-import api from '../api.js';
+import api from '../api.js.js';
 
 class RecipeList extends React.Component {
   constructor(props) {
