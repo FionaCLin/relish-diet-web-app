@@ -1,0 +1,16 @@
+
+
+service: fresh-fridge
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+
+functions:
+  signup:
+    handler: handler.signup
+    events:
+      - http:
+          path: users/signup
+          method: post

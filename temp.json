@@ -1,0 +1,119 @@
+{
+  "message": "Go Serverless v1.0! Your function executed successfully!",
+  "input": {
+    "operation": "echo",
+    "payload": {
+      "somekey1": "somevalue1",
+      "somekey2": "somevalue2"
+    }
+  },
+  "event": {
+    "resource": "/users/signup",
+    "path": "/users/signup",
+    "httpMethod": "POST",
+    "headers": {
+      "Accept": "*/*",
+      "CloudFront-Forwarded-Proto": "https",
+      "CloudFront-Is-Desktop-Viewer": "true",
+      "CloudFront-Is-Mobile-Viewer": "false",
+      "CloudFront-Is-SmartTV-Viewer": "false",
+      "CloudFront-Is-Tablet-Viewer": "false",
+      "CloudFront-Viewer-Country": "AU",
+      "content-type": "application/x-www-form-urlencoded",
+      "Host": "2e0zhgvx0l.execute-api.us-east-1.amazonaws.com",
+      "User-Agent": "curl/7.54.0",
+      "Via": "2.0 c7989abc01ddee23ed6041935c1a6e9d.cloudfront.net (CloudFront)",
+      "X-Amz-Cf-Id": "JSRNCQpCvdvcCzpm1CFAPiRxmXk6MgyeuElfIm9EGqHE5CQWSQ3wfw==",
+      "X-Amzn-Trace-Id": "Root=1-5df467f0-72e3a83cdba98448770e049c",
+      "X-Forwarded-For": "124.169.30.114, 64.252.184.147",
+      "X-Forwarded-Port": "443",
+      "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+      "Accept": [
+        "*/*"
+      ],
+      "CloudFront-Forwarded-Proto": [
+        "https"
+      ],
+      "CloudFront-Is-Desktop-Viewer": [
+        "true"
+      ],
+      "CloudFront-Is-Mobile-Viewer": [
+        "false"
+      ],
+      "CloudFront-Is-SmartTV-Viewer": [
+        "false"
+      ],
+      "CloudFront-Is-Tablet-Viewer": [
+        "false"
+      ],
+      "CloudFront-Viewer-Country": [
+        "AU"
+      ],
+      "content-type": [
+        "application/x-www-form-urlencoded"
+      ],
+      "Host": [
+        "2e0zhgvx0l.execute-api.us-east-1.amazonaws.com"
+      ],
+      "User-Agent": [
+        "curl/7.54.0"
+      ],
+      "Via": [
+        "2.0 c7989abc01ddee23ed6041935c1a6e9d.cloudfront.net (CloudFront)"
+      ],
+      "X-Amz-Cf-Id": [
+        "JSRNCQpCvdvcCzpm1CFAPiRxmXk6MgyeuElfIm9EGqHE5CQWSQ3wfw=="
+      ],
+      "X-Amzn-Trace-Id": [
+        "Root=1-5df467f0-72e3a83cdba98448770e049c"
+      ],
+      "X-Forwarded-For": [
+        "124.169.30.114, 64.252.184.147"
+      ],
+      "X-Forwarded-Port": [
+        "443"
+      ],
+      "X-Forwarded-Proto": [
+        "https"
+      ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+      "resourceId": "1fmkbv",
+      "resourcePath": "/users/signup",
+      "httpMethod": "POST",
+      "extendedRequestId": "ErUtjHAcIAMF0VQ=",
+      "requestTime": "14/Dec/2019:04:41:20 +0000",
+      "path": "/dev/users/signup",
+      "accountId": "505595132356",
+      "protocol": "HTTP/1.1",
+      "stage": "dev",
+      "domainPrefix": "2e0zhgvx0l",
+      "requestTimeEpoch": 1576298480283,
+      "requestId": "6fed9756-406d-48bf-85eb-e8e7354d529a",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": null,
+        "cognitoIdentityId": null,
+        "caller": null,
+        "sourceIp": "124.169.30.114",
+        "principalOrgId": null,
+        "accessKey": null,
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": null,
+        "userAgent": "curl/7.54.0",
+        "user": null
+      },
+      "domainName": "2e0zhgvx0l.execute-api.us-east-1.amazonaws.com",
+      "apiId": "2e0zhgvx0l"
+    },
+    "body": "{\"operation\":\"echo\",\"payload\":{\"somekey1\":\"somevalue1\",\"somekey2\":\"somevalue2\"}}",
+    "isBase64Encoded": false
+  }
+}
