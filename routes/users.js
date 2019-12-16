@@ -50,10 +50,13 @@ module.exports = (app, api) => {
  */
 
   app.post('/api/users/login', function (req, res) {
+    console.log('ppp')
     api.users.auth(
       req.body.email,
       req.body.password,
       (err, user) => {
+        console.log(err, user);
+
         if (err) {
           res.status(400).send(err);
         }

@@ -5,6 +5,7 @@ const cons = require('consolidate');
 const dust = require('dustjs-helpers');
 const async = require('async');
 const pg = require('pg');
+const cors = require('cors')
 
 module.exports = (config, opts) => {
   config = config || {};
@@ -30,9 +31,15 @@ module.exports = (config, opts) => {
   server.use(express.static(path.join(__dirname, 'public')));
   
   // Body parser middleware
-  server.use(bodyParser.urlencoded({extended: false}));
   server.use(bodyParser.json());
-  
+  server.use(bodyParser.urlencoded({extended: false}));
+
+  server.use(cors())
+
+
+if(process.env.NODE_ENV == 'dev') server.use(logger('dev'));
+
+
   let routes = require('../../routes/index')(config, server);
   // server.use('/', routes);
 
