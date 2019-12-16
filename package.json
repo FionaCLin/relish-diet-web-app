@@ -16,6 +16,7 @@
     "body-parser": "*",
     "bootstrap": "^4.1.0",
     "consolidate": "*",
+    "cors": "^2.8.5",
     "dust": "*",
     "dustjs-helpers": "*",
     "dustjs-linkedin": "*",

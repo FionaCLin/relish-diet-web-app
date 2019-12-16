@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-function login(email, password) {
+export default function login(email, password) {
   console.log(email, password)
   let token = null;
   axios.post('http://localhost:3002/api/users/login', {
@@ -17,8 +17,4 @@ function login(email, password) {
     console.log(error);
   });
   return token;
-}
-
-export default {
-  login
 }
