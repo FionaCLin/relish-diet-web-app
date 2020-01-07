@@ -3,13 +3,13 @@
 /**
  * Module dependencies.
  */
-'use strict';
-var config = require('../config')(process.env.NODE_ENV);
+"use strict";
+var config = require("../config")(process.env.NODE_ENV);
 
-var sprintf = require('sprintf').sprintf;
-var app = require('../app')(config);
-var debug = require('debug')('server:server');
-var http = require('http');
+var sprintf = require("sprintf").sprintf;
+var app = require("../app")(config);
+var debug = require("debug")("server:server");
+var http = require("http");
 
 /**
  * Get port from environment and store in Express.
@@ -93,5 +93,16 @@ var http = require('http');
 // }
 
 app.start(() => {
-  console.log(sprintf('start %-3s %-11s', config.nickname, config.env));
-})
+  console.log(sprintf("start %-3s %-11s", config.nickname, config.env));
+});
+
+process.on("SIGINT", () => {
+  console.log("shutting down...");
+
+  if (!app) {
+    return next();
+  }
+  app.stop(() => {
+    console.log("finished");
+  });
+});

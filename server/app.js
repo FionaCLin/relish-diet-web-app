@@ -3,13 +3,13 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const async = require("async");
 
 const graphqlHTTP = require("express-graphql");
 const schema = require("./schema/schema");
 
-const app = express();
-
 module.exports = (config, opts) => {
+  let app = express();
   config = config || {};
 
   opts = opts || {
@@ -28,10 +28,13 @@ module.exports = (config, opts) => {
   app.use(express.static(path.join(__dirname, "public")));
   app.use(cors());
 
-  app.use("/graphql", graphqlHTTP({ 
-    schema,
-    graphiql: true
-   }));
+  app.use(
+    "/graphql",
+    graphqlHTTP({
+      schema,
+      graphiql: true
+    })
+  );
 
   app.use("/", indexRouter);
   app.use("/api/users", usersRouter);
@@ -46,7 +49,7 @@ module.exports = (config, opts) => {
   // server lifecycle manmagement
   let start = done => {
     // Server
-    app.listen(config.server.port, function() {
+    app = app.listen(config.server.port, function() {
       console.log("Server started on port", config.server.port);
       done();
     });
