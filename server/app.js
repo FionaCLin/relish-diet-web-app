@@ -31,7 +31,7 @@ module.exports = (config, opts) => {
   app.use("/graphql", graphqlHTTP({ schema }));
 
   app.use("/", indexRouter);
-  app.use("/users", usersRouter);
+  app.use("/api/users", usersRouter);
 
   // // Body parser middleware
   // app.use(bodyParser.urlencoded({ extended: false }));
