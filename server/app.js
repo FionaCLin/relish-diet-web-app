@@ -28,7 +28,10 @@ module.exports = (config, opts) => {
   app.use(express.static(path.join(__dirname, "public")));
   app.use(cors());
 
-  app.use("/graphql", graphqlHTTP({ schema }));
+  app.use("/graphql", graphqlHTTP({ 
+    schema,
+    graphiql: true
+   }));
 
   app.use("/", indexRouter);
   app.use("/api/users", usersRouter);
