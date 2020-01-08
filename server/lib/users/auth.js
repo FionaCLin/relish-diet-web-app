@@ -10,9 +10,14 @@ module.exports = (opts) => {
 
   lib.users.auth = (email, password, done) => {
     let user;
+    console.log(email, password)
+
 
     let getUser = (next) => {
       lib.users.getByEmail(email, (err, res) => {
+        if(!err && !res){
+          return next(new Error('unknown user'))
+        }
         if (err) {
           return next(err);
         }
@@ -34,7 +39,7 @@ module.exports = (opts) => {
           tokenkey: tokenKey
         }, (err, res) => {
           if (err || !res) {
-            return done(new Error('invalid token'));
+            return next(new Error('invalid token'));
           }
           user = res;
           next(err);
