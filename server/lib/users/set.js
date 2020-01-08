@@ -6,13 +6,14 @@ module.exports = (opts) => {
 
   lib.users.set = (user_id, attrs, done) => {
     let keys = [
+      'avatar',
       'email',
       'username',
       'birthday',
       'goal',
       'gender',
-      'nameGiven',
-      'nameFamily',
+      'givenname',
+      'familyname',
       'memberno',
       'calories_goal',
       'token',
