@@ -5,8 +5,6 @@ const logger = require("morgan");
 const cors = require("cors");
 const async = require("async");
 
-const graphqlHTTP = require("express-graphql");
-
 module.exports = (config, opts) => {
   let app = express();
   config = config || {};
@@ -17,7 +15,6 @@ module.exports = (config, opts) => {
 
   const api = require("./api")(config);
   const lib = api.lib
-  const schema = require("./schema/schema")(lib);
 
   const indexRouter = require("./routes/index")(api);
   const usersRouter = require("./routes/users")(api);
@@ -28,14 +25,6 @@ module.exports = (config, opts) => {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, "public")));
   app.use(cors());
-
-  app.use(
-    "/graphql",
-    graphqlHTTP({
-      schema,
-      graphiql: true
-    })
-  );
 
   app.use("/", indexRouter);
   app.use("/api/users", usersRouter);
