@@ -33,7 +33,7 @@ module.exports = (config) => {
   };
 
   let quit = (done) => {
-    pool.end();
+    pool.end().catch(e=>{});
     return done();
   };
 

@@ -6,7 +6,6 @@ const cors = require("cors");
 const async = require("async");
 
 const graphqlHTTP = require("express-graphql");
-const schema = require("./schema/schema");
 
 module.exports = (config, opts) => {
   let app = express();
@@ -17,6 +16,8 @@ module.exports = (config, opts) => {
   };
 
   const api = require("./api")(config);
+  const lib = api.lib
+  const schema = require("./schema/schema")(lib);
 
   const indexRouter = require("./routes/index")(api);
   const usersRouter = require("./routes/users")(api);

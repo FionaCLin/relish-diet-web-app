@@ -29,7 +29,7 @@ module.exports = api => {
   router.post("/login", function(req, res) {
     api.users.auth(req.body.email, req.body.password, (err, user) => {
       if (err) {
-        res.status(400).send(err.message);
+        return res.status(400).send(err.message);
       }
       res.status(200).send(user);
     });

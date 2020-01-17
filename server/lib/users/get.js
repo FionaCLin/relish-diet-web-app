@@ -21,7 +21,7 @@ module.exports = (opts) => {
           delete res.pw_salt;
           delete res.tokenkey;
         }
-        done(err, res);
+        return done(err, res);
       });
   };
 };

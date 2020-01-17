@@ -19,8 +19,8 @@ module.exports = (opts) => {
       'username',
       'password',
       'email',
-      'nameGiven',
-      'nameFamily',
+      'givenname',
+      'familyname',
       'birthday',
       'goal',
       'calories_goal',
@@ -28,8 +28,8 @@ module.exports = (opts) => {
     ];
 
     attrs = _.pick(attrs, keys);
-    if (!attrs.hasOwnProperty('username') || !attrs.username) {
-      return done(new Error('No username or email address prvoided'));
+    if (!attrs.hasOwnProperty('email') || !attrs.email) {
+      return done(new Error('No username or email address proVided'));
     }
 
     var confirmEmailUnique = (next) => {
@@ -51,6 +51,7 @@ module.exports = (opts) => {
 
     var confirmUsernameUnique = (next) => {
       if (!attrs.username) {
+        attrs.username = attrs.email;
         return next();
       }
       lib.users.getByUsername(
