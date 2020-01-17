@@ -2,7 +2,7 @@ import React from 'react';
 
 import bg_img from '../constants/globalFunctions';
 
-const Background = (props) => {
+const Background = () => {
   return (
     <div id="background-carousel">
       <div id="myCarousel" className="carousel slide myCarouselDiv" data-ride="carousel">

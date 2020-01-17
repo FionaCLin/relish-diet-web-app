@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
-import users from './user';
+import user from './user';
 import searchInputForm from './searchInputForm';
 import dashboard from './dashboard';
 import bookmarks from './bookMark';
 import recipeList from './recipeList';
 
 const rootReducer = combineReducers({
-  users,
+  user,
   searchInputForm,
   dashboard,
   recipeList,
