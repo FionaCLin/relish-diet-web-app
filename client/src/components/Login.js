@@ -68,14 +68,18 @@ const mapDispatchToProps = dispatch => {
         .then(res => {
           opts.history.push("/dashboard");
           dispatch({
-            type: "",
-            payload: { user: res.data, error: "" }
+            type: constants.user.USER_DEFAULT,
+            payload: { user: {...res.data}, error: "" }
+          });
+          dispatch({
+            type: constants.user.PROFILE_DEFAULT,
+            payload: { user: {...res.data},  error: "" }
           });
           return;
         })
         .catch(err => {
           dispatch({
-            type: "",
+            type: constants.user.USER_DEFAULT,
             payload: { error: `* ${err.response.data}` }
           });
         });

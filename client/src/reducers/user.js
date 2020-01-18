@@ -2,6 +2,7 @@ import constants from "../constants/";
 import { login, signup } from "../api.js";
 
 const initialState = {
+  passwordOpen: false,
   loginUserEmailInput: "",
   password: "",
   user: null,
@@ -48,7 +49,10 @@ export default function users(state = initialState, action) {
     case constants.user.SIGNUP_SUBMIT:
       action.res = signup(state.loginUserEmailInput, state.password);
       return state;
+    case constants.user.USER_DEFAULT:
+      let newUser = { ...action.payload, ...state.user };
+      return { ...state, ...newUser };
     default:
-      return { ...state, ...action.payload };
+      return state;
   }
 }
