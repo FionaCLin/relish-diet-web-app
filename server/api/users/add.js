@@ -29,7 +29,7 @@ module.exports = (opts) => {
 
     attrs = _.pick(attrs, keys);
     if (!attrs.hasOwnProperty('email') || !attrs.email) {
-      return done(new Error('No username or email address proVided'));
+      return done(new Error('No username or email address provided'));
     }
 
     var confirmEmailUnique = (next) => {
