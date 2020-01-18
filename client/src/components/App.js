@@ -42,12 +42,10 @@ const App = props => {
           exact
           strict
           component={Profile}
-          user={props.user.user}
         />
         <PropsRoute
           path="/profile/edit"
           component={ProfileEdit}
-          user={props.user.user}
         />
       </div>
     </Router>
