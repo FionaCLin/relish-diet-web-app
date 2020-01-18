@@ -1,43 +1,44 @@
-'use strict';
+"use strict";
 
-module.exports = (opts) => {
+module.exports = opts => {
   let db = opts.db;
   let lib = opts.lib;
 
   lib.users.set = (user_id, attrs, done) => {
     let keys = [
-      'avatar',
-      'email',
-      'username',
-      'birthday',
-      'goal',
-      'gender',
-      'givenname',
-      'familyname',
-      'memberno',
-      'calories_goal',
-      'token',
-      'tokenKey'
+      "avatar",
+      "email",
+      "username",
+      "birthday",
+      "goal",
+      "gender",
+      "givenname",
+      "familyname",
+      "memberno",
+      "calories_goal",
+      "height",
+      "weight",
+      "token",
+      "tokenKey"
     ];
 
-    let sql = 'UPDATE members SET ';
+    let sql = "UPDATE members SET ";
 
     let f = [];
     let g = [];
     let ix = 1;
-    keys.forEach(
-      (key) => {
-        if (!attrs.hasOwnProperty(key)) {
-          return;
-        }
-        let val = attrs[key];
-        f.push(val);
-        g.push(key + '=$' + (ix));
-        ix++;
-      });
+    keys.forEach(key => {
+      if (!attrs.hasOwnProperty(key)) {
+        return;
+      }
+      let val = attrs[key];
+      f.push(val);
+      g.push(key + "=$" + ix);
+      ix++;
+    });
 
-    sql += g.join(', ');
-    sql += ' WHERE id=$' + ix;
+    sql += g.join(", ");
+    sql += " WHERE id=$" + ix;
 
     f.push(user_id);
 
@@ -46,7 +47,7 @@ module.exports = (opts) => {
       return lib.users.get(user_id, done);
     }
 
-    db.query(sql, f, (err) => {
+    db.query(sql, f, err => {
       if (err) {
         return done(err, null);
       }

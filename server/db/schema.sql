@@ -41,7 +41,8 @@ CREATE TABLE Members (
   birthday DATE,
   goal TEXT DEFAULT '',
   calories_goal INTEGER DEFAULT 0,
-  -- not sure if it should have its own table
+  height FLOAT DEFAULT 0,
+  weight FLOAT DEFAULT 0,
   gender VARCHAR(1),
   avatar TEXT,
   token INTEGER,
