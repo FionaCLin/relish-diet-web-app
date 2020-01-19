@@ -36,7 +36,7 @@ module.exports = (opts) => {
       lib.users.set(
         user.id, {
           token: formattedToken,
-          tokenkey: tokenKey
+          tokenKey: tokenKey
         }, (err, res) => {
           if (err || !res) {
             return next(new Error('invalid token'));

@@ -16,8 +16,8 @@ module.exports = (opts) => {
       'birthday',
       'goal',
       'gender',
-      'nameGiven',
-      'nameFamily',
+      'givenname',
+      'familyname',
       'calories_goal',
       'height',
       'weight'
@@ -30,7 +30,7 @@ module.exports = (opts) => {
         user_id,
         (err, res) => {
           if (!res) {
-            next(new Error('unknown user'));
+            return next(new Error('unknown user'));
           }
           user = res;
           next(err);
