@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-unicorn": "^28.0.2",
+    "prettier": "^2.2.1",
+    "typescript-eslint": "^0.0.1-alpha.0"
+  },
+  "dependencies": {
+    "@aws-amplify/auth": "^3.4.27",
+    "@aws-amplify/core": "^3.8.19",
+    "@typescript-eslint/parser": "^4.17.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "eslint-plugin-import": "^2.22.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.3"
+  }
+}
