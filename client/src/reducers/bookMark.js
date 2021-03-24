@@ -1,5 +1,4 @@
 import constants from '../constants/'
-import api from '../api.js'
 
 const initialState = [
   {

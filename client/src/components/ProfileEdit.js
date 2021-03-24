@@ -390,7 +390,7 @@ const mapDispatchToProps = dispatch => {
       let updated = {};
       let update = {};
       for (let k of Object.keys(user.oldUserState)) {
-        if (user[k] != user.oldUserState[k]) {
+        if (user[k] !== user.oldUserState[k]) {
           updated[k] = user[k];
         } else if (user[k]) {
           update[k] = user[k];

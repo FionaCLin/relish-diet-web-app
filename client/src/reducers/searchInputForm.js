@@ -1,5 +1,4 @@
 import constants from '../constants/'
-import api from '../api.js'
 
 const initialState = [
   {
@@ -16,7 +15,7 @@ export default function searchInputFrom(state = initialState, action) {
       });
     case constants.SEARCH_CLICK:
       console.log(state.searchInputValue);
-      // action.token = api.login(state.loginUserEmailInput, state.password);
+      // action.token = api.login(state.loginUserNameInput, state.password);
       return state;// not sure yet
     default:
       return state;

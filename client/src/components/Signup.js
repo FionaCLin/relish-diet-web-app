@@ -47,7 +47,7 @@ const Signup = props => {
 
 const mapStateToProps = state => {
   return {
-    inputValue: state.user.loginUserEmailInput,
+    inputValue: state.user.loginUserNameInput,
     password: state.user.password,
     error: state.user.error
   };
