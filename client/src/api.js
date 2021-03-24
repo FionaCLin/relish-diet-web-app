@@ -1,16 +1,17 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3002/",
-  timeout: 1000
+  baseURL: "http://localhost:8080/v1/users",
+  headers: { 'content-type': 'application/json' },
+  timeout: 5000
 });
 
-export function login(email, password) {
-  return instance.post("login", {
-    email: email,
+export async function login({ username, password }) {
+  return instance.post("/login", {
+    username: username,
     password: password
   });
-}
+};
 
 export function signup(email, password) {
   return instance.post("signup", {
