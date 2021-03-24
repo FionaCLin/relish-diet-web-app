@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import PropsRoute from "../constants/routeConst";
 import { Route, BrowserRouter as Router } from "react-router-dom";
-import Login from "./Login";
+import Login from "./login/container.js";
 import Signup from "./Signup";
+import Dashboard from "./dashboard/container.js";
 import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
 import NavigationBar from "./NavigationBar";
@@ -17,6 +18,8 @@ const App = props => {
         <Route path="/login" exact strict component={Login} />
         <Route path="/signup" exact strict component={Signup} />
         <Route path="/" exact strict component={Login} />
+        <PropsRoute path="/dashboard" exact strict component={Dashboard} />
+
         {/* <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
               <Route path="/search" exact strict component={Dashboard} />
               <PropsRoute path="/meallist" exact strict component={MealList} mealPlans={this.state.mealPlans}
