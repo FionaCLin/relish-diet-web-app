@@ -1,15 +1,16 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Background from "../Background";
 import CircularProgress from '@material-ui/core/CircularProgress';
-const Login = props => {
-  const { loading, error, handleEmailChange, handlePwdChange, onClickLogin } = props;
+
+const Login = ({loading, error, handleEmailChange, handlePwdChange, onClickLogin, history}) => {
   return (
     <div>
-      <Background />
+      <Background/>
       <div id="content-wrapper">
         <div className="container">
           <div className="well login">
-            <p style={{ color: "red" }}>{error && error}</p>
+            <p style={{color: "red"}}>{error && error}</p>
             <input
               className="form-control"
               onChange={handleEmailChange}
@@ -25,19 +26,28 @@ const Login = props => {
               type="password"
             />
             <div
-              onClick={e => onClickLogin(e, props)}
+              onClick={() => onClickLogin(history.push)}
               className="dashboard btn btn-success"
 
             >
-              <span style={loading ? { margin: "0 8px 0 0 " } : {}}>Login</span>
+              <span style={loading ? {margin: "0 8px 0 0 "} : {}}>Login</span>
               {loading && <CircularProgress size={10}
-                thickness={5} color={"inherit"} />}
+                thickness={5} color={"inherit"}/>}
             </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
+
+Login.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  handleEmailChange: PropTypes.func,
+  handlePwdChange: PropTypes.func,
+  onClickLogin: PropTypes.func,
+  history: PropTypes.object,
+}
 
 export default Login
