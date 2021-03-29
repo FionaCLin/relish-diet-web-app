@@ -1,5 +1,5 @@
 import constants from "../../constants";
-import { signIn } from '../../reducers/user.js'
+import {signIn} from '../../reducers/user.js'
 
 export const mapStateToProps = state => {
   return {
@@ -25,9 +25,13 @@ export const mapDispatchToProps = dispatch => {
       });
     },
     onClickLogin: async (e, opts) => {
-      const res = await dispatch(signIn)
-      if (res.status === 200) {
-        opts.history.push('/dashboard')
+      try {
+        const {status = null} = await dispatch(signIn)
+        if (status === 200) {
+          opts.history.push('/dashboard')
+        }
+      } catch (e) {
+        console.error(e.message)
       }
     }
   };
