@@ -1,11 +1,11 @@
-import { login as loginLib } from '../../lib/users/index.js'
+import {login as loginLibrary} from '../../lib/users/index.js';
 
-export default async function login(req, res, next) {
+export default async function login(request, response, next) {
   try {
-    const { password = '', username = '' } = req.body;
-    const user = await loginLib({ password, username })
-    res.send({ user })
+    const {password = '', username = ''} = request.body;
+    const user = await loginLibrary({password, username});
+    response.send({user});
   } catch (error) {
-    res.status(400).send(error.message); 
+    next(error.message);
   }
 }

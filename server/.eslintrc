@@ -1,13 +1,11 @@
 {
   "plugins": [
-    "@typescript-eslint",
     "prettier",
     "unicorn",
     "import"
   ],
   "extends": [
     "airbnb-typescript/base",
-    "plugin:@typescript-eslint/recommended",
     "plugin:unicorn/recommended",
     "plugin:prettier/recommended",
     "prettier"
@@ -25,8 +23,10 @@
     "node": true
   },
   "rules": {
-    "dot-notation": "off", // ESLint's rule
+    "dot-notation": "off",
+    // ESLint's rule
     "no-debugger": "off",
-    "no-console": 0
+    "no-console": 0,
+    "import/extensions": 0
   }
 }

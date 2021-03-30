@@ -1,1 +1,1 @@
-export {default as healthCheck} from './healthcheck.js'
+export {default as healthcheck} from './healthcheck.js';

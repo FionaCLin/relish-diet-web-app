@@ -1,1 +1,1 @@
-export {default as sample} from './sample.js'
+export {default as healthcheck} from './healthcheck.js';
