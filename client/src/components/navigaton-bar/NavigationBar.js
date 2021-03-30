@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const NavigationBar = ({user}) => {
   return (
-    <Navbar className='bg-white justify-content-between mb-0'>
+    <Navbar expand='sm' className='bg-white justify-content-between mb-0 mx-0'>
       <Nav>
         <Nav.Item>
           <Nav.Link href={user ? `/dashboard` : `/login`} style={{color: 'LimeGreen'}}>
@@ -15,10 +15,10 @@ const NavigationBar = ({user}) => {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav' className='justify-content-end'>
         {user ? <LoggedNavBarItems /> : <NavBarItems />}
       </Navbar.Collapse>
+      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
     </Navbar>
   );
 };
