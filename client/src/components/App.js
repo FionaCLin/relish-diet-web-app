@@ -1,24 +1,27 @@
-import React from "react";
-import { connect } from "react-redux";
-import PropsRoute from "../constants/routeConst";
-import { Route, BrowserRouter as Router } from "react-router-dom";
-import Login from "./login/container.js";
-import Signup from "./Signup";
-import Dashboard from "./dashboard/container.js";
-import Profile from "./Profile";
-import ProfileEdit from "./ProfileEdit";
-import NavigationBar from "./NavigationBar";
-import "./App.css";
+import React from 'react';
+import {connect} from 'react-redux';
+import PropsRoute from '../constants/routeConst';
+import {Route, BrowserRouter as Router} from 'react-router-dom';
+import Login from './login/container.js';
+import Signup from './Signup';
+import Dashboard from './dashboard/container.js';
+import Profile from './Profile';
+import ProfileEdit from './ProfileEdit';
+import NavigationBar from './navigaton-bar/container.js';
+import './App.css';
+import RecipePage from './recipe/RecipePage';
+import PropTypes from 'prop-types';
 
-const App = props => {
+const App = ({store}) => {
   return (
     <Router>
-      <div store={props.store}>
-        <NavigationBar />
-        <Route path="/login" exact strict component={Login} />
-        <Route path="/signup" exact strict component={Signup} />
-        <Route path="/" exact strict component={Login} />
-        <PropsRoute path="/dashboard" exact strict component={Dashboard} />
+      <div store={store}>
+        <Route path='/' component={NavigationBar} />
+        <Route path='/login' exact strict component={Login} />
+        <Route path='/signup' exact strict component={Signup} />
+        <Route path='/' exact strict component={Login} />
+        <PropsRoute path='/dashboard' exact strict component={Dashboard} />
+        <PropsRoute path='/recipe/:id' component={RecipePage} />
 
         {/* <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
               <Route path="/search" exact strict component={Dashboard} />
@@ -40,23 +43,18 @@ const App = props => {
                   curr_user={CURR_USER_ID} users={this.state.users} editBookmark={(users) => this.setState({users})} />
               <PropsRoute path="/recipe/:id" component={RecipePage} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
                   users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})}/>*/}
-        <PropsRoute
-          path="/profile"
-          exact
-          strict
-          component={Profile}
-        />
-        <PropsRoute
-          path="/profile/edit"
-          component={ProfileEdit}
-        />
+        <PropsRoute path='/profile' exact strict component={Profile} />
+        <PropsRoute path='/profile/edit' component={ProfileEdit} />
       </div>
     </Router>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return state;
 };
 
+App.propTypes = {
+  store: PropTypes.object,
+};
 export default connect(mapStateToProps)(App);
