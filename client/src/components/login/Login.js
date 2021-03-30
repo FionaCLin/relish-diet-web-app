@@ -1,38 +1,33 @@
-import React from "react";
-import PropTypes from 'prop-types'
-import Background from "../Background";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Background from '../Background';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Login = ({loading, error, handleEmailChange, handlePwdChange, onClickLogin, history}) => {
   return (
     <div>
-      <Background/>
-      <div id="content-wrapper">
-        <div className="container">
-          <div className="well login">
-            <p style={{color: "red"}}>{error && error}</p>
+      <Background />
+      <div id='content-wrapper'>
+        <div className='container'>
+          <div className='well login'>
+            <p style={{color: 'red'}}>{error && error}</p>
             <input
-              className="form-control"
+              className='form-control'
               onChange={handleEmailChange}
-              id="emailInput"
-              placeholder="Username"
-              type="text"
+              id='emailInput'
+              placeholder='Username'
+              type='text'
             />
             <input
-              className="form-control"
-              id="emailInput"
-              placeholder="Password"
+              className='form-control'
+              id='passwordInput'
+              placeholder='Password'
               onChange={handlePwdChange}
-              type="password"
+              type='password'
             />
-            <div
-              onClick={() => onClickLogin(history.push)}
-              className="dashboard btn btn-success"
-
-            >
-              <span style={loading ? {margin: "0 8px 0 0 "} : {}}>Login</span>
-              {loading && <CircularProgress size={10}
-                thickness={5} color={"inherit"}/>}
+            <div onClick={() => onClickLogin(history.push)} className='dashboard btn btn-success'>
+              <span style={loading ? {margin: '0 8px 0 0 '} : {}}>Login</span>
+              {loading && <CircularProgress size={10} thickness={5} color={'inherit'} />}
             </div>
           </div>
         </div>
@@ -48,6 +43,6 @@ Login.propTypes = {
   handlePwdChange: PropTypes.func,
   onClickLogin: PropTypes.func,
   history: PropTypes.object,
-}
+};
 
-export default Login
+export default Login;
