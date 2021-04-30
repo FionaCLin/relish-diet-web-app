@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const NavigationBar = ({user}) => {
   return (
-    <Navbar expand='sm' className='bg-white justify-content-between mb-0 mx-0'>
+    <Navbar expand='sm' className='bg-white border justify-content-between mb-0 mx-0'>
       <Nav>
         <Nav.Item>
           <Nav.Link href={user ? `/dashboard` : `/login`} style={{color: 'LimeGreen'}}>

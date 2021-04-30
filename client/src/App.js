@@ -1,31 +1,32 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import PropsRoute from '../constants/routeConst';
-import {Route, BrowserRouter as Router} from 'react-router-dom';
-import Login from './login/container.js';
-import Signup from './Signup';
-import Dashboard from './dashboard/container.js';
-import Profile from './Profile';
-import ProfileEdit from './ProfileEdit';
-import NavigationBar from './navigaton-bar/container.js';
-import './App.css';
-import RecipePage from './recipe/RecipePage';
-import PropTypes from 'prop-types';
+import React from "react";
+import { connect } from "react-redux";
+import PropsRoute from "./constants/routeConst";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+import Login from "./components/login/container.js";
+import Signup from "./components/Signup";
+import Dashboard from "./components/dashboard/container.js";
+import Profile from "./components/Profile";
+import MealList from "./components/meallist/container.js";
+import ProfileEdit from "./components/ProfileEdit";
+import NavigationBar from "./components/navigaton-bar/container.js";
+import "./App.css";
+import RecipePage from "./components/recipe/RecipePage";
+import PropTypes from "prop-types";
 
-const App = ({store}) => {
+const App = ({ store }) => {
   return (
     <Router>
       <div store={store}>
-        <Route path='/' component={NavigationBar} />
-        <Route path='/login' exact strict component={Login} />
-        <Route path='/signup' exact strict component={Signup} />
-        <Route path='/' exact strict component={Login} />
-        <PropsRoute path='/dashboard' exact strict component={Dashboard} />
-        <PropsRoute path='/recipe/:id' component={RecipePage} />
+        <Route path="/" component={NavigationBar} />
+        <Route path="/login" exact strict component={Login} />
+        <Route path="/signup" exact strict component={Signup} />
+        <Route path="/" exact strict component={Login} />
+        <PropsRoute path="/dashboard" exact strict component={Dashboard} />
+        <PropsRoute path="/recipe/:id" component={RecipePage} />
+        <PropsRoute path="/meallist" exact strict component={MealList} />
 
         {/* <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
               <Route path="/search" exact strict component={Dashboard} />
-              <PropsRoute path="/meallist" exact strict component={MealList} mealPlans={this.state.mealPlans}
                   curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
               <PropsRoute path="/mealplan/:mode" exact strict component={MealPlanner} recipeInfo={this.state.recipes}
                   users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans} recipeInfo={this.state.recipes}
@@ -43,8 +44,8 @@ const App = ({store}) => {
                   curr_user={CURR_USER_ID} users={this.state.users} editBookmark={(users) => this.setState({users})} />
               <PropsRoute path="/recipe/:id" component={RecipePage} curr_user={CURR_USER_ID} recipeInfo={this.state.recipes}
                   users={this.state.users} addBookmark={(users) => this.setState({users})} addComment={(recipes) => this.setState({recipes})}/>*/}
-        <PropsRoute path='/profile' exact strict component={Profile} />
-        <PropsRoute path='/profile/edit' component={ProfileEdit} />
+        <PropsRoute path="/profile" exact strict component={Profile} />
+        <PropsRoute path="/profile/edit" component={ProfileEdit} />
       </div>
     </Router>
   );

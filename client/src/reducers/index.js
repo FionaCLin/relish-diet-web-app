@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux';
 import user from './user';
 import searchInputForm from './searchInputForm';
 import dashboard from './dashboard';
 import bookmarks from './bookMark';
+import mealList from './mealList';
+import recipe from './recipe';
 import recipeList from './recipeList';
 import profile from './profile';
 
@@ -11,8 +13,10 @@ const rootReducer = combineReducers({
   profile,
   searchInputForm,
   dashboard,
+  mealList,
   recipeList,
-  bookmarks
-})
+  recipe,
+  bookmarks,
+});
 
-export default rootReducer
+export default rootReducer;

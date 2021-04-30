@@ -15,7 +15,7 @@ const Dashboard = ({recipesList}) => {
       <Container className='pt-2 m-auto'>
         <SearchInputForm />
         {rows.map((row, index) => (
-          <Row className='justify-content-xl-between' key={index}>
+          <Row className='justify-content-space-between' key={index}>
             {row.map((item, i) => (
               <Col md='auto' key={i}>
                 <Link to={'recipe/' + item.id} className='dash_img_wrapper' style={{float: 'left'}}>

@@ -1,0 +1,5 @@
+import {connect} from 'react-redux';
+import {mapDispatchToProps, mapStateToProps} from './connector.js'
+import MealList from './MealList.js'
+
+export default connect(mapStateToProps, mapDispatchToProps)(MealList);

@@ -3,3 +3,5 @@ package-lock.json
 .DS_Store
 bk
 config/config.js
+client-mock
+serverV2

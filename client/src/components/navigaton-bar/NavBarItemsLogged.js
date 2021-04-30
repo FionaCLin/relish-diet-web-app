@@ -27,7 +27,7 @@ const LoggedNavBarItems = ({username}) => {
         </NavDropdown.Item>
       </NavDropdown>
 
-      <NavDropdown title={`Welcome, ${username}!`} id='collasible-nav-dropdown' className='mx-xl-auto px-xl-5'>
+      <NavDropdown title={`Welcome, ${username}!`} id='collasible-nav-dropdown' className='mx-xl-auto px-xl-3'>
         <NavDropdown.Item href='/profile'>Profile</NavDropdown.Item>
         <NavDropdown.Item href='/login' onClick={() => localStorage.removeItem('state')}>
           Logout
