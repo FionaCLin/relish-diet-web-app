@@ -4,7 +4,7 @@ import {Nav, NavDropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const LoggedNavBarItems = ({username}) => {
-  const keys = {dashboard: {title: 'Dashboard', icon: 'search'}, meallist: {title: 'Meal Plan', icon: 'calendar'}};
+  const keys = {dashboard: {title: 'Dashboard', icon: 'search'}, 'meal-list': {title: 'Meal Plan', icon: 'calendar'}};
 
   return (
     <Nav>

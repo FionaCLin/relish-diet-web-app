@@ -6,11 +6,12 @@ import Login from "./components/login/container.js";
 import Signup from "./components/Signup";
 import Dashboard from "./components/dashboard/container.js";
 import Profile from "./components/Profile";
-import MealList from "./components/meallist/container.js";
+import MealList from "./components/meal-list/container.js";
 import ProfileEdit from "./components/ProfileEdit";
-import NavigationBar from "./components/navigaton-bar/container.js";
+import NavigationBar from "./components/navigation-bar/container.js";
 import "./App.css";
-import RecipePage from "./components/recipe/RecipePage";
+import RecipePage from "./components/recipe/container.js";
+import RecipeList from "./components/recipe-list/container.js";
 import PropTypes from "prop-types";
 
 const App = ({ store }) => {
@@ -22,8 +23,9 @@ const App = ({ store }) => {
         <Route path="/signup" exact strict component={Signup} />
         <Route path="/" exact strict component={Login} />
         <PropsRoute path="/dashboard" exact strict component={Dashboard} />
+        <PropsRoute path="/recipes" exact strict component={RecipeList}/>
         <PropsRoute path="/recipe/:id" component={RecipePage} />
-        <PropsRoute path="/meallist" exact strict component={MealList} />
+        <PropsRoute path="/meal-list" exact strict component={MealList} />
 
         {/* <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
               <Route path="/search" exact strict component={Dashboard} />

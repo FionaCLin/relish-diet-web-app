@@ -1,32 +1,44 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "extends": [
-    "plugin:react/recommended",
-    "eslint:recommended"
-  ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier", "unicorn", "import"],
+  "extends": ["airbnb-typescript/base", "plugin:unicorn/recommended", "plugin:prettier/recommended", "prettier"],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "ecmaVersion": 2020,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": [".tsconfig.json"],
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
   },
-  "plugins": [
-    "react",
-    "prettier",
-    "import"
-  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
   "rules": {
-    "indent": [
+    "dot-notation": "off",
+    // ESLint's rule
+    "no-debugger": "off",
+    "no-console": 0,
+    "import/extensions": 0,
+    "sort-imports": [
       "error",
-      2
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+      }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.test.js"],
+      "rules": {
+        "max-nested-callbacks": "off"
+      }
+    }
+  ]
 }
