@@ -2,7 +2,7 @@ import React from 'react';
 import constants from '../../constants';
 import {isUndefined} from 'util';
 import {CURR_USER_ID, recipeInfo, users} from '../../constants/dummyData';
-import {Card, Row, Col} from 'react-bootstrap';
+import {Container, Card, Row, Col} from 'react-bootstrap';
 
 class RecipePage extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class RecipePage extends React.Component {
     let recipeIndex = null;
     let recipe = null;
     console.log(props, this.props);
-    this.props.recipeInfo.map((item, index) => {
+    this.props.recipeInfo.forEach((item, index) => {
       if (item.id === parseInt(this.props.match.params.id, 10)) {
         recipeIndex = index;
         recipe = item;
@@ -109,189 +109,191 @@ class RecipePage extends React.Component {
     let {comment, recipe, bookmarked} = this.state;
 
     return (
-      <div className='bg-white px-5 pt-4'>
-        <Card>
-          <Card.Header className='justify-content-around py-0 '>
-            <Row className='justify-content-center align-items-center'>
-              <Col className='text-black-50 text-capitalize'>
-                {recipe.name}&nbsp;
-                {this.props.users && <h6>by {this.props.users.find((x) => x.id == recipe.creator).username}</h6>}
-              </Col>
-              <Col>
-                {recipe.creator !== this.props.curr_user ? (
-                  <button
-                    className={`text-black-50 text-capitalize btn btn${
-                      bookmarked ? '-success bookmarkBtn' : '-default bookmarkBtn'
-                    }`}
-                    type='button'
-                    onClick={(e) => this.editBookMark(e)}
-                  >
-                    <span className='glyphicon glyphicon-bookmark' aria-hidden='true'></span>
-                    {`\xa0\xa0Bookmark${bookmarked ? 'ed' : ''}`}
-                  </button>
-                ) : null}
-              </Col>
-            </Row>
-          </Card.Header>
-          <Card.Body className='px-4'>
-            <Row className=''>
-              <Col sm={12} md={7} lg={8} xl={8}>
-                <div className='panel panel-default'>
-                  <table className='table table-bordered table-striped' style={{textAlign: 'center'}}>
+      <div className='bg-white' style={{minHeight: '800px'}}>
+        <Container className='pt-2 m-auto'>
+          <Card>
+            <Card.Header className='justify-content-around py-0 '>
+              <Row className='justify-content-center align-items-center'>
+                <Col className='text-black-50 text-capitalize'>
+                  {recipe.name}&nbsp;
+                  {this.props.users && <h6>by {this.props.users.find((x) => x.id == recipe.creator).username}</h6>}
+                </Col>
+                <Col>
+                  {recipe.creator !== this.props.curr_user ? (
+                    <button
+                      className={`text-black-50 text-capitalize btn btn${
+                        bookmarked ? '-success bookmarkBtn' : '-default bookmarkBtn'
+                      }`}
+                      type='button'
+                      onClick={(e) => this.editBookMark(e)}
+                    >
+                      <span className='glyphicon glyphicon-bookmark' aria-hidden='true'></span>
+                      {`\xa0\xa0Bookmark${bookmarked ? 'ed' : ''}`}
+                    </button>
+                  ) : null}
+                </Col>
+              </Row>
+            </Card.Header>
+            <Card.Body className='px-4'>
+              <Row className=''>
+                <Col sm={12} md={7} lg={8} xl={8}>
+                  <div className='panel panel-default'>
+                    <table className='table table-bordered table-striped' style={{textAlign: 'center'}}>
+                      <tbody>
+                        <tr>
+                          {constants.mealPlanner.macroNutrients.map((nutrient) => {
+                            let measure = nutrient === 'Energy' ? '(kJ)' : '(g)';
+                            return (
+                              <td>
+                                {nutrient}
+                                {measure}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                        <tr>
+                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
+                            <td className='macro_col'>{recipe.macros[nutrient]}</td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  {/* < !--Ingredients--> */}
+                  <table class='table table-striped'>
                     <tbody>
                       <tr>
-                        {constants.mealPlanner.macroNutrients.map((nutrient) => {
-                          let measure = nutrient === 'Energy' ? '(kJ)' : '(g)';
-                          return (
-                            <td>
-                              {nutrient}
-                              {measure}
-                            </td>
-                          );
-                        })}
+                        <td>Ingredients</td>
                       </tr>
-                      <tr>
-                        {constants.mealPlanner.macroNutrients.map((nutrient) => (
-                          <td className='macro_col'>{recipe.macros[nutrient]}</td>
-                        ))}
+                      <tr textAlign='left'>
+                        <td className='ingredients'>
+                          <ul>
+                            {recipe.ingredients.map((item, index) => (
+                              <li> {item} </li>
+                            ))}
+                          </ul>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
-                </div>
-                {/* < !--Ingredients--> */}
-                <table class='table table-striped'>
-                  <tbody>
-                    <tr>
-                      <td>Ingredients</td>
-                    </tr>
-                    <tr textAlign='left'>
-                      <td className='ingredients'>
-                        <ul>
-                          {recipe.ingredients.map((item, index) => (
-                            <li> {item} </li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
 
-                {/* <!--Method--> */}
+                  {/* <!--Method--> */}
+                  <table className='table table-striped'>
+                    <tbody>
+                      <tr>
+                        <td>Method</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <ol>
+                            {recipe.method.split('\n').map((step) => {
+                              return <li>{step}</li>;
+                            })}
+                          </ol>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Col>
+                {/* <!--Carousel--> */}
+                <Col sm={12} md={5} lg={4} xl={4}>
+                  <div id='myCarousel' className='carousel slide' data-ride='carousel' style={{objectFit: 'cover'}}>
+                    {/* < !--Indicators -- > */}
+                    <ol className='carousel-indicators'>
+                      {recipe.img.map((item, index) => {
+                        let slide = JSON.stringify(index);
+                        return (
+                          <li data-target='#myCarousel' data-slide-to={slide} class={index === 0 ? 'active' : ''}></li>
+                        );
+                      })}
+                    </ol>
+
+                    {/* <!--Wrapper for slides-- > */}
+                    <div className='carousel-inner'>
+                      {recipe.img.map((item, index) => {
+                        console.log(item);
+                        return (
+                          <div className={index === 0 ? 'item active' : 'item'}>
+                            <img src={'../' + item} style={{width: '100%', height: '100%'}} alt='img'></img>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Card.Body>
+            <Card.Body>
+              <Card.Title>
+                <Row className='justify-content-around align-content-center'>
+                  <Col>
+                    <h4>Comments</h4>
+                  </Col>
+                  <Col style={{display: 'flex'}} className='justify-content-end'>
+                    Average Rating: {this.fillStar(this.averageRating(), false)}
+                  </Col>
+                </Row>
+              </Card.Title>
+
+              {recipe.creator !== this.props.curr_user ? (
                 <table className='table table-striped'>
                   <tbody>
                     <tr>
-                      <td>Method</td>
-                    </tr>
-                    <tr>
                       <td>
-                        <ol>
-                          {recipe.method.split('\n').map((step) => {
-                            return <li>{step}</li>;
-                          })}
-                        </ol>
+                        <div className='form-group' style={{paddingTop: '15px'}}>
+                          <textarea
+                            className='form-control'
+                            rows='5'
+                            id='comment'
+                            value={comment.message}
+                            onChange={(e) => this.changeMessage(e)}
+                            placeholder='Add a comment...'
+                          ></textarea>
+                          <div
+                            style={{
+                              fontSize: '18px',
+                              marginTop: '10px',
+                              marginLeft: '10px',
+                            }}
+                          >
+                            <span style={{fontSize: '14px'}}>Rating: </span>
+                            <span>{this.fillStar(comment.rating, true)}</span>
+                            <span style={{float: 'right'}}>
+                              <button className='btn btn-default' onClick={(e) => this.addComment(e)} type='submit'>
+                                Post
+                              </button>
+                            </span>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </Col>
-              {/* <!--Carousel--> */}
-              <Col sm={12} md={5} lg={4} xl={4}>
-                <div id='myCarousel' className='carousel slide' data-ride='carousel' style={{objectFit: 'cover'}}>
-                  {/* < !--Indicators -- > */}
-                  <ol className='carousel-indicators'>
-                    {recipe.img.map((item, index) => {
-                      let slide = JSON.stringify(index);
-                      return (
-                        <li data-target='#myCarousel' data-slide-to={slide} class={index === 0 ? 'active' : ''}></li>
-                      );
-                    })}
-                  </ol>
-
-                  {/* <!--Wrapper for slides-- > */}
-                  <div className='carousel-inner'>
-                    {recipe.img.map((item, index) => {
-                      console.log(item);
-                      return (
-                        <div className={index === 0 ? 'item active' : 'item'}>
-                          <img src={'../' + item} style={{width: '100%', height: '100%'}} alt='img'></img>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Card.Body>
-          <Card.Body>
-            <Card.Title>
-              <Row className='justify-content-around align-content-center'>
-                <Col>
-                  <h4>Comments</h4>
-                </Col>
-                <Col style={{display: 'flex'}} className='justify-content-end'>
-                  Average Rating: {this.fillStar(this.averageRating(), false)}
-                </Col>
-              </Row>
-            </Card.Title>
-
-            {recipe.creator !== this.props.curr_user ? (
-              <table className='table table-striped'>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div className='form-group' style={{paddingTop: '15px'}}>
-                        <textarea
-                          className='form-control'
-                          rows='5'
-                          id='comment'
-                          value={comment.message}
-                          onChange={(e) => this.changeMessage(e)}
-                          placeholder='Add a comment...'
-                        ></textarea>
-                        <div
-                          style={{
-                            fontSize: '18px',
-                            marginTop: '10px',
-                            marginLeft: '10px',
-                          }}
-                        >
-                          <span style={{fontSize: '14px'}}>Rating: </span>
-                          <span>{this.fillStar(comment.rating, true)}</span>
-                          <span style={{float: 'right'}}>
-                            <button className='btn btn-default' onClick={(e) => this.addComment(e)} type='submit'>
-                              Post
-                            </button>
-                          </span>
-                        </div>
+              ) : null}
+              {/* < !--Comments--> */}
+              {recipe.comments.map((comment) => {
+                return (
+                  <div className='list-group-item list-group-item-action comment'>
+                    <div>
+                      {this.props.users && (
+                        <span>{this.props.users.find((x) => x.id == comment.commentor).username}</span>
+                      )}
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: '18px',
+                        }}
+                      >
+                        {this.fillStar(comment.rating, false)}
                       </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            ) : null}
-            {/* < !--Comments--> */}
-            {recipe.comments.map((comment) => {
-              return (
-                <div className='list-group-item list-group-item-action comment'>
-                  <div>
-                    {this.props.users && (
-                      <span>{this.props.users.find((x) => x.id == comment.commentor).username}</span>
-                    )}
-                    <div
-                      style={{
-                        float: 'right',
-                        fontSize: '18px',
-                      }}
-                    >
-                      {this.fillStar(comment.rating, false)}
                     </div>
+                    <div style={{marginTop: '10px'}}>{comment.message}</div>
                   </div>
-                  <div style={{marginTop: '10px'}}>{comment.message}</div>
-                </div>
-              );
-            })}
-          </Card.Body>
-        </Card>
+                );
+              })}
+            </Card.Body>
+          </Card>
+        </Container>
       </div>
     );
   }

@@ -7,6 +7,8 @@ const initialState = {
   users,
   ingredientList,
   CURR_USER_ID,
+  showDialog: false,
+  modalRecipe: null,
 };
 // const initialState = [
 //   {
@@ -36,6 +38,11 @@ export default function recipeList(state = initialState, action) {
       //api.get recipe detail
       // render to recipe
       break;
+    case constants.recipeList.TOGGLE_DIALOG:
+      return {...state, showDialog: !state.showDialog};
+    case constants.recipeList.REMOVE_RECIPE:
+      console.log('###', state, {...state, modalRecipe: action.recipe, showDialog: true});
+      return {...state, modalRecipe: action.recipe, showDialog: true};
     default:
       return state;
   }
