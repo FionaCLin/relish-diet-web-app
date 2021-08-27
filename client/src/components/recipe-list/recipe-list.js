@@ -92,17 +92,17 @@ const RecipeList = (props) => {
         <br />
         {recipes.map((recipe) => (
           <Row className='pt-2 justify-content-sm-between' key={recipe.id} style={{cursor: 'pointer'}}>
-            <Col xs='2' md='3' lg='3' xl='3' className='align-self-center'>
+            <Col xs='2' md='3' lg='3' xl='3'>
               <img
                 src={recipe.img[0]}
                 alt='Avatar'
                 className='dash_img'
-                style={{marginLeft: '5px', width: '150px', height: '150px', float: 'left'}}
+                style={{width: '150px', height: '150px', margin: '0 auto'}}
                 onClick={() => history.push(`recipe/${recipe.id}`)}
               />
             </Col>
             <Col className='py-2 text-black-50 text-capitalize'>
-              <Row className='py-2 justify-content-xs-between'>
+              <Row className='mr-md-4 pr-md-4 my-md-3 justify-content-xs-between'>
                 <Col>
                   <h4 style={{display: 'inline'}} onClick={() => history.push(`recipe/${recipe.id}`)}>
                     {recipe.name + ' '}
@@ -144,18 +144,16 @@ const RecipeList = (props) => {
                     <table className='table table-bordered table-striped' style={{textAlign: 'center'}}>
                       <tbody>
                         <tr>
-                          {constants.mealPlanner.macroNutrients.map((nutrient) => {
-                            return (
-                              <td className='macro_col'>
-                                {nutrient} {nutrient === 'Energy' ? '(kCal)' : '(g)'}
-                              </td>
-                            );
-                          })}
+                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
+                            <td className='macro_col'>
+                              {nutrient} {nutrient === 'Energy' ? '(kCal)' : '(g)'}
+                            </td>
+                          ))}
                         </tr>
                         <tr>
-                          {constants.mealPlanner.macroNutrients.map((nutrient) => {
-                            return <td className='macro_col'>{recipe.macros[nutrient]}</td>;
-                          })}
+                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
+                            <td className='macro_col'>{recipe.macros[nutrient]}</td>
+                          ))}
                         </tr>
                       </tbody>
                     </table>

@@ -41,7 +41,6 @@ export default function recipeList(state = initialState, action) {
     case constants.recipeList.TOGGLE_DIALOG:
       return {...state, showDialog: !state.showDialog};
     case constants.recipeList.REMOVE_RECIPE:
-      console.log('###', state, {...state, modalRecipe: action.recipe, showDialog: true});
       return {...state, modalRecipe: action.recipe, showDialog: true};
     default:
       return state;

@@ -2,7 +2,7 @@ import React from 'react';
 import constants from '../../constants';
 import {isUndefined} from 'util';
 import {CURR_USER_ID, recipeInfo, users} from '../../constants/dummyData';
-import {Container, Card, Row, Col} from 'react-bootstrap';
+import {Container, Card, Row, Col, Table} from 'react-bootstrap';
 
 class RecipePage extends React.Component {
   constructor(props) {
@@ -138,29 +138,29 @@ class RecipePage extends React.Component {
               <Row className=''>
                 <Col sm={12} md={7} lg={8} xl={8}>
                   <div className='panel panel-default'>
-                    <table className='table table-bordered table-striped' style={{textAlign: 'center'}}>
-                      <tbody>
+                    <Table responsive className='text-center table-bordered table-striped'>
+                      <thead>
                         <tr>
-                          {constants.mealPlanner.macroNutrients.map((nutrient) => {
-                            let measure = nutrient === 'Energy' ? '(kJ)' : '(g)';
-                            return (
-                              <td>
-                                {nutrient}
-                                {measure}
-                              </td>
-                            );
-                          })}
+                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
+                            <th>
+                              {nutrient}
+                              {`${nutrient === 'Energy' ? '(kJ)' : '(g)'}`}
+                            </th>
+                          ))}
                         </tr>
+                      </thead>
+                      <tbody>
+                        <tr></tr>
                         <tr>
                           {constants.mealPlanner.macroNutrients.map((nutrient) => (
                             <td className='macro_col'>{recipe.macros[nutrient]}</td>
                           ))}
                         </tr>
                       </tbody>
-                    </table>
+                    </Table>
                   </div>
                   {/* < !--Ingredients--> */}
-                  <table class='table table-striped'>
+                  <Table responsive className='table table-striped'>
                     <tbody>
                       <tr>
                         <td>Ingredients</td>
@@ -175,10 +175,10 @@ class RecipePage extends React.Component {
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </Table>
 
                   {/* <!--Method--> */}
-                  <table className='table table-striped'>
+                  <Table responsive className='table table-striped'>
                     <tbody>
                       <tr>
                         <td>Method</td>
@@ -193,7 +193,7 @@ class RecipePage extends React.Component {
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </Table>
                 </Col>
                 {/* <!--Carousel--> */}
                 <Col sm={12} md={5} lg={4} xl={4}>
