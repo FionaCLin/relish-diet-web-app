@@ -1,5 +1,5 @@
 import constants from '../constants/';
-import {login, signup} from '../api.js';
+import {login, signup, getProfile} from '../api.js';
 
 const initialState = {
   passwordOpen: false,
@@ -47,7 +47,7 @@ export default function users(state = initialState, action) {
       const {
         username,
         attributes: {email, family_name, given_name},
-        signInUserSession
+        signInUserSession,
       } = action.user;
 
       const user = {
@@ -79,7 +79,7 @@ export async function signIn(dispatch, getState) {
     dispatch({type: constants.user.TOGGEL_LOADING});
 
     response = await login({username: loginUserNameInput, password});
-
+    // await getProfile(response.data.user);
     dispatch({type: constants.user.LOGIN_SUBMIT, user: response.data.user, error: ''});
     return response;
   } catch (err) {
