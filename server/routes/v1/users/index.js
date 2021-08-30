@@ -1,9 +1,9 @@
 import express from 'express';
 
-import {login} from '../../../controllers/users/index.js';
+import {getByEmail} from '../../../controllers/users/index.js';
 
 const router = new express.Router();
 
-router.post('/login', login);
+router.post('/:email/profile', getByEmail);
 
 export default router;

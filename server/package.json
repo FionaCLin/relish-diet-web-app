@@ -27,10 +27,13 @@
     "@aws-amplify/auth": "^3.4.27",
     "@aws-amplify/core": "^3.8.19",
     "@typescript-eslint/parser": "^4.17.0",
+    "aws-sdk": "^2.978.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "eslint-plugin-import": "^2.22.1",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5",
     "nodemon": "^2.0.7",
     "typescript": "^4.2.3"
   }
