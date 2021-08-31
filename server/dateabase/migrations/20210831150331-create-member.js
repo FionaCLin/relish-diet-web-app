@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
       firstName: {
         allowNull: false,
@@ -27,12 +27,12 @@ module.exports = {
       },
       goal: {
         type: Sequelize.STRING,
-        defaultValue: ""
+        defaultValue: '',
       },
       calories_goal: {
         allowNull: false,
         type: Sequelize.FLOAT,
-        defaultValue: '',
+        defaultValue: 0,
       },
       height: {
         type: Sequelize.FLOAT,
@@ -71,7 +71,8 @@ module.exports = {
       },
     };
     try {
-      await queryInterface.createTable('Members', fields, {transaction});
+      await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";', {transaction});
+      await queryInterface.createTable('members', fields, {transaction});
       transaction.commit();
     } catch (error) {
       await transaction.rollback();
@@ -81,7 +82,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.dropTable('Members', {transaction});
+      await queryInterface.dropTable('members', {transaction});
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
