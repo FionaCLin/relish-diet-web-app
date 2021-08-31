@@ -14,14 +14,14 @@ AWS.config.update({
 // userPoolWebClientId: config.cognito.APP_CLIENT_ID,
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-export default async function authorize(req, res, next) {
-  console.log('Request Type:', req.method);
+export default async function authorize(request, res, next) {
+  console.log('Request Type:', request.method);
 
-  const accessToken = req.headers.authorization.split(' ')[1];
+  const accessToken = request.headers.authorization.split(' ')[1];
   console.log('accessToken', accessToken);
-  cognitoidentityserviceprovider.getUser({AccessToken: accessToken}, function (err, data) {
-    if (err) {
-      console.log('error:' + err.stack);
+  cognitoidentityserviceprovider.getUser({AccessToken: accessToken}, function (error, data) {
+    if (error) {
+      console.log(`error:${error.stack}`);
       return res.code(401).send();
     }
     console.log('-------------cognito.getUser-----------');
