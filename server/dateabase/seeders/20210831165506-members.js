@@ -1,11 +1,8 @@
-'use strict';
-
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      
       await queryInterface.bulkInsert(
         'Members',
         [
@@ -17,7 +14,7 @@ module.exports = {
             createdBy: 'SEEDED',
             updatedBy: 'SEEDED',
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
         ],
         {transaction},
@@ -28,10 +25,10 @@ module.exports = {
       throw error;
     }
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.bulkDelete('Members', null, {transaction});
+      await queryInterface.bulkDelete('Members', null, {transaction}); // eslint-disable-line unicorn/no-null
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();

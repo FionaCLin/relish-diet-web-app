@@ -14,18 +14,18 @@ AWS.config.update({
 // userPoolWebClientId: config.cognito.APP_CLIENT_ID,
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-export default async function authorize(request, res, next) {
+export default async function authorize(request, response, next) {
   console.log('Request Type:', request.method);
 
   const accessToken = request.headers.authorization.split(' ')[1];
   console.log('accessToken', accessToken);
-  cognitoidentityserviceprovider.getUser({AccessToken: accessToken}, function (error, data) {
+  cognitoidentityserviceprovider.getUser({AccessToken: accessToken}, (error, data) => {
     if (error) {
       console.log(`error:${error.stack}`);
-      return res.code(401).send();
+      return response.code(401).send();
     }
     console.log('-------------cognito.getUser-----------');
-    // console.log('cognito.getUser result : ' + JSON.stringify(data)); // successful response
-    next();
+    console.log(`cognito.getUser result : ${JSON.stringify(data)}`); // successful response
+    return next();
   });
 }

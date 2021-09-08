@@ -43,7 +43,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.FLOAT,
         defaultValue: 0,
-
       },
       weight: {
         allowNull: false,
@@ -78,6 +77,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       deletedAt: {
         type: DataTypes.DATE,
+        /* eslint-disable  unicorn/no-null */
         defaultValue: null,
       },
     },
@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Member',
       timestamps: true,
-      tableName: 'member'
+      tableName: 'member',
     },
   );
   return Member;
