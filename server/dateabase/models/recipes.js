@@ -1,10 +1,9 @@
 'use strict';
-
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Member extends Model {}
-  Member.init(
+  class Recipes extends Model {}
+  Recipes.init(
     {
       id: {
         allowNull: false,
@@ -12,51 +11,55 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,
       },
-      firstName: {
+      memberId: {
+        allowNull: false,
+        type: DataTypes.UUID,
+        reference: {
+          model: 
+        }
+      },
+      title: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      lastName: {
+      method: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      email: {
+      calories: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
       },
-      birthday: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+      fats: {
         allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
       },
-      goal: {
+      protein: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      cabs: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      sodium: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      rate: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      images: {
         allowNull: false,
         type: DataTypes.STRING,
         defaultValue: '',
-      },
-      calories_goal: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      height: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-
-      },
-      weight: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      gender: {
-        type: DataTypes.STRING,
-        defaultValue: 'undetermined',
-      },
-      avatar: {
-        type: DataTypes.STRING,
-        default: '',
       },
       createdBy: {
         allowNull: false,
@@ -83,10 +86,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Member',
+      modelName: 'Recipe',
       timestamps: true,
-      tableName: 'member'
+      tableName: 'recipes',
     },
   );
-  return Member;
+  return Recipes;
 };
