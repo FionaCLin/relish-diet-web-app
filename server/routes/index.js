@@ -9,7 +9,7 @@ const router = new express.Router();
 router.get('/healthcheck', healthcheck);
 router.post('/login', login);
 
-router.use(authorize);
+// router.use(authorize);
 router.use('/v1', v1Routers);
 
 export default router;
