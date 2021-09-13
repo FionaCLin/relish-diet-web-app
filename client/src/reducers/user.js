@@ -79,8 +79,12 @@ export async function signIn(dispatch, getState) {
     dispatch({type: constants.user.TOGGEL_LOADING});
 
     response = await login({username: loginUserNameInput, password});
-    // await getProfile(response.data.user);
-    dispatch({type: constants.user.LOGIN_SUBMIT, user: response.data.user, error: ''});
+    dispatch({
+      type: constants.user.LOGIN_SUBMIT, 
+      profile: response.data.profile, 
+      user: response.data.user, 
+      error: ''
+    });
     return response;
   } catch (err) {
     dispatch({type: constants.user.SHOW_ERROR, error: err.response.data || err.message});

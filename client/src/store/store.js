@@ -13,6 +13,7 @@ const store = createStore(rootReducer, persistedState, composedEnhancer);
 store.subscribe(() => {
   saveState({
     user: store.getState().user,
+    profile: store.getState().profile,
   });
 });
 export default store;
