@@ -1,21 +1,29 @@
-import { Sequelize } from 'sequelize';
-import { dbconfig } from './config/config.js';
+import {Sequelize} from 'sequelize';
+import {dbconfig} from './config/config.js';
 import MemberModel from '../dateabase/models/member.js';
 import RecipeModel from '../dateabase/models/recipes.js';
 
-const env = process.env.NODE_ENV || 'development';
-const sequelize = new Sequelize(dbconfig[env].database, dbconfig[env].username, dbconfig[env].password, {
-  host: dbconfig[env].host,
-  dialect: dbconfig[env].dialect,
-});
+const environment = process.env.NODE_ENV || 'development';
+const sequelize = new Sequelize(
+  dbconfig[environment].database,
+  dbconfig[environment].username,
+  dbconfig[environment].password,
+  {
+    host: dbconfig[environment].host,
+    dialect: dbconfig[environment].dialect,
+  },
+);
 
 const Member = MemberModel(sequelize, Sequelize.DataTypes);
 const Recipe = RecipeModel(sequelize, Sequelize.DataTypes);
 
-Recipe.belongsTo(Member,  { targetKey: 'id', foreignKey: 'memberId' })
-Member.hasMany(Recipe, {as: 'creator', foreignKey: 'memberId'});
+Recipe.belongsTo(Member, {
+  targetKey: 'id',
+  foreignKey: 'memberId',
+});
+Member.hasMany(Recipe, {
+  as: 'creator',
+  foreignKey: 'memberId',
+});
 
-export {
-  Member,
-  Recipe
-}
+export {Member, Recipe};

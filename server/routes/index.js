@@ -2,7 +2,7 @@ import express from 'express';
 import {healthcheck} from '../controllers/healthcheck/index.js';
 import {login} from '../controllers/users/index.js';
 import v1Routers from './v1/index.js';
-import authorize from '../middlewares/verify-token.js';
+// import authorize from '../middlewares/verify-token.js';
 
 const router = new express.Router();
 
