@@ -4,7 +4,7 @@ module.exports = {
 
     try {
       await queryInterface.bulkInsert(
-        'Members',
+        'members',
         [
           {
             firstName: 'Fiona',
@@ -28,7 +28,7 @@ module.exports = {
   down: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.bulkDelete('Members', null, {transaction}); // eslint-disable-line unicorn/no-null
+      await queryInterface.bulkDelete('members', null, {transaction}); // eslint-disable-line unicorn/no-null
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();

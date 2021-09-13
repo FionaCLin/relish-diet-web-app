@@ -1,9 +1,7 @@
-'use strict';
-const {Model} = require('sequelize');
+"use strict";
 
 module.exports = (sequelize, DataTypes) => {
-  class Recipes extends Model {}
-  Recipes.init(
+  const Recipe = sequelize.define("Recipe",
     {
       id: {
         allowNull: false,
@@ -14,9 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       memberId: {
         allowNull: false,
         type: DataTypes.UUID,
-        // reference: {
-        //   model: 
-        // }
       },
       title: {
         allowNull: false,
@@ -59,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       images: {
         allowNull: false,
         type: DataTypes.STRING,
-        defaultValue: '',
+        defaultValue: "",
       },
       createdBy: {
         allowNull: false,
@@ -86,10 +81,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Recipe',
       timestamps: true,
-      tableName: 'recipes',
-    },
+      tableName: "recipes",
+    }
   );
-  return Recipes;
+  return Recipe;
 };

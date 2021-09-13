@@ -13,6 +13,10 @@ module.exports = {
       memberId: {
         type: Sequelize.UUID,
         allowNull: false,
+        references: {
+          model: "members",
+          key: "id",
+        },
       },
       title: {
         type: Sequelize.STRING,
