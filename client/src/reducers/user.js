@@ -49,7 +49,7 @@ export default function users(state = initialState, action) {
         attributes: {email, family_name, given_name},
         signInUserSession,
       } = action.user;
-
+      localStorage.setItem('accessToken', signInUserSession.accessToken.jwtToken);
       const user = {
         givenname: given_name,
         familyname: family_name,
@@ -80,10 +80,10 @@ export async function signIn(dispatch, getState) {
 
     response = await login({username: loginUserNameInput, password});
     dispatch({
-      type: constants.user.LOGIN_SUBMIT, 
-      profile: response.data.profile, 
-      user: response.data.user, 
-      error: ''
+      type: constants.user.LOGIN_SUBMIT,
+      profile: response.data.profile,
+      user: response.data.user,
+      error: '',
     });
     return response;
   } catch (err) {

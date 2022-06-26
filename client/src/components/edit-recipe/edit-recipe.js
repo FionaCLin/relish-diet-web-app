@@ -3,7 +3,7 @@ import constants from '../../constants';
 import {connect} from 'react-redux';
 import {bg_img} from '../../constants/globalFunctions';
 import {isUndefined, isNull, isNullOrUndefined} from 'util';
-import Link from 'react-router-dom/Link';
+import {Link} from 'react-router-dom';
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap';
 
 class EditRecipe extends React.Component {

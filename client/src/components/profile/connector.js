@@ -10,8 +10,9 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch) => {
   return {
-    onRecipeClick(e, id) {
-      dispatch({type: constants.SELECT_RECIPE, select_id: id});
+    onSaveProfile(values) {
+      console.log(constants, values);
+      dispatch({type: constants.user.PROFILE_SAVE_CHANGE, values});
     },
   };
 };

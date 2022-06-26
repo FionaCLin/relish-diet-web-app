@@ -1,7 +1,7 @@
 import React from 'react';
 import constants from '../../constants';
 import {isUndefined} from 'util';
-import Link from 'react-router-dom/Link';
+import {Link} from 'react-router-dom';
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap';
 
 // class RecipeList extends React.Component {
