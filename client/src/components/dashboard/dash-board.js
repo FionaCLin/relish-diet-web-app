@@ -12,13 +12,13 @@ const Dashboard = ({recipesList}) => {
   );
   return (
     <div className='bg-white'>
-      <Container className='pt-2 m-auto'>
+      <Container className='pt-2 m-auto page-wrapper'>
         <SearchInputForm />
         {rows.map((row, index) => (
-          <Row className='justify-content-space-between' key={index}>
+          <Col xs='12' className='dashboard-content-wrapper' key={index}>
             {row.map((item, i) => (
-              <Col md='auto' key={i}>
-                <Link to={'recipe/' + item.id} className='dash_img_wrapper' style={{float: 'left'}}>
+              <Col sm='12' md='4' lg='3' className='dash_img_wrapper' key={i}>
+                <Link to={'recipe/' + item.id} style={{float: 'left'}}>
                   <div style={url_img(item.image)} className='dash_img' />
                   <div className='overlay'>
                     <div className='img_text'>{item.name}</div>
@@ -26,7 +26,7 @@ const Dashboard = ({recipesList}) => {
                 </Link>
               </Col>
             ))}
-          </Row>
+          </Col>
         ))}
       </Container>
     </div>

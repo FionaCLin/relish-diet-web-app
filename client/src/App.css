@@ -60,23 +60,23 @@ label {
 }
 
 .dash_img_wrapper {
-  float:left;
+  /* float:left;
   margin: 10px;
   position: relative;
   padding:0;
   width: 274px;
-  height: 274px;
+  height: 274px; */
 }
 
 .dash_img {
-  display: block;
+ /*  display: block;
   max-width:274px;
   height:274px;
   width: 274px;
   height: 274px;
   background-size:cover;
   background-repeat:no-repeat;
-  background-position:center center
+  background-position:center center */
 }
 
 .tile_img {
