@@ -96,7 +96,7 @@ const RecipeList = (props) => {
               <img
                 src={recipe.img[0]}
                 alt='Avatar'
-                className='dash_img'
+                className='recipe_img'
                 style={{width: '150px', height: '150px', margin: '0 auto'}}
                 onClick={() => history.push(`recipe/${recipe.id}`)}
               />

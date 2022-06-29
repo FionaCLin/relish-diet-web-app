@@ -181,6 +181,7 @@ class EditRecipe extends React.Component {
               </label>
               <div class='col-sm-10'>
                 <input
+                  type='text'
                   name='amount'
                   value={this.state.amount}
                   onChange={(e) => this.changeAmount(e)}

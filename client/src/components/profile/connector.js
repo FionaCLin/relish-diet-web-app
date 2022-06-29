@@ -1,7 +1,7 @@
 import constants from '../../constants';
 
 export const mapStateToProps = (state) => {
-  console.log(state.profile, '##########');
+  console.log(state, '##########');
   return {
     ...state.user,
     ...state.profile.profile,

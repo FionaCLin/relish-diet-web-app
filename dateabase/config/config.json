@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "dev",
+    "password": "postgres",
     "database": "fresh_fridge_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"

@@ -58,7 +58,9 @@ export default function users(state = initialState, action) {
         username,
       };
 
-      return {...state, user};
+      const {profile} = action;
+
+      return {...state, user, profile};
 
     case constants.user.SIGNUP_SUBMIT:
       action.res = signup(state.loginUserNameInput, state.password);

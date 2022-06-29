@@ -3,7 +3,21 @@ $body-bg: #000;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
-$primary: #ADBCA5;
+$primary: #adbca5;
+$white: #fff;
+$black: #212529;
+$greyDark: rgba(0, 0, 0, 0.05);
+
+$gap: 24px;
+$gapHalf: 12px;
+$gapThird: 8px;
+$gapQuarter: 6px;
+$gapSixth: 4px;
+$gapEighth: 3px;
+$gapMinusSixth: 28px;
+$gapThreeQuarters: 16px;
+
+$borderRadius: $gapHalf;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -93,6 +107,13 @@ label {
 .pre-scrollable {
   max-height: 1000px;
   overflow-y: scroll;
+}
+
+.recipe_img {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  //-webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  //box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
 
 .page-wrapper {
@@ -370,4 +391,67 @@ th.vertical {
   line-height: 14px;
   padding-bottom: 100px;
   text-align: inherit;
+}
+
+.btn-success {
+  a {
+    &:link,
+    &:visited {
+      color: $white;
+    }
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
+  }
+}
+
+textarea {
+  &:focus {
+    outline: none;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  //custom scroll
+  ::-webkit-scrollbar {
+    height: $gapHalf;
+    width: $gapHalf;
+    //background: @greyLight;
+    //-webkit-border-radius: @borderRadius;
+    //-moz-border-radius: @borderRadius;
+    //border-radius: @borderRadius;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    //background: @primaryColourOpacity;
+    background: $greyDark;
+    //background: @greyLightOpacity;
+    //border-radius: 0 0 18px 18px;
+    -webkit-border-radius: $borderRadius;
+    -moz-border-radius: $borderRadius;
+    border-radius: $borderRadius;
+
+    &:hover,
+    &:active {
+      background: $primary;
+    }
+  }
+
+  ::-webkit-scrollbar-thumb:horizontal {
+    //background: @primaryColourOpacity;
+    background: $greyDark;
+    //background: @greyLightOpacity;
+    //border-radius: 0 0 18px 18px;
+    -webkit-border-radius: $borderRadius;
+    -moz-border-radius: $borderRadius;
+    border-radius: $borderRadius;
+
+    &:hover,
+    &:active {
+      background: $black;
+    }
+  }
+    //custom scrollbars
 }
