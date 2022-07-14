@@ -7,6 +7,7 @@ $primary: #adbca5;
 $white: #fff;
 $black: #212529;
 $greyDark: rgba(0, 0, 0, 0.05);
+$greyLight: rgba(0, 0, 0, 0.02);
 
 $gap: 24px;
 $gapHalf: 12px;
@@ -68,6 +69,12 @@ body {
   margin: 0 0;
 }
 
+button {
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border-radius: $borderRadius;
+}
+
 .login {
   border-radius: 20px;
   background-color: white;
@@ -87,6 +94,16 @@ body {
   left: 100x;
   font-size: small;
   text-align: center;
+  -webkit-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+.form-control-file {
+  background: $primary;
+  -webkit-border-radius: 0 10px 10px 0;
+  border-radius: 0 10px 10px 0;
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
 
 label {
@@ -316,6 +333,10 @@ label {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
 
 .macro_img {
@@ -394,6 +415,9 @@ th.vertical {
 }
 
 .btn-success {
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+
   a {
     &:link,
     &:visited {
@@ -407,11 +431,59 @@ th.vertical {
   }
 }
 
+.btn-secondary {
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
 textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+
   &:focus {
     outline: none;
   }
 }
+
+.editable-list {
+  list-style-type: none;
+  padding-left: 0;
+  width: 100%;
+  float: left;
+  margin-top: 5px;
+
+  li {
+    button {
+      width: 100%;
+      margin-top: 10px;
+      text-align: left;
+    }
+  }
+}
+
+.bg-white {
+  padding-bottom: 20px;
+}
+
+input {
+  &.has-action-button {
+    width: -moz-calc(100% - 48px);
+    width: -webkit-calc(100% - 48px);
+    width: -o-calc(100% - 48px);
+    width: calc(100% - 48px);
+    float: left;
+    height: 36px;
+    padding-right: $gapHalf;
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+//end of main styles
 
 @media only screen and (min-width: 576px) {
   //custom scroll
@@ -426,7 +498,7 @@ textarea {
 
   ::-webkit-scrollbar-thumb {
     //background: @primaryColourOpacity;
-    background: $greyDark;
+    background: $greyLight;
     //background: @greyLightOpacity;
     //border-radius: 0 0 18px 18px;
     -webkit-border-radius: $borderRadius;
@@ -453,5 +525,5 @@ textarea {
       background: $black;
     }
   }
-    //custom scrollbars
+  //custom scrollbars
 }

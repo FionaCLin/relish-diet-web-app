@@ -160,26 +160,26 @@ class EditRecipe extends React.Component {
           </Row>
           <br></br>
           <form>
-            <div class='form-group row'>
-              <label for='inputTitle' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputTitle' className='col-sm-2 col-form-label'>
                 Title
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <input
                   type='title'
                   value={this.state.name}
                   onChange={(e) => this.changeTitle(e)}
-                  class='form-control'
+                  className='form-control'
                   id='inputTitle'
                   placeholder='Recipe title'
                 ></input>
               </div>
             </div>
-            <div class='form-group row'>
-              <label for='inputIngredients' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputIngredients' className='col-sm-2 col-form-label'>
                 Ingredients
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <input
                   type='text'
                   name='amount'
@@ -201,35 +201,36 @@ class EditRecipe extends React.Component {
                   <option>tsp</option>
                 </select>
                 <div style={{float: 'left', marginLeft: '10px', marginRight: '10px', lineHeight: '32px'}}>of</div>
+              </div>
+            </div>
+            <div className='form-group row'>
+              <div className='col-sm-2 col-form-label'></div>
+              <div className='col-sm-10'>
                 <input
                   list='ingredients'
                   value={this.state.string}
                   name='ingredients'
                   placeholder='ingredient'
                   onChange={(e) => this.autocomplete(e)}
-                  style={{float: 'left', width: '540px', height: '32px'}}
+                  className='has-action-button'
                 ></input>
                 <datalist id='ingredients'>
                   {this.state.ingredientsProp.map((ingredient) => {
                     return <option>{ingredient}</option>;
                   })}
                 </datalist>
-                <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} class='btn btn-secondary'>
-                  +
+                <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} className='btn btn-secondary'>
+                  <span className='glyphicon glyphicon-plus'></span>
                 </button>
                 {this.state.ingredients.length !== 0 ? (
-                  <ul style={{float: 'left', marginTop: '5px'}}>
+                  <ul className='editable-list'>
                     {this.state.ingredients.map((ingredient) => {
                       return (
                         <li>
-                          <button
-                            onClick={(e) => this.removeIngredient(e, ingredient)}
-                            class='btn btn-secondary'
-                            style={{marginTop: '10px', width: '500px', textAlign: 'left'}}
-                          >
+                          <button onClick={(e) => this.removeIngredient(e, ingredient)} className='btn btn-secondary'>
                             {ingredient}
-                            <span class='pull-right'>
-                              <span class='glyphicon glyphicon-remove'></span>
+                            <span className='pull-right'>
+                              <span className='glyphicon glyphicon-remove'></span>
                             </span>
                           </button>
                         </li>
@@ -240,16 +241,16 @@ class EditRecipe extends React.Component {
               </div>
             </div>
 
-            <div class='form-group row'>
-              <label for='inputMethod' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputMethod' className='col-sm-2 col-form-label'>
                 Method
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <textarea
                   type='comment'
                   onChange={(e) => this.changeMethod(e)}
                   value={this.state.method}
-                  class='form-control'
+                  className='form-control'
                   id='inputMethod'
                   rows='5'
                   placeholder='Add method...'
@@ -259,65 +260,65 @@ class EditRecipe extends React.Component {
             <hr></hr>
             <h4>Recipe Images</h4>
             <br></br>
-            <div class='form-group row'>
-              <label for='inputImage1' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputImage1' className='col-sm-2 col-form-label'>
                 Image 1
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <div style={{float: 'left'}}>
                   <input
                     onChange={(e) => this.changeImg(e, 0)}
                     type='file'
-                    class='form-control-file'
+                    className='form-control-file'
                     id='inputImage1'
                   ></input>
                 </div>
                 {!isNullOrUndefined(this.state.img[0]) ? (
                   <div style={{float: 'right'}}>
-                    <div style={bg_img(this.state.img[0])} class='planner_img_v'></div>
-                    <div class='pic_bottom'>Current Image</div>
+                    <div style={bg_img(this.state.img[0])} className='planner_img_v'></div>
+                    <div className='pic_bottom'>Current Image</div>
                   </div>
                 ) : null}
               </div>
             </div>
-            <div class='form-group row'>
-              <label for='inputImage1' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputImage1' className='col-sm-2 col-form-label'>
                 Image 2
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <div style={{float: 'left'}}>
                   <input
                     onChange={(e) => this.changeImg(e, 1)}
                     type='file'
-                    class='form-control-file'
+                    className='form-control-file'
                     id='inputImage1'
                   ></input>
                 </div>
                 {!isNullOrUndefined(this.state.img[1]) ? (
                   <div style={{float: 'right'}}>
-                    <div style={bg_img(this.state.img[1])} class='planner_img_v'></div>
-                    <div class='pic_bottom'>Current Image</div>
+                    <div style={bg_img(this.state.img[1])} className='planner_img_v'></div>
+                    <div className='pic_bottom'>Current Image</div>
                   </div>
                 ) : null}
               </div>
             </div>
-            <div class='form-group row'>
-              <label for='inputImage1' class='col-sm-2 col-form-label'>
+            <div className='form-group row'>
+              <label for='inputImage1' className='col-sm-2 col-form-label'>
                 Image 3
               </label>
-              <div class='col-sm-10'>
+              <div className='col-sm-10'>
                 <div style={{float: 'left'}}>
                   <input
                     onChange={(e) => this.changeImg(e, 2)}
                     type='file'
-                    class='form-control-file'
+                    className='form-control-file'
                     id='inputImage1'
                   ></input>
                 </div>
                 {!isNullOrUndefined(this.state.img[2]) ? (
                   <div style={{float: 'right'}}>
-                    <div style={bg_img(this.state.img[2])} class='planner_img_v'></div>
-                    <div class='pic_bottom'>Current Image</div>
+                    <div style={bg_img(this.state.img[2])} className='planner_img_v'></div>
+                    <div className='pic_bottom'>Current Image</div>
                   </div>
                 ) : null}
               </div>
@@ -325,11 +326,11 @@ class EditRecipe extends React.Component {
           </form>
           <div style={{float: 'right'}}>
             <Link to='../../recipes'>
-              <button class='btn btn-secondary' style={{width: '110px', marginRight: '10px'}}>
+              <button className='btn btn-secondary' style={{width: '110px', marginRight: '10px'}}>
                 Cancel
               </button>
             </Link>
-            <button class='btn btn-success' onClick={(e) => this.editRecipe(e)} style={{width: '115px'}}>
+            <button className='btn btn-success' onClick={(e) => this.editRecipe(e)} style={{width: '115px'}}>
               <Link to='../../recipes'>{params.mode == 'add' ? 'Create' : 'Edit'}</Link>
             </button>
           </div>
