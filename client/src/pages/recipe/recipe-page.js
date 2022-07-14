@@ -116,7 +116,7 @@ class RecipePage extends React.Component {
               <Row className='justify-content-center align-items-center'>
                 <Col className='text-black-50 text-capitalize'>
                   {recipe.name}&nbsp;
-                  {this.props.users && <h6>by {this.props.users.find((x) => x.id == recipe.creator).username}</h6>}
+                  {this.props.users && <h6>by {this.props.users.find((x) => x.id === recipe.creator).username}</h6>}
                 </Col>
                 <Col>
                   {recipe.creator !== this.props.curr_user ? (
@@ -276,7 +276,7 @@ class RecipePage extends React.Component {
                   <div className='list-group-item list-group-item-action comment'>
                     <div>
                       {this.props.users && (
-                        <span>{this.props.users.find((x) => x.id == comment.commentor).username}</span>
+                        <span>{this.props.users.find((x) => x.id === comment.commentor).username}</span>
                       )}
                       <div
                         style={{
