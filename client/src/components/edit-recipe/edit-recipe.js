@@ -150,7 +150,7 @@ class EditRecipe extends React.Component {
     const {params} = this.props['0'].match;
     console.log(this.props['0']);
     return (
-      <div className='bg-white' style={{minHeight: '800px'}}>
+      <div className='bg-white'>
         <Container className='pt-2 m-auto'>
           <Row className='justify-content-sm-between'>
             <Col md={4}>
@@ -171,13 +171,13 @@ class EditRecipe extends React.Component {
                   onChange={(e) => this.changeTitle(e)}
                   className='form-control'
                   id='inputTitle'
-                  placeholder='Recipe title'
+                  placeholder='Add Title...'
                 ></input>
               </div>
             </div>
             <div className='form-group row'>
-              <label for='inputIngredients' className='col-sm-2 col-form-label'>
-                Ingredients
+              <label for='inputIngredient' className='col-sm-2 col-form-label'>
+                Ingredient
               </label>
               <div className='col-sm-10'>
                 <input
@@ -185,34 +185,30 @@ class EditRecipe extends React.Component {
                   name='amount'
                   value={this.state.amount}
                   onChange={(e) => this.changeAmount(e)}
-                  placeholder='amount e.g. 1'
+                  placeholder='E.g. 1'
                   size='8'
-                  style={{float: 'left', width: '150px', height: '32px'}}
-                ></input>
+                  className='form-control amount' 
+                  id='inputIngredient'                 
+                ></input>                
                 <select
                   value={this.state.measure}
                   onChange={(e) => this.changeMeasure(e)}
-                  style={{float: 'left', height: '32px'}}
+                  className='form-control measure'
+                  placeholder='E.g. tbsp'
                 >
-                  <option></option>
                   <option>g</option>
                   <option>ml</option>
                   <option>tbsp</option>
                   <option>tsp</option>
                 </select>
                 <div style={{float: 'left', marginLeft: '10px', marginRight: '10px', lineHeight: '32px'}}>of</div>
-              </div>
-            </div>
-            <div className='form-group row'>
-              <div className='col-sm-2 col-form-label'></div>
-              <div className='col-sm-10'>
                 <input
                   list='ingredients'
                   value={this.state.string}
                   name='ingredients'
-                  placeholder='ingredient'
+                  placeholder='E.g. sugar'
                   onChange={(e) => this.autocomplete(e)}
-                  className='has-action-button'
+                  className='ingredient form-control has-action-button'
                 ></input>
                 <datalist id='ingredients'>
                   {this.state.ingredientsProp.map((ingredient) => {
@@ -257,22 +253,21 @@ class EditRecipe extends React.Component {
                 ></textarea>
               </div>
             </div>
-            <hr></hr>
+            <div className='form-group row'>
+              <hr></hr>
+            </div>
             <h4>Recipe Images</h4>
-            <br></br>
             <div className='form-group row'>
               <label for='inputImage1' className='col-sm-2 col-form-label'>
                 Image 1
               </label>
               <div className='col-sm-10'>
-                <div style={{float: 'left'}}>
-                  <input
-                    onChange={(e) => this.changeImg(e, 0)}
-                    type='file'
-                    className='form-control-file'
-                    id='inputImage1'
-                  ></input>
-                </div>
+                <input
+                  onChange={(e) => this.changeImg(e, 0)}
+                  type='file'
+                  className='form-control-file'
+                  id='inputImage1'
+                ></input>
                 {!isNullOrUndefined(this.state.img[0]) ? (
                   <div style={{float: 'right'}}>
                     <div style={bg_img(this.state.img[0])} className='planner_img_v'></div>
@@ -286,14 +281,12 @@ class EditRecipe extends React.Component {
                 Image 2
               </label>
               <div className='col-sm-10'>
-                <div style={{float: 'left'}}>
-                  <input
-                    onChange={(e) => this.changeImg(e, 1)}
-                    type='file'
-                    className='form-control-file'
-                    id='inputImage1'
-                  ></input>
-                </div>
+                <input
+                  onChange={(e) => this.changeImg(e, 1)}
+                  type='file'
+                  className='form-control-file'
+                  id='inputImage1'
+                ></input>
                 {!isNullOrUndefined(this.state.img[1]) ? (
                   <div style={{float: 'right'}}>
                     <div style={bg_img(this.state.img[1])} className='planner_img_v'></div>
@@ -307,14 +300,12 @@ class EditRecipe extends React.Component {
                 Image 3
               </label>
               <div className='col-sm-10'>
-                <div style={{float: 'left'}}>
-                  <input
-                    onChange={(e) => this.changeImg(e, 2)}
-                    type='file'
-                    className='form-control-file'
-                    id='inputImage1'
-                  ></input>
-                </div>
+                <input
+                  onChange={(e) => this.changeImg(e, 2)}
+                  type='file'
+                  className='form-control-file'
+                  id='inputImage1'
+                ></input>
                 {!isNullOrUndefined(this.state.img[2]) ? (
                   <div style={{float: 'right'}}>
                     <div style={bg_img(this.state.img[2])} className='planner_img_v'></div>
@@ -324,7 +315,9 @@ class EditRecipe extends React.Component {
               </div>
             </div>
           </form>
-          <div style={{float: 'right'}}>
+          <div 
+            className='action-buttons-bottom'
+          >
             <Link to='../../recipes'>
               <button className='btn btn-secondary' style={{width: '110px', marginRight: '10px'}}>
                 Cancel
