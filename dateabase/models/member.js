@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "",
       },
-      calories_goal: {
+      caloriesGoal: {
         allowNull: false,
         type: DataTypes.FLOAT,
         defaultValue: 0,
