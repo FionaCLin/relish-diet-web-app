@@ -11,25 +11,23 @@ const Dashboard = ({recipesList}) => {
     recipesList.slice(page * numPerRow, (page + 1) * numPerRow),
   );
   return (
-    <div className='bg-white'>
-      <Container className='pt-2 m-auto page-wrapper'>
-        <SearchInputForm />
-        {rows.map((row, index) => (
-          <Col xs='12' className='dashboard-content-wrapper' key={index}>
-            {row.map((item, i) => (
-              <Col sm='12' md='4' lg='3' className='dash_img_wrapper' key={i}>
-                <Link to={'recipe/' + item.id} style={{float: 'left'}}>
-                  <div style={url_img(item.image)} className='dash_img' />
-                  <div className='overlay'>
-                    <div className='img_text'>{item.name}</div>
-                  </div>
-                </Link>
-              </Col>
-            ))}
-          </Col>
-        ))}
-      </Container>
-    </div>
+    <Container className='pt-2 m-auto page-wrapper'>
+      <SearchInputForm />
+      {rows.map((row, index) => (
+        <Col xs='12' className='dashboard-content-wrapper' key={index}>
+          {row.map((item, i) => (
+            <Col sm='12' md='4' lg='3' className='dash_img_wrapper' key={i}>
+              <Link to={'recipe/' + item.id} style={{float: 'left'}}>
+                <div style={url_img(item.image)} className='dash_img' />
+                <div className='overlay'>
+                  <div className='img_text'>{item.name}</div>
+                </div>
+              </Link>
+            </Col>
+          ))}
+        </Col>
+      ))}
+    </Container>
   );
 };
 
