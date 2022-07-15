@@ -483,6 +483,12 @@ input {
     line-height: 22px;
   }
 }
+
+.dropdown-item {
+  span.glyphicon {
+    margin-right: 15px;
+  }
+}
 //end of main styles
 
 @media only screen and (min-width: 576px) {
