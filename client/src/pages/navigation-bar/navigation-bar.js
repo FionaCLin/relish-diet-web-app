@@ -1,6 +1,6 @@
 import React from 'react';
-import LoggedNavBarItems from './nav-bar-items-logged';
-import NavBarItems from './nav-bar-items';
+import LoggedNavBarItems from '../../components/nav-bar-items-logged';
+import NavBarItems from '../../components/nav-bar-items';
 import {Navbar, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
