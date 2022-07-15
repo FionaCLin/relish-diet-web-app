@@ -171,7 +171,7 @@ class EditRecipe extends React.Component {
                   onChange={(e) => this.changeTitle(e)}
                   className='form-control'
                   id='inputTitle'
-                  placeholder='Add Title...'
+                  placeholder={params.mode == 'add' ? 'Add Title...' : 'Edit Title...'}
                 ></input>
               </div>
             </div>
