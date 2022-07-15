@@ -21,19 +21,21 @@ const App = ({store}) => {
     <Router>
       <div store={store}>
         <NavigationBar />
-        <Route path='/login' exact strict component={Login} />
-        <Route path='/signup' exact strict component={Signup} />
-        <Route path='/' exact strict component={Login} />
-        <PropsRoute path='/dashboard' exact strict component={Dashboard} />
-        <PropsRoute path='/recipes' exact strict component={RecipeList} />
-        <PropsRoute path='/recipe/:id' component={RecipePage} />
-        <PropsRoute path='/recipes/:mode/:id' exact strict component={EditRecipe} />
-        <PropsRoute path='/recipes/:mode' exact strict component={EditRecipe} />
 
-        <PropsRoute path='/meal-list' exact strict component={MealList} />
-        <PropsRoute path='/bookmark' exact strict component={BookMarks} />
+        <div className='bg-white'>
+          <Route path='/login' exact strict component={Login} />
+          <Route path='/signup' exact strict component={Signup} />
+          <Route path='/' exact strict component={Login} />
+          <PropsRoute path='/dashboard' exact strict component={Dashboard} />
+          <PropsRoute path='/recipes' exact strict component={RecipeList} />
+          <PropsRoute path='/recipe/:id' component={RecipePage} />
+          <PropsRoute path='/recipes/:mode/:id' exact strict component={EditRecipe} />
+          <PropsRoute path='/recipes/:mode' exact strict component={EditRecipe} />
 
-        {/* 
+          <PropsRoute path='/meal-list' exact strict component={MealList} />
+          <PropsRoute path='/bookmark' exact strict component={BookMarks} />
+
+          {/* 
               <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
                    <Route path="/search" exact strict component={Dashboard} />
                   curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
@@ -44,8 +46,9 @@ const App = ({store}) => {
                   users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans} recipeInfo={this.state.recipes}
                   editPlan={(mealPlans) => this.setState({mealPlans})}/>
           */}
-        <PropsRoute path='/profile' exact strict component={Profile} />
-        <PropsRoute path='/profile/edit' component={ProfileEdit} />
+          <PropsRoute path='/profile' exact strict component={Profile} />
+          <PropsRoute path='/profile/edit' component={ProfileEdit} />
+        </div>
       </div>
     </Router>
   );
