@@ -10,48 +10,31 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
       },
-      memberId: {
-        type: Sequelize.UUID,
+      name: {
         allowNull: false,
-        references: {
-          model: "members",
-          key: "id",
-        },
-      },
-      title: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      method: {
-        type: Sequelize.STRING,
+      UOM: {
         allowNull: false,
+        type: Sequelize.STRING,
       },
       calories: {
         type: Sequelize.FLOAT,
-        allowNull: false,
       },
       fats: {
         type: Sequelize.FLOAT,
-        allowNull: false,
       },
       protein: {
         type: Sequelize.FLOAT,
-        allowNull: false,
       },
       cabs: {
         type: Sequelize.FLOAT,
-        allowNull: false,
       },
       sodium: {
         type: Sequelize.FLOAT,
-        allowNull: false,
       },
-      rate: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      images: {
-        type: Sequelize.JSON,
+      type: {
+        type: Sequelize.STRING,
       },
       createdBy: {
         allowNull: false,
@@ -78,7 +61,7 @@ module.exports = {
         'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";',
         { transaction }
       );
-      await queryInterface.createTable("recipes", fields, { transaction });
+      await queryInterface.createTable("ingredients", fields, { transaction });
       transaction.commit();
     } catch (error) {
       await transaction.rollback();
@@ -88,7 +71,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.dropTable("recipes", { transaction });
+      await queryInterface.dropTable("ingredients", { transaction });
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
