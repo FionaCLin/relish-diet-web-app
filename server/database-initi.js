@@ -1,7 +1,7 @@
 import {Sequelize} from 'sequelize';
 import {dbconfig} from './config/config.js';
-import MemberModel from '../dateabase/models/member.js';
-import RecipeModel from '../dateabase/models/recipes.js';
+import MemberModel from '../database/models/member.js';
+import RecipeModel from '../database/models/recipes.js';
 
 const environment = process.env.NODE_ENV || 'development';
 const sequelize = new Sequelize(
