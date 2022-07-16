@@ -114,6 +114,13 @@ button {
   -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
   width: 100%;
+
+  &.has-action-button {
+    width: -moz-calc(100% - 55px);
+    width: -webkit-calc(100% - 55px);
+    width: -o-calc(100% - 55px);
+    width: calc(100% - 55px);
+  }
 }
 
 label {
@@ -334,7 +341,7 @@ label {
 }
 
 .planner_img_v {
-  margin: 0 0;
+  margin: 0;
   padding: 0 0;
   width: 160px;
   max-width: 160px;
@@ -495,7 +502,8 @@ textarea {
 
 .measure {
   float: left;
-  height: 32px;
+  height: 32px;  
+  line-height: 19px;
   width: auto;
 }
 
@@ -507,12 +515,15 @@ textarea {
     width: -webkit-calc(100% - 313px);
     width: -o-calc(100% - 313px);
     width: calc(100% - 313px);
-    float: left;
-    height: 36px;
-    padding-right: $gapHalf;
-    font-size: 15px;
-    line-height: 22px;
   }
+}
+
+.has-action-button {
+  float: left;
+  height: 36px;
+  padding-right: $gapHalf;
+  font-size: 15px;
+  line-height: 22px;
 }
 
 .dropdown-toggle {

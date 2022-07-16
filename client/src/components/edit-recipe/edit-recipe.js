@@ -258,60 +258,67 @@ class EditRecipe extends React.Component {
             </div>
             <h4>Recipe Images</h4>
             <div className='form-group row'>
-              <label for='inputImage1' className='col-sm-2 col-form-label'>
-                Image 1
-              </label>
-              <div className='col-sm-10'>
+              <div className='col-sm-2'>
+              <label for='inputImage1' className='col-form-label'>
+                  Images
+                </label>
+              </div>
+              <div className='col-sm-2'>
+              <input
+                  list='ingredients'
+                  value={this.state.string}
+                  name='ingredients'
+                  placeholder='E.g. Step 1'
+                  onChange={(e) => this.autocomplete(e)}
+                  className='ingredient form-control'
+                ></input>
+              </div>
+              <div className='col-sm-8'>
                 <input
                   onChange={(e) => this.changeImg(e, 0)}
                   type='file'
-                  className='form-control-file'
+                  className='form-control-file has-action-button'
                   id='inputImage1'
                 ></input>
-                {!isNullOrUndefined(this.state.img[0]) ? (
-                  <div style={{float: 'right'}}>
+                <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} className='btn btn-secondary'>
+                  <span className='glyphicon glyphicon-plus'></span>
+                </button>
+              </div>
+            </div>
+            <div className='form-group row'>
+              <div className='col-sm-2'>
+              </div>
+              <div className='col-sm-10'>
+                {(this.state.img[0]) && (
+                  <div>
                     <div style={bg_img(this.state.img[0])} className='planner_img_v'></div>
-                    <div className='pic_bottom'>Current Image</div>
+                    <div className='pic_bottom'>Step 1</div>
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
             <div className='form-group row'>
-              <label for='inputImage1' className='col-sm-2 col-form-label'>
-                Image 2
-              </label>
+              <div className='col-sm-2'>                
+              </div>
               <div className='col-sm-10'>
-                <input
-                  onChange={(e) => this.changeImg(e, 1)}
-                  type='file'
-                  className='form-control-file'
-                  id='inputImage1'
-                ></input>
-                {!isNullOrUndefined(this.state.img[1]) ? (
-                  <div style={{float: 'right'}}>
+                {(this.state.img[1]) && (
+                  <div>
                     <div style={bg_img(this.state.img[1])} className='planner_img_v'></div>
-                    <div className='pic_bottom'>Current Image</div>
+                    <div className='pic_bottom'>Step 2</div>
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
             <div className='form-group row'>
-              <label for='inputImage1' className='col-sm-2 col-form-label'>
-                Image 3
-              </label>
+              <div className='col-sm-2'>
+              </div>
               <div className='col-sm-10'>
-                <input
-                  onChange={(e) => this.changeImg(e, 2)}
-                  type='file'
-                  className='form-control-file'
-                  id='inputImage1'
-                ></input>
-                {!isNullOrUndefined(this.state.img[2]) ? (
-                  <div style={{float: 'right'}}>
+                {(this.state.img[2]) && (
+                  <div>
                     <div style={bg_img(this.state.img[2])} className='planner_img_v'></div>
-                    <div className='pic_bottom'>Current Image</div>
+                    <div className='pic_bottom'>Step 3</div>
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
           </form>
