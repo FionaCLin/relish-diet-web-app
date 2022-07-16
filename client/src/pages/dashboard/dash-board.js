@@ -2,7 +2,7 @@ import React from 'react';
 import SearchInputForm from '../SearchInputForm';
 import {url_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const Dashboard = ({recipesList}) => {

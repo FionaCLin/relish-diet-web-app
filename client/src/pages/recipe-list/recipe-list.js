@@ -1,8 +1,7 @@
 import React from 'react';
 import constants from '../../constants';
-import {isUndefined} from 'util';
-import {Link} from 'react-router-dom';
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 
 // class RecipeList extends React.Component {
 //   constructor(props) {
@@ -48,8 +47,8 @@ import {Container, Row, Col, Modal, Button} from 'react-bootstrap';
 //   render() {
 const RecipeList = (props) => {
   // let list_type = this.props.list_type;
-
-  const {history} = props['0'];
+  console.log(props)
+  const history = useHistory();
   let pageTitle = props.pageTitle;
 
   let {recipes, users, showDialog, modalRecipe, changeModal, toggleDialog, deleteRecipe} = props;
