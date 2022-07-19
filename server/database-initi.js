@@ -19,11 +19,11 @@ const Member = MemberModel(sequelize, Sequelize.DataTypes);
 const Recipe = RecipeModel(sequelize, Sequelize.DataTypes);
 const Ingredient = IngredientModel(sequelize, Sequelize.DataTypes);
 
-Recipe.hasMany(Ingredient, {
-  through: "RecipeIngredients",
-  as: "ingredients",
-  foreignKey: "recipeId",
-})
+// Recipe.belongsTo(Ingredient, {
+//   through: "RecipeIngredients",
+//   as: "ingredients",
+//   foreignKey: "recipeId",
+// })
 
 Recipe.belongsTo(Member, {
   targetKey: 'id',
