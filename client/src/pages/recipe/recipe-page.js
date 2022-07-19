@@ -17,12 +17,12 @@ class RecipePage extends React.Component {
       }
     });
 
-    let bookmarked = !isUndefined(
-      this.props.users.find((x) => x.id === this.props.curr_user).bookmarks.find((y) => y === recipe.id),
-    )
-      ? true
-      : false;
-
+    // let bookmarked = !isUndefined(
+    //   this.props.users.find((x) => x.id === this.props.curr_user).bookmarks.find((y) => y === recipe.id),
+    // )
+    //   ? true
+    //   : false;
+    let bookmarked = true;
     this.state = {
       comment: {
         commentor: this.props.curr_user,

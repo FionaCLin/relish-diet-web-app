@@ -1,38 +1,20 @@
-import constants from "../../constants";
-import {signIn} from '../../reducers/user.js'
+import constants from '../../constants';
+import {getRecipeById} from '../../reducers/recipe.js';
 
-export const mapStateToProps = state => {
+export const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps);
+
   return {
     inputValue: state.user.loginUserNameInput,
     password: state.user.password,
     error: state.user.error,
-    loading: state.user.loading
+    loading: state.user.loading,
   };
 };
 
-export const mapDispatchToProps = dispatch => {
-  return {
-    handleEmailChange: e => {
-      dispatch({
-        type: constants.user.LOGIN_EMAIL_TEXT_CHANGED,
-        emailtext: e.target.value
-      });
-    },
-    handlePwdChange: e => {
-      dispatch({
-        type: constants.user.LOGIN_PWD_TEXT_CHANGED,
-        pwdtext: e.target.value
-      });
-    },
-    onClickLogin: async (push) => {
-      try {
-        const {status = null} = await dispatch(signIn)
-        if (status === 200) {
-          push('/dashboard');
-        }
-      } catch (e) {
-        console.error(e.message)
-      }
-    }
-  };
+export const mapDispatchToProps = async (dispatch, ownProps) => {
+  const {id} = ownProps[0].match.params;
+  console.log(id);
+  await dispatch(getRecipeById({uuid: id}));
+  return {};
 };

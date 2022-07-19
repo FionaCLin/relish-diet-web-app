@@ -38,3 +38,26 @@ export function profileUpdate(user_id, values) {
     headers: {Authorization: `Bearer ${token}`},
   });
 }
+
+export function getRecipesByMemberId({memberId}) {
+  const token = localStorage.getItem('accessToken');
+
+  return instance.get(`v1/recipes/members/${memberId}`, {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+
+export function getRecipesById({recipeId}) {
+  const token = localStorage.getItem('accessToken');
+
+  return instance.get(`v1/recipes/${recipeId}`, {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

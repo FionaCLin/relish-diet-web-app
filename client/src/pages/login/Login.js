@@ -25,7 +25,7 @@ const Login = ({loading, error, handleEmailChange, handlePwdChange, onClickLogin
               onChange={handlePwdChange}
               type='password'
             />
-            <div onClick={() => onClickLogin(history.push)} className='dashboard btn btn-success'>
+            <div onClick={() => onClickLogin(history)} className='dashboard btn btn-success'>
               <span style={loading ? {margin: '0 8px 0 0 '} : {}}>Login</span>
               {loading && <CircularProgress size={10} thickness={5} color={'inherit'} />}
             </div>
