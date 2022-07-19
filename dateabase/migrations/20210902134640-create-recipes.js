@@ -25,26 +25,32 @@ module.exports = {
       method: {
         type: Sequelize.STRING,
         allowNull: false,
+        defaultValue: "",
       },
       calories: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        defaultValue: 0,
       },
       fats: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        defaultValue: 0,
       },
       protein: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        defaultValue: 0,
       },
       cabs: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        defaultValue: 0,
       },
       sodium: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        defaultValue: 0,
       },
       rate: {
         type: Sequelize.INTEGER,
@@ -52,6 +58,7 @@ module.exports = {
       },
       images: {
         type: Sequelize.JSON,
+        defaultValue: [],
       },
       createdBy: {
         allowNull: false,

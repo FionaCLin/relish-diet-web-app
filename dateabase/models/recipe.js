@@ -53,8 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       images: {
         allowNull: false,
-        type: DataTypes.STRING,
-        defaultValue: "",
+        type: DataTypes.JSON,
+        defaultValue: [],
       },
       createdBy: {
         allowNull: false,
