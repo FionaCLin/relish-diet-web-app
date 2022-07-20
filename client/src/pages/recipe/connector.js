@@ -1,5 +1,5 @@
 import constants from "../../constants";
-import {signIn} from '../../reducers/user.js'
+import {getUOM} from '../../reducers/recipe.js'
 
 export const mapStateToProps = state => {
   return {
@@ -10,7 +10,8 @@ export const mapStateToProps = state => {
   };
 };
 
-export const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = async(dispatch) => {
+  await dispatch(getUOM)
   return {
     handleEmailChange: e => {
       dispatch({
@@ -24,7 +25,7 @@ export const mapDispatchToProps = dispatch => {
         pwdtext: e.target.value
       });
     },
-    onClickLogin: async (push) => {
+    /* onClickLogin: async (push) => {
       try {
         const {status = null} = await dispatch(signIn)
         if (status === 200) {
@@ -33,6 +34,6 @@ export const mapDispatchToProps = dispatch => {
       } catch (e) {
         console.error(e.message)
       }
-    }
+    } */
   };
 };

@@ -493,17 +493,23 @@ textarea {
   }
 }
 
+.col-form-label {
+  height: 36px;
+  line-height: 22px;
+}
+
 .amount {
   float: left;
   width: 150px;
-  height: 32px;
+  height: 36px;
+  line-height: 22px;
   margin-right: 15px;
 }
 
 .measure {
   float: left;
-  height: 32px;  
-  line-height: 19px;
+  height: 36px;
+  line-height: 22px;
   width: auto;
 }
 
@@ -511,10 +517,10 @@ textarea {
   float: left;
 
   &.has-action-button {
-    width: -moz-calc(100% - 313px);
-    width: -webkit-calc(100% - 313px);
-    width: -o-calc(100% - 313px);
-    width: calc(100% - 313px);
+    width: -moz-calc(100% - 332px);
+    width: -webkit-calc(100% - 332px);
+    width: -o-calc(100% - 332px);
+    width: calc(100% - 332px);
   }
 }
 
