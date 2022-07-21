@@ -12,9 +12,7 @@ export default function recipeList(state = initialState, action) {
       // render to recipe
       break;
     case 'setUOM':
-      console.log(action);
-      console.log(state);
-      return {...state, UOM: uom};
+      return {...state, UOM: action.uom};
     default:
       return state;
   }

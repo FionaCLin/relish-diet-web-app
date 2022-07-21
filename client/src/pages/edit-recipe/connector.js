@@ -1,24 +1,24 @@
 import constants from '../../constants';
-import {getUOM} from '../../reducers/recipe.js'
+import {getUOM} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
-  console.log(state);
-  const {recipeList, UOM} = state;
-  const {recipeInfo, ingredientList, users, CURR_USER_ID, modalRecipe} = recipeList;
+  const {recipe} = state;
+  const {recipeInfo, ingredientList, UOM} = recipe;
+
+  console.log(recipeInfo, ingredientList, UOM);
 
   return {
-    editRecipes: recipeInfo,
+    // editRecipes: recipeInfo,'
+    // modalRecipe,
+
     ingredientList,
     recipeInfo,
-    users,
-    curr_user: CURR_USER_ID,
-    modalRecipe,
-    UOM
+    UOM,
   };
 };
 
-export const mapDispatchToProps = async(dispatch) => {
-  await dispatch(getUOM)
+export const mapDispatchToProps = (dispatch) => {
+  dispatch(getUOM);
   return {
     changeModal(recipe) {
       dispatch({type: constants.recipeList.REMOVE_RECIPE, recipe});
