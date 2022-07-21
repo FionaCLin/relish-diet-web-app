@@ -146,8 +146,8 @@ label {
 .recipe_img {
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  //-webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-  //box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
 }
 
 .page-wrapper {
@@ -326,6 +326,7 @@ label {
 .recipe_img {
   width: 250px;
   height: 250px;
+  object-fit: cover;
 }
 
 .planner_img {
@@ -472,12 +473,12 @@ textarea {
   padding-left: 0;
   width: 100%;
   float: left;
-  margin-top: 5px;
 
   li {
+    margin-bottom: 10px;
+
     button {
       width: 100%;
-      margin-top: 10px;
       text-align: left;
     }
   }
