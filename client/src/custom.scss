@@ -473,6 +473,7 @@ textarea {
   padding-left: 0;
   width: 100%;
   float: left;
+  margin-top: 15px;
 
   li {
     margin-bottom: 10px;
@@ -481,6 +482,22 @@ textarea {
       width: 100%;
       text-align: left;
     }
+  }
+}
+
+.field-error {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ff8080;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ff8080;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
   }
 }
 
@@ -538,7 +555,6 @@ textarea {
     margin-left: 15px;
   }
 }
-
 
 .navbar {
   align-items: flex-start;

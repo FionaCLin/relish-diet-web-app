@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
@@ -12,8 +12,10 @@ const EditRecipe = (props) => {
   const history = useHistory();
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState(0);
+  const [amountError, setAmountError] = useState(false);
   const [measure, setMeasure] = useState('g');
   const [inputIngredient, setInputIngredient] = useState('');
+  const [inputIngError, setInputIngError] = useState(false);
   const [ingredientsProp, setIngredientsProp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [images, setImages] = useState([]);
@@ -33,8 +35,19 @@ const EditRecipe = (props) => {
     setIngredients(ingredients.splice(index - 1, index));
   };
 
+
+  const validateFields = () => {
+      setAmountError(amount <= 0);
+      setInputIngError(!inputIngredient);
+
+  };
+
   const addIngredient = (e) => {
     e.preventDefault();
+    validateFields();
+    if (amount <= 0 || !inputIngredient) {
+      return;
+    }
     const ingredient = {
       amount,
       measure,
@@ -80,19 +93,23 @@ const EditRecipe = (props) => {
                 type='number'
                 name='amount'
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => {
+                  setAmountError(false)
+                  setInputIngError(false)
+                  setAmount(e.target.value)
+                }}
                 placeholder='E.g. 1'
                 size='8'
-                className='form-control amount'
+                className={`form-control amount ${amountError ? 'field-error' : ''}`}
                 id='inputIngredient'
-              ></input>
+              />
               <select
                 value={measure}
                 onChange={(e) => setMeasure(e.target.value)}
                 className='form-control measure'
                 placeholder='E.g. tbsp'
               >
-                {props.UOM.length && props.UOM.map((uom) => <option>{uom}</option>)}
+                {props.UOM.length && props.UOM.map((uom, i) => <option key={i}>{uom}</option>)}
               </select>
               <div style={{float: 'left', marginLeft: '10px', marginRight: '10px', lineHeight: '32px'}}>of</div>
               <input
@@ -100,8 +117,12 @@ const EditRecipe = (props) => {
                 value={inputIngredient}
                 name='ingredients'
                 placeholder='E.g. sugar'
-                onChange={(e) => autocomplete(e)}
-                className='ingredient form-control has-action-button'
+                onChange={(e) => {
+                  setAmountError(false)
+                  setInputIngError(false)
+                  autocomplete(e)
+                }}
+                className={`ingredient form-control has-action-button ${inputIngError ? 'field-error' : ''}`}
               />
               <datalist id='ingredients'>
                 {ingredientsProp.map((ingredient) => {
@@ -114,7 +135,7 @@ const EditRecipe = (props) => {
               {
                 <ul className='editable-list'>
                   {ingredients.map((ingredient, index) => (
-                    <li>
+                    <li key={index}>
                       <button onClick={(e) => removeIngredient(e, index)} className='btn btn-secondary'>
                         {`${ingredient.amount} ${ingredient.measure} ${ingredient.inputIngredient}`}
                         <span className='pull-right'>
