@@ -28,16 +28,13 @@ const EditRecipe = (props) => {
     setIngredientsProp(ingredientsProp);
   };
 
-  const removeIngredient = (e, ingredient) => {
+  const removeIngredient = (e, index) => {
     e.preventDefault();
-    ingredients.splice(ingredients.indexOf(ingredient), 1);
-    setIngredients(ingredients);
+    setIngredients(ingredients.splice(index - 1, index));
   };
 
   const addIngredient = (e) => {
-    e.stopPropagation();
-    console.log('addIngredient');
-
+    e.preventDefault();
     const ingredient = {
       amount,
       measure,
@@ -95,9 +92,7 @@ const EditRecipe = (props) => {
                 className='form-control measure'
                 placeholder='E.g. tbsp'
               >
-                {
-                  props.UOM.length && props.UOM.map((uom) => <option>{uom}</option>)
-                }
+                {props.UOM.length && props.UOM.map((uom) => <option>{uom}</option>)}
               </select>
               <div style={{float: 'left', marginLeft: '10px', marginRight: '10px', lineHeight: '32px'}}>of</div>
               <input
@@ -107,7 +102,7 @@ const EditRecipe = (props) => {
                 placeholder='E.g. sugar'
                 onChange={(e) => autocomplete(e)}
                 className='ingredient form-control has-action-button'
-              ></input>
+              />
               <datalist id='ingredients'>
                 {ingredientsProp.map((ingredient) => {
                   return <option>{ingredient}</option>;
@@ -116,22 +111,20 @@ const EditRecipe = (props) => {
               <button style={{float: 'right'}} onClick={(e) => addIngredient(e)} className='btn btn-secondary'>
                 <span className='glyphicon glyphicon-plus'></span>
               </button>
-              {ingredients.length ? (
+              {
                 <ul className='editable-list'>
-                  {ingredients.map((ingredient) => {
-                    return (
-                      <li>
-                        <button onClick={(e) => removeIngredient(e, ingredient)} className='btn btn-secondary'>
-                          {ingredient}
-                          <span className='pull-right'>
-                            <span className='glyphicon glyphicon-remove'></span>
-                          </span>
-                        </button>
-                      </li>
-                    );
-                  })}
+                  {ingredients.map((ingredient, index) => (
+                    <li>
+                      <button onClick={(e) => removeIngredient(e, index)} className='btn btn-secondary'>
+                        {`${ingredient.amount} ${ingredient.measure} ${ingredient.inputIngredient}`}
+                        <span className='pull-right'>
+                          <span className='glyphicon glyphicon-remove'></span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
                 </ul>
-              ) : null}
+              }
             </div>
           </div>
 
