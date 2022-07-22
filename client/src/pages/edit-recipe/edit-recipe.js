@@ -32,14 +32,14 @@ const EditRecipe = (props) => {
 
   const removeIngredient = (e, index) => {
     e.preventDefault();
-    setIngredients(ingredients.splice(index - 1, index));
+    const ingredientsNew = ingredients.filter((_, i) => i !== index);
+    setIngredients(ingredientsNew);
+    console.log(ingredientsNew);
   };
 
-
   const validateFields = () => {
-      setAmountError(amount <= 0);
-      setInputIngError(!inputIngredient);
-
+    setAmountError(amount <= 0);
+    setInputIngError(!inputIngredient);
   };
 
   const addIngredient = (e) => {
@@ -94,9 +94,9 @@ const EditRecipe = (props) => {
                 name='amount'
                 value={amount}
                 onChange={(e) => {
-                  setAmountError(false)
-                  setInputIngError(false)
-                  setAmount(e.target.value)
+                  setAmountError(false);
+                  setInputIngError(false);
+                  setAmount(e.target.value);
                 }}
                 min='1'
                 placeholder='E.g. 1'
@@ -119,9 +119,9 @@ const EditRecipe = (props) => {
                 name='ingredients'
                 placeholder='E.g. sugar'
                 onChange={(e) => {
-                  setAmountError(false)
-                  setInputIngError(false)
-                  autocomplete(e)
+                  setAmountError(false);
+                  setInputIngError(false);
+                  autocomplete(e);
                 }}
                 className={`ingredient form-control has-action-button ${inputIngError ? 'field-error' : ''}`}
               />
