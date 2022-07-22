@@ -11,7 +11,7 @@ let params = {
 const EditRecipe = (props) => {
   const history = useHistory();
   const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [measure, setMeasure] = useState('g');
   const [inputIngredient, setInputIngredient] = useState('');
   const [ingredientsProp, setIngredientsProp] = useState([]);
@@ -41,7 +41,7 @@ const EditRecipe = (props) => {
       inputIngredient,
     };
     setIngredients([...ingredients, ingredient]);
-    setAmount(0);
+    setAmount(1);
     setMeasure('g');
     setInputIngredient('');
   };
@@ -80,6 +80,7 @@ const EditRecipe = (props) => {
                 type='number'
                 name='amount'
                 value={amount}
+                min='1'
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder='E.g. 1'
                 size='8'
