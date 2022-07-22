@@ -11,7 +11,7 @@ let params = {
 const EditRecipe = (props) => {
   const history = useHistory();
   const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [amountError, setAmountError] = useState(false);
   const [measure, setMeasure] = useState('g');
   const [inputIngredient, setInputIngredient] = useState('');
@@ -54,7 +54,7 @@ const EditRecipe = (props) => {
       inputIngredient,
     };
     setIngredients([...ingredients, ingredient]);
-    setAmount(0);
+    setAmount(1);
     setMeasure('g');
     setInputIngredient('');
   };
@@ -98,6 +98,7 @@ const EditRecipe = (props) => {
                   setInputIngError(false)
                   setAmount(e.target.value)
                 }}
+                min='1'
                 placeholder='E.g. 1'
                 size='8'
                 className={`form-control amount ${amountError ? 'field-error' : ''}`}
