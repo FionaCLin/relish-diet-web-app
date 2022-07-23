@@ -101,6 +101,7 @@ button {
 
 .form-control {
   background: none;
+  appearance: auto;
 
   &:focus {
     background-color: unset;

@@ -25,7 +25,6 @@ const EditRecipe = (props) => {
   const autocomplete = (e) => {
     e.preventDefault();
     setInputIngredient(e.target.value);
-    console.log(inputIngredient);
     const ingredientsProp = ingredientList.filter((item) => ingredientList.includes(inputIngredient));
     setIngredientsProp(ingredientsProp);
   };
@@ -34,7 +33,6 @@ const EditRecipe = (props) => {
     e.preventDefault();
     const ingredientsNew = ingredients.filter((_, i) => i !== index);
     setIngredients(ingredientsNew);
-    console.log(ingredientsNew);
   };
 
   const validateFields = () => {
