@@ -17,7 +17,7 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch, ownProps) => {
   dispatch(getUOM);
   return {
     changeModal(recipe) {

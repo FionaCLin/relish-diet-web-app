@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      calories_goal: {
+      caloriesGoal: {
         allowNull: false,
         type: Sequelize.FLOAT,
         defaultValue: 0,

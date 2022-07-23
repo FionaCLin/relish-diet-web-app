@@ -18,7 +18,11 @@ export default function recipeList(state = initialState, action) {
   }
 }
 
-export async function getUOM(dispatch) {
+export async function getUOM(dispatch, getState) {
+  const {UOM} = getState().recipe;
+  if (UOM.length > 0) {
+    return;
+  }
   try {
     const {data} = await uom();
     dispatch({
