@@ -1,8 +1,9 @@
 import {Sequelize} from 'sequelize';
 import {dbconfig} from './config/config.js';
 import MemberModel from '../database/models/member.js';
-import RecipeModel from '../database/models/recipes.js';
 import UOMModel from '../database/models/uom.js';
+import RecipeModel from '../dateabase/models/recipe.js';
+import IngredientModel from '../dateabase/models/ingredient.js'
 
 const environment = process.env.NODE_ENV || 'development';
 const sequelize = new Sequelize(
@@ -18,11 +19,19 @@ const sequelize = new Sequelize(
 const Member = MemberModel(sequelize, Sequelize.DataTypes);
 const Recipe = RecipeModel(sequelize, Sequelize.DataTypes);
 const UOM = UOMModel(sequelize, Sequelize.DataTypes);
+const Ingredient = IngredientModel(sequelize, Sequelize.DataTypes);
+
+// Recipe.belongsTo(Ingredient, {
+//   through: "RecipeIngredients",
+//   as: "ingredients",
+//   foreignKey: "recipeId",
+// })
 
 Recipe.belongsTo(Member, {
   targetKey: 'id',
   foreignKey: 'memberId',
 });
+
 Member.hasMany(Recipe, {
   as: 'creator',
   foreignKey: 'memberId',

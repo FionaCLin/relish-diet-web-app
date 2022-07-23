@@ -1,16 +1,20 @@
 import constants from "../../constants";
+import {getDashboardRecipes} from '../../reducers/dashboard.js';
+import {getRecipeById} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
-  const [{ recipesList }] = state.dashboard
+  const { recipesList, loading } = state.dashboard
+  console.log(recipesList)
   return {
-    recipesList
+    recipesList,
+    loading
   }
 };
 
-export const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = async (dispatch) => {
+  await dispatch(getDashboardRecipes);
   return {
     onRecipeClick(e, id) {
-      dispatch({type: constants.SELECT_RECIPE, select_id: id});
     }
   };
 };

@@ -1,7 +1,9 @@
-"use strict";
-
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const Recipe = sequelize.define("Recipe",
+  const Ingredient = sequelize.define("Ingredient",
     {
       id: {
         allowNull: false,
@@ -9,15 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,
       },
-      memberId: {
-        allowNull: false,
-        type: DataTypes.UUID,
-      },
-      title: {
+      name: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      method: {
+      UOM: {
         allowNull: false,
         type: DataTypes.STRING,
       },
@@ -46,15 +44,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         defaultValue: 0,
       },
-      rate: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      images: {
+      type: {
         allowNull: false,
         type: DataTypes.STRING,
-        defaultValue: "",
+        defaultValue: 'Uncategorised',
       },
       createdBy: {
         allowNull: false,
@@ -82,8 +75,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       timestamps: true,
-      tableName: "recipes",
+      tableName: "ingredients",
     }
   );
-  return Recipe;
+  return Ingredient;
 };

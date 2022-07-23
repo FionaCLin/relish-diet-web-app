@@ -155,63 +155,36 @@ label {
   padding-left: 0;
   padding-right: 0;
 
-  .dashboard-content-wrapper {
-    width: 100%;
+  .dash_img_wrapper {
+    height: 274px;
     padding-left: 0;
     padding-right: 0;
+    border: 10px solid transparent;
 
-    .dash_img_wrapper {
-      /* float:left;
-      margin: 10px;
-      position: relative;
-      padding:0;
-      width: 100%; */
-      height: 274px;
-      padding-left: 0;
-      padding-right: 0;
-      border: 10px solid transparent;
+    a {
+      display: block;
+      height: 100%;
+      width: 100%;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
 
-      a {
-        display: block;
-        height: 100%;
-        width: 100%;
+      .overlay {
         -webkit-border-radius: 10px;
         border-radius: 10px;
+      }
 
-        .overlay {
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-        }
-
-        .dash_img {
-          /*  display: block;
-           max-width:274px;
-           height:274px;
-           width: 100%;
-           background-size:cover;
-           background-repeat:no-repeat;
-           background-position:center center */
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center center;
-          height: 100%;
-          width: 100%;
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-          -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-        }
-
-        /* &:hover,
-        &:active {
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-    
-          .dash_img {
-            -webkit-border-radius: 10px;
-            border-radius: 10px;
-          }
-        } */
+      .dash_img {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
       }
     }
   }
