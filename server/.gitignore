@@ -1,5 +1,7 @@
 node_modules/
+.jest-cache
 .DS_Store
 bk
 config.js
 config.json
+test-results
