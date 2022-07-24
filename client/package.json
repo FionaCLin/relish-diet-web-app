@@ -22,7 +22,9 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "react-dropzone": "^4.2.12",
+    "cuid": "^2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
