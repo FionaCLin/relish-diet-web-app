@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
   const Recipe = sequelize.define("Recipe",
     {
       id: {
-        allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,
@@ -19,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       method: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(2048),
       },
       calories: {
         allowNull: false,

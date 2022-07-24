@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
   const RecipeIngredient = sequelize.define("RecipeIngredient",
     {
       id: {
-        allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,

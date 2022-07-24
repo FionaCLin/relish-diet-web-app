@@ -1,24 +1,46 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+
 module.exports = (sequelize, DataTypes) => {
-  class UOM extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+  const UOM = sequelize.define(
+    "UOM",
+    {
+      abbreviation: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      description: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      createdBy: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      updatedBy: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        defaultValue: null,
+      },
+    },
+    {
+      sequelize,
+      modelName: "UOM",
+      timestamps: true,
+      tableName: "UOMs",
     }
-  }
-  UOM.init({
-    abbreviation: DataTypes.STRING,
-    description: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'UOM',
-  });
+  );
   return UOM;
 };
