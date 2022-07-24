@@ -2,8 +2,8 @@ import {Sequelize} from 'sequelize';
 import {dbconfig} from './config/config.js';
 import MemberModel from '../database/models/member.js';
 import UOMModel from '../database/models/uom.js';
-import RecipeModel from '../dateabase/models/recipe.js';
-import IngredientModel from '../dateabase/models/ingredient.js'
+import RecipeModel from '../database/models/recipe.js';
+import IngredientModel from '../database/models/ingredient.js'
 
 const environment = process.env.NODE_ENV || 'development';
 const sequelize = new Sequelize(

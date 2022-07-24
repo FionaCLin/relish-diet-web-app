@@ -41,7 +41,7 @@ export function profileUpdate(user_id, values) {
 
 export function uom() {
   const token = localStorage.getItem('accessToken');
-  return instance.get(`v1/recipes/uom`, {
+  return instance.get(`v1/recipes/ingredients/uom`, {
     headers: {
       'content-type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export function uom() {
 export function getRecipesByMemberId({memberId}) {
   const token = localStorage.getItem('accessToken');
 
-  return instance.get(`v1/recipes/members/${memberId}`, {
+  return instance.get(`v1/recipes?memberId=${memberId}`, {
     headers: {
       'content-type': 'application/json',
       Authorization: `Bearer ${token}`,

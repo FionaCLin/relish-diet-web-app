@@ -5,6 +5,7 @@ import cors from 'cors';
 import Amplify from '@aws-amplify/core';
 import router from './routes/index.js';
 import config from './config/config.js';
+import * as OpenApiValidator from 'express-openapi-validator';
 
 Amplify.default.configure({
   Auth: {
@@ -21,6 +22,12 @@ const port = 8080;
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 app.use(cors());
+app.use(
+  OpenApiValidator.middleware({
+    apiSpec: './openapi.yaml',
+    validateRequests: true, // (default)
+  }),
+);
 
 // use the router and 401 anything falling through
 app.use('/', router, (request, response) => {

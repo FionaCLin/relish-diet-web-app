@@ -1,11 +1,11 @@
 import express from 'express';
-import {getUOM} from '../../../controllers/recipes/index.js';
-import {getById, getByMemberId} from '../../../controllers/recipes/index.js';
+import {getUOM, getById, getRecipes, saveRecipe} from '../../../controllers/recipes/index.js';
 
 const router = new express.Router();
 
-router.get('/uom', getUOM);
+router.post('/', saveRecipe);
+router.get('/ingredients/uom', getUOM);
 router.get('/:recipeId', getById);
-router.get('/members/:memberId', getByMemberId);
+router.get('/', getRecipes);
 
 export default router;

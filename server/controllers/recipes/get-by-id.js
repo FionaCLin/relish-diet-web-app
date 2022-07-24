@@ -1,6 +1,6 @@
 import {getByIdSvc} from '../../lib/recipes/index.js';
 
-export default async function updateById(request, response, next) {
+export default async function getById(request, response, next) {
   try {
     const {recipeId} = request.params;
     const result = await getByIdSvc({uuid: recipeId});

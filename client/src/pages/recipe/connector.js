@@ -1,6 +1,5 @@
 import constants from "../../constants";
 import {getUOM} from '../../reducers/recipe.js'
-import constants from '../../constants';
 import {getRecipeById} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state, ownProps) => {
@@ -14,11 +13,9 @@ export const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export const mapDispatchToProps = async (dispatch, ownProps) => {
-  await dispatch(getUOM)
-
+export const mapDispatchToProps = (dispatch, ownProps) => {
   const {id} = ownProps[0].match.params;
   console.log(id);
-  await dispatch(getRecipeById({uuid: id}));
+  dispatch(getRecipeById({uuid: id}));
   return {};
 };
