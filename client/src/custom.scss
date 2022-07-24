@@ -18,6 +18,8 @@ $gapEighth: 3px;
 $gapMinusSixth: 28px;
 $gapThreeQuarters: 16px;
 
+$imageItemWidth: 200px;
+
 $borderRadius: $gapHalf;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
@@ -580,7 +582,7 @@ textarea {
   -webkit-border-radius: $borderRadius;
   -moz-border-radius: $borderRadius;
   border-radius: $borderRadius;
-  padding: $gap/2;
+  padding: $gapHalf;
   cursor: pointer;
 
   p {
@@ -588,12 +590,121 @@ textarea {
     margin-bottom: 0;
   }
 
-  &:hover, 
+  &:hover,
   &:active {
     background: $primary;
 
     p {
       color: $white;
+    }
+  }
+}
+
+.upload-image-previews {
+  padding-left: 0;
+  background: $greyLight;
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border-radius: $borderRadius;
+  border: 1px solid $greyDark;
+
+  li {
+    display: inline-block;
+    list-style-type: none;
+    padding: $gapHalf;
+    margin: $gapHalf;
+    -webkit-border-radius: $borderRadius;
+    -moz-border-radius: $borderRadius;
+    border-radius: $borderRadius;
+    background: $primary;
+    position: relative;
+
+    a {
+      display: block;
+      width: $gap;
+      height: $gap;
+      line-height: $gap;
+      position: absolute;
+      top: $gapHalf;
+      right: $gapHalf;
+      color: $white;
+      text-shadow: 0.07em 0 black, 0 0.07em black, -0.07em 0 black, 0 -0.07em black;
+    }
+
+    img {
+      width: $imageItemWidth;
+      height: $imageItemWidth;
+      object-fit: cover;
+      -webkit-border-radius: $borderRadius $borderRadius 0 0;
+      -moz-border-radius: $borderRadius $borderRadius 0 0;
+      border-radius: $borderRadius $borderRadius 0 0;
+      display: block;
+    }
+
+    /* input[type='text'] {
+      width: $imageItemWidth;
+      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
+      -moz-border-radius: 0 0 $borderRadius $borderRadius;
+      border-radius: 0 0 $borderRadius $borderRadius;
+      padding: $gapQuarter;
+      border: none;
+
+      &:focus {
+        border: none;
+      }
+    } */
+
+    /* textarea {
+      width: $imageItemWidth;
+      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
+      -moz-border-radius: 0 0 $borderRadius $borderRadius;
+      border-radius: 0 0 $borderRadius $borderRadius;
+      padding: $gapQuarter;
+    } */
+
+    p {
+      width: $imageItemWidth;
+      background: $white;
+      color: $black;
+      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
+      -moz-border-radius: 0 0 $borderRadius $borderRadius;
+      border-radius: 0 0 $borderRadius $borderRadius;      
+      height: 24px;
+      line-height: 24px;
+      padding: 0 $gapQuarter;
+      margin-bottom: 0;
+      background: none;
+      color: $black;
+      word-break: break-all;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    &:hover,
+    &:active {
+      background: $black;
+      -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+
+      /* input[type='text'] {
+        background: $black;
+        color: $white;
+      } */
+
+      p {
+        color: $white;
+      }
+
+      a {
+        img {
+          //opacity: 0.75;
+        }
+      }
     }
   }
 }

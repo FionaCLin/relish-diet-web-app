@@ -4,12 +4,20 @@ import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
-import cuid from "cuid";
-import UploadImage from "./Dropzone";
+import cuid from 'cuid';
+import UploadImage from './Dropzone';
+import EditImageModal from './EditImageModal';
 //import ImageGrid from "./ImageGrid";
 let params = {
   mode: 'add',
 };
+
+const imageMaxSize = 1000000000; // bytes
+const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif';
+// Extract an Base64 Image's File Extension
+function extractImageFileExtensionFromBase64(base64Data) {
+  return base64Data.substring('data:image/'.length, base64Data.indexOf(';base64'));
+}
 
 const EditRecipe = (props) => {
   const history = useHistory();
@@ -24,6 +32,10 @@ const EditRecipe = (props) => {
   const [images, setImages] = useState([]);
   const [method, setMethod] = useState('');
   const [, , mode] = history.location.pathname.split('/');
+  const [previewFiles, setPreviewFiles] = useState([]);
+  const acceptedFileTypesArray = acceptedFileTypes.split(',').map((item) => {
+    return item.trim();
+  });
 
   const autocomplete = (e) => {
     e.preventDefault();
@@ -59,6 +71,55 @@ const EditRecipe = (props) => {
     setMeasure('g');
     setInputIngredient('');
   };
+
+  const verifyFile = (files) => {
+    if (files && files.length > 0) {
+      const currentFile = files[0];
+      const currentFileType = currentFile.type;
+      const currentFileSize = currentFile.size;
+      if (currentFileSize > imageMaxSize) {
+        alert('This file is not allowed. ' + currentFileSize + ' bytes is too large');
+        return false;
+      }
+      if (!acceptedFileTypesArray.includes(currentFileType)) {
+        alert('This file is not allowed. Only images are allowed.');
+        return false;
+      }
+      return true;
+    }
+  };
+
+  const handleOnDrop = (files, rejectedFiles) => {
+    console.log(files);
+    if (rejectedFiles && rejectedFiles.length > 0) {
+      verifyFile(rejectedFiles);
+    }
+
+    if (files && files.length > 0) {
+      const isVerified = verifyFile(files);
+      if (isVerified) {
+        setPreviewFiles(files);
+        // imageBase64Data
+        // const currentFile = files[0];
+        // const myFileItemReader = new FileReader();
+        // myFileItemReader.addEventListener(
+        //   'load',
+        //   () => {
+        //     // console.log(myFileItemReader.result)
+        //     const myResult = myFileItemReader.result;
+        //     /* this.setState({
+        //       imgSrc: myResult,
+        //       imgSrcExt: extractImageFileExtensionFromBase64(myResult),
+        //     }); */
+        //   },
+        //   false,
+        // );
+
+        //myFileItemReader.readAsDataURL(currentFile);
+      }
+    }
+  };
+
   return (
     <div className='bg-white'>
       <Container className='pt-2 m-auto'>
@@ -177,7 +238,7 @@ const EditRecipe = (props) => {
                 Images
               </label>
             </div>
-            <div className='col-sm-2'>
+            <div className='col-sm-10'>
               {/* <input
                 list='ingredients'
                 value={this.state.string}
@@ -186,8 +247,7 @@ const EditRecipe = (props) => {
                 onChange={(e) => this.autocomplete(e)}
                 className='ingredient form-control'
               ></input> */}
-            </div>
-            <div className='col-sm-8'>{/* 
+              {/* 
               <input
                 onChange={(e) => this.changeImg(e, 0)}
                 type='file'
@@ -197,7 +257,32 @@ const EditRecipe = (props) => {
               <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} className='btn btn-secondary'>
                 <span className='glyphicon glyphicon-plus'></span>
               </button> */}
-              <UploadImage />
+              <UploadImage
+                handleOnDrop={handleOnDrop}
+                acceptedFileTypes={acceptedFileTypes}
+                imageMaxSize={imageMaxSize}
+              />
+            </div>
+          </div>
+          <div className='form-group row'>
+            <div className='col-sm-2'></div>
+            <div className='col-sm-10'>
+              {previewFiles.length === 0 ? (
+                <p>Nothing to show</p>
+              ) : (
+                <ul className='upload-image-previews'>
+                  {previewFiles.map((file) => (
+                    <li>
+                      <a href={file.preview} target='_blank'>
+                        &#10066;
+                      </a>
+                      <img src={file.preview} />
+                      <p>{file.name}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <EditImageModal/>
             </div>
           </div>
           <div className='form-group row'>
