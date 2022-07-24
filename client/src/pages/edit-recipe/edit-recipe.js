@@ -261,6 +261,7 @@ const EditRecipe = (props) => {
                 handleOnDrop={handleOnDrop}
                 acceptedFileTypes={acceptedFileTypes}
                 imageMaxSize={imageMaxSize}
+                maxFiles={maxFiles}
               />
             </div>
           </div>
@@ -326,7 +327,7 @@ const EditRecipe = (props) => {
             </button>
           </Link>
           <button className='btn btn-success' onClick={(e) => this.editRecipe(e)} style={{width: '115px'}}>
-            <Link to='../../recipes'>{mode == 'add' ? 'Create' : 'Edit'}</Link>
+            <Link to='../../recipes'>{mode === 'add' ? 'Create' : 'Edit'}</Link>
           </button>
         </div>
         {/* <!--container end--> */}
