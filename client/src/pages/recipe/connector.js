@@ -1,28 +1,28 @@
-import constants from "../../constants";
-import {getUOM} from '../../reducers/recipe.js'
+import constants from '../../constants';
+import {getUOM} from '../../reducers/recipe.js';
 
-export const mapStateToProps = state => {
+export const mapStateToProps = (state) => {
   return {
     inputValue: state.user.loginUserNameInput,
     password: state.user.password,
     error: state.user.error,
-    loading: state.user.loading
+    loading: state.user.loading,
   };
 };
 
-export const mapDispatchToProps = async(dispatch) => {
-  await dispatch(getUOM)
+export const mapDispatchToProps = (dispatch) => {
+  dispatch(getUOM);
   return {
-    handleEmailChange: e => {
+    handleEmailChange: (e) => {
       dispatch({
         type: constants.user.LOGIN_EMAIL_TEXT_CHANGED,
-        emailtext: e.target.value
+        emailtext: e.target.value,
       });
     },
-    handlePwdChange: e => {
+    handlePwdChange: (e) => {
       dispatch({
         type: constants.user.LOGIN_PWD_TEXT_CHANGED,
-        pwdtext: e.target.value
+        pwdtext: e.target.value,
       });
     },
     /* onClickLogin: async (push) => {

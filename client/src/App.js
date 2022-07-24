@@ -20,16 +20,16 @@ const App = ({store}) => {
   return (
     <Router>
       <div store={store}>
+        <NavigationBar />
         <Routes>
-          <Route path='/' element={<NavigationBar />} />
           <Route path='/login' exact strict element={<Login />} />
           <Route path='/signup' exact strict element={<Signup />} />
           <Route path='/' exact strict element={<Login />} />
           <Route path='/dashboard' exact strict element={<Dashboard />} />
           <Route path='/recipes' exact strict element={<RecipeList />} />
           <Route path='/recipe/:id' element={<RecipePage />} />
-          <Route path='/recipes/:mode/:id' exact strict element={<EditRecipe />} />
-          <Route path='/recipes/:mode' exact strict element={<EditRecipe />} />
+          <Route path='/recipe/edit/:id' exact strict element={<EditRecipe />} />
+          <Route path='/recipe' exact strict element={<EditRecipe />} />
 
           <Route path='/meal-list' exact strict element={<MealList />} />
           <Route path='/bookmark' exact strict element={<BookMarks />} />

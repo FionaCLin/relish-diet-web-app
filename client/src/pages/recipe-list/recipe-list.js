@@ -48,7 +48,7 @@ import { useNavigate } from "react-router-dom";
 const RecipeList = (props) => {
   // let list_type = this.props.list_type;
   console.log(props)
-  const history = useNavigate();
+  const navigate = useNavigate();
   let pageTitle = props.pageTitle;
 
   let {recipes, users, showDialog, modalRecipe, changeModal, toggleDialog, deleteRecipe} = props;
@@ -82,7 +82,7 @@ const RecipeList = (props) => {
           </Col>
           <Col md={{span: 2, offset: 6}}>
             {pageTitle !== constants.recipeList.BOOKMARK_LIST && (
-              <button onClick={() => history.push('recipes/add')} className='btn btn-success'>
+              <button onClick={() => navigate('/recipe')} className='btn btn-success'>
                 Create Recipe
               </button>
             )}
@@ -97,13 +97,13 @@ const RecipeList = (props) => {
                 alt='Avatar'
                 className='recipe_img'
                 style={{width: '150px', height: '150px', margin: '0 auto'}}
-                onClick={() => history.push(`recipe/${recipe.id}`)}
+                onClick={() =>navigate(`/recipe/${recipe.id}`)}
               />
             </Col>
             <Col className='py-2 text-black-50 text-capitalize'>
               <Row className='mr-md-4 pr-md-4 my-md-3 justify-content-xs-between'>
                 <Col>
-                  <h4 style={{display: 'inline'}} onClick={() => history.push(`recipe/${recipe.id}`)}>
+                  <h4 style={{display: 'inline'}} onClick={() => navigate(`/recipe/${recipe.id}`)}>
                     {recipe.name + ' '}
                   </h4>
                   <span />
@@ -126,7 +126,7 @@ const RecipeList = (props) => {
                     <button
                       className='btn btn-success btn-circle'
                       style={{float: 'right', marginTop: '5px', marginRight: '10px'}}
-                      onClick={() => history.push(`recipes/edit/${recipe.id}`)}
+                      onClick={() => navigate(`/recipe/${recipe.id}`)}
                     >
                       <i className='glyphicon glyphicon-edit'></i>
                     </button>
@@ -137,7 +137,7 @@ const RecipeList = (props) => {
                 <div className='recipe_btn_content' style={{marginTop: '-15px'}}>
                   <div
                     className='panel panel-default'
-                    onClick={() => history.push(`recipe/${recipe.id}`)}
+                    onClick={() => navigate(`/recipe/${recipe.id}`)}
                     style={{marginTop: '10px'}}
                   >
                     <table className='table table-bordered table-striped' style={{textAlign: 'center'}}>

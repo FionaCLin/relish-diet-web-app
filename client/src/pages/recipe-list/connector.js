@@ -21,7 +21,7 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export const mapDispatchToProps = async (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   //await dispatch(getDashboardRecipes);
   return {
     changeModal(recipe) {
