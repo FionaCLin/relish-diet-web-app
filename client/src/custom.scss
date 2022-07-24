@@ -3,7 +3,8 @@ $body-bg: #000;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
-$primary: #adbca5;
+//$primary: #adbca5;
+$primary: #198754;
 $white: #fff;
 $black: #212529;
 $greyDark: rgba(0, 0, 0, 0.05);
@@ -641,27 +642,6 @@ textarea {
       display: block;
     }
 
-    /* input[type='text'] {
-      width: $imageItemWidth;
-      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
-      -moz-border-radius: 0 0 $borderRadius $borderRadius;
-      border-radius: 0 0 $borderRadius $borderRadius;
-      padding: $gapQuarter;
-      border: none;
-
-      &:focus {
-        border: none;
-      }
-    } */
-
-    /* textarea {
-      width: $imageItemWidth;
-      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
-      -moz-border-radius: 0 0 $borderRadius $borderRadius;
-      border-radius: 0 0 $borderRadius $borderRadius;
-      padding: $gapQuarter;
-    } */
-
     p {
       width: $imageItemWidth;
       background: $white;
@@ -674,7 +654,7 @@ textarea {
       padding: 0 $gapQuarter;
       margin-bottom: 0;
       background: none;
-      color: $black;
+      color: $white;
       word-break: break-all;
 
       overflow: hidden;
@@ -691,19 +671,8 @@ textarea {
       -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
       box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
 
-      /* input[type='text'] {
-        background: $black;
-        color: $white;
-      } */
-
       p {
         color: $white;
-      }
-
-      a {
-        img {
-          //opacity: 0.75;
-        }
       }
     }
   }

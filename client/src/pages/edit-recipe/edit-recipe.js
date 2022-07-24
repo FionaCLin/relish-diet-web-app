@@ -1,18 +1,18 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
-import cuid from 'cuid';
 import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
 //import ImageGrid from "./ImageGrid";
-let params = {
-  mode: 'add',
-};
+// let params = {
+//   mode: 'add',
+// };
 
 const imageMaxSize = 1000000000; // bytes
+const maxFiles = 10;
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif';
 // Extract an Base64 Image's File Extension
 function extractImageFileExtensionFromBase64(base64Data) {
@@ -125,7 +125,7 @@ const EditRecipe = (props) => {
       <Container className='pt-2 m-auto'>
         <Row className='justify-content-sm-between'>
           <Col md={4}>
-            <h3>{mode == 'add' ? 'New' : 'Edit'} Recipe</h3>
+            <h3>{mode === 'add' ? 'New' : 'Edit'} Recipe</h3>
           </Col>
           <Col md={{span: 2, offset: 6}}></Col>
         </Row>
@@ -142,7 +142,7 @@ const EditRecipe = (props) => {
                 onChange={(e) => setTitle(e.target.value)}
                 className='form-control'
                 id='inputTitle'
-                placeholder={mode == 'add' ? 'Add Title...' : 'Edit Title...'}
+                placeholder={mode === 'add' ? 'Add Title...' : 'Edit Title...'}
               ></input>
             </div>
           </div>
@@ -273,7 +273,7 @@ const EditRecipe = (props) => {
                 <ul className='upload-image-previews'>
                   {previewFiles.map((file) => (
                     <li>
-                      <a href={file.preview} target='_blank'>
+                      <a href={file.preview} target='_blank' rel='noopener noreferrer'>
                         &#10066;
                       </a>
                       <img src={file.preview} />
