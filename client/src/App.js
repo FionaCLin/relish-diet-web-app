@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropsRoute from './constants/routeConst';
-import {Route, BrowserRouter as Router} from 'react-router-dom';
+import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 import Login from './pages/login/container.js';
 import Signup from './pages/Signup';
 import Dashboard from './pages/dashboard/container.js';
@@ -22,20 +22,22 @@ const App = ({store}) => {
       <div store={store}>
         <NavigationBar />
 
-        <div className='bg-white'>
-          <Route path='/login' exact strict component={Login} />
-          <Route path='/signup' exact strict component={Signup} />
-          <Route path='/' exact strict component={Login} />
-          <PropsRoute path='/dashboard' exact strict component={Dashboard} />
-          <PropsRoute path='/recipes' exact strict component={RecipeList} />
-          <PropsRoute path='/recipe/:id' component={RecipePage} />
-          <PropsRoute path='/recipes/:mode/:id' exact strict component={EditRecipe} />
-          <PropsRoute path='/recipes/:mode' exact strict component={EditRecipe} />
+        <Routes>
+          <Route path='/login' exact strict element={<Login />} />
+          <Route path='/signup' exact strict element={<Signup />} />
+          <Route path='/' exact strict element={<Login />} />
+          <Route path='/dashboard' exact strict element={<Dashboard />} />
+          <Route path='/recipes' exact strict element={<RecipeList />} />
+          <Route path='/recipe/:id' element={<RecipePage />} />
+          <Route path='/recipe/edit/:id' exact strict element={<EditRecipe />} />
+          <Route path='/recipe' exact strict element={<EditRecipe />} />
 
-          <PropsRoute path='/meal-list' exact strict component={MealList} />
-          <PropsRoute path='/bookmark' exact strict component={BookMarks} />
-
-          {/* 
+          <Route path='/meal-list' exact strict element={<MealList />} />
+          <Route path='/bookmark' exact strict element={<BookMarks />} />
+          <Route path='/profile' exact strict element={<Profile />} />
+          <Route path='/profile/edit' element={<ProfileEdit />} />
+        </Routes>
+        {/* 
               <PropsRoute path="/dashboard" exact strict component={Dashboard} recipeInfo={this.state.recipes}/>
                    <Route path="/search" exact strict component={Dashboard} />
                   curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
@@ -46,9 +48,6 @@ const App = ({store}) => {
                   users={this.state.users} curr_user={CURR_USER_ID} mealPlans={this.state.mealPlans} recipeInfo={this.state.recipes}
                   editPlan={(mealPlans) => this.setState({mealPlans})}/>
           */}
-          <PropsRoute path='/profile' exact strict component={Profile} />
-          <PropsRoute path='/profile/edit' component={ProfileEdit} />
-        </div>
       </div>
     </Router>
   );
