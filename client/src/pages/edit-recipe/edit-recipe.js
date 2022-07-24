@@ -1,15 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
 import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
 //import ImageGrid from "./ImageGrid";
-// let params = {
-//   mode: 'add',
-// };
 
 const imageMaxSize = 1000000000; // bytes
 const maxFiles = 10;
@@ -20,7 +17,8 @@ function extractImageFileExtensionFromBase64(base64Data) {
 }
 
 const EditRecipe = (props) => {
-  const history = useNavigate();
+  const {mode} = useParams();
+
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState(1);
   const [amountError, setAmountError] = useState(false);
@@ -31,8 +29,8 @@ const EditRecipe = (props) => {
   const [ingredients, setIngredients] = useState([]);
   const [images, setImages] = useState([]);
   const [method, setMethod] = useState('');
-  const [, , mode] = history.location.pathname.split('/');
   const [previewFiles, setPreviewFiles] = useState([]);
+
   const acceptedFileTypesArray = acceptedFileTypes.split(',').map((item) => {
     return item.trim();
   });
@@ -89,6 +87,15 @@ const EditRecipe = (props) => {
     }
   };
 
+  const onDrop = useCallback((acceptedFiles) => {
+    setPreviewFiles(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      ),
+    );
+  }, []);
   const handleOnDrop = (files, rejectedFiles) => {
     console.log(files);
     if (rejectedFiles && rejectedFiles.length > 0) {
@@ -120,6 +127,13 @@ const EditRecipe = (props) => {
     }
   };
 
+  // clean up
+  useEffect(
+    () => () => {
+      previewFiles.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [previewFiles],
+  );
   return (
     <div className='bg-white'>
       <Container className='pt-2 m-auto'>
@@ -258,6 +272,7 @@ const EditRecipe = (props) => {
                 <span className='glyphicon glyphicon-plus'></span>
               </button> */}
               <UploadImage
+                onDrop={onDrop}
                 handleOnDrop={handleOnDrop}
                 acceptedFileTypes={acceptedFileTypes}
                 imageMaxSize={imageMaxSize}
@@ -283,7 +298,7 @@ const EditRecipe = (props) => {
                   ))}
                 </ul>
               )}
-              <EditImageModal/>
+              <EditImageModal />
             </div>
           </div>
           <div className='form-group row'>
