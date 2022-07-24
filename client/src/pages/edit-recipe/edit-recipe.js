@@ -1,9 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
+import cuid from "cuid";
+import UploadImage from "./Dropzone";
+//import ImageGrid from "./ImageGrid";
 let params = {
   mode: 'add',
 };
@@ -184,7 +187,7 @@ const EditRecipe = (props) => {
                 className='ingredient form-control'
               ></input> */}
             </div>
-            <div className='col-sm-8'>
+            <div className='col-sm-8'>{/* 
               <input
                 onChange={(e) => this.changeImg(e, 0)}
                 type='file'
@@ -193,7 +196,8 @@ const EditRecipe = (props) => {
               ></input>
               <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} className='btn btn-secondary'>
                 <span className='glyphicon glyphicon-plus'></span>
-              </button>
+              </button> */}
+              <UploadImage />
             </div>
           </div>
           <div className='form-group row'>

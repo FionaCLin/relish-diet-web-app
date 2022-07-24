@@ -547,6 +547,30 @@ textarea {
   float: right;
 }
 
+.dropzone {
+  width: 100%;
+  border: 3px dashed $black;
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border-radius: $borderRadius;
+  padding: $gap/2;
+  cursor: pointer;
+
+  p {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  &:hover, 
+  &:active {
+    background: $primary;
+
+    p {
+      color: $white;
+    }
+  }
+}
+
 //end of main styles
 
 @media only screen and (min-width: 576px) {
