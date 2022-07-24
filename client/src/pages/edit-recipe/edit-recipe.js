@@ -187,7 +187,7 @@ const EditRecipe = (props) => {
                 className='ingredient form-control'
               ></input> */}
             </div>
-            <div className='col-sm-8'>
+            <div className='col-sm-8'>{/* 
               <input
                 onChange={(e) => this.changeImg(e, 0)}
                 type='file'
@@ -196,7 +196,7 @@ const EditRecipe = (props) => {
               ></input>
               <button style={{float: 'right'}} onClick={(e) => this.addIngredient(e)} className='btn btn-secondary'>
                 <span className='glyphicon glyphicon-plus'></span>
-              </button>
+              </button> */}
               <UploadImage />
             </div>
           </div>

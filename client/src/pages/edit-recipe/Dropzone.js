@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 function UploadImage() {
   // Extract an Base64 Image's File Extension
@@ -8,6 +8,7 @@ function UploadImage() {
   const imageMaxSize = 1000000000; // bytes
   const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif';
   const acceptedFileTypesArray = acceptedFileTypes.split(",").map((item) => {return item.trim()})
+  const [files, setFiles] = useState([]);
   const verifyFile = (files) => {
     if (files && files.length > 0){
         const currentFile = files[0]
@@ -23,7 +24,7 @@ function UploadImage() {
         }
         return true
     }
-}
+  }
   const handleOnDrop = (files, rejectedFiles) => {
     console.log(files);
     if (rejectedFiles && rejectedFiles.length > 0) {
@@ -54,8 +55,13 @@ function UploadImage() {
     }
   };
   return (
-    <Dropzone onDrop={handleOnDrop} accept={acceptedFileTypes} multiple={false} maxSize={imageMaxSize}>
-      Drop image here or click to upload
+    <Dropzone className='dropzone'
+      onDrop={handleOnDrop}
+      accept={acceptedFileTypes}
+      multiple={false}
+      maxSize={imageMaxSize}
+    >
+      <p>Drop image here or click to upload</p>
     </Dropzone>
   );
 }
