@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
 import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
@@ -20,7 +20,7 @@ function extractImageFileExtensionFromBase64(base64Data) {
 }
 
 const EditRecipe = (props) => {
-  const history = useHistory();
+  const history = useNavigate();
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState(1);
   const [amountError, setAmountError] = useState(false);

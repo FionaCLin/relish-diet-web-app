@@ -1,7 +1,7 @@
 import React from 'react';
 import constants from '../../constants';
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // class RecipeList extends React.Component {
 //   constructor(props) {
@@ -48,7 +48,7 @@ import { useHistory } from "react-router-dom";
 const RecipeList = (props) => {
   // let list_type = this.props.list_type;
   console.log(props)
-  const history = useHistory();
+  const history = useNavigate();
   let pageTitle = props.pageTitle;
 
   let {recipes, users, showDialog, modalRecipe, changeModal, toggleDialog, deleteRecipe} = props;
