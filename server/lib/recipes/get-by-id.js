@@ -1,5 +1,5 @@
 import {Recipe} from '../../database-initi.js';
 
-export default async function getById({uuid}) {
-  return Recipe.findOne({where: {uuid}});
+export default async function getById({id}) {
+  return Recipe.findByPk(id);
 }
