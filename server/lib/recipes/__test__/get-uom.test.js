@@ -16,7 +16,10 @@ describe('#getUOMSvc', () => {
   test('getUOM', async () => {
     const uoms = await getUOMSvc();
     uoms.forEach((uom, index) => {
-      expect(uom).toEqual(expect.objectContaining(UOMs[index]));
+      expect(uom.toJSON()).toEqual({
+        ...UOMs[index],
+        id: expect.any(Number),
+      });
     });
   });
 });

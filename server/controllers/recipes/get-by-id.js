@@ -5,6 +5,7 @@ export default async function getById(request, response, next) {
     const {recipeId} = request.params;
 
     const result = await getByIdSvc({id: recipeId});
+
     response.json(result);
   } catch (error) {
     next(error.message);
