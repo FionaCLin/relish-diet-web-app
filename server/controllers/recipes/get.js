@@ -5,6 +5,7 @@ export default async function get(request, response, next) {
     const {memberId} = request.query
     console.log(memberId);
     const result = await getSvc({memberId});
+
     response.json(result);
   } catch (error) {
     next(error.message);

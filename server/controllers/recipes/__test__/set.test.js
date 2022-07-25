@@ -1,11 +1,16 @@
-import {saveSvc} from '../index.js';
+import {save} from '../index.js';
 import {Member} from '../../../database-initi';
 import {members} from './fixture';
 import {clearDB} from '../../../utils';
 
-describe('#getSvc', () => {
+describe('#set', () => {
+  let next;
   beforeAll(async () => {
     await Member.create(members[0]);
+  });
+
+  beforeEach(() => {
+    next = jest.fn();
   });
 
   afterAll(async () => {
@@ -34,12 +39,22 @@ describe('#getSvc', () => {
       createdBy: 'TESTER',
       updatedBy: 'TESTER',
     };
-    const recipe = await saveSvc(recipeInput);
-    expect(recipe).toEqual(
+    const request = {body: recipeInput};
+    const response = {json: jest.fn()};
+    const jsonSpy = jest.spyOn(response, 'json');
+
+    const recipe = await save(request, response, next);
+    expect(jsonSpy).toBeCalledWith(
       expect.objectContaining({
         ...recipeInput,
         rate: 0,
       }),
     );
+    // expect(recipe).toEqual(
+    //   expect.objectContaining({
+    //     ...recipeInput,
+    //     rate: 0,
+    //   }),
+    // );
   });
 });
