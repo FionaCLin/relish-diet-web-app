@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Relish diet web app API
+  description: Relish diet web app API swagger
+
+servers:
+  - url: http://localhost:8080/v1
+
+paths:
+  /recipes/ingredients/uom:
+    get:
+      description: Returns a list of Unit of Measure
+      responses:
+        '200':
+          description: Successfully returned a list of UOMs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: '#/components/schemas/Artist'
+                  #  ---- /Added line  --------------------------------
+        '400':
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/components/responses/400Error'
+          #  ---- /Added line  ----------------------------------------
+
+  /recipes:
+    get:
+      description: Returns a list of recipes
+      parameters:
+        #  ----- Added line  ------------------------------------------
+        - $ref: '#/components/parameters/MemberId'
+        #  ---- /Added line  ------------------------------------------
+      responses:
+        '200':
+          description: Successfully returned a list of recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: '#/components/schemas/Artist'
+                  #  ---- /Added line  --------------------------------
+        '400':
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/components/responses/400Error'
+          #  ---- /Added line  ----------------------------------------
+
+    post:
+      description: Lets a user post a new artist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ------------------------------------
+              $ref: "#/components/schemas/Artist"
+              #  ---- /Added line  ------------------------------------
+      responses:
+        "200":
+          description: Successfully created a new artist
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+  /recipes/{id}:
+    get:
+      description: Obtain information about an artist from his or her unique username
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Successfully returned an artist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  artist_name:
+                    type: string
+                  artist_genre:
+                    type: string
+                  albums_recorded:
+                    type: integer
+
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+    put:
+      description: Lets a user post a new artist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ------------------------------------
+              $ref: "#/components/schemas/Artist"
+              #  ---- /Added line  ------------------------------------
+      responses:
+        "200":
+          description: Successfully created a new artist
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+  
+  
+
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+  schemas:
+    Artist:
+      type: object
+      required:
+        - username
+      properties:
+        artist_name:
+          type: string
+        artist_genre:
+          type: string
+        albums_recorded:
+          type: integer
+        username:
+          type: string
+
+  #  ----- Added lines  ----------------------------------------
+  parameters:
+    MemberId:
+      name: memberId
+      in: query
+      description: A member Id
+      schema:
+        type: string
+        minLength: 36
+
+    PageOffset:
+      name: offset
+      in: query
+      description: Specifies the page number of the recipes to be displayed
+      schema:
+        type: integer
+
+  responses:
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  #  ---- /Added lines  ----------------------------------------
