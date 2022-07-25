@@ -5,3 +5,5 @@ bk
 config.js
 config.json
 test-results
+coverage
+.jest-coverage

@@ -73,10 +73,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      deletedAt: {
-        type: DataTypes.DATE,
-        defaultValue: null,
-      },
     },
     {
       sequelize,
