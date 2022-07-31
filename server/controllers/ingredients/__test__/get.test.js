@@ -1,13 +1,12 @@
 import {get} from '../index.js';
-import {Recipes, Members} from '../../../database-initi';
-import {recipes, members} from './fixture';
+import {Ingredient} from '../../../database-initi';
+import {ingredients} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#get', () => {
   let next;
   beforeAll(async () => {
-    await Members.bulkCreate(members);
-    await Recipes.bulkCreate(recipes);
+    await Ingredient.bulkCreate(ingredients);
   });
 
   beforeEach(() => {
@@ -18,15 +17,19 @@ describe('#get', () => {
     await clearDB();
   });
 
-  test('get by MemberId', async () => {
-    const request = {query: {memberId: members[0].id}};
+  test('get by keyword', async () => {
+    const keyword = 'apple';
+
+    const request = {query: {keyword}};
     const response = {json: jest.fn()};
     const jsonSpy = jest.spyOn(response, 'json');
     await get(request, response, next);
     expect(jsonSpy).toBeCalledWith({
-      count: 6,
+      count: 7,
       rows: expect.arrayContaining(
-        recipes.filter((r) => r.memberId === members[0].id).map((r) => expect.objectContaining(r)),
+        ingredients
+      .filter((i) => i.name.includes(keyword))
+      .map((r) => expect.objectContaining(r)),
       ),
     });
   });

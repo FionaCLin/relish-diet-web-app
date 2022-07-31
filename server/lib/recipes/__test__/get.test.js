@@ -5,12 +5,12 @@ import {clearDB} from '../../../utils';
 
 describe('#getSvc', () => {
   beforeAll(async () => {
-    await Promise.all(members.map((member) => Member.create(member)));
-    await Promise.all(recipes.map((recipe) => Recipe.create(recipe)));
+    await Member.bulkCreate(members);
+    await Recipe.bulkCreate(recipes);
   });
 
   afterAll(async () => {
-    await clearDB()
+    await clearDB();
   });
 
   test('getByMemberId', async () => {

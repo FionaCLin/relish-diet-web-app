@@ -4,7 +4,6 @@ import {UOMs} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#getUOMSvc', () => {
-  let recipe;
   beforeAll(async () => {
     await UOM.bulkCreate(UOMs);
   });

@@ -18,35 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      calories: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      fats: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      protein: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      cabs: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      sodium: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        defaultValue: 0,
-      },
-      type: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        defaultValue: 'Uncategorised',
+      nutritionMeta: {
+        type: DataTypes.JSON,
+        defaultValue: {},
       },
       createdBy: {
         allowNull: false,

@@ -1,14 +1,14 @@
 import * as request from 'supertest';
 import {setServer} from '../../../server.js';
-import {Recipe, Member} from '../../../database-initi';
+import {Recipes, Members} from '../../../database-initi';
 import {recipes, members} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#get', () => {
   let app;
   beforeAll(async () => {
-    await Member.bulkCreate(members)
-    await Recipe.bulkCreate(recipes)
+    await Members.bulkCreate(members)
+    await Recipes.bulkCreate(recipes)
   });
 
   beforeEach(() => {

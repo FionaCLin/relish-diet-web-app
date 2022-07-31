@@ -14,7 +14,7 @@ describe('#getSvc', () => {
     await clearDB();
   });
 
-  test('getByMemberId', async () => {
+  test('getById', async () => {
     const recipeInDB = await getByIdSvc({id: recipe.id});
     expect(recipeInDB).toEqual(expect.objectContaining(recipe.toJSON()));
   });

@@ -7,8 +7,8 @@
   "scripts": {
     "start": "nodemon main.js",
     "test": "jest",
-    "test:unit": "NODE_ENV=test APP_ENV=local jest -i",
-    "test:int": "NODE_ENV=test APP_ENV=local jest -i",
+    "test:unit": "NODE_ENV=test APP_ENV=local jest -i --runInBand",
+    "test:int": "NODE_ENV=test APP_ENV=local jest -i int.test  --runInBand",
     "eslint": "eslint ./",
     "lint-fix": "eslint ./ --fix"
   },

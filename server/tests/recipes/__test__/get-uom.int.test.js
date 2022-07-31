@@ -1,13 +1,13 @@
 import * as request from 'supertest';
 import {setServer} from '../../../server.js';
-import {UOM} from '../../../database-initi';
-import {UOMs} from './fixture';
+import {UOMs} from '../../../database-initi';
+import {UOM_Data} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#getUOMSvc', () => {
   let app;
   beforeAll(async () => {
-    await UOM.bulkCreate(UOMs);
+    await UOMs.bulkCreate(UOM_Data);
   });
 
   beforeEach(() => {
@@ -26,9 +26,9 @@ describe('#getUOMSvc', () => {
       .set('Accept', 'application/json')
       .expect(200);
 
-    expect(uomsRes).toHaveLength(UOMs.length);
+    expect(uomsRes).toHaveLength(UOM_Data.length);
     expect(uomsRes).toEqual(
-      UOMs.map((u) => ({
+      UOM_Data.map((u) => ({
         ...u,
         createdAt: expect.any(String),
         updatedAt: expect.any(String),

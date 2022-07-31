@@ -1,4 +1,3 @@
-import {save} from '../index.js';
 import {Member} from '../../../database-initi';
 import {members} from './fixture';
 import {clearDB} from '../../../utils';
@@ -17,7 +16,7 @@ describe('#set', () => {
     await clearDB();
   });
 
-  test('save', async () => {
+  test('Should save a recipe without any ingredients', async () => {
     const recipeInput = {
       // 'images/recipe.jpg', 'images/recipe2.png', 'images/recipe3.jpg'
       method: `Preheat the grill to high.\
@@ -31,25 +30,31 @@ describe('#set', () => {
       title: 'Popeye toast with eggs',
       memberId: members[0].id,
       images: JSON.stringify([{title: 'Popeye toast with eggs', url: 'recipe.jpg'}]),
+      ingredients: [],
       calories: 1025,
       fats: 15,
       protein: 24,
       cabs: 32,
       sodium: 2,
-      createdBy: 'TESTER',
-      updatedBy: 'TESTER',
     };
-    const request = {body: recipeInput};
-    const response = {json: jest.fn()};
-    const jsonSpy = jest.spyOn(response, 'json');
 
-    const recipe = await save(request, response, next);
-    expect(jsonSpy).toBeCalledWith(
-      expect.objectContaining({
-        ...recipeInput,
-        rate: 0,
-      }),
-    );
+    await request
+      .agent(app)
+      .post('/v1/recipes')
+      .set('Accept', 'application/json')
+      .send(recipeInput)
+      .expect(200);
+    // const request = {body: recipeInput};
+    // const response = {json: jest.fn()};
+    // const jsonSpy = jest.spyOn(response, 'json');
+
+    // const recipe = await save(request, response, next);
+    // expect(jsonSpy).toBeCalledWith(
+    //   expect.objectContaining({
+    //     ...recipeInput,
+    //     rate: 0,
+    //   }),
+    // );
     // expect(recipe).toEqual(
     //   expect.objectContaining({
     //     ...recipeInput,

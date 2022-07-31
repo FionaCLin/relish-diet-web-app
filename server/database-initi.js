@@ -1,11 +1,18 @@
-import {models, sequelize, Sequelize}from '../database/models/index.js';
+import {models, sequelize, Sequelize} from '../database/models/index.js';
 
-const {Recipe, Member, UOM} = models 
-// Recipe.belongsTo(Ingredient, {
-//   through: "RecipeIngredients",
-//   as: "ingredients",
-//   foreignKey: "recipeId",
-// })
+const {Member, Recipe, UOM, Ingredient, RecipeIngredient} = models;
+// sourceKey: 'name', targetKey:
+Recipe.belongsToMany(Ingredient, {
+  through: RecipeIngredient,
+  as: 'ingredients',
+  foreignKey: 'recipeId',
+});
+
+Ingredient.belongsToMany(Recipe, {
+  through: RecipeIngredient,
+  as: 'recipes',
+  foreignKey: 'ingredientId',
+});
 
 Recipe.belongsTo(Member, {
   targetKey: 'id',
@@ -17,4 +24,4 @@ Member.hasMany(Recipe, {
   foreignKey: 'memberId',
 });
 
-export {Member, Recipe, UOM, sequelize};
+export {Member, Recipe, UOM, Ingredient, RecipeIngredient, sequelize, Sequelize};

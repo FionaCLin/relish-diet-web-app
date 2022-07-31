@@ -11,7 +11,7 @@ const recipesList = [
   {title: 'Toasted stacked foccacia sandwich', image: 'sandwich'},
   {title: 'Banana pudding with caramel sauce', image: 'soup'},
 ];
-export const UOMs = [
+export const UOM_Data = [
   {
     abbreviation: 'g',
     description: 'grams',

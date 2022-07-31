@@ -12,10 +12,23 @@ module.exports = (sequelize, DataTypes) => {
       recipeId: {
         allowNull: false,
         type: DataTypes.UUID,
+        references: {
+          model: "recipes",
+          key: "id",
+        },
       },
       ingredientId: {
         allowNull: false,
         type: DataTypes.UUID,
+        references: {
+          model: "ingredients",
+          key: "id",
+        },
+      },
+      amount: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
       },
       createdBy: {
         allowNull: false,
@@ -43,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       timestamps: true,
-      tableName: "RecipeIngredients",
+      tableName: "recipe_ingredients",
     }
   );
   return RecipeIngredient;

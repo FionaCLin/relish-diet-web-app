@@ -23,6 +23,6 @@ describe('#getUOMSvc', () => {
     const jsonSpy = jest.spyOn(response, 'json');
 
     await getUOM(request, response, next);
-    expect(jsonSpy).toBeCalledWith(expect.arrayContaining(UOMs.map((i) => expect.objectContaining(i))));
+    expect(jsonSpy).toBeCalledWith(expect.arrayContaining(UOM_Data.map((i) => expect.objectContaining(i))));
   });
 });

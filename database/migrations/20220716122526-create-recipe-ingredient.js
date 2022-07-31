@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('RecipeIngredients', {
+    await queryInterface.createTable('recipe_ingredients', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -51,6 +51,13 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('RecipeIngredients');
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      await queryInterface.dropTable("recipe_ingredients", { transaction });
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
   }
 };
