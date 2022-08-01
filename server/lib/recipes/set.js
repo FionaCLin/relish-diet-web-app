@@ -8,7 +8,8 @@ export default async function save(recipe) {
       recipeId: r.id,
     }));
     await RecipeIngredient.bulkCreate(recipeIngredients);
-    return Recipe.findByPk(r.id, {
+    return Recipe.findOne({
+      where: {id: r.id},
       include: {
         model: Ingredient,
         attributes: ['name', 'UOM'],
