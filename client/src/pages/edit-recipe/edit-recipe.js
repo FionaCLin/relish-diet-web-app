@@ -241,8 +241,11 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
               <ul className='upload-image-previews'>
                 {previewFiles.map((file) => (
                   <li>
-                    <a href={file.preview} target='_blank' rel='noopener noreferrer'>
+                    <a className='view' href={file.preview} target='_blank' rel='noopener noreferrer'>
                       &#10066;
+                    </a>
+                    <a className='delete' href={file.preview} target='_blank' rel='noopener noreferrer'>
+                      &#9747; 
                     </a>
                     <img src={file.preview} />
                     <p>{file.name}</p>

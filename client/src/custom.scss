@@ -594,15 +594,26 @@ textarea {
     position: relative;
 
     a {
-      display: block;
-      width: $gap;
-      height: $gap;
-      line-height: $gap;
-      position: absolute;
-      top: $gapHalf;
-      right: $gapHalf;
-      color: $white;
-      text-shadow: 0.07em 0 black, 0 0.07em black, -0.07em 0 black, 0 -0.07em black;
+      &.view,
+      &.delete {
+        display: block;
+        width: $gap;
+        height: $gap;
+        line-height: $gap;
+        position: absolute;
+        top: $gapHalf;        
+        color: $black;
+        text-shadow: 0.07em 0 white, 0 0.07em white, -0.07em 0 white, 0 -0.07em white;
+        text-decoration: none;
+      }
+
+      &.view {
+        right: $gapHalf + $gap;
+      }
+
+      &.delete {
+        right: $gapHalf;
+      }
     }
 
     img {
