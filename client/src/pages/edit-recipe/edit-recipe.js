@@ -19,8 +19,10 @@ function extractImageFileExtensionFromBase64(base64Data) {
 const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   const {id} = useParams();
   const navigate = useNavigate();
+  if (id) {
+    loadRecipe(id);
+  }
 
-  loadRecipe(id);
   const [title, setTitle] = useState(recipe.title);
   const [amount, setAmount] = useState(recipe.amount);
   const [amountError, setAmountError] = useState(recipe.amountError);
@@ -32,10 +34,6 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   const [images, setImages] = useState(recipe.images);
   const [method, setMethod] = useState(recipe.method);
   const [previewFiles, setPreviewFiles] = useState(recipe.previewFiles);
-
-  const acceptedFileTypesArray = acceptedFileTypes.split(',').map((item) => {
-    return item.trim();
-  });
 
   const autocomplete = (e) => {
     e.preventDefault();
@@ -61,6 +59,7 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
     if (amount <= 0 || !inputIngredient) {
       return;
     }
+
     const ingredient = {
       amount,
       measure,
@@ -72,24 +71,8 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
     setInputIngredient('');
   };
 
-  const verifyFile = (files) => {
-    if (files && files.length > 0) {
-      const currentFile = files[0];
-      const currentFileType = currentFile.type;
-      const currentFileSize = currentFile.size;
-      if (currentFileSize > imageMaxSize) {
-        alert('This file is not allowed. ' + currentFileSize + ' bytes is too large');
-        return false;
-      }
-      if (!acceptedFileTypesArray.includes(currentFileType)) {
-        alert('This file is not allowed. Only images are allowed.');
-        return false;
-      }
-      return true;
-    }
-  };
-
   const onDrop = useCallback((acceptedFiles) => {
+    console.log(acceptedFiles);
     setPreviewFiles(
       acceptedFiles.map((file) =>
         Object.assign(file, {
@@ -98,22 +81,11 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
       ),
     );
   }, []);
-  // const handleOnDrop = (files, rejectedFiles) => {
-  //   console.log(files);
-  //   if (rejectedFiles && rejectedFiles.length > 0) {
-  //     verifyFile(rejectedFiles);
-  //   }
-
-  //   if (files && files.length > 0) {
-  //     const isVerified = verifyFile(files);
-  //     if (isVerified) {
-  //       setPreviewFiles(files);
-
-  //     }
-  //   }
-  // };
 
   // clean up
+  const removeFile = (file) => {
+    console.log(file, previewFiles);
+  };
   useEffect(
     () => () => {
       if (previewFiles?.length) {
@@ -239,13 +211,18 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
           <FormRow>
             {previewFiles?.length && (
               <ul className='upload-image-previews'>
-                {previewFiles.map((file) => (
+                {previewFiles.map((file, index) => (
                   <li>
                     <a className='view' href={file.preview} target='_blank' rel='noopener noreferrer'>
                       &#10066;
                     </a>
-                    <a className='delete' href={file.preview} target='_blank' rel='noopener noreferrer'>
-                      &#9747; 
+                    <a
+                      className='delete'
+                      onClick={(e) => removeFile(file, index, e)}
+                      href='#'
+                      rel='noopener noreferrer'
+                    >
+                      &#9747;
                     </a>
                     <img src={file.preview} />
                     <p>{file.name}</p>
@@ -264,7 +241,7 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
           >
             Cancel
           </button>
-          <button className='btn btn-success' onClick={(e) => this.editRecipe(e)} style={{width: '115px'}}>
+          <button className='btn btn-success' onClick={(e) => saveRecipe()} style={{width: '115px'}}>
             {/* <Link to='../../recipes'> */}
             {id ? 'Edit' : 'Create'}
             {/* </Link> */}
