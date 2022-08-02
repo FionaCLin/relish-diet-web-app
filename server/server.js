@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import Amplify from '@aws-amplify/core';
 // import authorize from '../middlewares/verify-token.js';
+import {errorHandler} from './middlewares/index.js'
 
 import router from './routes/index.js';
 import config from './config/config.js';
@@ -17,7 +18,6 @@ import * as OpenApiValidator from 'express-openapi-validator';
 //     userPoolWebClientId: config.cognito.APP_CLIENT_ID,
 //   },
 // });
-
 
 export const setServer = () => {
   const app = express();
@@ -38,6 +38,8 @@ export const setServer = () => {
   app.use('/', router, (request, response) => {
     response.sendStatus(401);
   });
+
+  app.use(errorHandler);
 
   return app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);

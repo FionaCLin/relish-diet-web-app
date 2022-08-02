@@ -1,13 +1,13 @@
 import * as request from 'supertest';
 import {setServer} from '../../../server.js';
-import {UOMs} from '../../../database-initi';
+import {UOM} from '../../../database-initi';
 import {UOM_Data} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#getUOMSvc', () => {
   let app;
   beforeAll(async () => {
-    await UOMs.bulkCreate(UOM_Data);
+    await UOM.bulkCreate(UOM_Data);
   });
 
   beforeEach(() => {

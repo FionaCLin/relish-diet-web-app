@@ -1,5 +1,5 @@
 import {getById} from '../index.js';
-import {Recipes, Members} from '../../../database-initi';
+import {Recipe, Member} from '../../../database-initi';
 import {recipes, members} from './fixture';
 import {clearDB} from '../../../utils';
 
@@ -7,8 +7,8 @@ describe('#get', () => {
   let recipe;
   let next = jest.fn();
   beforeAll(async () => {
-    await Members.create(members[0]);
-    recipe = await Recipes.create(recipes[0]);
+    await Member.create(members[0]);
+    recipe = await Recipe.create(recipes[0]);
   });
 
   beforeEach(() => {

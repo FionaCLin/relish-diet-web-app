@@ -33,22 +33,23 @@ describe('#save', () => {
   });
 
   test('Save recipe with ingredients', async () => {
+    const ingredients = [
+      {
+        ingredientId: '2151d321-7fb2-4733-bbb1-e5ea503f2e82',
+        amount: 10,
+        UOM: 'gram',
+        name: 'sugar',
+      },
+      {
+        ingredientId: '6d7c97ae-2a8a-463d-b2a1-d90e0e9db969',
+        amount: 1000,
+        UOM: 'gram',
+        name: 'apple',
+      },
+    ];
     const recipeIngredients = {
       ...recipeInput,
-      ingredients: [
-        {
-          id: '6d7c97ae-2a8a-463d-b2a1-d90e0e9db969',
-          amount: 1000,
-          UOM: 'g',
-          name: 'apple',
-        },
-        {
-          id: '2151d321-7fb2-4733-bbb1-e5ea503f2e82',
-          amount: 10,
-          UOM: 'g',
-          name: 'sugar',
-        },
-      ],
+      ingredients,
     };
     const request = {body: recipeIngredients};
     const response = {json: jest.fn()};
@@ -58,7 +59,7 @@ describe('#save', () => {
       expect.objectContaining({
         ...recipeIngredients,
         rate: 0,
-        ingredients: expect.arrayContaining(recipeWithIngredients.ingredients),
+        ingredients: expect.arrayContaining(ingredients.map((i) => expect.objectContaining(i))),
       }),
     );
   });

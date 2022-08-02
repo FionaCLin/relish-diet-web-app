@@ -20,6 +20,7 @@ describe('#getSvc', () => {
       expect.objectContaining({
         ...recipeInput,
         rate: 0,
+        ingredients: [],
       }),
     );
   });
@@ -31,16 +32,12 @@ describe('#getSvc', () => {
         amount: 10,
         UOM: 'gram',
         name: 'sugar',
-        createdBy: 'TESTER',
-        updatedBy: 'TESTER',
       },
       {
         ingredientId: '6d7c97ae-2a8a-463d-b2a1-d90e0e9db969',
         amount: 1000,
         UOM: 'gram',
         name: 'apple',
-        createdBy: 'TESTER',
-        updatedBy: 'TESTER',
       },
     ];
 
@@ -63,11 +60,9 @@ describe('#getSvc', () => {
         expect.objectContaining({
           name,
           UOM,
-          RecipeIngredient: expect.objectContaining({
-            ingredientId,
-            recipeId: recipe.id,
-            amount,
-          }),
+          ingredientId,
+          recipeId: recipe.id,
+          amount,
         }),
       );
     });

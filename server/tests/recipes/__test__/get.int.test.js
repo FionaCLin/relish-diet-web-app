@@ -1,14 +1,14 @@
 import * as request from 'supertest';
 import {setServer} from '../../../server.js';
-import {Recipes, Members} from '../../../database-initi';
+import {Recipe, Member} from '../../../database-initi';
 import {recipes, members} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#get', () => {
   let app;
   beforeAll(async () => {
-    await Members.bulkCreate(members)
-    await Recipes.bulkCreate(recipes)
+    await Member.bulkCreate(members)
+    await Recipe.bulkCreate(recipes)
   });
 
   beforeEach(() => {
@@ -29,6 +29,7 @@ describe('#get', () => {
       .set('Accept', 'application/json')
       .expect(200);
 
+    expect(count).toEqual(6);
     expect(rows).toHaveLength(6);
     expect(rows).toEqual(
       recipes

@@ -1,20 +1,24 @@
 import {Recipe, Ingredient, RecipeIngredient} from '../../database-initi.js';
 
 export default async function save(recipe) {
-  return Recipe.create(recipe).then(async (r) => {
-    if (!recipe?.ingredients?.length) return r;
-    const recipeIngredients = recipe.ingredients.map((i) => ({
-      ...i,
-      recipeId: r.id,
-    }));
-    await RecipeIngredient.bulkCreate(recipeIngredients);
-    return Recipe.findOne({
-      where: {id: r.id},
-      include: {
-        model: Ingredient,
-        attributes: ['name', 'UOM'],
-        as: 'ingredients',
-      },
-    });
+  const r = await Recipe.create(recipe);
+  const result = r.toJSON();
+  if (!recipe?.ingredients?.length) {
+    return {...result, ingredients: []};
+  }
+  const recipeIngredients = recipe.ingredients.map((i) => ({
+    ...i,
+    recipeId: r.id,
+    createdBy: r.memberId,
+    updatedBy: r.memberId,
+  }));
+
+  const newIngredients = await RecipeIngredient.bulkCreate(recipeIngredients);
+
+  const ingredients = recipeIngredients.map(({name, UOM, ingredientId}) => {
+    const newIngredient = newIngredients.find((i) => i.ingredientId === ingredientId);
+    return {...newIngredient.toJSON(), name, UOM};
   });
+
+  return {...result, ingredients};
 }

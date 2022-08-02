@@ -1,13 +1,13 @@
 import {get} from '../index.js';
-import {Recipes, Members} from '../../../database-initi';
+import {Recipe, Member} from '../../../database-initi';
 import {recipes, members} from './fixture';
 import {clearDB} from '../../../utils';
 
 describe('#get', () => {
   let next;
   beforeAll(async () => {
-    await Members.bulkCreate(members);
-    await Recipes.bulkCreate(recipes);
+    await Member.bulkCreate(members);
+    await Recipe.bulkCreate(recipes);
   });
 
   beforeEach(() => {
