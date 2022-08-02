@@ -2,7 +2,7 @@ import constants from '../../constants';
 import {getUOM} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
-  // const {recipe} = state;
+
   const {
     recipeInfo,
     ingredientList,

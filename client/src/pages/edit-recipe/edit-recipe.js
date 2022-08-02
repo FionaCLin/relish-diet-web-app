@@ -1,11 +1,12 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {bg_img} from '../../constants/globalFunctions';
-import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
 import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
+import FormRow from '../../components/forms/form-row';
+import {useNavigate} from 'react-router-dom';
 
 const imageMaxSize = 1000000000; // bytes
 const maxFiles = 10;
@@ -17,6 +18,8 @@ function extractImageFileExtensionFromBase64(base64Data) {
 
 const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   const {id} = useParams();
+  const navigate = useNavigate();
+
   loadRecipe(id);
   const [title, setTitle] = useState(recipe.title);
   const [amount, setAmount] = useState(recipe.amount);
@@ -113,7 +116,9 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   // clean up
   useEffect(
     () => () => {
-      previewFiles.forEach((file) => URL.revokeObjectURL(file.preview));
+      if (previewFiles?.length) {
+        previewFiles.forEach((file) => URL.revokeObjectURL(file.preview));
+      }
     },
     [previewFiles],
   );
@@ -129,152 +134,137 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
         </Row>
         <br></br>
         <form>
-          <div className='form-group row'>
-            <label htmlFor='inputTitle' className='col-sm-2 col-form-label'>
-              Title
-            </label>
-            <div className='col-sm-10'>
-              <input
-                type='title'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className='form-control'
-                id='inputTitle'
-                placeholder={`${id ? 'Edit' : 'Add'}  Title...`}
-              />
+          <FormRow htmlFor='inputTitle' label='Title'>
+            <input
+              type='title'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className='form-control'
+              id='inputTitle'
+              placeholder={`${id ? 'Edit' : 'Add'}  Title...`}
+            />
+          </FormRow>
+          <FormRow htmlFor='inputIngredient' label='Ingredient'>
+            <input
+              type='number'
+              name='amount'
+              value={amount}
+              onChange={(e) => {
+                setAmountError(false);
+                setInputIngError(false);
+                setAmount(e.target.value);
+              }}
+              min='1'
+              placeholder='E.g. 1'
+              size='8'
+              className={`form-control amount ${amountError ? 'field-error' : ''}`}
+              id='inputIngredient'
+            />
+            <select
+              value={measure}
+              onChange={(e) => setMeasure(e.target.value)}
+              className='form-control measure'
+              placeholder='E.g. tbsp'
+            >
+              {UOM?.length && UOM.map((uom, i) => <option key={i}>{uom}</option>)}
+            </select>
+            <div
+              style={{
+                float: 'left',
+                marginLeft: '10px',
+                marginRight: '10px',
+                lineHeight: '32px',
+              }}
+            >
+              of
             </div>
-          </div>
-          <div className='form-group row'>
-            <label htmlFor='inputIngredient' className='col-sm-2 col-form-label'>
-              Ingredient
-            </label>
-            <div className='col-sm-10'>
-              <input
-                type='number'
-                name='amount'
-                value={amount}
-                onChange={(e) => {
-                  setAmountError(false);
-                  setInputIngError(false);
-                  setAmount(e.target.value);
-                }}
-                min='1'
-                placeholder='E.g. 1'
-                size='8'
-                className={`form-control amount ${amountError ? 'field-error' : ''}`}
-                id='inputIngredient'
-              />
-              <select
-                value={measure}
-                onChange={(e) => setMeasure(e.target.value)}
-                className='form-control measure'
-                placeholder='E.g. tbsp'
-              >
-                {UOM?.length && UOM.map((uom, i) => <option key={i}>{uom}</option>)}
-              </select>
-              <div style={{float: 'left', marginLeft: '10px', marginRight: '10px', lineHeight: '32px'}}>of</div>
-              <input
-                list='ingredients'
-                value={inputIngredient}
-                name='ingredients'
-                placeholder='E.g. sugar'
-                onChange={(e) => {
-                  setAmountError(false);
-                  setInputIngError(false);
-                  autocomplete(e);
-                }}
-                className={`ingredient form-control has-action-button ${inputIngError ? 'field-error' : ''}`}
-              />
-              <datalist id='ingredients'>
-                {ingredientsProp?.length &&
-                  ingredientsProp.map((ingredient) => {
-                    return <option>{ingredient}</option>;
-                  })}
-              </datalist>
-              <button style={{float: 'right'}} onClick={(e) => addIngredient(e)} className='btn btn-secondary'>
-                <span className='glyphicon glyphicon-plus'></span>
-              </button>
-              {
-                <ul className='editable-list'>
-                  {ingredients?.length &&
-                    ingredients.map((ingredient, index) => (
-                      <li key={index}>
-                        <button onClick={(e) => removeIngredient(e, index)} className='btn btn-secondary'>
-                          {`${ingredient.amount} ${ingredient.measure} ${ingredient.inputIngredient}`}
-                          <span className='pull-right'>
-                            <span className='glyphicon glyphicon-remove'></span>
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                </ul>
-              }
-            </div>
-          </div>
-
-          <div className='form-group row'>
-            <label htmlFor='inputMethod' className='col-sm-2 col-form-label'>
-              Method
-            </label>
-            <div className='col-sm-10'>
-              <textarea
-                type='comment'
-                onChange={(e) => setMethod(e.target.value)}
-                value={method}
-                className='form-control'
-                id='inputMethod'
-                rows='5'
-                placeholder='Add method...'
-              ></textarea>
-            </div>
-          </div>
-          <div className='form-group row'>
-            <hr></hr>
-          </div>
-          <h4>Recipe Images</h4>
-          <div className='form-group row'>
-            <div className='col-sm-2'>
-              <label htmlFor='inputImage1' className='col-form-label'>
-                Images
-              </label>
-            </div>
-            <div className='col-sm-10'>
-              <UploadImage
-                onDrop={onDrop}
-                acceptedFileTypes={acceptedFileTypes}
-                imageMaxSize={imageMaxSize}
-                maxFiles={maxFiles}
-              />
-            </div>
-          </div>
-          <div className='form-group row'>
-            <div className='col-sm-2'></div>
-            <div className='col-sm-10'>
-              {previewFiles?.length && (
-                <ul className='upload-image-previews'>
-                  {previewFiles.map((file) => (
-                    <li>
-                      <a href={file.preview} target='_blank' rel='noopener noreferrer'>
-                        &#10066;
-                      </a>
-                      <img src={file.preview} />
-                      <p>{file.name}</p>
+            <input
+              list='ingredients'
+              value={inputIngredient}
+              name='ingredients'
+              placeholder='E.g. sugar'
+              onChange={(e) => {
+                setAmountError(false);
+                setInputIngError(false);
+                autocomplete(e);
+              }}
+              className={`ingredient form-control has-action-button ${inputIngError ? 'field-error' : ''}`}
+            />
+            <datalist id='ingredients'>
+              {ingredientsProp?.length &&
+                ingredientsProp.map((ingredient) => {
+                  return <option>{ingredient}</option>;
+                })}
+            </datalist>
+            <button style={{float: 'right'}} onClick={(e) => addIngredient(e)} className='btn btn-secondary'>
+              <span className='glyphicon glyphicon-plus'></span>
+            </button>
+            {
+              <ul className='editable-list'>
+                {ingredients?.length &&
+                  ingredients.map((ingredient, index) => (
+                    <li key={index}>
+                      <button onClick={(e) => removeIngredient(e, index)} className='btn btn-secondary'>
+                        {`${ingredient.amount} ${ingredient.measure} ${ingredient.inputIngredient}`}
+                        <span className='pull-right'>
+                          <span className='glyphicon glyphicon-remove'></span>
+                        </span>
+                      </button>
                     </li>
                   ))}
-                </ul>
-              )}
-              <EditImageModal />
-            </div>
-          </div>
+              </ul>
+            }
+          </FormRow>
+          <FormRow htmlFor='inputMethod' label='Method'>
+            <textarea
+              type='comment'
+              onChange={(e) => setMethod(e.target.value)}
+              value={method}
+              className='form-control'
+              id='inputMethod'
+              rows='5'
+              placeholder='Add method...'
+            ></textarea>
+          </FormRow>
+          <hr></hr>
+          <h4>Recipe Images</h4>
+          <FormRow htmlFor='inputImages' label='Images'>
+            <UploadImage
+              onDrop={onDrop}
+              acceptedFileTypes={acceptedFileTypes}
+              imageMaxSize={imageMaxSize}
+              maxFiles={maxFiles}
+            />
+          </FormRow>
+          <FormRow>
+            {previewFiles?.length && (
+              <ul className='upload-image-previews'>
+                {previewFiles.map((file) => (
+                  <li>
+                    <a href={file.preview} target='_blank' rel='noopener noreferrer'>
+                      &#10066;
+                    </a>
+                    <img src={file.preview} />
+                    <p>{file.name}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <EditImageModal />
+          </FormRow>
         </form>
         <div className='action-buttons-bottom'>
-          <Link to='../../recipes'>
-            <button className='btn btn-secondary' style={{width: '110px', marginRight: '10px'}}>
-              Cancel
-            </button>
-          </Link>
+          <button
+            className='btn btn-secondary'
+            onClick={() => navigate('/recipes')}
+            style={{width: '110px', marginRight: '10px'}}
+          >
+            Cancel
+          </button>
           <button className='btn btn-success' onClick={(e) => this.editRecipe(e)} style={{width: '115px'}}>
-            <Link to='../../recipes'>{id ? 'Edit' : 'Create'}</Link>
+            {/* <Link to='../../recipes'> */}
+            {id ? 'Edit' : 'Create'}
+            {/* </Link> */}
           </button>
         </div>
         {/* <!--container end--> */}
@@ -282,7 +272,6 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
     </div>
   );
 };
-
 
 // autocomplete = (e) => {
 //   e.preventDefault();
