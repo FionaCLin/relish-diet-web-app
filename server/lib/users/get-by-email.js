@@ -1,5 +1,5 @@
-import {Members} from '../../database-initi.js';
+import {Member} from '../../database-initi.js';
 
 export default async function getByEmail({email}) {
-  return Members.findOne({where: {email}});
+  return Member.findOne({where: {email}});
 }
