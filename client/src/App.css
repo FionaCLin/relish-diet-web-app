@@ -149,14 +149,6 @@ label {
     padding-bottom:0px;
 }
 
-.recipe_btn_content {
-    float:left;
-    height:100%;
-    width:88%;
-    margin-left:10px;
-    margin-top:20px
-}
-
 .macro_panel {
     border-radius:10px;
     width:100%
@@ -177,11 +169,6 @@ label {
 
 .green_star {
     color: LimeGreen;
-}
-
-.recipe_img {
-    width:250px;
-    height:250px
 }
 
 .planner_img {
