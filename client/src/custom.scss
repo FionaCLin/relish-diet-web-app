@@ -146,6 +146,24 @@ label {
   margin-bottom: $gap/4 * 3;
 }
 
+.macro-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px;
+
+  li {
+    .name {
+      font-weight: bold;
+      display: inline-block;
+      width: 25%;
+
+      @media only screen and (max-width: 1199px) {
+        width: 50%;
+      }
+    }
+  }
+}
+
 .pre-scrollable {
   max-height: 1000px;
   overflow-y: scroll;
@@ -160,6 +178,7 @@ label {
   height: 100%;
   margin: 0 auto;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .page-wrapper {
@@ -236,8 +255,7 @@ label {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
-  float: right;
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .img_text {
@@ -623,7 +641,7 @@ textarea {
       color: $black;
       -webkit-border-radius: 0 0 $borderRadius $borderRadius;
       -moz-border-radius: 0 0 $borderRadius $borderRadius;
-      border-radius: 0 0 $borderRadius $borderRadius;      
+      border-radius: 0 0 $borderRadius $borderRadius;
       height: 24px;
       line-height: 24px;
       padding: 0 $gapQuarter;

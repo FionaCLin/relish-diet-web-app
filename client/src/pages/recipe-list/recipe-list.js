@@ -89,8 +89,8 @@ const RecipeList = (props) => {
       </Row>
       <br />
       {recipes.map((recipe) => (
-        <Row className='pt-2 justify-content-sm-between' key={recipe.id} style={{ cursor: 'pointer' }}>
-          <Col xs='2' md='3' lg='3' xl='3'>
+        <Row className='pt-5 justify-content-sm-between' key={recipe.id}>
+          <Col xs='12' md='3' lg='3' xl='3'>
             <img
               src={recipe.img[0]}
               alt='Avatar'
@@ -100,11 +100,17 @@ const RecipeList = (props) => {
           </Col>
           <Col className='py-2 text-black-50 text-capitalize'>
             <Row>
-              <div className='recipe-title mr-md-12 pr-md-12 my-md-12 justify-content-xs-between'>
+              <div className='recipe-title mr-md-12 pr-md-12 my-md-12'>
                 <h4 style={{ display: 'inline' }} onClick={() => navigate(`/recipe/${recipe.id}`)}>
                   {recipe.name + ' '}
                 </h4>
-                <span />
+              </div>
+              <div className='recipe-title mr-md-12 pr-md-12 my-md-12'>
+                {pageTitle !== constants.recipeList.BOOKMARK_LIST && (
+                  <div style={{ display: 'inline', fontSize: '14px' }}>by {recipe.creatorName}</div>
+                )}
+              </div>
+              <div className='recipe-title mr-md-12 pr-md-12 my-md-12'>
                 {pageTitle !== constants.recipeList.BOOKMARK_LIST && (
                   <button
                     className='btn btn-danger btn-circle'
@@ -112,9 +118,6 @@ const RecipeList = (props) => {
                   >
                     <i className='glyphicon glyphicon-remove'></i>
                   </button>
-                )}
-                {pageTitle !== constants.recipeList.BOOKMARK_LIST && (
-                  <div style={{ display: 'inline', fontSize: '14px' }}>by {recipe.creatorName}</div>
                 )}
                 <button
                   className='btn btn-success btn-circle'
@@ -128,26 +131,17 @@ const RecipeList = (props) => {
               <div className='mr-md-12 pr-md-12 my-md-12'>
                 <div className='recipe_btn_content' style={{ marginTop: '-15px' }}>
                   <div
-                    className='panel panel-default'
                     onClick={() => navigate(`/recipe/${recipe.id}`)}
-                    style={{ marginTop: '10px' }}
                   >
-                    <table className='table table-bordered table-striped' style={{ textAlign: 'center' }}>
-                      <tbody>
-                        <tr>
-                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
-                            <td className='macro_col'>
-                              {nutrient} {nutrient === 'Energy' ? '(kCal)' : '(g)'}
-                            </td>
-                          ))}
-                        </tr>
-                        <tr>
-                          {constants.mealPlanner.macroNutrients.map((nutrient) => (
-                            <td className='macro_col'>{recipe.macros[nutrient]}</td>
-                          ))}
-                        </tr>
-                      </tbody>
-                    </table>
+                    <ul className='macro-list'>
+                      {constants.mealPlanner.macroNutrients.map((nutrient) => (
+                        <li>
+                          <p><span className='name'>{nutrient} {nutrient === 'Energy' ? '(kCal)' : '(g)'} </span>
+
+                            {recipe.macros[nutrient]}</p>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
