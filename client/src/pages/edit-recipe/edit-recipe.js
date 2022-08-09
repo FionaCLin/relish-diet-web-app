@@ -1,5 +1,4 @@
 import React, {useEffect, useCallback, useState} from 'react';
-import {bg_img} from '../../constants/globalFunctions';
 import {Container, Row, Col} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';

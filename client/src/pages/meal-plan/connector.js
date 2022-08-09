@@ -1,7 +1,7 @@
 import constants from "../../constants";
 
 export const mapStateToProps = state => {
-  const { mealPlans, modalPlan } =state.mealPlans
+  const { mealPlans, modalPlan } =state.mealPlan
   return {
     mealPlans,
     modalPlan

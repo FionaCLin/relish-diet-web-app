@@ -3,8 +3,10 @@ import constants from '../../constants';
 import {bg_img} from '../../constants/globalFunctions';
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const MealList = ({modalPlan, mealPlans, changeModal, deletePlan}) => {
+  const navigate = useNavigate();
   return (
     <Container className='pt-2 m-auto'>
       {/* <!-- Modal --> */}
@@ -42,11 +44,9 @@ const MealList = ({modalPlan, mealPlans, changeModal, deletePlan}) => {
           <h3>My Meal Plans</h3>
         </Col>
         <Col md={{span: 2, offset: 6}}>
-          <Link to='mealplan/add'>
-            <button type='button' className='btn btn-success'>
-              Create Meal Plan
-            </button>
-          </Link>
+          <button type='button' className='btn btn-success' onClick={() => navigate('/meal-plan')}>
+            Create Meal Plan
+          </button>
         </Col>
       </Row>
       {mealPlans.map((plan, index) => (
