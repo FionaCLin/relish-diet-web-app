@@ -37,7 +37,7 @@ describe('#set', () => {
       calories: 1025,
       fats: 15,
       protein: 24,
-      cabs: 32,
+      carbs: 32,
       sodium: 2,
     };
 
@@ -78,7 +78,7 @@ describe('#set', () => {
       calories: 1025,
       fats: 15,
       protein: 24,
-      cabs: 32,
+      carbs: 32,
       sodium: 2,
     };
 

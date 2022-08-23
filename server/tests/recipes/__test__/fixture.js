@@ -73,7 +73,7 @@ export const recipes = recipesList.map(({title, image}, index) => ({
   calories: 0,
   fats: 0,
   protein: 0,
-  cabs: 0,
+  carbs: 0,
   sodium: 0,
   createdBy: 'TESTER',
   updatedBy: 'TESTER',

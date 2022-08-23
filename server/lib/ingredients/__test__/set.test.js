@@ -10,7 +10,7 @@ describe('#setSvc', () => {
     const ingredientInput = {
       name: 'banana',
       UOM: 'ml',
-      nutritionMeta: {calories: 1025, fats: 15, protein: 24, cabs: 32, sodium: 2},
+      nutritionMeta: {calories: 1025, fats: 15, protein: 24, carbs: 32, sodium: 2},
       createdBy: 'TESTER',
       updatedBy: 'TESTER',
     };

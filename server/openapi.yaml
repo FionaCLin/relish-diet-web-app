@@ -198,7 +198,7 @@ components:
           type: number
         protein:
           type: number
-        cabs:
+        carbs:
           type: number
         sodium:
           type: number
@@ -255,7 +255,7 @@ components:
           type: number
         protein:
           type: number
-        cabs:
+        carbs:
           type: number
         sodium:
           type: number

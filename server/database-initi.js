@@ -17,10 +17,10 @@ Ingredient.belongsToMany(Recipe, {
 Recipe.belongsTo(Member, {
   targetKey: 'id',
   foreignKey: 'memberId',
+  as: 'author',
 });
 
 Member.hasMany(Recipe, {
-  as: 'creator',
   foreignKey: 'memberId',
 });
 
