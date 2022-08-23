@@ -14,7 +14,6 @@ const initialState = {
 };
 
 export default function recipeList(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case constants.recipeList.SELECT_RECIPE:
       const {recipe} = action;

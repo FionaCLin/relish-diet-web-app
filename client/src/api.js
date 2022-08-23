@@ -60,6 +60,17 @@ export function getRecipesByMemberId({memberId}) {
   });
 }
 
+export function getRecipesByKeyword({keyword}) {
+  const token = localStorage.getItem('accessToken');
+
+  return instance.get(`v1/recipes?keyword=${keyword}`, {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 
 export function getRecipesById({recipeId}) {
   const token = localStorage.getItem('accessToken');

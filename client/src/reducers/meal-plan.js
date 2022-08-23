@@ -29,10 +29,8 @@ const initialState = {
 };
 
 export default function mealPlan(state = initialState, action) {
-  // console.log('reducer running', action);
   switch (action.type) {
     case constants.SHOW_DEL_MODEL:
-      console.log(action);
       // return {...state, modalPlan:{
       //   id: 10,
       //   name: 'sss'

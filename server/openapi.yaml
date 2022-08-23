@@ -39,7 +39,7 @@ paths:
           description: the keyword which the ingredients name match
           schema:
             type: string
-            minLength: 36
+            minLength: 1
         #  ---- /Added line  ------------------------------------------
       responses:
         "200":
@@ -86,6 +86,12 @@ paths:
       parameters:
         #  ----- Added line  ------------------------------------------
         - $ref: "#/components/parameters/MemberId"
+        - name: keyword
+          in: query
+          description: the keyword which the ingredients name match
+          schema:
+            type: string
+            minLength: 1
         #  ---- /Added line  ------------------------------------------
       responses:
         "200":

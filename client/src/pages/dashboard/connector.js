@@ -4,7 +4,6 @@ import {getRecipeById} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
   const {recipesList, loading} = state.dashboard;
-  console.log(recipesList);
   return {
     recipesList,
     loading,
