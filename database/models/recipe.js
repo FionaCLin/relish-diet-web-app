@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         defaultValue: 0,
       },
-      cabs: {
+      carbs: {
         allowNull: false,
         type: DataTypes.FLOAT,
         defaultValue: 0,

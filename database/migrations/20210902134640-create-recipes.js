@@ -42,7 +42,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
-      cabs: {
+      carbs: {
         type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0,
