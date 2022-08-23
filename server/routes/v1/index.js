@@ -30,6 +30,6 @@ const router = new express.Router();
 
 router.use('/users', usersRouters);
 router.use('/recipes', recipesRouters);
-router.use('/ingredient', ingredientsRouters);
+router.use('/ingredients', ingredientsRouters);
 
 export default router;

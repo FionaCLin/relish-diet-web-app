@@ -6,7 +6,7 @@ export default async function get({keyword, offset = 0, limit = 10}) {
     offset,
     limit,
     where: {
-      name: {[Op.like]: `%${keyword}%`},
+      ...(keyword ? {name: {[Op.iLike]: `%${keyword}%`}} : {}),
     },
   });
 }

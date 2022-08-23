@@ -1,6 +1,6 @@
 import constants from '../constants/';
 import {recipeInfo} from '../constants/dummyData';
-import {getRecipesById} from '../api.js';
+import {getRecipesById, fetchIngredients} from '../api.js';
 
 // import {recipeInfo, users, mealPlans, ingredientList, CURR_USER_ID} from '../constants/dummyData';
 import {uom} from '../api.js';
@@ -62,5 +62,19 @@ export const getRecipeById = (uuid) => async (dispatch) => {
     return response;
   } catch (err) {
     dispatch({type: constants.recipeList.SHOW_ERROR, error: err.response.data || err.message});
+  }
+};
+export const getIngredients = (ingredientKeyWord, offset, limit) => async (dispatch, getState) => {
+  if (!ingredientKeyWord) {
+    return;
+  }
+  try {
+    const {data} = await fetchIngredients({keyword: ingredientKeyWord, offset, limit});
+
+    return data;
+  } catch (err) {
+    //dispatch({type: constants..SHOW_ERROR, error: err.response.data || err.message});
+  } finally {
+    //dispatch({type: constants..TOGGEL_LOADING});
   }
 };

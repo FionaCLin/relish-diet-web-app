@@ -71,12 +71,21 @@ export function getRecipesByKeyword({keyword}) {
   });
 }
 
-
 export function getRecipesById({recipeId}) {
   const token = localStorage.getItem('accessToken');
 
   return instance.get(`v1/recipes/${recipeId}`, {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
 
+export function fetchIngredients({keyword, limit, offset}) {
+  const token = localStorage.getItem('accessToken');
+
+  return instance.get(`v1/ingredients?keyword=${keyword}&limit=${limit}&offset=${offset}`, {
     headers: {
       'content-type': 'application/json',
       Authorization: `Bearer ${token}`,

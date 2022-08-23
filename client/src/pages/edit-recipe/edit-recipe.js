@@ -6,6 +6,7 @@ import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
 import FormRow from '../../components/forms/form-row';
 
+import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 const imageMaxSize = 1000000000; // bytes
 const maxFiles = 10;
@@ -15,7 +16,10 @@ function extractImageFileExtensionFromBase64(base64Data) {
   return base64Data.substring('data:image/'.length, base64Data.indexOf(';base64'));
 }
 
-const EditRecipe = ({UOM, recipe, loadRecipe}) => {
+const CACHE = {};
+const PER_PAGE = 10;
+
+const EditRecipe = ({UOM, recipe, loadRecipe, loadIngredients}) => {
   const {id} = useParams();
   const navigate = useNavigate();
   if (id) {
@@ -23,22 +27,75 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   }
 
   const [title, setTitle] = useState(recipe.title);
+  const [titleError, setTitleError] = useState(false);
   const [amount, setAmount] = useState(recipe.amount);
   const [amountError, setAmountError] = useState(recipe.amountError);
   const [measure, setMeasure] = useState(recipe.measure);
   const [inputIngredient, setInputIngredient] = useState(recipe.inputIngredient);
   const [inputIngError, setInputIngError] = useState(recipe.inputIngError);
-  const [ingredientsProp, setIngredientsProp] = useState(recipe.ingredientsProp);
+
   const [ingredients, setIngredients] = useState(recipe.ingredients);
   const [images, setImages] = useState(recipe.images);
   const [method, setMethod] = useState(recipe.method);
+  const [methodError, setMethodError] = useState(false);
   const [previewFiles, setPreviewFiles] = useState(recipe.previewFiles);
 
-  const autocomplete = (e) => {
-    e.preventDefault();
-    setInputIngredient(e.target.value);
-    const ingredientsProp = ingredientList.filter((item) => ingredientList.includes(inputIngredient));
-    setIngredientsProp(ingredientsProp);
+  const [options, setOptions] = useState([]);
+  const [query, setQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleInputChange = (q) => {
+    setQuery(q);
+    setInputIngError(false);
+    setInputIngredient(null);
+  };
+
+  const handleSearch = useCallback((q) => {
+    if (CACHE[q]) {
+      setOptions(CACHE[q].options);
+      return;
+    }
+
+    setIsLoading(true);
+    loadIngredients(q).then((data) => {
+      CACHE[q] = {count: data.count, options: data.rows};
+      setOptions(data.rows);
+      setIsLoading(false);
+    });
+  }, []);
+
+  const handlePagination = (e, shownResults) => {
+    const cachedQuery = CACHE[query];
+
+    // Don't make another request if:
+    // - the cached results exceed the shown results
+    // - we've already fetched all possible results
+    if (cachedQuery.options.length > shownResults || cachedQuery.options.length === cachedQuery.count) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const offset = cachedQuery.options.length;
+
+    loadIngredients(query, offset).then((data) => {
+      console.log(data);
+      const options = cachedQuery.options.concat(data.rows);
+      CACHE[query] = {...cachedQuery, options};
+
+      setIsLoading(false);
+      setOptions(options);
+    });
+  };
+
+  const selectIngredient = (param) => {
+    if (!param?.length) {
+      return;
+    }
+    const [ingredient] = param;
+    setMeasure(ingredient.UOM);
+    setInputIngredient(ingredient);
+    setOptions([]);
   };
 
   const removeIngredient = (e, index) => {
@@ -53,6 +110,7 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   };
 
   const addIngredient = (e) => {
+    console.log(inputIngredient);
     e.preventDefault();
     validateFields();
     if (amount <= 0 || !inputIngredient) {
@@ -61,13 +119,12 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
 
     const ingredient = {
       amount,
-      measure,
-      inputIngredient,
+      ...inputIngredient,
     };
     setIngredients([...ingredients, ingredient]);
     setAmount(1);
     setMeasure('g');
-    setInputIngredient('');
+    setInputIngredient(null);
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -82,8 +139,9 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
   }, []);
 
   // clean up
-  const removeFile = (file) => {
-    console.log(file, previewFiles);
+  const removeFile = (index) => {
+    previewFiles.splice(index, 1);
+    console.log(index, previewFiles);
   };
   useEffect(
     () => () => {
@@ -93,7 +151,13 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
     },
     [previewFiles],
   );
-
+  const saveRecipe = () => {
+    console.log(title, method, ingredients, amount);
+    setMethodError(method?.length === 0);
+    setTitleError(title?.length === 0);
+    setInputIngError(ingredients?.length === 0);
+    setAmountError(amount <= 0);
+  };
   return (
     <div className='bg-white'>
       <Container className='pt-2 m-auto'>
@@ -110,7 +174,7 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
               type='title'
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className='form-control'
+              className={`form-control title ${titleError ? 'field-error' : ''}`}
               id='inputTitle'
               placeholder={`${id ? 'Edit' : 'Add'}  Title...`}
             />
@@ -149,49 +213,57 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
             >
               of
             </div>
-            <input
-              list='ingredients'
-              value={inputIngredient}
+            <AsyncTypeahead
+              className={`ingredient has-action-button ${inputIngError ? 'field-error' : ''}`}
+              filterBy={() => true}
+              id='ingredients'
               name='ingredients'
+              isLoading={isLoading}
+              labelKey='name'
+              maxResults={PER_PAGE - 1}
+              minLength={2}
+              onInputChange={handleInputChange}
+              onPaginate={handlePagination}
+              onSearch={handleSearch}
+              options={options}
+              paginate
               placeholder='E.g. sugar'
-              onChange={(e) => {
-                setAmountError(false);
-                setInputIngError(false);
-                autocomplete(e);
-              }}
-              className={`ingredient form-control has-action-button ${inputIngError ? 'field-error' : ''}`}
+              renderMenuItemChildren={(option) => (
+                <div key={option.id}>
+                  <span>{option.name}</span>
+                </div>
+              )}
+              useCache={false}
+              onChange={selectIngredient}
             />
-            <datalist id='ingredients'>
-              {ingredientsProp?.length &&
-                ingredientsProp.map((ingredient) => {
-                  return <option>{ingredient}</option>;
-                })}
-            </datalist>
+
             <button style={{float: 'right'}} onClick={(e) => addIngredient(e)} className='btn btn-secondary'>
               <span className='glyphicon glyphicon-plus'></span>
             </button>
-            {
+
+            {ingredients?.length > 0 && (
               <ul className='editable-list'>
-                {ingredients?.length &&
-                  ingredients.map((ingredient, index) => (
+                {ingredients.map((ingredient, index) => {
+                  return (
                     <li key={index}>
                       <button onClick={(e) => removeIngredient(e, index)} className='btn btn-secondary'>
-                        {`${ingredient.amount} ${ingredient.measure} ${ingredient.inputIngredient}`}
+                        {`${ingredient.amount} ${ingredient.UOM} ${ingredient.name}`}
                         <span className='pull-right'>
                           <span className='glyphicon glyphicon-remove'></span>
                         </span>
                       </button>
                     </li>
-                  ))}
+                  );
+                })}
               </ul>
-            }
+            )}
           </FormRow>
           <FormRow htmlFor='inputMethod' label='Method'>
             <textarea
               type='comment'
               onChange={(e) => setMethod(e.target.value)}
               value={method}
-              className='form-control'
+              className={`form-control method ${methodError ? 'field-error' : ''}`}
               id='inputMethod'
               rows='5'
               placeholder='Add method...'
@@ -208,19 +280,14 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
             />
           </FormRow>
           <FormRow>
-            {previewFiles?.length && (
+            {previewFiles?.length > 0 && (
               <ul className='upload-image-previews'>
                 {previewFiles.map((file, index) => (
                   <li>
                     <a className='view' href={file.preview} target='_blank' rel='noopener noreferrer'>
                       &#10066;
                     </a>
-                    <a
-                      className='delete'
-                      onClick={(e) => removeFile(file, index, e)}
-                      href='#'
-                      rel='noopener noreferrer'
-                    >
+                    <a className='delete' onClick={(e) => removeFile(index, e)} href='#' rel='noopener noreferrer'>
                       &#9747;
                     </a>
                     <img src={file.preview} />
@@ -241,9 +308,7 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
             Cancel
           </button>
           <button className='btn btn-success' onClick={(e) => saveRecipe()} style={{width: '115px'}}>
-            {/* <Link to='../../recipes'> */}
             {id ? 'Edit' : 'Create'}
-            {/* </Link> */}
           </button>
         </div>
         {/* <!--container end--> */}
@@ -251,21 +316,5 @@ const EditRecipe = ({UOM, recipe, loadRecipe}) => {
     </div>
   );
 };
-
-// autocomplete = (e) => {
-//   e.preventDefault();
-//   let ingredientsProp = [];
-//   let string = e.target.value;
-//   for (let ingredient of this.props.ingredientList) {
-//     if (ingredient.includes(e.target.value)) {
-//       ingredientsProp.push(ingredient);
-//       if (ingredientsProp.length === 6) {
-//         break;
-//       }
-//     }
-//   }
-//   this.setState({string});
-//   this.setState({ingredientsProp});
-// };
 
 export default EditRecipe;
