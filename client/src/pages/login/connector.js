@@ -24,11 +24,11 @@ export const mapDispatchToProps = (dispatch) => {
         pwdtext: e.target.value,
       });
     },
-    onClickLogin: async (history) => {
+    onClickLogin: async (navigate) => {
       try {
         const {status = null} = await dispatch(signIn);
         if (status === 200) {
-          history.push('/dashboard');
+          navigate('/dashboard');
         }
       } catch (e) {
         console.error(e.message);

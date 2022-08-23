@@ -27,14 +27,7 @@ export default function users(state = initialState, action) {
         },
       };
     case constants.user.LOGIN_PWD_CONFIRM:
-      if (action.pwdtext !== state.password) {
-        return {
-          ...state,
-          ...{
-            error: `* password does not match`,
-          },
-        };
-      } else {
+      if (action.pwdtext === state.password) {
         action.res = login({email: state.loginUserNameInput, password: state.password});
         return {
           ...state,
@@ -63,7 +56,8 @@ export default function users(state = initialState, action) {
       return {...state, user, profile};
 
     case constants.user.SIGNUP_SUBMIT:
-      action.res = signup(state.loginUserNameInput, state.password);
+      const {userName, password} = action;
+      action.res = signup(userName, password);
       return state;
     case constants.user.SHOW_ERROR:
       return {...state, error: action.error};
@@ -76,6 +70,25 @@ export default function users(state = initialState, action) {
 
 export async function signIn(dispatch, getState) {
   const {loginUserNameInput = '', password = ''} = getState().user;
+  try {
+    dispatch({type: constants.user.TOGGEL_LOADING});
+
+    const response = await login({username: loginUserNameInput, password});
+    dispatch({
+      type: constants.user.LOGIN_SUBMIT,
+      profile: response.data.profile,
+      user: response.data.user,
+      error: '',
+    });
+    return response;
+  } catch (err) {
+    dispatch({type: constants.user.SHOW_ERROR, error: err.response.data || err.message});
+  } finally {
+    dispatch({type: constants.user.TOGGEL_LOADING});
+  }
+}
+
+export async function signUp(dispatch, getState) {
   let response;
   try {
     dispatch({type: constants.user.TOGGEL_LOADING});

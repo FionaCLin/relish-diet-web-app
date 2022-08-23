@@ -5,18 +5,26 @@ import {getRecipesById} from '../api.js';
 // import {recipeInfo, users, mealPlans, ingredientList, CURR_USER_ID} from '../constants/dummyData';
 import {uom} from '../api.js';
 
-const initialState = {recipeInfo, UOM: []};
+const initialState = {
+  recipeInfo,
+  UOM: [],
+  selectedRecipe: null,
+  error: null,
+  loading: false,
+};
 
 export default function recipeList(state = initialState, action) {
+  console.log(action);
   switch (action.type) {
     case constants.recipeList.SELECT_RECIPE:
-      //api.get recipe detail
-      // render to recipe
-      break;
+      const {recipe} = action;
+      return {...state, selectedRecipe: recipe, loading: false};
     case 'setUOM':
       return {...state, UOM: action.uom};
 
-    case constants.dashboard.TOGGEL_LOADING:
+    case constants.recipe.TOGGEL_LOADING:
+      console.log(state);
+      console.log({...state, loading: !state.loading});
       return {...state, loading: !state.loading};
     default:
       return state;
@@ -43,20 +51,17 @@ export async function getUOM(dispatch, getState) {
 }
 // {type: constants.dashboard.SELECT_RECIPE, select_id: id}
 
-export async function getRecipeById(dispatch, uuid) {
-  console.log(uuid);
+export const getRecipeById = (uuid) => async (dispatch) => {
   try {
-    dispatch({type: constants.recipeList.TOGGEL_LOADING});
+    dispatch({type: constants.recipe.TOGGEL_LOADING});
 
-    const {data} = await getRecipesById({recipeId: uuid});
-    console.log(data);
-    // dispatch({
-    //   type:constants.dashboard.SET_RECIPES_LIST,
-    //   recipesList: data.rows,
-    // });
+    const response = await getRecipesById({recipeId: uuid});
+    dispatch({
+      type: constants.recipeList.SELECT_RECIPE,
+      recipe: response.data,
+    });
+    return response;
   } catch (err) {
-    //   dispatch({type: constants.user.SHOW_ERROR, error: err.response.data || err.message});
-  } finally {
-    dispatch({type: constants.dashboard.TOGGEL_LOADING});
+    dispatch({type: constants.recipeList.SHOW_ERROR, error: err.response.data || err.message});
   }
-}
+};

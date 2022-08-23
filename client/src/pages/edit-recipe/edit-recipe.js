@@ -1,11 +1,11 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {ingredientList} from '../../constants/dummyData';
 import UploadImage from './Dropzone';
 import EditImageModal from './EditImageModal';
 import FormRow from '../../components/forms/form-row';
-import {useNavigate} from 'react-router-dom';
+
 
 const imageMaxSize = 1000000000; // bytes
 const maxFiles = 10;

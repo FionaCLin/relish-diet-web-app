@@ -3,48 +3,6 @@ import constants from '../../constants';
 import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
-// class RecipeList extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     let recipes = [];
-
-//     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
-//       let users = this.props.users;
-//       let bookmarks = users.find((x) => x.id === this.props.curr_user).bookmarks;
-//       this.props.recipeInfo.forEach((recipe) => {
-//         if (!isUndefined(bookmarks.find((x) => x === recipe.id))) {
-//           recipes.push(recipe.id);
-//         }
-//       });
-//     } else {
-//       this.props.recipeInfo.forEach((recipe) => {
-//         if (recipe.creator === this.props.curr_user) {
-//           recipes.push(recipe.id);
-//         }
-//       });
-//     }
-
-//   editRecipes = (recipes) => this.setState({recipes});
-
-//   deleteRecipe = (e, recipeId) => {
-//     e.preventDefault();
-//     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
-//       let users = this.props.users;
-//       let bookmarks = users.find((x) => x.id === this.props.curr_user).bookmarks;
-//       bookmarks.splice(bookmarks.indexOf(recipeId), 1);
-//       console.log('DELETE', users);
-//       this.props.editBookmark(users);
-//     } else {
-//       let recipeInfo = this.props.recipeInfo;
-//       recipeInfo.splice(recipeInfo.indexOf(recipeInfo.find((x) => x.id === recipeId)), 1);
-//       this.editRecipes(recipeInfo);
-//     }
-//     let {recipes} = this.state;
-//     recipes.splice(recipes.indexOf(recipeId), 1);
-//     this.setState({recipes});
-//   };
-
-//   render() {
 const RecipeList = (props) => {
   // let list_type = this.props.list_type;
   console.log(props)
@@ -154,3 +112,48 @@ const RecipeList = (props) => {
 };
 
 export default RecipeList;
+
+
+
+// class RecipeList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     let recipes = [];
+
+//     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
+//       let users = this.props.users;
+//       let bookmarks = users.find((x) => x.id === this.props.curr_user).bookmarks;
+//       this.props.recipeInfo.forEach((recipe) => {
+//         if (!isUndefined(bookmarks.find((x) => x === recipe.id))) {
+//           recipes.push(recipe.id);
+//         }
+//       });
+//     } else {
+//       this.props.recipeInfo.forEach((recipe) => {
+//         if (recipe.creator === this.props.curr_user) {
+//           recipes.push(recipe.id);
+//         }
+//       });
+//     }
+
+//   editRecipes = (recipes) => this.setState({recipes});
+
+//   deleteRecipe = (e, recipeId) => {
+//     e.preventDefault();
+//     if (this.props.list_type === constants.recipeList.BOOKMARK_LIST) {
+//       let users = this.props.users;
+//       let bookmarks = users.find((x) => x.id === this.props.curr_user).bookmarks;
+//       bookmarks.splice(bookmarks.indexOf(recipeId), 1);
+//       console.log('DELETE', users);
+//       this.props.editBookmark(users);
+//     } else {
+//       let recipeInfo = this.props.recipeInfo;
+//       recipeInfo.splice(recipeInfo.indexOf(recipeInfo.find((x) => x.id === recipeId)), 1);
+//       this.editRecipes(recipeInfo);
+//     }
+//     let {recipes} = this.state;
+//     recipes.splice(recipes.indexOf(recipeId), 1);
+//     this.setState({recipes});
+//   };
+
+//   render() {

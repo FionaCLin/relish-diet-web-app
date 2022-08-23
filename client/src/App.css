@@ -171,17 +171,6 @@ label {
     color: LimeGreen;
 }
 
-.planner_img {
-    margin: 10px;
-    width:130px;
-    max-width:130px;
-    height:130px;
-    max-height:130px;
-    background-size:cover;
-    background-repeat:no-repeat;
-    background-position:center center
-}
-
 
 .planner_img_v {
     margin: 0 0;
@@ -364,14 +353,6 @@ th.vertical{
 .sideButton {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-}
-
-.macroInfo {
-  cursor:default;
-  margin-top:10px;
-  margin-left:130px;
-  position:absolute;
-  z-index: 5;
 }
 
 .overallPlannerMacros {

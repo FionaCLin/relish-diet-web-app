@@ -1,41 +1,55 @@
-import React from "react";
-import constants from "../constants";
-import Background from "./Background";
-import { connect } from "react-redux";
+import React, {useState} from 'react';
+import constants from '../constants';
+import Background from './Background';
+import {connect} from 'react-redux';
 
-const Signup = props => {
+const Signup = (props) => {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(props.error);
+  const validatePassword = () => {
+    if (!password) {
+      setError('* password is required');
+    } else if (password !== confirmPassword) {
+      setError('* password does not match');
+    } else {
+      setError('');
+      props.onClickSignup({userName, password});
+    }
+  };
   return (
     <div>
       <Background />
-      <div id="content-wrapper">
-        <div className="container">
-          <div className="well login">
-            <p style={{ color: "red" }}>{props.error && props.error}</p>
+      <div id='content-wrapper'>
+        <div className='container'>
+          <div className='well login'>
+            <p style={{color: 'red'}}>{error}</p>
             <input
-              className="form-control"
-              onChange={props.handleEmailChange}
-              id="emailInput"
-              placeholder="Username"
-              type="text"
+              className='form-control'
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              id='emailInput'
+              placeholder='Username'
+              type='text'
             />
             <input
-              className="form-control"
-              id="emailInput"
-              placeholder="Password"
-              onChange={props.handlePwdChange}
-              type="password"
+              className='form-control'
+              id='passwordInput'
+              value={password}
+              placeholder='Password'
+              onChange={(e) => setPassword(e.target.value)}
+              type='password'
             />
             <input
-              className="form-control"
-              id="emailInput"
-              placeholder="Enter Password Again"
-              onChange={e=>props.handlePwdConfirm(e,props.password)}
-              type="password"
+              className='form-control'
+              id='confirmInput'
+              value={confirmPassword}
+              placeholder='Enter Password Again'
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type='password'
             />
-            <div
-              onClick={e => props.onClickSignup(e, props)}
-              className="dashboard btn btn-success"
-            >
+            <div onClick={validatePassword} className='dashboard btn btn-success'>
               Sign Up
             </div>
           </div>
@@ -45,55 +59,37 @@ const Signup = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     inputValue: state.user.loginUserNameInput,
     password: state.user.password,
-    error: state.user.error
+    error: state.user.error,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    handleEmailChange: e => {
-      console.log("input change", constants.user.LOGIN_EMAIL_TEXT_CHANGED);
-      dispatch({
-        type: constants.user.LOGIN_EMAIL_TEXT_CHANGED,
-        emailtext: e.target.value
-      });
-    },
-    handlePwdChange: e => {
-      dispatch({
-        type: constants.user.LOGIN_PWD_TEXT_CHANGED,
-        pwdtext: e.target.value
-      });
-    },
-    handlePwdConfirm: (e, password) => {
-      dispatch({
-        type: constants.user.LOGIN_PWD_CONFIRM,
-        pwdtext: e.target.value,
-        payload: { error: `` }
-      });
-    },
-    onClickSignup: (e, opts) => {
+    onClickSignup: ({userName, password}) => {
       let resp = dispatch({
-        type: constants.user.SIGNUP_SUBMIT
+        type: constants.user.SIGNUP_SUBMIT,
+        userName,
+        password,
       });
       console.log(resp);
       resp.res
-        .then(res => {
-          opts.history.push("/login");
+        .then((res) => {
+          opts.history.push('/login');
           console.log(res);
           return;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           dispatch({
-            type: "",
-            payload: { error: `* ${err.response.data}` }
+            type: '',
+            payload: {error: `* ${err.response.data}`},
           });
         });
-    }
+    },
   };
 };
 

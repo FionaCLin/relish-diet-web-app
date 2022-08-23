@@ -1,21 +1,21 @@
-import constants from "../../constants";
-import {getUOM} from '../../reducers/recipe.js'
+import constants from '../../constants';
+import {getUOM} from '../../reducers/recipe.js';
 import {getRecipeById} from '../../reducers/recipe.js';
+import {useParams} from 'react-router-dom';
 
 export const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps);
-
+  console.log(state, ownProps);
+  const {loading, selectedRecipe} = state.recipe;
   return {
-    inputValue: state.user.loginUserNameInput,
-    password: state.user.password,
     error: state.user.error,
-    loading: state.user.loading,
+    loading: loading || !selectedRecipe,
+    recipe: selectedRecipe,
+    canBookmarked: state.user.profile.id !== selectedRecipe.memberId,
   };
 };
 
-export const mapDispatchToProps = (dispatch, ownProps) => {
-  const {id} = ownProps[0].match.params;
-  console.log(id);
-  dispatch(getRecipeById({uuid: id}));
-  return {};
+export const mapDispatchToProps = (dispatch) => {
+  return {
+   
+  };
 };

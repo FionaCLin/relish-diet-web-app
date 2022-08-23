@@ -132,217 +132,219 @@ const EditMealPlanner = ({mealPlan, getRecipe}) => {
   return (
     // <div className='bg-white'>
     //   <Container className='pt-2 m-auto'>
-    <div className='body_container'>
-      <div className='form-group mealPlannerForm'>
-        <div className='mealPlanHeader'>
-          <div>
-            <h4>{mode === mealPlanner.ADD_MEAL_PLANNER ? 'New' : 'Edit'} Meal Plan</h4>
-            <input
-              type='text'
-              className='form-control mealPlannerTitle'
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              placeholder='Title'
-            ></input>
+    <Container className='pt-2 m-auto page-wrapper'>
+      <div className='body_container'>
+        <div className='form-group mealPlannerForm'>
+          <div className='mealPlanHeader'>
+            <div>
+              <h4>{mode === mealPlanner.ADD_MEAL_PLANNER ? 'New' : 'Edit'} Meal Plan</h4>
+              <input
+                type='text'
+                className='form-control mealPlannerTitle'
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                placeholder='Title'
+              ></input>
+            </div>
           </div>
-        </div>
-        <div
-          className='panel panel-default overallPlannerMacros'
-          style={{
-            marginTop: mode === mealPlanner.EDIT_MEAL_PLANNER ? '40px' : '10px',
-            marginRight: mode === mealPlanner.VIEW_MEAL_PLANNER ? '0px' : '',
-          }}
-        >
-          <table className='table table-sm table-bordered table-striped' style={{textAlign: 'center'}}>
-            <thead>
-              <tr className='overallMacroRow'>
-                <th></th>
-                <th>Energy (kJ)</th>
-                <th>Carbs (g)</th>
-                <th>Protein (g)</th>
-                <th>Fats (g)</th>
-                <th>Sodium (g)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {mode === mealPlanner.ADD_MEAL_PLANNER && (
+          <div
+            className='panel panel-default overallPlannerMacros'
+            style={{
+              marginTop: mode === mealPlanner.EDIT_MEAL_PLANNER ? '40px' : '10px',
+              marginRight: mode === mealPlanner.VIEW_MEAL_PLANNER ? '0px' : '',
+            }}
+          >
+            <table className='table table-sm table-bordered table-striped' style={{textAlign: 'center'}}>
+              <thead>
                 <tr className='overallMacroRow'>
-                  <td style={{textAlign: 'left'}}>Goal</td>
-                  {goal.map((item, i) => (
-                    <td key={i}>{item}</td>
+                  <th></th>
+                  <th>Energy (kJ)</th>
+                  <th>Carbs (g)</th>
+                  <th>Protein (g)</th>
+                  <th>Fats (g)</th>
+                  <th>Sodium (g)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mode === mealPlanner.ADD_MEAL_PLANNER && (
+                  <tr className='overallMacroRow'>
+                    <td style={{textAlign: 'left'}}>Goal</td>
+                    {goal.map((item, i) => (
+                      <td key={i}>{item}</td>
+                    ))}
+                  </tr>
+                )}
+                <tr className='overallMacroRow'>
+                  <td>Current</td>
+                  {mealPlanner.macroNutrients.map((nutrient, i) => (
+                    <td key={i}>{calculateOverall(nutrient)}</td>
                   ))}
                 </tr>
-              )}
-              <tr className='overallMacroRow'>
-                <td>Current</td>
-                {mealPlanner.macroNutrients.map((nutrient, i) => (
-                  <td key={i}>{calculateOverall(nutrient)}</td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      <br />
-      <div className='macroLeft'>
-        <table className='table table-bordered'>
-          <thead>
-            <tr>
-              {mealPlanner.daysOfWeek.map((item, i) => (
-                <th scope='col' key={i} className='mealPlannerDays'>
-                  {item}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {mealPlanner.mealTimes.map((time, mealKey) => {
-              let timeSlots = dailyMeals.map((day, dayKey) => {
-                if (!day[mealKey]) {
-                  return (
-                    <td
-                      className='planner_img'
-                      onDragOver={allowDrop}
-                      onDrop={(e) => onDrop(e, [dayKey, mealKey])}
-                    ></td>
-                  );
-                } else {
-                  if (getRecipe(day[mealKey])) {
-                    return (
-                      <td
-                        style={bg_img(getRecipe(day[mealKey]).img[0])}
-                        className='planner_img'
-                        draggable={mode !== mealPlanner.VIEW_MEAL_PLANNER ? 'true' : 'false'}
-                        onClick={
-                          mode === mealPlanner.VIEW_MEAL_PLANNER
-                            ? (e) => changeCurrRecipe(e, getRecipe(day[mealKey]))
-                            : ''
-                        }
-                        onDragStart={(e) => onDragStart(e, day[mealKey])}
-                        onDragEnd={(e) => onDragEnd(e, [dayKey, mealKey])}
-                        onDragOver={allowDrop}
-                        onDrop={(e) => onDrop(e, [dayKey, mealKey])}
-                      >
-                        <div className='drop_img_wrapper'>
-                          <div className='overlay'>
-                            <div className='planner_img_text'>{getRecipe(day[mealKey]).name}</div>
-                          </div>
-                        </div>
-                      </td>
-                    );
-                  } else {
-                    this.removeRecipe(mealKey, dayKey);
-                  }
-                }
-              });
-              return (
-                <tr>
-                  <th scope='row'>
-                    <div className='vertical'>{time}</div>
-                  </th>
-                  {timeSlots}
-                </tr>
-              );
-            })}
-            {mealPlanner.macroNutrients.map((nutrient, i) => (
-              <tr>
-                {nutrient === 'Energy' && (
-                  <th scope='row' key={i} rowSpan='5'>
-                    <div className='vertical macroDiv'>MACROS</div>
-                  </th>
-                )}
-                {dailyMeals.map((day, i) => (
-                  <td className='macro_img' key={i}>
-                    <div className='macroLeft'>{nutrient}</div>
-                    <div className='macroRight'>
-                      {calculateNutrient(day, nutrient)} {getMeasurement(nutrient)}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
-      {mode !== mealPlanner.VIEW_MEAL_PLANNER && (
-        <div style={{float: 'right'}}>
-          <div style={{float: 'left'}} className='dropArea'>
-            <div className='panel panel-default'>
-              <div className='panel-heading'>Recipes</div>
-              <div className='panel-body pre-scrollable dropPanel'>
-                <div className='list-group'>
-                  {recipeList.map((recipe) => {
-                    let macros = mealPlanner.macroNutrients.map((nutrient) => {
+        {mode !== mealPlanner.VIEW_MEAL_PLANNER && (
+          <Row>
+            <Col sm='12' md='3' lg='9'>
+              <div className='macroLeft'>
+              <table className='meal-plan-table table table-bordered'>
+                  <thead>
+                    <tr>
+                      {mealPlanner.daysOfWeek.map((item, i) => (
+                        <th scope='col' key={i} className='mealPlannerDays'>
+                          {item}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mealPlanner.mealTimes.map((time, mealKey) => {
+                      let timeSlots = dailyMeals.map((day, dayKey) => {
+                        if (!day[mealKey]) {
+                          return (
+                            <td
+                              onDragOver={allowDrop}
+                              onDrop={(e) => onDrop(e, [dayKey, mealKey])}
+                            ></td>
+                          );
+                        } else {
+                          if (getRecipe(day[mealKey])) {
+                            return (
+                              <td
+                                style={bg_img(getRecipe(day[mealKey]).img[0])}
+                                className='planner_img'
+                                draggable={mode !== mealPlanner.VIEW_MEAL_PLANNER ? 'true' : 'false'}
+                                onClick={
+                                  mode === mealPlanner.VIEW_MEAL_PLANNER
+                                    ? (e) => changeCurrRecipe(e, getRecipe(day[mealKey]))
+                                    : ''
+                                }
+                                onDragStart={(e) => onDragStart(e, day[mealKey])}
+                                onDragEnd={(e) => onDragEnd(e, [dayKey, mealKey])}
+                                onDragOver={allowDrop}
+                                onDrop={(e) => onDrop(e, [dayKey, mealKey])}
+                              >
+                                <div className='drop_img_wrapper'>
+                                  <div className='overlay'>
+                                    <div className='planner_img_text'>{getRecipe(day[mealKey]).name}</div>
+                                  </div>
+                                </div>
+                              </td>
+                            );
+                          } else {
+                            this.removeRecipe(mealKey, dayKey);
+                          }
+                        }
+                      });
                       return (
                         <tr>
-                          <td style={{float: 'left', width: 75}}>{nutrient}</td>
-                          <td style={{float: 'left', width: 75}}>
-                            {recipe.macros[nutrient]} {getMeasurement(nutrient)}
-                          </td>
+                          <th scope='row'>
+                            <div className='vertical'>{time}</div>
+                          </th>
+                          {timeSlots}
                         </tr>
                       );
-                    });
-                    return (
-                      <div className='list-group-item list-group-item-action planner_img_wrapper'>
-                        <div
-                          className='macroInfo btn-xs btn-default'
-                          onMouseEnter={(e) => macroOver(e, recipe.id)}
-                          onMouseLeave={(e) => macroOut(e)}
-                        >
-                          <span className='glyphicon glyphicon-signal' aria-hidden='true'></span>
-                        </div>
-                        <div
-                          className='planner_img'
-                          draggable='true'
-                          style={bg_img(recipe.img[0])}
-                          onDragStart={(e) => onDragStart(e, recipe.id)}
-                        ></div>
-                        <div className='overlay'>
-                          <div className='planner_img_text' centred>
-                            {showMacro === recipe.id ? <table>{macros}</table> : recipe.name}
+                    })}
+                    {mealPlanner.macroNutrients.map((nutrient, i) => (
+                      <tr>
+                        {nutrient === 'Energy' && (
+                          <th scope='row' key={i} rowSpan='5'>
+                            <div className='vertical macroDiv'>MACROS</div>
+                          </th>
+                        )}
+                        {dailyMeals.map((day, i) => (
+                          <td className='macro_img' key={i}>
+                            <div className='macroLeft'>{nutrient}</div>
+                            <div className='macroRight'>
+                              {calculateNutrient(day, nutrient)} {getMeasurement(nutrient)}
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Col>
+            <Col sm='12' md='6' lg='3'>
+              <div className='panel panel-default'>
+                <div className='panel-heading'>Recipes</div>
+                <div className='panel-body pre-scrollable dropPanel'>
+                  <div className='recipes-actions'>
+                    {mealPlanner.recipeList.map((item) => {
+                      if (mode == mealPlanner.EDIT_MEAL_PLANNER && item.recipes === mealPlanner.RECOMMENDED) {
+                        return null;
+                      } else {
+                        return (
+                          <button
+                            className={
+                              currRecipes === item.recipes ? 'btn sideButton btn-success' : 'btn sideButton btn-default'
+                            }
+                            title={item.title}
+                            onClick={(e) => changeRecipe(e, item.recipes)}
+                          >
+                            <span className={item.class} aria-hidden='true'></span>
+                          </button>
+                        );
+                      }
+                    })}
+                  </div>
+                  <div className='list-group'>
+                    {recipeList.map((recipe) => {
+                      let macros = mealPlanner.macroNutrients.map((nutrient) => {
+                        return (
+                          <tr>
+                            <td style={{float: 'left', width: 75}}>{nutrient}</td>
+                            <td style={{float: 'left', width: 75}}>
+                              {recipe.macros[nutrient]} {getMeasurement(nutrient)}
+                            </td>
+                          </tr>
+                        );
+                      });
+                      return (
+                        <div className='list-group-item list-group-item-action planner_img_wrapper'>
+                          <div
+                            className='macroInfo btn-xs btn-default'
+                            onMouseEnter={(e) => macroOver(e, recipe.id)}
+                            onMouseLeave={(e) => macroOut(e)}
+                          >
+                            <span className='glyphicon glyphicon-signal' aria-hidden='true'></span>
+                          </div>
+                          <div
+                            className='planner_img'
+                            draggable='true'
+                            style={bg_img(recipe.img[0])}
+                            onDragStart={(e) => onDragStart(e, recipe.id)}
+                          ></div>
+                          <div className='overlay'>
+                            <div className='planner_img_text' centred>
+                              {showMacro === recipe.id ? <table>{macros}</table> : recipe.name}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-            <br></br>
-            <div className='macroRight'>
-              <button onClick={(e) => editPlan(e)} className='btn btn-success editSubmit'>
-                {mode === mealPlanner.EDIT_MEAL_PLANNER ? 'Edit' : 'Create'}
-              </button>
-              <button className='btn btn-secondary editCancel' onClick={(e) => navigate(-1)}>
-                Cancel
-              </button>
-            </div>
-          </div>
-          <div style={{float: 'left', width: 20}}>
-            {mealPlanner.recipeList.map((item) => {
-              if (mode == mealPlanner.EDIT_MEAL_PLANNER && item.recipes === mealPlanner.RECOMMENDED) {
-                return null;
-              } else {
-                return (
-                  <button
-                    className={
-                      currRecipes === item.recipes ? 'btn sideButton btn-success' : 'btn sideButton btn-default'
-                    }
-                    title={item.title}
-                    onClick={(e) => changeRecipe(e, item.recipes)}
-                  >
-                    <span className={item.class} aria-hidden='true'></span>
-                  </button>
-                );
-              }
-            })}
-          </div>
-        </div>
-      )}
-      {/* </div>
+              <br></br>
+              <div className='macroRight'>
+                <button onClick={(e) => editPlan(e)} className='btn btn-success editSubmit'>
+                  {mode === mealPlanner.EDIT_MEAL_PLANNER ? 'Edit' : 'Create'}
+                </button>
+                <button className='btn btn-secondary editCancel' onClick={(e) => navigate(-1)}>
+                  Cancel
+                </button>
+              </div>
+            </Col>
+          </Row>
+        )}
+        {/* </div>
       </Container> */}
-    </div>
+      </div>
+    </Container>
   );
 };
 

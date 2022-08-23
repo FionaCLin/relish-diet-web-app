@@ -33,7 +33,7 @@ const Bookmark = (props) => {
                     </tr>
                       <tr>
                         <td className="macro_col">{recipe.calories}</td>
-                        <td className="macro_col">{recipe.cabs}</td>
+                        <td className="macro_col">{recipe.carbs}</td>
                         <td className="macro_col">{recipe.protein}</td>
                         <td className="macro_col">{recipe.fats}</td>
                       </tr>

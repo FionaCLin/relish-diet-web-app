@@ -12,6 +12,7 @@ import './App.css';
 import BookMarks from './pages/book-mark/container.js';
 import EditRecipe from './pages/edit-recipe/container.js';
 import RecipePage from './pages/recipe/container.js';
+import RecipePageOld from './pages/RecipePage';
 import RecipeList from './pages/recipe-list/container.js';
 
 import EditMealPlanner from './pages/edit-meal-plan/container.js';
@@ -19,6 +20,8 @@ import MealPlanner from './pages/meal-plan/container.js';
 import MealList from './pages/meal-list/container.js';
 
 import PropTypes from 'prop-types';
+
+
 
 const App = ({store}) => {
   return (
@@ -33,6 +36,10 @@ const App = ({store}) => {
           <Route path='/dashboard' exact strict element={<Dashboard />} />
 
           <Route path='/recipes' exact strict element={<RecipeList />} />
+          <Route
+            path='/recipe-old/:id'
+            element={<RecipePageOld />}
+          />
           <Route path='/recipe/:id' element={<RecipePage />} />
           <Route path='/recipe/edit/:id' exact strict element={<EditRecipe />} />
           <Route path='/recipe' exact strict element={<EditRecipe />} />
@@ -47,7 +54,6 @@ const App = ({store}) => {
           <Route path='/profile/edit' element={<ProfileEdit />} />
         </Routes>
         {/* 
-
                    <Route path="/search" exact strict component={Dashboard} />
                   curr_user={CURR_USER_ID} deletePlan={(mealPlans) => this.setState({mealPlans})}/>
               <PropsRoute path="/mealplan/:mode" exact strict component={MealPlanner} recipeInfo={this.state.recipes}
