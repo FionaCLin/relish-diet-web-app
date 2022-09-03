@@ -1,16 +1,27 @@
-import constants from "../../constants";
+import constants from '../../constants';
+import {getDashboardRecipes} from '../../reducers/dashboard.js';
+import {getRecipeById} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
-  const [{ recipesList }] = state.dashboard
+  const {recipesList, loading} = state.dashboard;
   return {
-    recipesList
-  }
+    recipesList,
+    loading,
+  };
 };
 
 export const mapDispatchToProps = (dispatch) => {
+  dispatch(getDashboardRecipes);
   return {
-    onRecipeClick(e, id) {
-      dispatch({type: constants.SELECT_RECIPE, select_id: id});
-    }
+    onRecipeClick: async (navigate, id) => {
+      try {
+        const {status = null}  = await dispatch(getRecipeById(id));
+        if (status === 200) {
+          navigate(`/recipe/${id}`);
+        }
+      } catch (e) {
+        console.error(e.message);
+      }
+    },
   };
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import constants from '../constants/dashboardConst';
 import { connect } from 'react-redux';
+import { getDashboardRecipesByKeword } from '../reducers/dashboard';
 
 const SearchInputForm = (props) => {
   return (
@@ -23,12 +24,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleSearchChange(e) {
-      console.log('input change');
       dispatch({ type: constants.SEARCH_TEXT_CHANGED, searchtext: e.target.value });
     },
     onSeachClick(e) {
-      console.log('input click');
-      dispatch({ type: constants.SEARCH_CLICK, searchtext: e.target.value });
+      dispatch(getDashboardRecipesByKeword);
     }
   };
 };

@@ -1,0 +1,305 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Relish diet web app API
+  description: Relish diet web app API swagger
+
+servers:
+  - url: http://localhost:8080/v1
+
+paths:
+  /recipes/ingredients/uom:
+    get:
+      description: Returns a list of Unit of Measure
+      responses:
+        "200":
+          description: Successfully returned a list of UOMs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: "#/components/schemas/UOM"
+                  #  ---- /Added line  --------------------------------
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+  /ingredients:
+    get:
+      description: Returns a list of ingredients
+      parameters:
+        #  ----- Added line  ------------------------------------------
+        - $ref: "#/components/parameters/PageLimit"
+        - $ref: "#/components/parameters/PageOffset"
+        - name: keyword
+          in: query
+          description: the keyword which the ingredients name match
+          schema:
+            type: string
+            minLength: 1
+        #  ---- /Added line  ------------------------------------------
+      responses:
+        "200":
+          description: Successfully returned a list of ingredients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: "#/components/schemas/Ingredient"
+                  #  ---- /Added line  --------------------------------
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+  /ingredients/{id}:
+    get:
+      description: Obtain information about an ingredient for a given id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Successfully returned an ingredient
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ingredient"
+
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+  /recipes:
+    get:
+      description: Returns a list of recipes
+      parameters:
+        #  ----- Added line  ------------------------------------------
+        - $ref: "#/components/parameters/MemberId"
+        - name: keyword
+          in: query
+          description: the keyword which the ingredients name match
+          schema:
+            type: string
+            minLength: 1
+        #  ---- /Added line  ------------------------------------------
+      responses:
+        "200":
+          description: Successfully returned a list of recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: "#/components/schemas/Recipe"
+                  #  ---- /Added line  --------------------------------
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+    post:
+      description: Lets a user post a new recipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ------------------------------------
+              $ref: "#/components/schemas/Recipe"
+              #  ---- /Added line  ------------------------------------
+      responses:
+        "200":
+          description: Successfully created a new recipe
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+  /recipes/{id}:
+    get:
+      description: Obtain information about a recipe for a given id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Successfully returned a recipe
+          content:
+            application/json:
+              schema:
+                #  ----- Added line  ------------------------------------
+                $ref: "#/components/schemas/Recipe"
+              #  ----- Added line  ------------------------------------
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+    put:
+      description: Lets a user update a recipe for a given id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ------------------------------------
+              $ref: "#/components/schemas/Recipe"
+              #  ---- /Added line  ------------------------------------
+      responses:
+        "200":
+          description: Successfully created a new artist
+        "400":
+          #  ----- Added line  ----------------------------------------
+          $ref: "#/components/responses/400Error"
+          #  ---- /Added line  ----------------------------------------
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
+  schemas:
+    Recipe:
+      type: object
+      required:
+        - title
+        - memberId
+        - method
+      properties:
+        title:
+          type: string
+        memberId:
+          type: string
+        method:
+          type: string
+          minLength: 1
+          maxLength: 2048
+        calories:
+          type: number
+        fats:
+          type: number
+        protein:
+          type: number
+        carbs:
+          type: number
+        sodium:
+          type: number
+        ingredient:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/Image"
+          minLength: 0
+
+    Image:
+      type: object
+      required:
+        - title
+        - url
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+
+    UOM:
+      type: object
+      required:
+        - abbreviation
+        - description
+      properties:
+        abbreviation:
+          type: string
+        description:
+          type: string
+
+    Ingredient:
+      type: object
+      required:
+        - amount
+        - name
+        - uom
+      properties:
+        name:
+          type: string
+        [type]:
+          type: string
+        uom:
+          type: string
+        amount:
+          type: number
+        calories:
+          type: number
+        fats:
+          type: number
+        protein:
+          type: number
+        carbs:
+          type: number
+        sodium:
+          type: number
+
+  #  ----- Added lines  ----------------------------------------
+  parameters:
+    MemberId:
+      name: memberId
+      in: query
+      description: A member Id
+      schema:
+        type: string
+        minLength: 36
+
+    PageOffset:
+      name: offset
+      in: query
+      description: Specifies the page number of the item to be displayed
+      schema:
+        type: integer
+
+    PageLimit:
+      name: limit
+      in: query
+      description: Specifies the number of the item to be displayed per page
+      schema:
+        type: integer
+
+  responses:
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  #  ---- /Added lines  ----------------------------------------

@@ -1,27 +1,56 @@
 import constants from '../../constants';
+import {getUOM, getIngredients} from '../../reducers/recipe.js';
 
 export const mapStateToProps = (state) => {
-  console.log(state);
-  const {recipeList} = state;
-  const {recipeInfo, ingredientList, users, CURR_USER_ID, modalRecipe} = recipeList;
-
+  const {
+    recipeInfo,
+    ingredientList,
+    UOM,
+    ingredientsAutoCompleteList,
+    recipe = {
+      title: '',
+      amount: 1,
+      amountError: false,
+      measure: 'g',
+      inputIngredient: '',
+      inputIngError: false,
+      ingredientsProp: [],
+      ingredients: [],
+      images: [],
+      method: '',
+      previewFiles: [],
+    },
+  } = state.recipe;
   return {
-    editRecipes: recipeInfo,
+    // editRecipes: recipeInfo,'
+    // modalRecipe,
+    recipe,
     ingredientList,
     recipeInfo,
-    users,
-    curr_user: CURR_USER_ID,
-    modalRecipe,
+    UOM,
   };
 };
 
-export const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch, ownProps) => {
+  dispatch(getUOM);
+
   return {
     changeModal(recipe) {
       dispatch({type: constants.recipeList.REMOVE_RECIPE, recipe});
     },
     toggleDialog() {
       dispatch({type: constants.recipeList.TOGGLE_DIALOG});
+    },
+    loadRecipe: async (id) => {
+      console.log(id);
+      try {
+        await dispatch(getRecipe);
+      } catch (e) {
+        console.error(e.message);
+      }
+    },
+    loadIngredients: async (keyword, offset = 0, limit = 10) => {
+      return dispatch(getIngredients(keyword, offset, limit));
     },
     deleteRecipe(recipeId) {
       console.log(recipeId);

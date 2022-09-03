@@ -14,6 +14,7 @@ store.subscribe(() => {
   saveState({
     user: store.getState().user,
     profile: store.getState().profile,
+    recipe: store.getState().recipe
   });
 });
 export default store;

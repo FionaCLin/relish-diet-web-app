@@ -3,7 +3,8 @@ $body-bg: #000;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
-$primary: #adbca5;
+//$primary: #adbca5;
+$primary: #198754;
 $white: #fff;
 $black: #212529;
 $greyDark: rgba(0, 0, 0, 0.05);
@@ -18,6 +19,8 @@ $gapEighth: 3px;
 $gapMinusSixth: 28px;
 $gapThreeQuarters: 16px;
 
+$imageItemWidth: 200px;
+
 $borderRadius: $gapHalf;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
@@ -27,6 +30,7 @@ body {
   padding: 0;
   //font-family: sans-serif;
   font-family: 'Poppins', sans-serif;
+  background: unset;
 }
 .App {
   text-align: center;
@@ -98,12 +102,29 @@ button {
   border-radius: 0 0 10px 10px;
 }
 
+.form-control {
+  background: none;
+  appearance: auto;
+
+  &:focus {
+    background-color: unset;
+  }
+}
+
 .form-control-file {
   background: $primary;
   -webkit-border-radius: 0 10px 10px 0;
   border-radius: 0 10px 10px 0;
   -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  width: 100%;
+
+  &.has-action-button {
+    width: -moz-calc(100% - 55px);
+    width: -webkit-calc(100% - 55px);
+    width: -o-calc(100% - 55px);
+    width: calc(100% - 55px);
+  }
 }
 
 label {
@@ -121,6 +142,28 @@ label {
   margin: 0 auto;
 }
 
+.recipe-title {
+  margin-bottom: $gap/4 * 3;
+}
+
+.macro-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px;
+
+  li {
+    .name {
+      font-weight: bold;
+      display: inline-block;
+      width: 25%;
+
+      @media only screen and (max-width: 1199px) {
+        width: 50%;
+      }
+    }
+  }
+}
+
 .pre-scrollable {
   max-height: 1000px;
   overflow-y: scroll;
@@ -129,71 +172,49 @@ label {
 .recipe_img {
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  //-webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-  //box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .page-wrapper {
   padding-left: 0;
   padding-right: 0;
 
-  .dashboard-content-wrapper {
-    width: 100%;
+  .dash_img_wrapper {
+    height: 274px;
     padding-left: 0;
     padding-right: 0;
+    border: 10px solid transparent;
 
-    .dash_img_wrapper {
-      /* float:left;
-      margin: 10px;
-      position: relative;
-      padding:0;
-      width: 100%; */
-      height: 274px;
-      padding-left: 0;
-      padding-right: 0;
-      border: 10px solid transparent;
+    div {
+      display: block;
+      height: 100%;
+      width: 100%;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
 
-      a {
-        display: block;
-        height: 100%;
-        width: 100%;
+      .overlay {
         -webkit-border-radius: 10px;
         border-radius: 10px;
+      }
 
-        .overlay {
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-        }
-
-        .dash_img {
-          /*  display: block;
-           max-width:274px;
-           height:274px;
-           width: 100%;
-           background-size:cover;
-           background-repeat:no-repeat;
-           background-position:center center */
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center center;
-          height: 100%;
-          width: 100%;
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-          -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
-        }
-
-        /* &:hover,
-        &:active {
-          -webkit-border-radius: 10px;
-          border-radius: 10px;
-    
-          .dash_img {
-            -webkit-border-radius: 10px;
-            border-radius: 10px;
-          }
-        } */
+      .dash_img {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
       }
     }
   }
@@ -234,6 +255,7 @@ label {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+  margin-right: 10px;
 }
 
 .img_text {
@@ -278,10 +300,8 @@ label {
 
 .recipe_btn_content {
   float: left;
-  height: 100%;
-  width: 88%;
-  margin-left: 10px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .macro_panel {
@@ -306,25 +326,54 @@ label {
   color: LimeGreen;
 }
 
-.recipe_img {
-  width: 250px;
-  height: 250px;
-}
-
 .planner_img {
   margin: 0 0;
   padding: 0 0;
-  width: 160px;
-  max-width: 160px;
-  height: 160px;
-  max-height: 160px;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
 }
 
+.recipes-actions {
+  float: right;
+  width: 40px;
+  padding-top: 10px;
+}
+
+.list-group {
+  padding-right: 25px;
+}
+
+/* .planner_img {
+  margin: 10px;
+  width:130px;
+  max-width:130px;
+  height:130px;
+  max-height:130px;
+} */
+
+.macroInfo {
+  cursor: default;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  z-index: 5;
+}
+
+.meal-plan-table {
+  tbody {
+    tr {
+      td {
+        height: 130px;
+      }
+    }
+  }
+}
+
 .planner_img_v {
-  margin: 0 0;
+  margin: 0;
   padding: 0 0;
   width: 160px;
   max-width: 160px;
@@ -352,8 +401,7 @@ label {
   margin: 10px;
   position: relative;
   padding: 0;
-  width: 160px;
-  height: 160px;
+  width: 100%;
 }
 
 .planner_img:hover {
@@ -376,6 +424,8 @@ label {
   -ms-transform: translate(-50%, -50%);
   text-align: center;
   text-decoration: none;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .comment {
@@ -455,14 +505,47 @@ textarea {
   padding-left: 0;
   width: 100%;
   float: left;
-  margin-top: 5px;
+  margin-top: 15px;
 
   li {
+    margin-bottom: 10px;
+
     button {
       width: 100%;
-      margin-top: 10px;
       text-align: left;
     }
+  }
+}
+
+.form-control.field-error {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ff8080;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ff8080;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+  }
+}
+
+.field-error.has-action-button > div > input {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ff8080;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ff8080;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
   }
 }
 
@@ -470,19 +553,186 @@ textarea {
   padding-bottom: 20px;
 }
 
-input {
-  &.has-action-button {
-    width: -moz-calc(100% - 48px);
-    width: -webkit-calc(100% - 48px);
-    width: -o-calc(100% - 48px);
-    width: calc(100% - 48px);
-    float: left;
-    height: 36px;
-    padding-right: $gapHalf;
-    font-size: 15px;
-    line-height: 22px;
+.nav-item {
+  span.glyphicon {
+    margin-right: 15px;
   }
 }
+
+.col-form-label {
+  height: 36px;
+  line-height: 22px;
+}
+
+.amount {
+  float: left;
+  width: 150px;
+  height: 36px;
+  line-height: 22px;
+  margin-right: 15px;
+}
+
+.measure {
+  float: left;
+  height: 36px;
+  line-height: 22px;
+  width: auto;
+}
+
+.ingredient {
+  float: left;
+
+  &.has-action-button {
+    width: -moz-calc(100% - 332px);
+    width: -webkit-calc(100% - 332px);
+    width: -o-calc(100% - 332px);
+    width: calc(100% - 332px);
+  }
+}
+
+.has-action-button {
+  float: left;
+  height: 36px;
+  padding-right: $gapHalf;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.dropdown-toggle {
+  &::after {
+    margin-left: 15px;
+  }
+}
+
+.navbar {
+  align-items: flex-start;
+
+  .navbar-nav {
+    .nav-item {
+      align-self: flex-start;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+}
+
+.action-buttons-bottom {
+  margin-top: 15px;
+  float: right;
+}
+
+.dropzone {
+  width: 100%;
+  border: 3px dashed $black;
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border-radius: $borderRadius;
+  padding: $gapHalf;
+  cursor: pointer;
+
+  p {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  &:hover,
+  &:active {
+    background: $primary;
+
+    p {
+      color: $white;
+    }
+  }
+}
+
+.upload-image-previews {
+  padding-left: 0;
+  background: $greyLight;
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border-radius: $borderRadius;
+  border: 1px solid $greyDark;
+
+  li {
+    display: inline-block;
+    list-style-type: none;
+    padding: $gapHalf;
+    margin: $gapHalf;
+    -webkit-border-radius: $borderRadius;
+    -moz-border-radius: $borderRadius;
+    border-radius: $borderRadius;
+    background: $primary;
+    position: relative;
+
+    a {
+      &.view,
+      &.delete {
+        display: block;
+        width: $gap;
+        height: $gap;
+        line-height: $gap;
+        position: absolute;
+        top: $gapHalf;
+        color: $black;
+        text-shadow: 0.07em 0 white, 0 0.07em white, -0.07em 0 white, 0 -0.07em white;
+        text-decoration: none;
+      }
+
+      &.view {
+        right: $gapHalf + $gap;
+      }
+
+      &.delete {
+        right: $gapHalf;
+      }
+    }
+
+    img {
+      width: $imageItemWidth;
+      height: $imageItemWidth;
+      object-fit: cover;
+      -webkit-border-radius: $borderRadius $borderRadius 0 0;
+      -moz-border-radius: $borderRadius $borderRadius 0 0;
+      border-radius: $borderRadius $borderRadius 0 0;
+      display: block;
+    }
+
+    p {
+      width: $imageItemWidth;
+      background: $white;
+      color: $black;
+      -webkit-border-radius: 0 0 $borderRadius $borderRadius;
+      -moz-border-radius: 0 0 $borderRadius $borderRadius;
+      border-radius: 0 0 $borderRadius $borderRadius;
+      height: 24px;
+      line-height: 24px;
+      padding: 0 $gapQuarter;
+      margin-bottom: 0;
+      background: none;
+      color: $white;
+      word-break: break-all;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    &:hover,
+    &:active {
+      background: $black;
+      -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+
+      p {
+        color: $white;
+      }
+    }
+  }
+}
+
 //end of main styles
 
 @media only screen and (min-width: 576px) {
@@ -490,7 +740,7 @@ input {
   ::-webkit-scrollbar {
     height: $gapHalf;
     width: $gapHalf;
-    //background: @greyLight;
+    background: $greyDark;
     //-webkit-border-radius: @borderRadius;
     //-moz-border-radius: @borderRadius;
     //border-radius: @borderRadius;
@@ -498,7 +748,7 @@ input {
 
   ::-webkit-scrollbar-thumb {
     //background: @primaryColourOpacity;
-    background: $greyLight;
+    background: $primary;
     //background: @greyLightOpacity;
     //border-radius: 0 0 18px 18px;
     -webkit-border-radius: $borderRadius;
@@ -507,7 +757,7 @@ input {
 
     &:hover,
     &:active {
-      background: $primary;
+      background: $black;
     }
   }
 

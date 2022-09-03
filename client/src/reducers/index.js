@@ -3,7 +3,10 @@ import user from './user';
 import searchInputForm from './searchInputForm';
 import dashboard from './dashboard';
 import bookmarks from './bookMark';
-import mealList from './mealList';
+
+import mealPlans from './meal-plans';
+import mealPlan from './meal-plan';
+
 import recipe from './recipe';
 import recipeList from './recipeList';
 import profile from './profile';
@@ -13,7 +16,8 @@ const rootReducer = combineReducers({
   profile,
   searchInputForm,
   dashboard,
-  mealList,
+  mealPlan,
+  mealPlans,
   recipeList,
   recipe,
   bookmarks,

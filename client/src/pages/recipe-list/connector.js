@@ -22,15 +22,16 @@ export const mapStateToProps = (state) => {
 };
 
 export const mapDispatchToProps = (dispatch) => {
+  //await dispatch(getDashboardRecipes);
   return {
     changeModal(recipe) {
-      dispatch({type: constants.recipeList.REMOVE_RECIPE, recipe})
+      dispatch({type: constants.recipeList.REMOVE_RECIPE, recipe});
     },
     toggleDialog() {
       dispatch({type: constants.recipeList.TOGGLE_DIALOG});
     },
-    deleteRecipe(recipeId){
-      console.log(recipeId)
-    }
+    deleteRecipe(recipeId) {
+      console.log(recipeId);
+    },
   };
 };

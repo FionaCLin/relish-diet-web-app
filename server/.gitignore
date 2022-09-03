@@ -1,6 +1,9 @@
 node_modules/
-package-lock.json
+.jest-cache
 .DS_Store
 bk
 config.js
 config.json
+test-results
+coverage
+.jest-coverage

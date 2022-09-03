@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export default function profile(state = initialState, action) {
-  // console.log('reducer running', action);
   switch (action.type) {
     case constants.user.LOGIN_PWD_TEXT_CHANGED:
       return {
