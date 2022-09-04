@@ -26,10 +26,8 @@ export const mapDispatchToProps = (dispatch) => {
     },
     onClickLogin: async (navigate) => {
       try {
-        const {status = null} = await dispatch(signIn);
-        if (status === 200) {
-          navigate('/dashboard');
-        }
+        await dispatch(signIn);
+        navigate('/dashboard');
       } catch (e) {
         console.error(e.message);
       }

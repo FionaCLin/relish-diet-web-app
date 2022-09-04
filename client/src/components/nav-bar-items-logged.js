@@ -3,9 +3,8 @@ import {connect} from 'react-redux';
 import {Nav, NavDropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const LoggedNavBarItems = ({username}) => {
+const LoggedNavBarItems = ({username, cognitoUser, signOut}) => {
   const keys = {dashboard: {title: 'Dashboard', icon: 'search'}, 'meal-plans': {title: 'Meal Plan', icon: 'calendar'}};
-
   return (
     <Nav>
       {Object.entries(keys).map(([key, value], index) => (
@@ -27,9 +26,12 @@ const LoggedNavBarItems = ({username}) => {
         </NavDropdown.Item>
       </NavDropdown>
 
-      <NavDropdown title={`Welcome, ${username}!`} id='collasible-nav-dropdown' className='mx-xl-auto px-xl-3'>
+      <NavDropdown title={`Welcome, ${username}! User: ${cognitoUser.username}`} id='collasible-nav-dropdown' className='mx-xl-auto px-xl-3'>
         <NavDropdown.Item href='/profile'>Profile</NavDropdown.Item>
-        <NavDropdown.Item href='/login' onClick={() => localStorage.removeItem('state')}>
+        <NavDropdown.Item onClick={() => {
+          signOut()
+          localStorage.removeItem('state')
+        }}>
           Logout
         </NavDropdown.Item>
       </NavDropdown>

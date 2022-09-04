@@ -4,7 +4,7 @@ import NavBarItems from '../../components/nav-bar-items';
 import {Navbar, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const NavigationBar = ({user}) => {
+const NavigationBar = ({user, signOut, cognitoUser}) => {
   return (
     <div className='border bg-white justify-content-between mb-0 mx-0'>
       <Navbar expand='sm' className='container'>
@@ -17,7 +17,7 @@ const NavigationBar = ({user}) => {
           </Nav.Item>
         </Nav>
         <Navbar.Collapse id='responsive-navbar-nav' className='justify-content-end'>
-          {user ? <LoggedNavBarItems /> : <NavBarItems />}
+          {user ? <LoggedNavBarItems signOut={signOut} cognitoUser={cognitoUser} /> : <NavBarItems />}
         </Navbar.Collapse>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       </Navbar>

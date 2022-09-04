@@ -21,13 +21,40 @@ import MealList from './pages/meal-list/container.js';
 
 import PropTypes from 'prop-types';
 
+import { Amplify } from 'aws-amplify';
 
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
-const App = ({store}) => {
+import config from './config';
+
+Amplify.configure({
+  Auth: {
+    mandatorySignId: true,
+    region: config.cognito.REGION,
+    userPoolId: config.cognito.USER_POOL_ID,
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+  },
+  oauth: {
+    scope: [
+      'phone',
+      'email',
+      'profile',
+      'openid',
+      'aws.cognito.signin.user.admin'
+    ],
+    redirectSignIn: 'http://localhost:3000/dashboard',
+    redirectSignOut: 'http://localhost:3000/',
+    clientId: '1g0nnr4h99a3sd0vfs9',
+    responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+  }
+});
+
+const App = ({store, user, signOut}) => {
   return (
     <Router>
       <div store={store}>
-        <NavigationBar />
+        <NavigationBar signOut={signOut} cognitoUser={user} />
 
         <Routes>
           <Route path='/login' exact strict element={<Login />} />
@@ -75,4 +102,6 @@ const mapStateToProps = (state) => {
 App.propTypes = {
   store: PropTypes.object,
 };
-export default connect(mapStateToProps)(App);
+// export default withAuthenticator(App);
+
+export default connect(mapStateToProps)(withAuthenticator(App));
